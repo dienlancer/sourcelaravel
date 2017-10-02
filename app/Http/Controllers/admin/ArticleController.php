@@ -108,6 +108,11 @@ class ArticleController extends Controller {
               $error["fullname"]["msg"] = "Fullname is existed in system";
           }      	
       }
+      if(empty($title)){
+         $checked = 0;
+         $error["title"]["type_msg"] = "has-error";
+         $error["title"]["msg"] = "Title is required";
+      }
       if(empty($alias)){
           $checked = 0;
           $error["alias"]["type_msg"] = "has-error";

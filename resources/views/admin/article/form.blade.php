@@ -164,14 +164,14 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
         var status               =   $("#status");
         
         $(fullname).closest('.form-group').removeClass("has-error");
+        $(title).closest('.form-group').removeClass("has-error");
         $(alias).closest('.form-group').removeClass("has-error");
-        $(category_article_id).closest('.form-group').removeClass("has-error");
         $(sort_order).closest('.form-group').removeClass("has-error");
         $(status).closest('.form-group').removeClass("has-error");        
 
         $(fullname).closest('.form-group').find('span').empty().hide();
+        $(title).closest('.form-group').find('span').empty().hide();
         $(alias).closest('.form-group').find('span').empty().hide();
-        $(category_article_id).closest('.form-group').find('span').empty().hide();
         $(sort_order).closest('.form-group').find('span').empty().hide();
         $(status).closest('.form-group').find('span').empty().hide();        
     }
@@ -277,6 +277,11 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
                         $("#fullname").closest('.form-group').addClass(data_error.fullname.type_msg);
                         $("#fullname").closest('.form-group').find('span').text(data_error.fullname.msg);
                         $("#fullname").closest('.form-group').find('span').show();                        
+                    }
+                    if(typeof data_error.title               != "undefined"){
+                        $("#title").closest('.form-group').addClass(data_error.title.type_msg);
+                        $("#title").closest('.form-group').find('span').text(data_error.title.msg);
+                        $("#title").closest('.form-group').find('span').show();                        
                     }
                     if(typeof data_error.alias                  != "undefined"){
                         $("#alias").closest('.form-group').addClass(data_error.alias.type_msg);
