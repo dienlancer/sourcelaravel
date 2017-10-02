@@ -183,6 +183,24 @@ public function changeStatus(Request $request){
   );
   return $info;
 }
+public function deleteImage(Request $request){
+   $id                     =   (int)$request->id;              
+  $checked                =   1;
+  $type_msg               =   "alert-success";
+  $msg                    =   "Delete successfully";            
+  
+  if($checked == 1){
+      $item = CategoryArticleModel::find($id);
+      $item->image     = null;      
+      $item->save();  
+  }          
+  $info = array(
+    'checked'           => $checked,
+    'type_msg'          => $type_msg,                
+    'msg'               => $msg,                    
+  );
+  return $info;
+}
 public function deleteItem(Request $request){
   $id                     =   (int)$request->id;              
   $checked                =   1;
