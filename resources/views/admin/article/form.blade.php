@@ -4,6 +4,7 @@
 $linkCancel             =   route('admin.'.$controller.'.getList');
 $linkSave               =   route('admin.'.$controller.'.save');
 $linkUploadFile         =   route('admin.'.$controller.'.uploadFile');
+$linkDeleteImage        =   route('admin.'.$controller.'.deleteImage');
 $inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"       value="'.@$arrRowData['fullname'].'">'; 
 $inputTitle             =   '<textarea id="title" name="title" rows="5" cols="100" class="form-control" >'.@$arrRowData['title'].'</textarea>'; 
 $inputAlias             =   '<input type="text" class="form-control" name="alias"      id="alias"          value="'.@$arrRowData['alias'].'">';
@@ -23,10 +24,10 @@ $picture                =   "";
 $strImage               =   "";
 if(count($arrRowData > 0)){
     if(!empty(@$arrRowData["image"])){
-        $picture        =   '<img src="'.url("/resources/upload/" . WIDTH . "x" . HEIGHT . "-".@$arrRowData["image"]).'" width="'.((int)(WIDTH/2)).'" height="'.((int)(HEIGHT/2)).'" />';                        
+        $picture        =   '<div class="col-sm-6"><center>&nbsp;<img src="'.url("/resources/upload/" . WIDTH . "x" . HEIGHT . "-".@$arrRowData["image"]).'" width="'.((int)(WIDTH/3)).'" height="'.((int)(HEIGHT/3)).'" />&nbsp;</center></div><div class="col-sm-6"><a href="javascript:void(0);" onclick="deleteImage();"><img src="'.url('public/admin/images/delete-icon.png').'"/></a></div>';                        
         $strImage       =   @$arrRowData["image"];
     }        
-}    
+}   
 $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_hidden" value="'.@$strImage.'" />';
 ?>
 <div class="portlet light bordered">
@@ -75,7 +76,8 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
                     <div class="form-group col-md-6">
                         <label class="col-md-3 control-label"><b>Image</b></label>
                         <div class="col-md-9">
-                            <input type="file" id="image" name="image"  />     <?php echo $picture; ?>                      
+                            <input type="file" id="image" name="image"  />   
+                            <div id="picture-area"><?php echo $picture; ?>                      </div>
                         </div>
                     </div>     
                 </div>       
@@ -188,6 +190,42 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
         ajax.open("POST", "<?php echo $linkUploadFile; ?>");
         ajax.send(formdata);    
     }
+    function deleteImage(){
+        var xac_nhan = 0;
+        var msg="Do you really want to delete image ?";
+        if(window.confirm(msg)){ 
+            xac_nhan = 1;
+        }
+        if(xac_nhan  == 0)
+            return 0;
+        var id=$("#id").val();       
+        var token = $('input[name="_token"]').val();  
+        var dataItem={
+            "id":id,            
+            "_token": token
+        };  
+        $.ajax({
+            url: '<?php echo $linkDeleteImage; ?>',
+            type: 'POST',
+            data: dataItem,
+            async: false,
+            success: function (data) {
+                console.log(data);
+                if(data.checked==true){
+                    $("#picture-area").empty();
+                    console.log($("input[name='image_hidden']"));
+                    $("input[name='image_hidden']").val("");
+                }                
+                spinner.hide();
+            },
+            error : function (data){
+                spinner.hide();
+            },
+            beforeSend  : function(jqXHR,setting){
+                spinner.show();
+            },
+        });
+    }
     function save(){
         var id=$("#id").val();        
         var fullname=$("#fullname").val();
@@ -228,7 +266,6 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
             url: '<?php echo $linkSave; ?>',
             type: 'POST',
             data: dataItem,
-            dataType: 'json',
             async: false,
             success: function (data) {
                 if(data.checked==true){

@@ -67,7 +67,6 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		$.ajax({
 			url: '<?php echo $linkLoadData; ?>',
 			type: 'POST', 
-			dataType:'json',             
 			data: dataItem,
 			success: function (data, status, jqXHR) {  
 				
@@ -101,8 +100,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		};
 		$.ajax({
 			url: '<?php echo $linkChangeStatus; ?>',
-			type: 'POST', 
-			dataType:'json',             
+			type: 'POST',     
 			data: dataItem,
 			success: function (data, status, jqXHR) {   							                              				
 				showMsg('alert',data.msg,data.type_msg);               		
@@ -132,8 +130,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		};
 		$.ajax({
 			url: '<?php echo $linkDelete; ?>',
-			type: 'POST', 
-			dataType:'json',             
+			type: 'POST', 			
 			data: dataItem,
 			success: function (data, status, jqXHR) {  				
 				showMsg('alert',data.msg,data.type_msg);               		
@@ -165,7 +162,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		$.ajax({
 			url: '<?php echo $linkUpdateStatus; ?>',
 			type: 'POST', 
-			dataType:'json',             
+			             
 			data: dataItem,
 			success: function (data, status, jqXHR) {   							                              				
 				showMsg('alert',data.msg,data.type_msg);               		
@@ -203,7 +200,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		$.ajax({
 			url: '<?php echo $linkTrash; ?>',
 			type: 'POST', 
-			dataType:'json',             
+			             
 			data: dataItem,
 			success: function (data, status, jqXHR) {
 				showMsg('alert',data.msg,data.type_msg);  
@@ -227,7 +224,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		$.ajax({
 			url: '<?php echo $linkSortOrder; ?>',
 			type: 'POST', 
-			dataType:'json',             
+			             
 			data: dataItem,
 			success: function (data, status, jqXHR) {   	
 				showMsg('alert',data.msg,data.type_msg);  
@@ -257,7 +254,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			$.ajax({
 				url: '<?php echo $linkLoadData; ?>',
 				type: 'POST', 
-				dataType:'json',             
+				             
 				data: dataItem,
 				async:0,
 				success: function (data, status, jqXHR) {   				                               				

@@ -100,6 +100,7 @@ Route::group(["prefix"=>"admin"],function(){
 		Route::get("form/{task}/{id?}",["as"=>"admin.article.getForm","uses"=>"admin\ArticleController@getForm"]);
 		Route::post("save",["as"=>"admin.article.save","uses"=>"admin\ArticleController@save"]);
 		Route::post("delete-item",["as"=>"admin.article.deleteItem","uses"=>"admin\ArticleController@deleteItem"]);
+		Route::post("delete-image",["as"=>"admin.article.deleteImage","uses"=>"admin\ArticleController@deleteImage"]);
 		Route::post("sort-order",["as"=>"admin.article.sortOrder","uses"=>"admin\ArticleController@sortOrder"]);
 		Route::post("update-status",["as"=>"admin.article.updateStatus","uses"=>"admin\ArticleController@updateStatus"]);
 		Route::post("change-status",["as"=>"admin.article.changeStatus","uses"=>"admin\ArticleController@changeStatus"]);

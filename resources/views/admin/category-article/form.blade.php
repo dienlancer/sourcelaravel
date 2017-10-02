@@ -155,9 +155,9 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
             url: '<?php echo $linkDeleteImage; ?>',
             type: 'POST',
             data: dataItem,
-            dataType: 'json',
             async: false,
             success: function (data) {
+                console.log(data);
                 if(data.checked==true){
                     $("#picture-area").empty();
                     console.log($("input[name='image_hidden']"));
@@ -201,7 +201,7 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
             url: '<?php echo $linkSave; ?>',
             type: 'POST',
             data: dataItem,
-            dataType: 'json',
+            
             async: false,
             success: function (data) {
                 if(data.checked==true){
