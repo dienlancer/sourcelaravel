@@ -232,9 +232,9 @@ public function deleteItem(Request $request){
   $msg                    =   "Delete successfully";            
   
   if($checked == 1){
-    $item = ArticleModel::find($request->id);
+    $item = ArticleModel::find($id);
       $item->delete();
-      ArticleCategoryModel::whereRaw("article_id = ?",[(int)$request->id])->delete();
+      ArticleCategoryModel::whereRaw("article_id = ?",[(int)$id])->delete();
   }        
   $data                   =   $this->loadData($request);
   $info = array(
