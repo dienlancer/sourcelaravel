@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 02, 2017 lúc 02:11 PM
+-- Thời gian đã tạo: Th10 02, 2017 lúc 08:22 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -168,7 +168,7 @@ CREATE TABLE `article` (
 --
 
 INSERT INTO `article` (`id`, `fullname`, `title`, `alias`, `image`, `intro`, `content`, `description`, `meta_keyword`, `meta_description`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Chi phí trị nám tàn nhang giá bao nhiêu là hợp lý ? Mối quan tâm hàng đầu của khách hàng - 3', 'Chi phí trị nám tàn nhang giá bao nhiêu là hợp lý-3', 'chi-phi-tri-nam-tan-nhang-gia-bao-nhieu-la-hop-ly-moi-quan-tam-hang-dau-cua-khach-hang-3', '12964555_1.jpg', 'Là một người phụ nữ ai cũng mong muốn có một nhan sắc đẹp để có thể tự tin trong giao tiếp nhưng chi phí trị nám tàn nhang giá bao nhiêu là hợp lý đang là mối quan tâm hàng đầu của không ít chị em phụ nữ-3', 'Chào bác sĩ, tôi bị nám tàn nhang đã gần 10 năm nay nhưng chữa mãi không khỏi-3', 'Hiện nay chi phí trị nám tàn nhang ở các thẩm mỹ viện uy tín như thẩm mỹ viện T.C-3', 'chi phí trị nám tàn nhang-3', 'chi phí trị nám tàn nhang giá bao nhiêu là hợp lý hiện đang là mối quan tâm hàng đầu của không ít chị em phụ nữ-3', 2, 1, '2017-10-02 07:36:06', '2017-10-02 11:41:11');
+(3, '1', '1', '1', '12965808_1.jpg', '1', '1', '1', '1', '1', 1, 1, '2017-10-02 16:12:20', '2017-10-02 17:34:40');
 
 -- --------------------------------------------------------
 
@@ -190,9 +190,8 @@ CREATE TABLE `article_category` (
 --
 
 INSERT INTO `article_category` (`id`, `article_id`, `category_article_id`, `created_at`, `updated_at`) VALUES
-(7, 1, 30, '2017-10-02 07:48:01', '2017-10-02 07:48:01'),
-(8, 1, 34, '2017-10-02 07:48:01', '2017-10-02 07:48:01'),
-(9, 1, 37, '2017-10-02 07:48:01', '2017-10-02 07:48:01');
+(12, 3, 55, '2017-10-02 16:12:20', '2017-10-02 16:12:20'),
+(13, 3, 58, '2017-10-02 16:12:20', '2017-10-02 16:12:20');
 
 -- --------------------------------------------------------
 
@@ -218,14 +217,15 @@ CREATE TABLE `category_article` (
 --
 
 INSERT INTO `category_article` (`id`, `fullname`, `alias`, `parent_id`, `image`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(30, 'Nám tàn nhang', 'nam-tan-nhang', NULL, NULL, 1, 1, '2017-09-18 17:15:32', '2017-10-02 10:19:16'),
-(32, 'Phun thêu thẩm mỹ', 'phun-theu-tham-my', NULL, '12964555_1.jpg', 4, 1, '2017-09-18 17:16:06', '2017-10-02 10:19:16'),
-(33, 'Tắm trắng', 'tam-trang', NULL, NULL, 9, 1, '2017-09-18 17:16:25', '2017-10-02 10:19:16'),
-(34, 'Công nghệ Hifu', 'cong-nghe-hifu', NULL, NULL, 5, 1, '2017-09-18 17:17:51', '2017-10-02 10:19:16'),
-(35, 'Trị mụn thâm da', 'tri-mun-tham-da', NULL, NULL, 6, 1, '2017-09-18 17:18:06', '2017-10-02 10:19:16'),
-(36, 'Giảm cân', 'giam-can', NULL, NULL, 7, 1, '2017-09-18 17:18:20', '2017-10-02 10:19:16'),
-(37, 'Chăm sóc da mặt - Massage', 'cham-soc-da-mat-massage', NULL, NULL, 8, 1, '2017-09-18 17:18:53', '2017-10-02 10:19:16'),
-(46, 'Phi kim siêu vi điểm', 'phi-kim-sieu-vi-diem', NULL, NULL, 6, 1, '2017-10-02 12:09:34', '2017-10-02 12:09:34');
+(51, 'Nám tàn nhang', 'nam-tan-nhang', NULL, '12919228_1.jpg', 1, 1, '2017-10-02 12:52:39', '2017-10-02 17:34:53'),
+(55, 'Công nghệ Hifu', 'cong-nghe-hifu', NULL, '12987989_1.jpg', 5, 1, '2017-10-02 12:54:01', '2017-10-02 17:35:19'),
+(56, 'Trị mụn thâm da', 'tri-mun-tham-da', NULL, '12997238_1001.jpg', 6, 1, '2017-10-02 12:54:23', '2017-10-02 17:35:25'),
+(57, 'Giảm cân', 'giam-can', NULL, '12997947_1.jpg', 7, 1, '2017-10-02 12:54:34', '2017-10-02 17:35:32'),
+(58, 'Chăm sóc da mặt', 'cham-soc-da-mat', NULL, '13000660_1.jpg', 9, 1, '2017-10-02 12:54:56', '2017-10-02 17:35:48'),
+(59, 'Triệt lông', 'triet-long', NULL, '12997953_1.jpg', 10, 1, '2017-10-02 12:55:12', '2017-10-02 17:35:39'),
+(67, 'Phi kim siêu vi điểm', 'phi-kim-sieu-vi-diem', NULL, '12956480_19.jpg', 2, 1, '2017-10-02 17:22:48', '2017-10-02 17:35:00'),
+(68, 'Phun thêu thẩm mỹ', 'phun-theu-tham-my', NULL, '12964555_1.jpg', 3, 1, '2017-10-02 17:23:07', '2017-10-02 17:35:05'),
+(69, 'Tắm trắng', 'tam-trang', NULL, '12965808_1.jpg', 4, 1, '2017-10-02 17:23:18', '2017-10-02 17:35:12');
 
 -- --------------------------------------------------------
 
@@ -1221,17 +1221,17 @@ ALTER TABLE `album`
 -- AUTO_INCREMENT cho bảng `article`
 --
 ALTER TABLE `article`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT cho bảng `article_category`
 --
 ALTER TABLE `article_category`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT cho bảng `category_article`
 --
 ALTER TABLE `category_article`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 --
 -- AUTO_INCREMENT cho bảng `customer`
 --
