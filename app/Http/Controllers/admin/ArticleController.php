@@ -230,21 +230,11 @@ public function deleteItem(Request $request){
   $checked                =   1;
   $type_msg               =   "alert-success";
   $msg                    =   "Delete successfully";            
-  $count                  =   ArticleModel::where("parent_id",$id)->count();
-  if($count > 0){
-    $checked     =   0;
-    $type_msg           =   "alert-warning";            
-    $msg                =   "Cannot delete this item";            
-  }
-  $count                  =   ArticleCategoryModel::where("category_article_id",$id)->count();
-  if($count > 0){
-    $checked     =   0;
-    $type_msg           =   "alert-warning";            
-    $msg                =   "Cannot delete this item";            
-  }
+  
   if($checked == 1){
-    $item               =   ArticleModel::find($id);
-    $item->delete();            
+    $item = ArticleModel::find($request->id);
+      $item->delete();
+      ArticleCategoryModel::whereRaw("article_id = ?",[(int)$request->id])->delete();
   }        
   $data                   =   $this->loadData($request);
   $info = array(
