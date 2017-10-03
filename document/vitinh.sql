@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 02, 2017 lúc 08:24 PM
+-- Thời gian đã tạo: Th10 03, 2017 lúc 01:05 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -92,6 +92,47 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getCategoryArticle` (IN `keywor
     ;
 END$$
 
+DROP PROCEDURE IF EXISTS `pro_getMenu`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getMenu` (IN `keyword` VARCHAR(255), IN `menu_type_id` INT(11))  BEGIN
+SELECT 
+	n.id
+	,n.fullname
+	,n.alias
+	,n.site_link
+	,n.parent_id
+	,a.fullname AS parent_fullname
+	,n.menu_type_id
+	,n.level
+	,n.sort_order
+	,n.status
+	,n.created_at
+	,n.updated_at
+	 FROM 
+    `menu` n
+    LEFT JOIN `menu` a ON n.parent_id = a.id
+    WHERE
+    (keyword ='' OR LOWER(n.fullname) LIKE CONCAT('%', LOWER(keyword) ,'%'))
+    AND (menu_type_id = '' OR n.menu_type_id = menu_type_id)
+    ORDER BY n.sort_order ASC    ;
+    END$$
+
+DROP PROCEDURE IF EXISTS `pro_getMenuType`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getMenuType` (IN `keyword` VARCHAR(255))  BEGIN
+	SELECT 
+	0 AS is_checked
+	,n.id
+	,n.fullname
+	,n.sort_order
+	,n.created_at
+	,n.updated_at
+	 FROM 
+    `menu_type` n
+    WHERE
+    (keyword ='' OR LOWER(n.fullname) LIKE CONCAT('%', LOWER(keyword) ,'%'))    
+    ORDER BY n.sort_order ASC
+    ;
+END$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -168,7 +209,7 @@ CREATE TABLE `article` (
 --
 
 INSERT INTO `article` (`id`, `fullname`, `title`, `alias`, `image`, `intro`, `content`, `description`, `meta_keyword`, `meta_description`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(3, '1', '1', '1', '12965808_1.jpg', '1', '1', '1', '1', '1', 1, 1, '2017-10-02 16:12:20', '2017-10-02 17:34:40');
+(3, '1', '1', '1', '12965808_1.jpg', '1', '1', '1', '1', '1', 1, 1, '2017-10-02 16:12:20', '2017-10-03 04:30:52');
 
 -- --------------------------------------------------------
 
@@ -219,12 +260,12 @@ CREATE TABLE `category_article` (
 INSERT INTO `category_article` (`id`, `fullname`, `alias`, `parent_id`, `image`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
 (51, 'Nám tàn nhang', 'nam-tan-nhang', NULL, '12919228_1.jpg', 1, 1, '2017-10-02 12:52:39', '2017-10-02 17:34:53'),
 (55, 'Công nghệ Hifu', 'cong-nghe-hifu', NULL, '12987989_1.jpg', 5, 1, '2017-10-02 12:54:01', '2017-10-02 17:35:19'),
-(56, 'Trị mụn thâm da', 'tri-mun-tham-da', NULL, '12997238_1001.jpg', 6, 1, '2017-10-02 12:54:23', '2017-10-02 17:35:25'),
-(57, 'Giảm cân', 'giam-can', NULL, '12997947_1.jpg', 7, 1, '2017-10-02 12:54:34', '2017-10-02 17:35:32'),
+(56, 'Trị mụn thâm da', 'tri-mun-tham-da', NULL, '12997238_1001.jpg', 6, 1, '2017-10-02 12:54:23', '2017-10-03 04:40:45'),
+(57, 'Giảm cân', 'giam-can', NULL, '12987989_1.jpg', 7, 1, '2017-10-02 12:54:34', '2017-10-03 03:33:08'),
 (58, 'Chăm sóc da mặt', 'cham-soc-da-mat', NULL, '13000660_1.jpg', 9, 1, '2017-10-02 12:54:56', '2017-10-02 17:35:48'),
-(59, 'Triệt lông', 'triet-long', NULL, '12997953_1.jpg', 10, 1, '2017-10-02 12:55:12', '2017-10-02 17:35:39'),
-(67, 'Phi kim siêu vi điểm', 'phi-kim-sieu-vi-diem', NULL, '12956480_19.jpg', 2, 1, '2017-10-02 17:22:48', '2017-10-02 17:35:00'),
-(68, 'Phun thêu thẩm mỹ', 'phun-theu-tham-my', NULL, '12964555_1.jpg', 3, 1, '2017-10-02 17:23:07', '2017-10-02 17:35:05'),
+(59, 'Triệt lông', 'triet-long', NULL, '12997953_1.jpg', 10, 1, '2017-10-02 12:55:12', '2017-10-03 04:40:54'),
+(67, 'Phi kim siêu vi điểm', 'phi-kim-sieu-vi-diem', NULL, '12956480_19.jpg', 2, 1, '2017-10-02 17:22:48', '2017-10-03 04:31:13'),
+(68, 'Phun thêu thẩm mỹ', 'phun-theu-tham-my', NULL, '12964555_1.jpg', 3, 1, '2017-10-02 17:23:07', '2017-10-03 04:11:32'),
 (69, 'Tắm trắng', 'tam-trang', NULL, '12965808_1.jpg', 4, 1, '2017-10-02 17:23:18', '2017-10-02 17:35:12');
 
 -- --------------------------------------------------------
@@ -608,52 +649,6 @@ CREATE TABLE `menu` (
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Đang đổ dữ liệu cho bảng `menu`
---
-
-INSERT INTO `menu` (`id`, `fullname`, `alias`, `site_link`, `parent_id`, `menu_type_id`, `level`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Trang chủ', 'trang-chu', '', 0, 1, 0, 1, 1, '2016-12-23 01:08:53', '2017-01-18 03:12:52'),
-(2, 'Tin nội bộ', 'tin-noi-bo', '/chu-de/tin-noi-bo', 0, 1, 0, 4, 1, '2016-12-23 01:11:57', '2017-05-10 10:56:18'),
-(3, 'Tin khuyến mãi', 'tin-khuyen-mai', '/chu-de/tin-khuyen-mai', 0, 1, 0, 5, 1, '2016-12-23 01:12:40', '2017-05-10 10:56:18'),
-(52, 'Thủ thuật công nghệ', 'thu-thuat-cong-nghe', '/chu-de/thu-thuat-cong-nghe', 0, 1, 0, 7, 1, '2016-12-28 19:06:01', '2017-05-10 10:56:18'),
-(53, 'Tin công nghệ', 'tin-cong-nghe', '/chu-de/tin-cong-nghe', 0, 1, 0, 6, 1, '2016-12-30 17:23:17', '2017-05-10 10:56:18'),
-(63, 'Dịch vụ kỹ thuật', 'dich-vu-ky-thuat', '/chu-de/dich-vu-ky-thuat', 0, 1, 0, 8, 1, '2017-02-11 09:05:57', '2017-05-10 10:56:18'),
-(64, 'Liên hệ', 'lien-he', '/bai-viet/lien-he', 0, 1, 0, 9, 1, '2017-05-09 03:55:16', '2017-05-10 10:56:18'),
-(65, 'Laptop', 'laptop', '/nhom-san-pham/laptop', 0, 3, 0, 1, 1, '2017-05-09 04:11:04', '2017-05-09 04:20:12'),
-(66, 'PC - All in one', 'pc-all-in-one', '/nhom-san-pham/pc-all-in-one', 0, 3, 0, 2, 1, '2017-05-09 04:11:31', '2017-05-09 04:20:43'),
-(67, 'Workstation', 'workstation', '/nhom-san-pham/workstation', 0, 3, 0, 3, 1, '2017-05-09 04:11:49', '2017-05-09 04:21:05'),
-(68, 'Server', 'server', '/nhom-san-pham/server', 0, 3, 0, 4, 1, '2017-05-09 04:12:10', '2017-05-09 04:21:19'),
-(69, 'LCD', 'lcd', '/nhom-san-pham/lcd', 0, 3, 0, 5, 1, '2017-05-09 04:12:26', '2017-05-09 04:21:32'),
-(70, 'Máy in đơn năng', 'may-in-don-nang', '/nhom-san-pham/may-in-don-nang', 0, 3, 0, 6, 1, '2017-05-09 04:12:58', '2017-05-09 04:21:50'),
-(71, 'Máy in đa năng', 'may-in-da-nang', '/nhom-san-pham/may-in-da-nang', 0, 3, 0, 7, 1, '2017-05-09 04:13:20', '2017-05-09 04:22:09'),
-(72, 'Máy in kim', 'may-in-kim', '/nhom-san-pham/may-in-kim', 0, 3, 0, 8, 1, '2017-05-09 04:13:59', '2017-05-09 04:22:26'),
-(73, 'Scan-fax', 'scan-fax', '/nhom-san-pham/scan-fax', 0, 3, 0, 9, 1, '2017-05-09 04:14:22', '2017-05-09 04:22:37'),
-(74, 'Mực in', 'muc-in', '/nhom-san-pham/muc-in', 0, 3, 0, 10, 1, '2017-05-09 04:14:47', '2017-05-09 04:22:48'),
-(75, 'Linh kiện', 'linh-kien', '/nhom-san-pham/linh-kien', 0, 3, 0, 11, 1, '2017-05-09 04:15:06', '2017-05-09 04:23:00'),
-(76, 'Phụ kiện', 'phu-kien', '/nhom-san-pham/phu-kien', 0, 3, 0, 12, 1, '2017-05-09 04:15:25', '2017-05-09 04:23:11'),
-(77, 'Thiết bị mạng', 'thiet-bi-mang', '/nhom-san-pham/thiet-bi-mang', 0, 3, 0, 13, 1, '2017-05-09 04:15:41', '2017-05-09 04:23:36'),
-(78, 'Thiết bị kết nối aten', 'thiet-bi-ket-noi-aten', '/nhom-san-pham/thiet-bi-ket-noi-aten', 0, 3, 0, 14, 1, '2017-05-09 04:16:02', '2017-05-09 04:23:53'),
-(79, 'Thiết bị văn phòng camera', 'thiet-bi-van-phong-camera', '/nhom-san-pham/thiet-bi-van-phong-camera', 0, 3, 0, 15, 1, '2017-05-09 04:16:26', '2017-05-09 04:24:08'),
-(80, 'Sản phẩm', 'san-pham', '/san-pham', 0, 1, 0, 3, 1, '2017-05-10 10:55:37', '2017-05-10 10:56:18'),
-(81, 'Giới thiệu', 'trung-tam-tin-hoc-hoan-long', '/bai-viet/trung-tam-tin-hoc-hoan-long', 0, 1, 0, 2, 1, '2017-05-10 10:56:05', '2017-05-30 03:41:37'),
-(82, 'Laptop', 'laptop', '/danh-muc/laptop', 80, 1, 1, 1, 1, '2017-05-10 12:56:18', '2017-05-14 02:16:10'),
-(83, 'PC - All in one', 'pc-all-in-one', '/danh-muc/pc-all-in-one', 80, 1, 1, 2, 1, '2017-05-10 12:59:23', '2017-05-20 09:41:49'),
-(84, 'Workstation', 'workstation', '/danh-muc/workstation', 80, 1, 1, 3, 1, '2017-05-10 12:59:56', '2017-05-14 02:16:32'),
-(85, 'Server', 'server', '/danh-muc/server', 80, 1, 1, 4, 1, '2017-05-10 13:00:18', '2017-05-14 02:17:03'),
-(86, 'LCD', 'lcd', '/danh-muc/lcd', 80, 1, 1, 5, 1, '2017-05-10 13:00:47', '2017-05-14 02:17:34'),
-(87, 'Máy in đơn năng', 'may-in-don-nang', '/danh-muc/may-in-don-nang', 80, 1, 1, 6, 1, '2017-05-10 13:01:22', '2017-05-14 02:17:48'),
-(88, 'Máy in đa năng', 'may-in-da-nang', '/danh-muc/may-in-da-nang', 80, 1, 1, 7, 1, '2017-05-10 13:01:54', '2017-05-14 02:17:57'),
-(89, 'Máy in kim', 'may-in-kim', '/danh-muc/may-in-kim', 80, 1, 1, 8, 1, '2017-05-10 13:02:20', '2017-05-14 02:18:05'),
-(90, 'Scan-fax', 'scan-fax', '/danh-muc/scan-fax', 80, 1, 1, 9, 1, '2017-05-10 13:02:52', '2017-05-14 02:18:13'),
-(91, 'Mực in', 'muc-in', '/danh-muc/muc-in', 80, 1, 1, 10, 1, '2017-05-10 13:03:16', '2017-05-14 02:18:22'),
-(92, 'Linh kiện', 'linh-kien', '/danh-muc/linh-kien', 80, 1, 1, 11, 1, '2017-05-10 13:03:42', '2017-05-14 02:18:28'),
-(93, 'Phụ kiện', 'phu-kien', '/danh-muc/phu-kien', 80, 1, 1, 12, 1, '2017-05-10 13:04:11', '2017-05-14 02:18:35'),
-(94, 'Thiết bị mạng', 'thiet-bi-mang', '/danh-muc/thiet-bi-mang', 80, 1, 1, 13, 1, '2017-05-10 13:04:37', '2017-05-14 02:18:42'),
-(95, 'Thiết bị kết nối aten', 'thiet-bi-ket-noi-aten', '/danh-muc/thiet-bi-ket-noi-aten', 80, 1, 1, 14, 1, '2017-05-10 13:05:04', '2017-05-14 02:18:49'),
-(96, 'Thiết bị văn phòng camera', 'thiet-bi-van-phong-camera', '/danh-muc/thiet-bi-van-phong-camera', 80, 1, 1, 15, 1, '2017-05-10 13:05:25', '2017-05-14 02:18:56'),
-(97, 'Đăng nhập', 'dang-nhap', '/dang-nhap', 0, 1, 0, 9, 1, '2017-05-13 09:33:18', '2017-05-13 09:33:18');
-
 -- --------------------------------------------------------
 
 --
@@ -674,9 +669,11 @@ CREATE TABLE `menu_type` (
 --
 
 INSERT INTO `menu_type` (`id`, `fullname`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 'MainMenu', 1, '2016-12-22 01:09:17', '2017-05-20 09:23:15'),
-(2, 'FooterMenu', 2, '2016-12-22 03:25:32', '2017-05-20 08:57:26'),
-(3, 'ProductMenu', 3, '2017-05-09 04:09:20', '2017-05-20 09:23:15');
+(1, 'mainmenu-1', 1, '2017-10-03 09:25:24', '2017-10-03 09:25:24'),
+(5, 'mainmenu-5', 5, '2017-10-03 10:32:11', '2017-10-03 10:32:11'),
+(14, 'mainmenu-2', 2, '2017-10-03 10:38:36', '2017-10-03 10:38:36'),
+(15, 'mainmenu-4', 4, '2017-10-03 10:38:46', '2017-10-03 10:38:46'),
+(16, 'mainmenu-3', 3, '2017-10-03 10:39:00', '2017-10-03 10:39:00');
 
 -- --------------------------------------------------------
 
@@ -1221,12 +1218,12 @@ ALTER TABLE `album`
 -- AUTO_INCREMENT cho bảng `article`
 --
 ALTER TABLE `article`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT cho bảng `article_category`
 --
 ALTER TABLE `article_category`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT cho bảng `category_article`
 --
@@ -1261,12 +1258,12 @@ ALTER TABLE `invoice_detail`
 -- AUTO_INCREMENT cho bảng `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT cho bảng `menu_type`
 --
 ALTER TABLE `menu_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT cho bảng `module_article`
 --
