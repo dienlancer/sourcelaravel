@@ -3,27 +3,18 @@
 <?php 
 $linkCancel             =   route('admin.'.$controller.'.getList');
 $linkSave               =   route('admin.'.$controller.'.save');
-$linkUploadFile         =   route('admin.'.$controller.'.uploadFile');
-$linkDeleteImage        =   route('admin.'.$controller.'.deleteImage');
 $inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"       value="'.@$arrRowData['fullname'].'">'; 
 $inputAlias             =   '<input type="text" class="form-control" name="alias"      id="alias"          value="'.@$arrRowData['alias'].'">';
+$inputSitelink          =   '<input type="text" class="form-control" name="site_link"   id="site_link"       value="'.@$arrRowData['site_link'].'">'; 
 $inputSortOrder         =   '<input type="text" class="form-control" name="sort_order" id="sort_order"     value="'.@$arrRowData['sort_order'].'">';
 $status                 =   (count($arrRowData) > 0) ? @$arrRowData['status'] : 1 ;
 $arrStatus              =   array(-1 => '- Select status -', 1 => 'Publish', 0 => 'Unpublish');  
 $ddlStatus              =   cmsSelectbox("status","status","form-control",$arrStatus,$status,"");
 $parent_id              =   (count($arrRowData) > 0) ? @$arrRowData['parent_id'] : null ; 
-$ddlCategoryArticle     =   cmsSelectboxCategory('category_article_id','category_article_id', 'form-control', $arrCategoryArticleRecursive, $parent_id,"");
+$ddlMenu                =   cmsSelectboxCategory('parent_id','parent_id', 'inputbox',$arrMenuRecursive,@$arrRowData['parent_id'],"");
+$ddlMenuType            =   cmsSelectboxCategory('menu_type_id','menu_type_id', 'inputbox',$arrMenuType,@$menu_type_id,"disabled");
 $id                     =   (count($arrRowData) > 0) ? @$arrRowData['id'] : "" ;
 $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$id.'" />'; 
-$picture                =   "";
-$strImage               =   "";
-if(count($arrRowData > 0)){
-    if(!empty(@$arrRowData["image"])){
-        $picture        =   '<div class="col-sm-6"><center>&nbsp;<img src="'.url("/resources/upload/" . WIDTH . "x" . HEIGHT . "-".@$arrRowData["image"]).'" width="'.((int)(WIDTH/3)).'" height="'.((int)(HEIGHT/3)).'" />&nbsp;</center></div><div class="col-sm-6"><a href="javascript:void(0);" onclick="deleteImage();"><img src="'.url('public/admin/images/delete-icon.png').'"/></a></div>';                        
-        $strImage       =   @$arrRowData["image"];
-    }        
-}    
-$inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_hidden" value="'.@$strImage.'" />';
 ?>
 <div class="portlet light bordered">
     <div class="portlet-title">
@@ -71,8 +62,7 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
                     <div class="form-group col-md-6">
                         <label class="col-md-3 control-label"><b>Image</b></label>
                         <div class="col-md-9">
-                            <input type="file" id="image" name="image"  />   
-                            <div id="picture-area"><?php echo $picture; ?>                      </div>                            
+                            <input type="file" id="image" name="image"  />                                               
                         </div>
                     </div>     
                 </div>       
@@ -94,8 +84,8 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
                 </div>                                                          
             </div>  
             <div class="form-actions noborder">
-                <input type="hidden" name="_token" value="{!! csrf_token() !!}" />          
-                <?php echo $inputPictureHidden; ?>                
+                <input type="hidden" name="_token" value="{!! csrf_token() !!}" />   
+                <input type="hidden" name="menutype_id_hidd" value="<?php echo @$menu_type_id; ?>" />                                                        
                 <?php echo  $inputID; ?>                      
             </div>                  
         </form>
@@ -106,81 +96,30 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
         var id                   =   $("#id");
         var fullname             =   $("#fullname");
         var alias                =   $("#alias");
-        var category_article_id  =   $("#category_article_id");
+        var site_link            =   $("#site_link");
         var sort_order           =   $("#sort_order");
         var status               =   $("#status");
         
         $(fullname).closest('.form-group').removeClass("has-error");
         $(alias).closest('.form-group').removeClass("has-error");
-        $(category_article_id).closest('.form-group').removeClass("has-error");
+        $(site_link).closest('.form-group').removeClass("has-error");
         $(sort_order).closest('.form-group').removeClass("has-error");
         $(status).closest('.form-group').removeClass("has-error");        
 
         $(fullname).closest('.form-group').find('span').empty().hide();
         $(alias).closest('.form-group').find('span').empty().hide();
-        $(category_article_id).closest('.form-group').find('span').empty().hide();
+        $(site_link).closest('.form-group').find('span').empty().hide();
         $(sort_order).closest('.form-group').find('span').empty().hide();
         $(status).closest('.form-group').find('span').empty().hide();        
-    }
-
-    function uploadFileImport(){    
-        var token = $('input[name="_token"]').val();       
-        var image=$("#image");        
-        var file_upload=$(image).get(0);
-        var files = file_upload.files;
-        var file  = files[0];    
-        var formdata = new FormData();
-        formdata.append("image", file);
-        formdata.append("_token", token);
-        var ajax = new XMLHttpRequest();        
-        ajax.addEventListener("load",  false);        
-        ajax.open("POST", "<?php echo $linkUploadFile; ?>");
-        ajax.send(formdata);    
-    }
-    function deleteImage(){
-        var xac_nhan = 0;
-        var msg="Do you really want to delete image ?";
-        if(window.confirm(msg)){ 
-            xac_nhan = 1;
-        }
-        if(xac_nhan  == 0)
-            return 0;
-        var id=$("#id").val();       
-        var token = $('input[name="_token"]').val();  
-        var dataItem={
-            "id":id,            
-            "_token": token
-        };  
-        $.ajax({
-            url: '<?php echo $linkDeleteImage; ?>',
-            type: 'POST',
-            data: dataItem,
-            async: false,
-            success: function (data) {
-                console.log(data);
-                if(data.checked==true){
-                    $("#picture-area").empty();
-                    $("input[name='image_hidden']").val("");
-                }                
-                spinner.hide();
-            },
-            error : function (data){
-                spinner.hide();
-            },
-            beforeSend  : function(jqXHR,setting){
-                spinner.show();
-            },
-        });
     }
     function save(){
         var id=$("#id").val();        
         var fullname=$("#fullname").val();
         var alias=$("#alias").val();
-        var category_article_id=$("#category_article_id").val();
-        var image = $("#image").val();
-        if (image != '')
-            image = image.substr(image.lastIndexOf('\\') + 1);       
-        var image_hidden=$("#image_hidden").val(); 
+        var site_link=$("#site_link").val();
+        var parent_id=$("#parent_id").val();        
+        var menu_type_id=$("#menu_type_id").val(); 
+        var menutype_id_hidd=$("input[name='menutype_id_hidd']").val();       
         var sort_order=$("#sort_order").val();
         var status=$("#status").val();     
         var token = $('input[name="_token"]').val();   
@@ -189,9 +128,10 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
             "id":id,
             "fullname":fullname,
             "alias":alias,
-            "category_article_id":category_article_id,
-            "image":image,
-            "image_hidden":image_hidden,
+            "site_link":site_link,
+            "parent_id":parent_id,
+            "menu_type_id":menu_type_id,
+            "menutype_id_hidd":menutype_id_hidd,
             "sort_order":sort_order,
             "status":status,
             "_token": token
@@ -203,8 +143,7 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
             
             async: false,
             success: function (data) {
-                if(data.checked==true){
-                    uploadFileImport();
+                if(data.checked==true){                    
                     window.location.href = "<?php echo $linkCancel; ?>";
                 }else{
                     var data_error=data.error;
@@ -212,11 +151,16 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
                         $("#fullname").closest('.form-group').addClass(data_error.fullname.type_msg);
                         $("#fullname").closest('.form-group').find('span').text(data_error.fullname.msg);
                         $("#fullname").closest('.form-group').find('span').show();                        
-                    }
+                    }                    
                     if(typeof data_error.alias                  != "undefined"){
                         $("#alias").closest('.form-group').addClass(data_error.alias.type_msg);
                         $("#alias").closest('.form-group').find('span').text(data_error.alias.msg);
                         $("#alias").closest('.form-group').find('span').show();                       
+                    }
+                    if(typeof data_error.site_link               != "undefined"){
+                        $("#site_link").closest('.form-group').addClass(data_error.site_link.type_msg);
+                        $("#site_link").closest('.form-group').find('span').text(data_error.site_link.msg);
+                        $("#site_link").closest('.form-group').find('span').show();                        
                     }
                     if(typeof data_error.sort_order               != "undefined"){
                         $("#sort_order").closest('.form-group').addClass(data_error.sort_order.type_msg);

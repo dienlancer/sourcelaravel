@@ -9,7 +9,7 @@ use App\ArticleCategoryModel;
 use DB;
 class MenuController extends Controller {
 	var $_controller="menu";	
-	var $_title="Category Article";
+	var $_title="Menu";
 	var $_icon="icon-settings font-dark";
 	public function getList(Request $request){		
 		$controller=$this->_controller;	
@@ -47,283 +47,272 @@ class MenuController extends Controller {
 
   }
   public function getForm($task,$id=""){		 
-    $controller=$this->_controller;			
-    $title="";
-    $icon=$this->_icon; 
-    $arrRowData=array();
-    switch ($task) {
-     case 'edit':
-     $title=$this->_title . " : Update";
-     $arrRowData=MenuModel::find($id)->toArray();			 
-     break;
-     case 'add':
-     $title=$this->_title . " : Add new";
-     break;			
-   }		
-   $arrMenu=DB::select('call pro_getMenu(?)',array(""));
-   $arrMenu=convertToArray($arrMenu);
-   $arrMenuRecursive=array();			
-   MenuRecursive($arrMenu ,0,"",$arrMenuRecursive)	 ;			
-   return view("admin.".$this->_controller.".form",compact("arrMenuRecursive","arrRowData","controller","task","title","icon"));	
- }
- public function save(Request $request){
-  $id 					=	trim($request->id)	;        
-  $fullname 				=	trim($request->fullname)	;
-  $alias 					= 		trim($request->alias);
-  $category_article_id	=		($request->category_article_id);
-  $image                  =       trim($request->image);
-  $image_hidden           =       trim($request->image_hidden);
-  $sort_order 			=		trim($request->sort_order);
-  $status 				=		trim($request->status);
-  $data 		= array();
-  $info 		= array();
-  $error 		= array();
-  $item		= null;
-  $checked 	= 1;              
-  if(empty($fullname)){
-   $checked = 0;
-   $error["fullname"]["type_msg"] = "has-error";
-   $error["fullname"]["msg"] = "Fullname is required";
- }else{
-   $data=array();
-   if (empty($id)) {
-    $data=MenuModel::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get()->toArray();	        	
-  }else{
-    $data=MenuModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),$id])->get()->toArray();		
-  }  
-  if (count($data) > 0) {
-    $checked = 0;
-    $error["fullname"]["type_msg"] = "has-error";
-    $error["fullname"]["msg"] = "Fullname is existed in system";
-  }      	
-}
-if(empty($alias)){
- $checked = 0;
- $error["alias"]["type_msg"] = "has-error";
- $error["alias"]["msg"] = "Alias is required";
-}else{
- $data=array();
- if (empty($id)) {
-  $data=MenuModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias,'UTF-8'))])->get()->toArray();	        	
-}else{
-  $data=MenuModel::whereRaw("trim(lower(alias)) = ? and id != ?",[trim(mb_strtolower($alias,'UTF-8')),$id])->get()->toArray();		
-}  
-if (count($data) > 0) {
-  $checked = 0;
-  $error["alias"]["type_msg"] 	= "has-error";
-  $error["alias"]["msg"] 			= "Alias is existed in system";
-}      	
-}
-if(empty($sort_order)){
- $checked = 0;
- $error["sort_order"]["type_msg"] 	= "has-error";
- $error["sort_order"]["msg"] 		= "Sort order is required";
-}
-if((int)$status==-1){
- $checked = 0;
- $error["status"]["type_msg"] 		= "has-error";
- $error["status"]["msg"] 			= "Status is required";
-}
-if ($checked == 1) {    
- if(empty($id)){
-  $item 				= 	new MenuModel;       
-  $item->created_at 	=	date("Y-m-d H:i:s",time());        
-  if(!empty($image)){
-    $item->image    =   trim($image) ;  
-  }				
-} else{
-  $item				=	MenuModel::find($id);   
-  $file_image="";                       
-  if(!empty($image_hidden)){
-    $file_image =$image_hidden;          
-  }
-  if(!empty($image))  {
-    $file_image=$image;                                                
-  }
-  $item->image=trim($file_image) ;            		  		 	
-}  
-$item->fullname 		=	$fullname;
-$item->alias 			=	$alias;
-$item->parent_id 		=	$category_article_id;            
-$item->sort_order 		=	$sort_order;
-$item->status 			=	$status;    
-$item->updated_at 		=	date("Y-m-d H:i:s",time());    	        	
-$item->save();  	
-$info = array(
-  'type_msg' 			=> "has-success",
-  'msg' 				=> 'Save data successfully',
-  "checked" 			=> 1,
-  "error" 			=> $error,
-  "id"    			=> $id
-);
-} else {
-  $info = array(
-    'type_msg' 			=> "has-error",
-    'msg' 				=> 'Input data has some warning',
-    "checked" 			=> 0,
-    "error" 			=> $error,
-    "id"				=> ""
-  );
-}        		 			       
-return $info;       
-}
-public function changeStatus(Request $request){
-  $id             =       (int)$request->id;     
-  $checked                =   1;
-  $type_msg               =   "alert-success";
-  $msg                    =   "Update successfully";              
-  $status         =       (int)$request->status;
-  $item           =       MenuModel::find($id);        
-  $item->status   =       $status;
-  $item->save();
-  $data                   =   $this->loadData($request);
-  $info = array(
-    'checked'           => $checked,
-    'type_msg'          => $type_msg,                
-    'msg'               => $msg,                
-    'data'              => $data
-  );
-  return $info;
-}
-public function deleteImage(Request $request){
-   $id                     =   (int)$request->id;              
-  $checked                =   1;
-  $type_msg               =   "alert-success";
-  $msg                    =   "Delete successfully";            
-  
-  if($checked == 1){
-      $item = MenuModel::find($id);
-      $item->image     = null;      
-      $item->save();  
-  }          
-  $info = array(
-    'checked'           => $checked,
-    'type_msg'          => $type_msg,                
-    'msg'               => $msg,                    
-  );
-  return $info;
-}
-public function deleteItem(Request $request){
-  $id                     =   (int)$request->id;              
-  $checked                =   1;
-  $type_msg               =   "alert-success";
-  $msg                    =   "Delete successfully";            
-  $count                  =   MenuModel::where("parent_id",$id)->count();
-  if($count > 0){
-    $checked     =   0;
-    $type_msg           =   "alert-warning";            
-    $msg                =   "Cannot delete this item";            
-  }
-  $count                  =   ArticleCategoryModel::where("category_article_id",$id)->count();
-  if($count > 0){
-    $checked     =   0;
-    $type_msg           =   "alert-warning";            
-    $msg                =   "Cannot delete this item";            
-  }
-  if($checked == 1){
-    $item               =   MenuModel::find($id);
-    $item->delete();            
-  }        
-  $data                   =   $this->loadData($request);
-  $info = array(
-    'checked'           => $checked,
-    'type_msg'          => $type_msg,                
-    'msg'               => $msg,                
-    'data'              => $data
-  );
-  return $info;
-}
-public function updateStatus(Request $request){
-  $str_id                 =   $request->str_id;   
-  $status                 =   $request->status;  
-  $arrID                 =   explode(",", $str_id)  ;
-  $checked                =   1;
-  $type_msg               =   "alert-success";
-  $msg                    =   "Update successfully";     
-  foreach ($arrID as $key => $value) {
-    if(!empty($value)){
-      $item=MenuModel::find($value);
-      $item->status=$status;
-      $item->save();      
-    }            
-  }
-  $data                   =   $this->loadData($request);
-  $info = array(
-    'checked'           => $checked,
-    'type_msg'          => $type_msg,                
-    'msg'               => $msg,                
-    'data'              => $data
-  );
-  return $info;
-}
-public function trash(Request $request){
-  $str_id                 =   $request->str_id;   
-  $checked                =   1;
-  $type_msg               =   "alert-success";
-  $msg                    =   "Delete successfully";      
-  $arrID                  =   explode(",", $str_id)  ;    
-  if(empty($str_id)){
-    $checked     =   0;
-    $type_msg           =   "alert-warning";            
-    $msg                =   "Please choose at least one item to delete";
-  }else{
-    foreach ($arrID as $key => $value) {
-      if(!empty($value)){
-        $count = MenuModel::where("parent_id",$value)->count();
-        if($count > 0){
-          $checked     =   0;
-          $type_msg           =   "alert-warning";            
-          $msg                =   "Cannot delete this item";
-        }
-        $count = ArticleCategoryModel::where("category_article_id",$value)->count();
-        if($count > 0){
-          $checked     =   0;
-          $type_msg           =   "alert-warning";            
-          $msg                =   "Cannot delete this item"; 
-        }
-      }                
+        $controller=$this->_controller;			
+        $title="";
+        $icon=$this->_icon; 
+        $arrRowData=array();
+        switch ($task) {
+           case 'edit':
+              $title=$this->_title . " : Update";
+              $arrRowData=MenuModel::find($id)->toArray();			 
+           break;
+           case 'add':
+              $title=$this->_title . " : Add new";
+           break;			
+       }		
+       $arrMenu=MenuModel::select("id","fullname","site_link","alias","parent_id","menu_type_id","level","sort_order","status","created_at","updated_at")->orderBy("sort_order","asc")->get()->toArray();
+       $arrMenu=convertToArray($arrMenu);
+       $arrMenuRecursive=array();			
+       menuRecursiveForm($arrMenu ,0,"",$arrMenuRecursive)	 ;			
+       return view("admin.".$this->_controller.".form",compact("arrMenuRecursive","arrRowData","controller","task","title","icon"));	
     }
-  }
-
-  if($checked == 1){                
-    $strID = implode(',',$arrID);       
-    $strID = substr($strID, 0,strlen($strID) - 1);            
-    $sql = "DELETE FROM `category_article` WHERE `id` IN (".$strID.")";                                 
-    DB::statement($sql);    
-  }
-  $data                   =   $this->loadData($request);
-  $info = array(
-    'checked'           => $checked,
-    'type_msg'          => $type_msg,                
-    'msg'               => $msg,                
-    'data'              => $data
-  );
-  return $info;
-}
-public function sortOrder(Request $request){
-  $sort_json              =   $request->sort_json;           
-  $data_order             =   json_decode($sort_json);       
-  $checked                =   1;
-  $type_msg               =   "alert-success";
-  $msg                    =   "Update successfully";      
-  if(count($data_order) > 0){              
-    foreach($data_order as $key => $value){                                        
-      $item=MenuModel::find((int)$value->id);                
-      $item->sort_order=(int)$value->sort_order;                         
-      $item->save();                      
-    }           
-  }        
-  $data                   =   $this->loadData($request);
-  $info = array(
-    'checked'           => $checked,
-    'type_msg'          => $type_msg,                
-    'msg'               => $msg,                
-    'data'              => $data
-  );
-  return $info;
-}
-public function uploadFile(Request $request){           
-  uploadImage($_FILES["image"],WIDTH,HEIGHT,1);
-}
+    public function save(Request $request){
+          $id 					       =	  trim($request->id)	;        
+          $fullname 				   =	  trim($request->fullname)	;
+          $alias 					     = 		trim($request->alias);
+          $site_link           =    trim($request->site_link);
+          $parent_id	         =		(int)$request->parent_id;
+          $menu_type_id        =    (int)$request->menu_type_id;  
+          $menutype_id_hidd    =    (int)$request->menutype_id_hidd;         
+          $sort_order 			   =		(int)($request->sort_order);
+          $status 				     =		(int)($request->status);
+          $data 		           =    array();
+          $info 		           =    array();
+          $error 		           =    array();
+          $item		             =    null;
+          $checked 	= 1;              
+          if(empty($fullname)){
+              $checked = 0;
+              $error["fullname"]["type_msg"] = "has-error";
+              $error["fullname"]["msg"] = "Fullname is required";
+          }else{
+              $data=array();
+              if (empty($id)) {
+                $data=MenuModel::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get()->toArray();	        	
+              }else{
+                $data=MenuModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),$id])->get()->toArray();		
+              }  
+              if (count($data) > 0) {
+                $checked = 0;
+                $error["fullname"]["type_msg"] = "has-error";
+                $error["fullname"]["msg"] = "Fullname is existed in system";
+              }      	
+          }
+          if(empty($alias)){
+               $checked = 0;
+               $error["alias"]["type_msg"] = "has-error";
+               $error["alias"]["msg"] = "Alias is required";
+          }else{
+              $data=array();
+              if (empty($id)) {
+                $data=MenuModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias,'UTF-8'))])->get()->toArray();	        	
+              }else{
+                $data=MenuModel::whereRaw("trim(lower(alias)) = ? and id != ?",[trim(mb_strtolower($alias,'UTF-8')),$id])->get()->toArray();		
+              }  
+              if (count($data) > 0) {
+                $checked = 0;
+                $error["alias"]["type_msg"] 	= "has-error";
+                $error["alias"]["msg"] 			= "Alias is existed in system";
+              }      	
+          }
+          if(empty($site_link)){
+              $checked = 0;
+              $error["site_link"]["type_msg"] = "has-error";
+              $error["site_link"]["msg"] = "site_link is required";
+          }else{
+              $data=array();
+              if (empty($id)) {
+                $data=MenuModel::whereRaw("trim(lower(site_link)) = ?",[trim(mb_strtolower($site_link,'UTF-8'))])->get()->toArray();            
+              }else{
+                $data=MenuModel::whereRaw("trim(lower(site_link)) = ? and id != ?",[trim(mb_strtolower($site_link,'UTF-8')),$id])->get()->toArray();    
+              }  
+              if (count($data) > 0) {
+                $checked = 0;
+                $error["site_link"]["type_msg"] = "has-error";
+                $error["site_link"]["msg"] = "site_link is existed in system";
+              }       
+          }
+          if(empty($sort_order)){
+               $checked = 0;
+               $error["sort_order"]["type_msg"] 	= "has-error";
+               $error["sort_order"]["msg"] 		= "Sort order is required";
+          }
+          if((int)$status==-1){
+               $checked = 0;
+               $error["status"]["type_msg"] 		= "has-error";
+               $error["status"]["msg"] 			= "Status is required";
+          }
+          if ($checked == 1) {    
+              if(empty($id)){
+                  $item 				= 	new MenuModel;       
+                  $item->created_at 	=	date("Y-m-d H:i:s",time());                          
+              } else{
+                  $item				=	MenuModel::find($id);                     	  		 
+              }  
+              $item->fullname 		=	$fullname;
+              $item->alias 			  =	$alias;
+              $item->site_link    = $site_link;               
+              $item->parent_id 		=	$parent_id;
+              $item->menu_type_id = $menu_type_id;
+              $level=0;              
+              $parent=MenuModel::find($parent_id)->toArray(); 
+              if(count($parent) > 0){
+                $level=(int)$parent["level"]+1;                
+              }                     
+              $item->level=$level;            
+              $item->sort_order 		=	$sort_order;
+              $item->status 			=	$status;    
+              $item->updated_at 		=	date("Y-m-d H:i:s",time());    	        	
+              $item->save();  	
+              $info = array(
+                'type_msg' 			=> "has-success",
+                'msg' 				=> 'Save data successfully',
+                "checked" 			=> 1,
+                "error" 			=> $error,
+                "id"    			=> $id,
+                "menutype_id_hidd"=>$menutype_id_hidd
+              );
+          } else {
+                $info = array(
+                  'type_msg' 			=> "has-error",
+                  'msg' 				=> 'Input data has some warning',
+                  "checked" 			=> 0,
+                  "error" 			=> $error,
+                  "id"				=> "",
+                  "menutype_id_hidd"=>$menutype_id_hidd
+                );
+          }        		 			       
+          return $info;       
+    }
+    public function changeStatus(Request $request){
+        $id             =       (int)$request->id;     
+        $checked                =   1;
+        $type_msg               =   "alert-success";
+        $msg                    =   "Update successfully";              
+        $status         =       (int)$request->status;
+        $item           =       MenuModel::find($id);        
+        $item->status   =       $status;
+        $item->save();
+        $data                   =   $this->loadData($request);
+        $info = array(
+          'checked'           => $checked,
+          'type_msg'          => $type_msg,                
+          'msg'               => $msg,                
+          'data'              => $data
+        );
+        return $info;
+    }
+    public function deleteItem(Request $request){
+          $id                     =   (int)$request->id;              
+          $checked                =   1;
+          $type_msg               =   "alert-success";
+          $msg                    =   "Delete successfully";            
+          $menu_type_id           =   0;                
+          $count                  =   MenuModel::where("parent_id",$id)->count();
+          $item                   =   MenuModel::find($id);
+          $menu_type_id           =   $item->toArray()["menu_type_id"];
+          if($count > 0){
+              $checked            =   0;
+              $type_msg           =   "alert-warning";            
+              $msg                =   "Cannot delete this item";            
+          }          
+          if($checked == 1){
+              $item               =   MenuModel::find($id);
+              $item->delete();            
+              ModMenuTypeModel::whereRaw("menu_id = ?",[(int)$id])->delete();
+          }        
+          $data                   =   $this->loadData($request);
+          $info = array(
+            'checked'           => $checked,
+            'type_msg'          => $type_msg,                
+            'msg'               => $msg,                
+            'data'              => $data
+          );
+          return $info;
+    }
+    public function updateStatus(Request $request){
+        $str_id                 =   $request->str_id;   
+        $status                 =   $request->status;  
+        $arrID                  =   explode(",", $str_id)  ;
+        $checked                =   1;
+        $type_msg               =   "alert-success";
+        $msg                    =   "Update successfully";     
+        foreach ($arrID as $key => $value) {
+            if(!empty($value)){
+              $item=MenuModel::find($value);
+              $item->status=$status;
+              $item->save();      
+            }            
+        }
+        $data                   =   $this->loadData($request);
+        $info = array(
+          'checked'           => $checked,
+          'type_msg'          => $type_msg,                
+          'msg'               => $msg,                
+          'data'              => $data
+        );
+        return $info;
+    }
+    public function trash(Request $request){
+        $str_id                     =   $request->str_id;   
+        $checked                    =   1;
+        $type_msg                   =   "alert-success";
+        $msg                        =   "Delete successfully";      
+        $arrID                      =   explode(",", $str_id)  ;    
+        if(empty($str_id)){
+            $checked                =   0;
+            $type_msg               =   "alert-warning";            
+            $msg                    =   "Please choose at least one item to delete";
+        }else{          
+            foreach ($arrID as $key => $value) {
+                $item=MenuModel::find($value);
+                $menu_type_id=$item->toArray()["menu_type_id"];   
+                $count = MenuModel::where("parent_id",$value)->count();
+                if($count > 0){
+                  $checked            =   0;
+                  $type_msg           =   "alert-warning";            
+                  $msg                =   "Cannot delete this item"; 
+                } 
+            }
+        }
+        if($checked == 1){                
+            $strID = implode(',',$arrID);   
+            $strID=substr($strID, 0,strlen($strID) - 1);
+            $sqlDeleteMenu = "DELETE FROM `menu` WHERE `id` IN ($strID)";       
+            $sqlDeleteModMenuType = "DELETE FROM `mod_menu_type` WHERE `menu_id` IN ($strID)";        
+            DB::statement($sqlDeleteMenu);
+            DB::statement($sqlDeleteModMenuType);
+        }
+        $data                   =   $this->loadData($request);
+        $info = array(
+          'checked'           => $checked,
+          'type_msg'          => $type_msg,                
+          'msg'               => $msg,                
+          'data'              => $data
+        );
+        return $info;
+    }
+    public function sortOrder(Request $request){
+        $sort_json              =   $request->sort_json;           
+        $data_order             =   json_decode($sort_json);       
+        $checked                =   1;
+        $type_msg               =   "alert-success";
+        $msg                    =   "Update successfully";      
+        if(count($data_order) > 0){              
+          foreach($data_order as $key => $value){                                        
+            $item=MenuModel::find((int)$value->id);                
+            $item->sort_order=(int)$value->sort_order;                         
+            $item->save();                      
+          }           
+        }        
+        $data                   =   $this->loadData($request);
+        $info = array(
+          'checked'           => $checked,
+          'type_msg'          => $type_msg,                
+          'msg'               => $msg,                
+          'data'              => $data
+        );
+        return $info;
+    }  
 }
 ?>
