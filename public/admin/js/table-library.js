@@ -1,5 +1,6 @@
 var vCategoryArticleTable=null;
 var vArticleTable=null;
+var vMenuTypeTable=null;
 var basicTable = function () {
     var initCategoryArticleTable = function () {
         vCategoryArticleTable = $('#tbl-category-article').DataTable({
@@ -33,12 +34,26 @@ var basicTable = function () {
             ]
         });        
     };
+    var initMenuTypeTable = function () {
+        vMenuTypeTable = $('#tbl-menu-type').DataTable({
+            columns: [                
+                { data: "checked"            },
+                { data: "fullname"      },               
+                { data: "sort_order"    },                
+                { data: "created_at"    },
+                { data: "updated_at"    },
+                { data: "edited"    },         
+                { data: "deleted"    },                
+            ]
+        });        
+    };
     return {
         init: function () {
             if (!jQuery().dataTable)
                 return;        
             initCategoryArticleTable();  
             initArticleTable();
+            initMenuTypeTable();
         }
     };
 }();

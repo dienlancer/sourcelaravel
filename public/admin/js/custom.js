@@ -16,7 +16,7 @@ function showMsg(ctrlID,msg,type_msg){
 	$('#'+ctrlID).fadeIn();		
 	if (timeout != null)
         clearTimeout(timeout);
-	timeout = setTimeout(hideMsg, 4000,ctrlID);			 
+	timeout = setTimeout(hideMsg, 1000,ctrlID);			 
 }
 function hideMsg(ctrlID) {
 	$('#'+ctrlID).fadeOut();

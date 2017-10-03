@@ -126,15 +126,16 @@ Route::group(["prefix"=>"admin"],function(){
 		Route::get("delete/{id}",["as"=>"admin.group.getDelete","uses"=>"admin\GroupController@getDelete"]);
 	});	
 	Route::group(["prefix"=>"menu-type"],function(){		
-		Route::match(["get","post"],"list",["as"=>"admin.menu-type.getList","uses"=>"admin\MenuTypeController@getList"]);
+		Route::get("list",["as"=>"admin.menu-type.getList","uses"=>"admin\MenuTypeController@getList"]);
+		Route::post("load-data",["as"=>"admin.menu-type.loadData","uses"=>"admin\MenuTypeController@loadData"]);		
 		Route::get("form/{task}/{id?}",["as"=>"admin.menu-type.getForm","uses"=>"admin\MenuTypeController@getForm"]);
-		Route::post("form/{task}",["as"=>"admin.menu-type.postForm","uses"=>"admin\MenuTypeController@postForm"]);
-		Route::get("delete/{id}",["as"=>"admin.menu-type.getDelete","uses"=>"admin\MenuTypeController@getDelete"]);
-		Route::post("ordering",["as"=>"admin.menu-type.postOrdering","uses"=>"admin\MenuTypeController@postOrdering"]);
-		Route::post("status/{status}",["as"=>"admin.menu-type.postStatus","uses"=>"admin\MenuTypeController@postStatus"]);
-		Route::get("ajaxStatus/{id}/{status}",["as"=>"admin.menu-type.getAjaxStatus","uses"=>"admin\MenuTypeController@getAjaxStatus"]);
-		Route::post("trash",["as"=>"admin.menu-type.postTrash","uses"=>"admin\MenuTypeController@postTrash"]);
-	});	
+		Route::post("save",["as"=>"admin.menu-type.save","uses"=>"admin\MenuTypeController@save"]);
+		Route::post("delete-item",["as"=>"admin.menu-type.deleteItem","uses"=>"admin\MenuTypeController@deleteItem"]);		
+		Route::post("sort-order",["as"=>"admin.menu-type.sortOrder","uses"=>"admin\MenuTypeController@sortOrder"]);
+		Route::post("update-status",["as"=>"admin.menu-type.updateStatus","uses"=>"admin\MenuTypeController@updateStatus"]);
+		Route::post("change-status",["as"=>"admin.menu-type.changeStatus","uses"=>"admin\MenuTypeController@changeStatus"]);
+		Route::post("trash",["as"=>"admin.menu-type.trash","uses"=>"admin\MenuTypeController@trash"]);		
+	});		
 	Route::group(["prefix"=>"module-menu"],function(){		
 		Route::match(["get","post"],"list",["as"=>"admin.module-menu.getList","uses"=>"admin\ModuleMenuController@getList"]);
 		Route::get("form/{task}/{id?}",["as"=>"admin.module-menu.getForm","uses"=>"admin\ModuleMenuController@getForm"]);
