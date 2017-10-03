@@ -160,7 +160,6 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
                 console.log(data);
                 if(data.checked==true){
                     $("#picture-area").empty();
-                    console.log($("input[name='image_hidden']"));
                     $("input[name='image_hidden']").val("");
                 }                
                 spinner.hide();
