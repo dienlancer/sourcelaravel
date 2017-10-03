@@ -1,7 +1,7 @@
 @extends("admin.master")
 @section("content")
 <?php 
-$linkCancel             =   route('admin.'.$controller.'.getList');
+$linkCancel             =   route('admin.'.$controller.'.getList',[@$menu_type_id]);
 $linkSave               =   route('admin.'.$controller.'.save');
 $inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"       value="'.@$arrRowData['fullname'].'">'; 
 $inputAlias             =   '<input type="text" class="form-control" name="alias"      id="alias"          value="'.@$arrRowData['alias'].'">';
@@ -11,8 +11,8 @@ $status                 =   (count($arrRowData) > 0) ? @$arrRowData['status'] : 
 $arrStatus              =   array(-1 => '- Select status -', 1 => 'Publish', 0 => 'Unpublish');  
 $ddlStatus              =   cmsSelectbox("status","status","form-control",$arrStatus,$status,"");
 $parent_id              =   (count($arrRowData) > 0) ? @$arrRowData['parent_id'] : null ; 
-$ddlMenu                =   cmsSelectboxCategory('parent_id','parent_id', 'inputbox',$arrMenuRecursive,@$arrRowData['parent_id'],"");
-$ddlMenuType            =   cmsSelectboxCategory('menu_type_id','menu_type_id', 'inputbox',$arrMenuType,@$menu_type_id,"disabled");
+$ddlMenu                =   cmsSelectboxCategory('parent_id','parent_id', 'form-control',$arrMenuRecursive,@$arrRowData['parent_id'],"");
+$ddlMenuType            =   cmsSelectboxCategory('menu_type_id','menu_type_id', 'form-control',$arrMenuType,@$menu_type_id,"disabled");
 $id                     =   (count($arrRowData) > 0) ? @$arrRowData['id'] : "" ;
 $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$id.'" />'; 
 ?>
@@ -50,21 +50,34 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                             <span class="help-block"></span>
                         </div>
                     </div>     
-                </div>      
+                </div>    
                 <div class="row">
                     <div class="form-group col-md-6">
-                        <label class="col-md-3 control-label"><b>Parent</b></label>
+                        <label class="col-md-3 control-label"><b>Sitelink</b></label>
                         <div class="col-md-9">
-                            <?php echo $ddlCategoryArticle; ?>
+                            <?php echo $inputSitelink; ?>
                             <span class="help-block"></span>
                         </div>
                     </div>   
                     <div class="form-group col-md-6">
-                        <label class="col-md-3 control-label"><b>Image</b></label>
-                        <div class="col-md-9">
-                            <input type="file" id="image" name="image"  />                                               
-                        </div>
+                       
                     </div>     
+                </div>       
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="col-md-3 control-label"><b>Parent</b></label>
+                        <div class="col-md-9">
+                            <?php echo $ddlMenu; ?>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>   
+                    <div class="form-group col-md-6">
+                        <label class="col-md-3 control-label"><b>MenuType</b></label>
+                        <div class="col-md-9">
+                            <?php echo $ddlMenuType; ?>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>    
                 </div>       
                 <div class="row">
                     <div class="form-group col-md-6">
@@ -84,8 +97,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                 </div>                                                          
             </div>  
             <div class="form-actions noborder">
-                <input type="hidden" name="_token" value="{!! csrf_token() !!}" />   
-                <input type="hidden" name="menutype_id_hidd" value="<?php echo @$menu_type_id; ?>" />                                                        
+                <input type="hidden" name="_token" value="{!! csrf_token() !!}" />                                                           
                 <?php echo  $inputID; ?>                      
             </div>                  
         </form>
@@ -118,8 +130,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
         var alias=$("#alias").val();
         var site_link=$("#site_link").val();
         var parent_id=$("#parent_id").val();        
-        var menu_type_id=$("#menu_type_id").val(); 
-        var menutype_id_hidd=$("input[name='menutype_id_hidd']").val();       
+        var menu_type_id=$("#menu_type_id").val();  
         var sort_order=$("#sort_order").val();
         var status=$("#status").val();     
         var token = $('input[name="_token"]').val();   
@@ -131,7 +142,6 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             "site_link":site_link,
             "parent_id":parent_id,
             "menu_type_id":menu_type_id,
-            "menutype_id_hidd":menutype_id_hidd,
             "sort_order":sort_order,
             "status":status,
             "_token": token

@@ -102,7 +102,7 @@ function menuConverter($data=array(),$controller){
     $result = array();
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){
-            $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.url("/public/admin/images/edit-icon.png").'" /></a></center>';
+            $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['menu_type_id'],$data[$i]['id']]).'"><img src="'.url("/public/admin/images/edit-icon.png").'" /></a></center>';
             $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.url("/public/admin/images/delete-icon.png").'" /></a></center>';
             $kicked=0;
             if((int)$data[$i]["status"]==1)

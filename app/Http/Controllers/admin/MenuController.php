@@ -4,8 +4,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\MenuRequest;
 use App\MenuModel;
-use App\ArticleModel;
-use App\ArticleCategoryModel;
+use App\ProductModel;
+use App\MenuTypeModel;
+use App\ModMenuTypeModel;
 use DB;
 class MenuController extends Controller {
 	var $_controller="menu";	
@@ -46,7 +47,7 @@ class MenuController extends Controller {
     return $data;
 
   }
-  public function getForm($task,$id=""){		 
+  public function getForm($task,$menu_type_id="",$id=""){   
         $controller=$this->_controller;			
         $title="";
         $icon=$this->_icon; 
@@ -60,11 +61,11 @@ class MenuController extends Controller {
               $title=$this->_title . " : Add new";
            break;			
        }		
-       $arrMenu=MenuModel::select("id","fullname","site_link","alias","parent_id","menu_type_id","level","sort_order","status","created_at","updated_at")->orderBy("sort_order","asc")->get()->toArray();
-       $arrMenu=convertToArray($arrMenu);
-       $arrMenuRecursive=array();			
-       menuRecursiveForm($arrMenu ,0,"",$arrMenuRecursive)	 ;			
-       return view("admin.".$this->_controller.".form",compact("arrMenuRecursive","arrRowData","controller","task","title","icon"));	
+        $arrMenu=MenuModel::select("id","fullname","site_link","alias","parent_id","menu_type_id","level","sort_order","status","created_at","updated_at")->orderBy("sort_order","asc")->get()->toArray();
+        $arrMenuRecursive=array();
+        menuRecursiveForm($arrMenu ,0,"",$arrMenuRecursive)  ;
+        $arrMenuType=MenuTypeModel::select("id","fullname","sort_order","created_at","updated_at")->orderBy("sort_order","asc")->get()->toArray();      
+        return view("admin.".$this->_controller.".form",compact("arrMenuRecursive","arrMenuType","arrRowData","menu_type_id","controller","task","title","icon"));	        
     }
     public function save(Request $request){
           $id 					       =	  trim($request->id)	;        
@@ -72,15 +73,14 @@ class MenuController extends Controller {
           $alias 					     = 		trim($request->alias);
           $site_link           =    trim($request->site_link);
           $parent_id	         =		(int)$request->parent_id;
-          $menu_type_id        =    (int)$request->menu_type_id;  
-          $menutype_id_hidd    =    (int)$request->menutype_id_hidd;         
+          $menu_type_id        =    (int)$request->menu_type_id;      
           $sort_order 			   =		(int)($request->sort_order);
-          $status 				     =		(int)($request->status);
+          $status 				     =		(int)($request->status);          
           $data 		           =    array();
           $info 		           =    array();
           $error 		           =    array();
           $item		             =    null;
-          $checked 	= 1;              
+          $checked 	           =    1;              
           if(empty($fullname)){
               $checked = 0;
               $error["fullname"]["type_msg"] = "has-error";
@@ -88,9 +88,9 @@ class MenuController extends Controller {
           }else{
               $data=array();
               if (empty($id)) {
-                $data=MenuModel::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get()->toArray();	        	
+                $data=MenuModel::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get();	        	
               }else{
-                $data=MenuModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),$id])->get()->toArray();		
+                $data=MenuModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),$id])->get();		
               }  
               if (count($data) > 0) {
                 $checked = 0;
@@ -105,9 +105,9 @@ class MenuController extends Controller {
           }else{
               $data=array();
               if (empty($id)) {
-                $data=MenuModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias,'UTF-8'))])->get()->toArray();	        	
+                $data=MenuModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias,'UTF-8'))])->get();	        	
               }else{
-                $data=MenuModel::whereRaw("trim(lower(alias)) = ? and id != ?",[trim(mb_strtolower($alias,'UTF-8')),$id])->get()->toArray();		
+                $data=MenuModel::whereRaw("trim(lower(alias)) = ? and id != ?",[trim(mb_strtolower($alias,'UTF-8')),$id])->get();		
               }  
               if (count($data) > 0) {
                 $checked = 0;
@@ -122,9 +122,9 @@ class MenuController extends Controller {
           }else{
               $data=array();
               if (empty($id)) {
-                $data=MenuModel::whereRaw("trim(lower(site_link)) = ?",[trim(mb_strtolower($site_link,'UTF-8'))])->get()->toArray();            
+                $data=MenuModel::whereRaw("trim(lower(site_link)) = ?",[trim(mb_strtolower($site_link,'UTF-8'))])->get();            
               }else{
-                $data=MenuModel::whereRaw("trim(lower(site_link)) = ? and id != ?",[trim(mb_strtolower($site_link,'UTF-8')),$id])->get()->toArray();    
+                $data=MenuModel::whereRaw("trim(lower(site_link)) = ? and id != ?",[trim(mb_strtolower($site_link,'UTF-8')),$id])->get();    
               }  
               if (count($data) > 0) {
                 $checked = 0;
@@ -155,9 +155,9 @@ class MenuController extends Controller {
               $item->parent_id 		=	$parent_id;
               $item->menu_type_id = $menu_type_id;
               $level=0;              
-              $parent=MenuModel::find($parent_id)->toArray(); 
+              $parent=MenuModel::find($parent_id); 
               if(count($parent) > 0){
-                $level=(int)$parent["level"]+1;                
+                $level=(int)$parent->toArray()["level"]+1;                
               }                     
               $item->level=$level;            
               $item->sort_order 		=	$sort_order;
@@ -170,7 +170,6 @@ class MenuController extends Controller {
                 "checked" 			=> 1,
                 "error" 			=> $error,
                 "id"    			=> $id,
-                "menutype_id_hidd"=>$menutype_id_hidd
               );
           } else {
                 $info = array(
@@ -179,7 +178,6 @@ class MenuController extends Controller {
                   "checked" 			=> 0,
                   "error" 			=> $error,
                   "id"				=> "",
-                  "menutype_id_hidd"=>$menutype_id_hidd
                 );
           }        		 			       
           return $info;       
@@ -254,7 +252,7 @@ class MenuController extends Controller {
         return $info;
     }
     public function trash(Request $request){
-        $str_id                     =   $request->str_id;   
+        $str_id                     =   $request->str_id;           
         $checked                    =   1;
         $type_msg                   =   "alert-success";
         $msg                        =   "Delete successfully";      
@@ -265,14 +263,15 @@ class MenuController extends Controller {
             $msg                    =   "Please choose at least one item to delete";
         }else{          
             foreach ($arrID as $key => $value) {
-                $item=MenuModel::find($value);
-                $menu_type_id=$item->toArray()["menu_type_id"];   
-                $count = MenuModel::where("parent_id",$value)->count();
-                if($count > 0){
-                  $checked            =   0;
-                  $type_msg           =   "alert-warning";            
-                  $msg                =   "Cannot delete this item"; 
-                } 
+              if(!empty($value)){
+                  $item=MenuModel::find((int)$value);                 
+                  $count = MenuModel::where("parent_id",(int)$value)->count();
+                  if($count > 0){
+                    $checked            =   0;
+                    $type_msg           =   "alert-warning";            
+                    $msg                =   "Cannot delete this item"; 
+                  }
+              }                
             }
         }
         if($checked == 1){                

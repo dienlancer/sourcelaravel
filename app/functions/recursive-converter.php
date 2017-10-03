@@ -89,8 +89,7 @@ function menuRecursive($data ,$parent=null,$str="--",&$arrRecursiveMenu){
 }
 function menuRecursiveForm($data ,$parent=null,$str="--",&$arrRecursiveMenu){
   foreach ($data as $key => $val) {
-    $checked=isset($val["checked"]) ? $val["checked"] : 0 ;
-    $is_checked=$val["is_checked"];
+    
     $id=$val["id"];
     $fullname=$val["fullname"];        
     if((int)$val["parent_id"] == (int)$parent) {          
