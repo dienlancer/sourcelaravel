@@ -26,6 +26,27 @@
         </ul>
     </li>
     <li class="nav-item  ">
+        <a href="javascript:;" class="nav-link nav-toggle">
+            <i class="fa fa-folder-open-o" ></i>
+            <span class="title">Product</span>
+            <span class="arrow"></span>
+        </a>
+        <ul class="sub-menu">                                    
+            <li class="nav-item  ">
+                <a href="{!! route('admin.category-product.getList') !!}" class="nav-link nav-toggle">
+                    <i class="icon-notebook"></i>
+                    <span class="title">Category product</span>                                            
+                </a>                                                                      
+            </li>
+            <li class="nav-item  ">
+                <a href="{!! route('admin.product.getList') !!}" class="nav-link nav-toggle">
+                    <i class="icon-notebook"></i>
+                    <span class="title">Product</span>                                            
+                </a>                                                                      
+            </li>
+        </ul>
+    </li>
+    <li class="nav-item  ">
                 <a href="{!! route('admin.menu-type.getList') !!}" class="nav-link nav-toggle">
                     <i class="icon-notebook"></i>
                     <span class="title">Menu</span>                                            

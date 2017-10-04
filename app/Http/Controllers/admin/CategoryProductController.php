@@ -2,13 +2,13 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\CategoryArticleModel;
-use App\ArticleModel;
-use App\ArticleCategoryModel;
+use App\CategoryProductModel;
+use App\ProductModel;
+use App\ProductCategoryModel;
 use DB;
-class CategoryArticleController extends Controller {
-    	var $_controller="category-article";	
-    	var $_title="Category Article";
+class CategoryProductController extends Controller {
+    	var $_controller="category-product";	
+    	var $_title="Category Product";
     	var $_icon="icon-settings font-dark";
     	public function getList(){		
     		$controller=$this->_controller;	
@@ -19,28 +19,28 @@ class CategoryArticleController extends Controller {
     	}	
     	public function loadData(Request $request){
       		$filter_search="";
-      		$data=DB::select('call pro_getCategoryArticle(?)',array($filter_search));
+      		$data=DB::select('call pro_getCategoryProduct(?)',array($filter_search));
       		$parent_id=0;
-      		$categoryArticleRecursiveData=array();
+      		$CategoryProductRecursiveData=array();
       		if(count($data) >0)
       			$parent_id=$data[0]->parent_id;	
       		$data=convertToArray($data);    
-          $data=categoryArticleConverter($data,$this->_controller);   
-      		categoryArticleRecursive($data,$parent_id,null,$categoryArticleRecursiveData);            
-          $data=      	convertToArray($categoryArticleRecursiveData)	;                   
+          $data=CategoryProductConverter($data,$this->_controller);   
+      		CategoryProductRecursive($data,$parent_id,null,$CategoryProductRecursiveData);            
+          $data=      	convertToArray($CategoryProductRecursiveData)	;                   
           
           return $data;
     	}
     	public function loadDataApi(Request $request){
     		$filter_search="";
-        $data=DB::select('call pro_getCategoryArticle(?)',array($filter_search));
+        $data=DB::select('call pro_getCategoryProduct(?)',array($filter_search));
         $parent_id=0;
-        $categoryArticleRecursiveData=array();
+        $CategoryProductRecursiveData=array();
         if(count($data) >0)
           $parent_id=$data[0]->parent_id; 
         $data=convertToArray($data);
-        categoryArticleRecursive($data,$parent_id,null,$categoryArticleRecursiveData);        
-        $data=categoryArticleConverter($categoryArticleRecursiveData,$this->_controller);                               
+        CategoryProductRecursive($data,$parent_id,null,$CategoryProductRecursiveData);        
+        $data=CategoryProductConverter($CategoryProductRecursiveData,$this->_controller);                               
         return $data;
 
       }
@@ -52,16 +52,16 @@ class CategoryArticleController extends Controller {
           switch ($task) {
             case 'edit':
                 $title=$this->_title . " : Update";
-                $arrRowData=CategoryArticleModel::find($id)->toArray();			 
+                $arrRowData=CategoryProductModel::find($id)->toArray();			 
             break;
             case 'add':
                 $title=$this->_title . " : Add new";
             break;			
          }		         
-         $arrCategoryArticle=CategoryArticleModel::select("id","fullname","parent_id")->where("id","!=",(int)$id)->orderBy("sort_order","asc")->get()->toArray();
-         $arrCategoryArticleRecursive=array();			
-         categoryArticleRecursiveFormArticle($arrCategoryArticle ,0,"",$arrCategoryArticleRecursive)	 ;			
-         return view("admin.".$this->_controller.".form",compact("arrCategoryArticleRecursive","arrRowData","controller","task","title","icon"));	
+         $arrCategoryProduct=CategoryProductModel::select("id","fullname","parent_id")->where("id","!=",(int)$id)->orderBy("sort_order","asc")->get()->toArray();
+         $arrCategoryProductRecursive=array();			
+         CategoryProductRecursiveFormArticle($arrCategoryProduct ,0,"",$arrCategoryProductRecursive)	 ;			
+         return view("admin.".$this->_controller.".form",compact("arrCategoryProductRecursive","arrRowData","controller","task","title","icon"));	
      }
     public function save(Request $request){
         $id 					=	trim($request->id)	;        
@@ -84,9 +84,9 @@ class CategoryArticleController extends Controller {
         }else{
             $data=array();
              if (empty($id)) {
-                $data=CategoryArticleModel::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get()->toArray();	        	
+                $data=CategoryProductModel::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get()->toArray();	        	
             }else{
-              $data=CategoryArticleModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),$id])->get()->toArray();		
+              $data=CategoryProductModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),$id])->get()->toArray();		
             }  
             if (count($data) > 0) {
               $checked = 0;
@@ -101,9 +101,9 @@ class CategoryArticleController extends Controller {
         }else{
               $data=array();
              if (empty($id)) {
-              $data=CategoryArticleModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias,'UTF-8'))])->get()->toArray();	        	
+              $data=CategoryProductModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias,'UTF-8'))])->get()->toArray();	        	
             }else{
-              $data=CategoryArticleModel::whereRaw("trim(lower(alias)) = ? and id != ?",[trim(mb_strtolower($alias,'UTF-8')),$id])->get()->toArray();		
+              $data=CategoryProductModel::whereRaw("trim(lower(alias)) = ? and id != ?",[trim(mb_strtolower($alias,'UTF-8')),$id])->get()->toArray();		
             }  
             if (count($data) > 0) {
               $checked = 0;
@@ -123,13 +123,13 @@ class CategoryArticleController extends Controller {
         }
         if ($checked == 1) {    
              if(empty($id)){
-              $item 				= 	new CategoryArticleModel;       
+              $item 				= 	new CategoryProductModel;       
               $item->created_at 	=	date("Y-m-d H:i:s",time());        
               if(!empty($image)){
                 $item->image    =   trim($image) ;  
               }				
         } else{
-              $item				=	CategoryArticleModel::find($id);   
+              $item				=	CategoryProductModel::find($id);   
               $file_image=null;                       
               if(!empty($image_hidden)){
                 $file_image =$image_hidden;          
@@ -170,7 +170,7 @@ class CategoryArticleController extends Controller {
             $type_msg               =   "alert-success";
             $msg                    =   "Update successfully";              
             $status         =       (int)$request->status;
-            $item           =       CategoryArticleModel::find($id);        
+            $item           =       CategoryProductModel::find($id);        
             $item->status   =       $status;
             $item->save();
             $data                   =   $this->loadData($request);
@@ -189,7 +189,7 @@ class CategoryArticleController extends Controller {
           $msg                    =   "Delete successfully";            
         
           if($checked == 1){
-              $item = CategoryArticleModel::find($id);
+              $item = CategoryProductModel::find($id);
               $item->image     = null;      
               $item->save();  
           }          
@@ -205,20 +205,20 @@ class CategoryArticleController extends Controller {
             $checked                =   1;
             $type_msg               =   "alert-success";
             $msg                    =   "Delete successfully";            
-            $count                  =   CategoryArticleModel::where("parent_id",$id)->count();
+            $count                  =   CategoryProductModel::where("parent_id",$id)->count();
             if($count > 0){
                 $checked     =   0;
                 $type_msg           =   "alert-warning";            
                 $msg                =   "Cannot delete this item";            
             }
-            $count                  =   ArticleCategoryModel::where("category_article_id",$id)->count();
+            $count                  =   ProductCategoryModel::where("category_article_id",$id)->count();
             if($count > 0){
                 $checked     =   0;
                 $type_msg           =   "alert-warning";            
                 $msg                =   "Cannot delete this item";            
             }
             if($checked == 1){
-                $item               =   CategoryArticleModel::find($id);
+                $item               =   CategoryProductModel::find($id);
                 $item->delete();            
             }        
             $data                   =   $this->loadData($request);
@@ -245,7 +245,7 @@ class CategoryArticleController extends Controller {
             if($checked==1){
                 foreach ($arrID as $key => $value) {
                       if(!empty($value)){
-                        $item=CategoryArticleModel::find($value);
+                        $item=CategoryProductModel::find($value);
                         $item->status=$status;
                         $item->save();      
                       }            
@@ -273,13 +273,13 @@ class CategoryArticleController extends Controller {
             }else{
               foreach ($arrID as $key => $value) {
                 if(!empty($value)){
-                  $count = CategoryArticleModel::where("parent_id",$value)->count();
+                  $count = CategoryProductModel::where("parent_id",$value)->count();
                   if($count > 0){
                     $checked     =   0;
                     $type_msg           =   "alert-warning";            
                     $msg                =   "Cannot delete this item";
                   }
-                  $count = ArticleCategoryModel::where("category_article_id",$value)->count();
+                  $count = ProductCategoryModel::where("category_article_id",$value)->count();
                   if($count > 0){
                     $checked     =   0;
                     $type_msg           =   "alert-warning";            
@@ -311,7 +311,7 @@ class CategoryArticleController extends Controller {
           $msg                    =   "Update successfully";      
           if(count($data_order) > 0){              
             foreach($data_order as $key => $value){                                        
-              $item=CategoryArticleModel::find((int)$value->id);                
+              $item=CategoryProductModel::find((int)$value->id);                
               $item->sort_order=(int)$value->sort_order;                         
               $item->save();                      
             }           
