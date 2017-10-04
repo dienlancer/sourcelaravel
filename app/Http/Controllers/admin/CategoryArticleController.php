@@ -27,7 +27,6 @@ class CategoryArticleController extends Controller {
       			$parent_id=$data[0]->parent_id;	
       		$data=convertToArray($data);    
           $data=categoryArticleConverter($data,$this->_controller);   
-          //echo "<pre>".print_r($data,true)."</pre>";die();
       		categoryArticleRecursive($data,$parent_id,null,$categoryArticleRecursiveData);     
 
           $data=      	convertToArray($categoryArticleRecursiveData)	;                   

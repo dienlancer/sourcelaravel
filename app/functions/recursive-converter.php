@@ -9,7 +9,7 @@ function categoryArticleRecursive($data ,$parent=null,$str="--",&$arrRecursiveMe
     $alias=$val["alias"];    
     $parent_id=$val["parent_id"];  
     $image=$val["image"];
-    $sort_order=(int)$val["sort_order"];
+    $sort_order=$val["sort_order"];
     $status=$val["status"];
     $created_at=$val["created_at"];
     $updated_at=$val["updated_at"];
