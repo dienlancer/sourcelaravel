@@ -195,7 +195,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 				type: 'POST', 
 				             
 				data: dataItem,
-				async:0,
+				async:false,
 				success: function (data, status, jqXHR) {   				                               				
 					data_sort = new Array(data.length);
 					for(var i=0;i<data_sort.length;i++){					

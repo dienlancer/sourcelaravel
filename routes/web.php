@@ -1,17 +1,17 @@
 <?php
 Route::group(["prefix"=>"admin"],function(){	
 	Route::group(["prefix"=>"category-product"],function(){		
-		Route::get("list",["as"=>"admin.category-product.getList","uses"=>"admin\CategoryArticleController@getList"]);
-		Route::post("load-data",["as"=>"admin.category-product.loadData","uses"=>"admin\CategoryArticleController@loadData"]);		
-		Route::get("form/{task}/{id?}",["as"=>"admin.category-product.getForm","uses"=>"admin\CategoryArticleController@getForm"]);
-		Route::post("save",["as"=>"admin.category-product.save","uses"=>"admin\CategoryArticleController@save"]);
-		Route::post("delete-item",["as"=>"admin.category-product.deleteItem","uses"=>"admin\CategoryArticleController@deleteItem"]);
-		Route::post("delete-image",["as"=>"admin.category-product.deleteImage","uses"=>"admin\CategoryArticleController@deleteImage"]);
-		Route::post("sort-order",["as"=>"admin.category-product.sortOrder","uses"=>"admin\CategoryArticleController@sortOrder"]);
-		Route::post("update-status",["as"=>"admin.category-product.updateStatus","uses"=>"admin\CategoryArticleController@updateStatus"]);
-		Route::post("change-status",["as"=>"admin.category-product.changeStatus","uses"=>"admin\CategoryArticleController@changeStatus"]);
-		Route::post("trash",["as"=>"admin.category-product.trash","uses"=>"admin\CategoryArticleController@trash"]);
-		Route::post("upload-file",["as"=>"admin.category-product.uploadFile","uses"=>"admin\CategoryArticleController@uploadFile"]);
+		Route::get("list",["as"=>"admin.category-product.getList","uses"=>"admin\CategoryProductController@getList"]);
+		Route::post("load-data",["as"=>"admin.category-product.loadData","uses"=>"admin\CategoryProductController@loadData"]);		
+		Route::get("form/{task}/{id?}",["as"=>"admin.category-product.getForm","uses"=>"admin\CategoryProductController@getForm"]);
+		Route::post("save",["as"=>"admin.category-product.save","uses"=>"admin\CategoryProductController@save"]);
+		Route::post("delete-item",["as"=>"admin.category-product.deleteItem","uses"=>"admin\CategoryProductController@deleteItem"]);
+		Route::post("delete-image",["as"=>"admin.category-product.deleteImage","uses"=>"admin\CategoryProductController@deleteImage"]);
+		Route::post("sort-order",["as"=>"admin.category-product.sortOrder","uses"=>"admin\CategoryProductController@sortOrder"]);
+		Route::post("update-status",["as"=>"admin.category-product.updateStatus","uses"=>"admin\CategoryProductController@updateStatus"]);
+		Route::post("change-status",["as"=>"admin.category-product.changeStatus","uses"=>"admin\CategoryProductController@changeStatus"]);
+		Route::post("trash",["as"=>"admin.category-product.trash","uses"=>"admin\CategoryProductController@trash"]);
+		Route::post("upload-file",["as"=>"admin.category-product.uploadFile","uses"=>"admin\CategoryProductController@uploadFile"]);
 	});
 	Route::group(["prefix"=>"product"],function(){		
 		Route::match(["get","post"],"list",["as"=>"admin.product.getList","uses"=>"admin\ProductController@getList"]);

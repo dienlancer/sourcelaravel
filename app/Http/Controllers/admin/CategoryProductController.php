@@ -21,13 +21,13 @@ class CategoryProductController extends Controller {
       		$filter_search="";
       		$data=DB::select('call pro_getCategoryProduct(?)',array($filter_search));
       		$parent_id=0;
-      		$CategoryProductRecursiveData=array();
+      		$categoryProductRecursiveData=array();
       		if(count($data) >0)
       			$parent_id=$data[0]->parent_id;	
       		$data=convertToArray($data);    
-          $data=CategoryProductConverter($data,$this->_controller);   
-      		CategoryProductRecursive($data,$parent_id,null,$CategoryProductRecursiveData);            
-          $data=      	convertToArray($CategoryProductRecursiveData)	;                   
+          $data=categoryProductConverter($data,$this->_controller);   
+      		categoryProductRecursive($data,$parent_id,null,$categoryProductRecursiveData);            
+          $data=      	convertToArray($categoryProductRecursiveData)	;                   
           
           return $data;
     	}
@@ -67,7 +67,7 @@ class CategoryProductController extends Controller {
         $id 					=	trim($request->id)	;        
         $fullname 				=	trim($request->fullname)	;
         $alias 					= 		trim($request->alias);
-        $category_article_id	=		($request->category_article_id);
+        $category_product_id	=		(int)($request->category_product_id);
         $image                  =       trim($request->image);
         $image_hidden           =       trim($request->image_hidden);
         $sort_order 			=		trim($request->sort_order);
@@ -141,7 +141,7 @@ class CategoryProductController extends Controller {
         }  
         $item->fullname 		=	$fullname;
         $item->alias 			=	$alias;
-        $item->parent_id 		=	$category_article_id;            
+        $item->parent_id 		=	$category_product_id;            
         $item->sort_order 		=	$sort_order;
         $item->status 			=	$status;    
         $item->updated_at 		=	date("Y-m-d H:i:s",time());    	        	
@@ -211,7 +211,7 @@ class CategoryProductController extends Controller {
                 $type_msg           =   "alert-warning";            
                 $msg                =   "Cannot delete this item";            
             }
-            $count                  =   ProductCategoryModel::where("category_article_id",$id)->count();
+            $count                  =   ProductCategoryModel::where("category_product_id",$id)->count();
             if($count > 0){
                 $checked     =   0;
                 $type_msg           =   "alert-warning";            
@@ -279,7 +279,7 @@ class CategoryProductController extends Controller {
                     $type_msg           =   "alert-warning";            
                     $msg                =   "Cannot delete this item";
                   }
-                  $count = ProductCategoryModel::where("category_article_id",$value)->count();
+                  $count = ProductCategoryModel::where("category_product_id",$value)->count();
                   if($count > 0){
                     $checked     =   0;
                     $type_msg           =   "alert-warning";            
@@ -291,7 +291,7 @@ class CategoryProductController extends Controller {
             if($checked == 1){                
               $strID = implode(',',$arrID);       
               $strID = substr($strID, 0,strlen($strID) - 1);            
-              $sql = "DELETE FROM `category_article` WHERE `id` IN (".$strID.")";                                 
+              $sql = "DELETE FROM `category_product` WHERE `id` IN (".$strID.")";                                 
               DB::statement($sql);    
             }
             $data                   =   $this->loadData($request);
@@ -306,6 +306,7 @@ class CategoryProductController extends Controller {
     public function sortOrder(Request $request){
           $sort_json              =   $request->sort_json;           
           $data_order             =   json_decode($sort_json);       
+          
           $checked                =   1;
           $type_msg               =   "alert-success";
           $msg                    =   "Update successfully";      

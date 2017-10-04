@@ -2,6 +2,7 @@ var vCategoryArticleTable=null;
 var vArticleTable=null;
 var vMenuTypeTable=null;
 var vMenuTable=null;
+var vCategoryProductTable=null;
 var basicTable = function () {
     var initCategoryArticleTable = function () {
         vCategoryArticleTable = $('#tbl-category-article').DataTable({
@@ -55,11 +56,27 @@ var basicTable = function () {
             ]
         });        
     };
+    var initCategoryProductTable = function () {
+        vCategoryProductTable = $('#tbl-category-product').DataTable({
+            columns: [                
+                { data: "checked"            },
+                { data: "fullname"      },
+                { data: "alias"         },
+                { data: "parent_fullname"     },
+                { data: "image"         },
+                { data: "sort_order"    },
+                { data: "status"        },                            
+                { data: "edited"    },         
+                { data: "deleted"    },                
+            ]
+        });        
+    };
     return {
         init: function () {
             if (!jQuery().dataTable)
                 return;        
             initCategoryArticleTable();  
+            initCategoryProductTable();  
             initArticleTable();
             initMenuTypeTable();
             initMenuTable();

@@ -37,7 +37,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			</div>                                 
 		</div>
 		<div class="portlet-body">		
-			<table class="table table-striped table-bordered table-hover table-checkable order-column" id="tbl-category-article">
+			<table class="table table-striped table-bordered table-hover table-checkable order-column" id="tbl-category-product">
 				<thead>
 					<tr>
 						<th width="1%"><input type="checkbox" onclick="checkAllAgent(this)"  name="checkall-toggle"></th>                
@@ -68,11 +68,11 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			url: '<?php echo $linkLoadData; ?>',
 			type: 'POST', 		     
 			data: dataItem,			
-			success: function (data, status, jqXHR) {   					
+			success: function (data, status, jqXHR) { 				 				
 	            var data = $.map(data, function(el) { return el });	            
 				basicTable.init();
-				vCategoryArticleTable.clear().draw();
-				vCategoryArticleTable.rows.add(data).draw();
+				vCategoryProductTable.clear().draw();
+				vCategoryProductTable.rows.add(data).draw();
 				spinner.hide();
 			},
 			beforeSend  : function(jqXHR,setting){
@@ -81,7 +81,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		});
 	}	
 	function checkWithList(this_checkbox){
-		var dr = vCategoryArticleTable.row( $(this_checkbox).closest('tr') ).data();       		
+		var dr = vCategoryProductTable.row( $(this_checkbox).closest('tr') ).data();       		
 		if(parseInt(dr['is_checked']) == 0){
 			dr['checked'] ='<input type="checkbox" checked onclick="checkWithList(this)" name="cid" />';
 			dr['is_checked'] = 1;
@@ -89,7 +89,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			dr['checked'] ='<input type="checkbox" onclick="checkWithList(this)" name="cid" />';
 			dr['is_checked'] = 0;
 		}
-		vCategoryArticleTable.row( $(this_checkbox).closest('tr') ).data(dr);
+		vCategoryProductTable.row( $(this_checkbox).closest('tr') ).data(dr);
 	}	
 	function changeStatus(id,status){		
 		var token = $('input[name="_token"]').val();   
@@ -106,8 +106,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			success: function (data, status, jqXHR) {   							                              		
 				var list = $.map(data.data, function(el) { return el });		
 				showMsg('alert',data.msg,data.type_msg);               		
-				vCategoryArticleTable.clear().draw();
-				vCategoryArticleTable.rows.add(list).draw();
+				vCategoryProductTable.clear().draw();
+				vCategoryProductTable.rows.add(list).draw();
 				spinner.hide();
 			},
 			beforeSend  : function(jqXHR,setting){
@@ -138,8 +138,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			success: function (data, status, jqXHR) {  
 				var list = $.map(data.data, function(el) { return el });		
 				showMsg('alert',data.msg,data.type_msg);               		
-				vCategoryArticleTable.clear().draw();
-				vCategoryArticleTable.rows.add(list).draw();
+				vCategoryProductTable.clear().draw();
+				vCategoryProductTable.rows.add(list).draw();
 				spinner.hide();
 			},
 			beforeSend  : function(jqXHR,setting){
@@ -150,7 +150,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 	}
 	function updateStatus(status){		
 		var token 	= 	$('input[name="_token"]').val();   
-		var dt 		= 	vCategoryArticleTable.data();
+		var dt 		= 	vCategoryProductTable.data();
 		var str_id	=	"";		
 		for(var i=0;i<dt.length;i++){
 			var dr=dt[i];
@@ -171,8 +171,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			success: function (data, status, jqXHR) {   							                              				
 				var list = $.map(data.data, function(el) { return el });		
 				showMsg('alert',data.msg,data.type_msg);               		
-				vCategoryArticleTable.clear().draw();
-				vCategoryArticleTable.rows.add(list).draw();
+				vCategoryProductTable.clear().draw();
+				vCategoryProductTable.rows.add(list).draw();
 				spinner.hide();
 			},
 			beforeSend  : function(jqXHR,setting){
@@ -190,7 +190,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		if(xac_nhan  == 0)
 			return 0;	
 		var token 	= 	$('input[name="_token"]').val();   
-		var dt 		= 	vCategoryArticleTable.data();
+		var dt 		= 	vCategoryProductTable.data();
 		var str_id	=	"";		
 		for(var i=0;i<dt.length;i++){
 			var dr=dt[i];
@@ -210,8 +210,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			success: function (data, status, jqXHR) {
 				var list = $.map(data.data, function(el) { return el });		
 				showMsg('alert',data.msg,data.type_msg);               		
-				vCategoryArticleTable.clear().draw();
-				vCategoryArticleTable.rows.add(list).draw();
+				vCategoryProductTable.clear().draw();
+				vCategoryProductTable.rows.add(list).draw();
 				spinner.hide();
 			},
 			beforeSend  : function(jqXHR,setting){
@@ -235,8 +235,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			success: function (data, status, jqXHR) {   	
 				var list = $.map(data.data, function(el) { return el });		
 				showMsg('alert',data.msg,data.type_msg);               		
-				vCategoryArticleTable.clear().draw();
-				vCategoryArticleTable.rows.add(list).draw();
+				vCategoryProductTable.clear().draw();
+				vCategoryProductTable.rows.add(list).draw();
 				spinner.hide();
 			},
 			beforeSend  : function(jqXHR,setting){
@@ -263,9 +263,10 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 				type: 'POST', 
 				             
 				data: dataItem,
-				async:0,
+				async:false,
 				success: function (data, status, jqXHR) {  
-					var data = $.map(data, function(el) { return el }); 				                               				
+					var data = $.map(data, function(el) { return el }); 				                               	
+					console.log(data);		
 					data_sort = new Array(data.length);
 					for(var i=0;i<data_sort.length;i++){					
 						var sort_order=parseInt($(data[i]["sort_order"]).val());						
@@ -278,7 +279,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 				},
 			});
 		}	
-		var data=new Array(data_sort.length);
+		var data=new Array(data_sort.length);	
 		for(var i=0;i<data_sort.length;i++){								
 			var sort_order=parseInt(data_sort[i].sort_order);
 			if(parseInt(id)==parseInt(data_sort[i].id)){

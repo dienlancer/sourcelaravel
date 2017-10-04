@@ -12,7 +12,7 @@ $status                 =   (count($arrRowData) > 0) ? @$arrRowData['status'] : 
 $arrStatus              =   array(-1 => '- Select status -', 1 => 'Publish', 0 => 'Unpublish');  
 $ddlStatus              =   cmsSelectbox("status","status","form-control",$arrStatus,$status,"");
 $parent_id              =   (count($arrRowData) > 0) ? @$arrRowData['parent_id'] : null ; 
-$ddlCategoryArticle     =   cmsSelectboxCategory('category_article_id','category_article_id', 'form-control', $arrCategoryArticleRecursive, $parent_id,"");
+$ddlCategoryProduct     =   cmsSelectboxCategory('category_product_id','category_product_id', 'form-control', $arrCategoryProductRecursive, $parent_id,"");
 $id                     =   (count($arrRowData) > 0) ? @$arrRowData['id'] : "" ;
 $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$id.'" />'; 
 $picture                =   "";
@@ -64,7 +64,7 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
                     <div class="form-group col-md-6">
                         <label class="col-md-3 control-label"><b>Parent</b></label>
                         <div class="col-md-9">
-                            <?php echo $ddlCategoryArticle; ?>
+                            <?php echo $ddlCategoryProduct; ?>
                             <span class="help-block"></span>
                         </div>
                     </div>   
@@ -106,19 +106,19 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
         var id                   =   $("#id");
         var fullname             =   $("#fullname");
         var alias                =   $("#alias");
-        var category_article_id  =   $("#category_article_id");
+        var category_product_id  =   $("#category_product_id");
         var sort_order           =   $("#sort_order");
         var status               =   $("#status");
         
         $(fullname).closest('.form-group').removeClass("has-error");
         $(alias).closest('.form-group').removeClass("has-error");
-        $(category_article_id).closest('.form-group').removeClass("has-error");
+        $(category_product_id).closest('.form-group').removeClass("has-error");
         $(sort_order).closest('.form-group').removeClass("has-error");
         $(status).closest('.form-group').removeClass("has-error");        
 
         $(fullname).closest('.form-group').find('span').empty().hide();
         $(alias).closest('.form-group').find('span').empty().hide();
-        $(category_article_id).closest('.form-group').find('span').empty().hide();
+        $(category_product_id).closest('.form-group').find('span').empty().hide();
         $(sort_order).closest('.form-group').find('span').empty().hide();
         $(status).closest('.form-group').find('span').empty().hide();        
     }
@@ -176,7 +176,7 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
         var id=$("#id").val();        
         var fullname=$("#fullname").val();
         var alias=$("#alias").val();
-        var category_article_id=$("#category_article_id").val();
+        var category_product_id=$("#category_product_id").val();
         var image = $("#image").val();
         if (image != '')
             image = image.substr(image.lastIndexOf('\\') + 1);       
@@ -189,7 +189,7 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
             "id":id,
             "fullname":fullname,
             "alias":alias,
-            "category_article_id":category_article_id,
+            "category_product_id":category_product_id,
             "image":image,
             "image_hidden":image_hidden,
             "sort_order":sort_order,
