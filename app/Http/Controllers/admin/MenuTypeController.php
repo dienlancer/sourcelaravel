@@ -152,13 +152,21 @@ public function updateStatus(Request $request){
   $checked                =   1;
   $type_msg               =   "alert-success";
   $msg                    =   "Update successfully";     
-  foreach ($arrID as $key => $value) {
+  if(empty($str_id)){
+            $checked                =   0;
+            $type_msg               =   "alert-warning";            
+            $msg                    =   "Please choose at least one item to delete";
+        }
+        if($checked==1){
+          foreach ($arrID as $key => $value) {
     if(!empty($value)){
       $item=MenuTypeModel::find($value);
       $item->status=$status;
       $item->save();      
     }            
   }
+        }         
+  
   $data                   =   $this->loadData($request);
   $info = array(
     'checked'           => $checked,
