@@ -43,7 +43,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 						<th width="1%"><input type="checkbox" onclick="checkAllAgent(this)"  name="checkall-toggle"></th>                
 						<th>Fullname</th>
 						<th>Alias</th>		
-						<th>Parent</th>				
+						<th width="1%">Parent</th>				
 						<th width="1%">Image</th>
 						<th width="1%">Sort</th>
 						<th width="1%">Status</th>							
@@ -69,8 +69,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			type: 'POST', 		     
 			data: dataItem,			
 			success: function (data, status, jqXHR) {   	
-	            var data = $.map(data, function(el) { return el });
-	            console.log(data);
+				console.log(data);
+	            var data = $.map(data, function(el) { return el });	            
 				basicTable.init();
 				vCategoryArticleTable.clear().draw();
 				vCategoryArticleTable.rows.add(data).draw();
