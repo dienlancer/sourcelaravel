@@ -37,8 +37,7 @@ function categoryArticleRecursive($data ,$parent=null,$str="--",&$arrRecursiveMe
 function categoryArticleRecursiveFormArticle($data ,$parent=null,$str="--",&$arrRecursiveMenu){
   foreach ($data as $key => $val) {    
     $id=$val["id"];
-    $fullname=$val["fullname"];
-    $alias=$val["alias"];    
+    $fullname=$val["fullname"];  
     $parent_id=$val["parent_id"];    
     if((int)$val["parent_id"] == (int)$parent) {          
           $arrRecursiveMenu[$key]["id"]=$id;

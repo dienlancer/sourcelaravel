@@ -36,13 +36,11 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			<table class="table table-striped table-bordered table-hover table-checkable order-column" id="tbl-menu-type">
 				<thead>
 					<tr>
-						<th><input type="checkbox" onclick="checkAllAgent(this)"  name="checkall-toggle"></th>                
+						<th width="1%"><input type="checkbox" onclick="checkAllAgent(this)"  name="checkall-toggle"></th>                
 						<th>Fullname</th>						
-						<th>Sort</th>						
-						<th>Created at</th>
-						<th>Updated at</th>     
-						<th>Edit</th>  
-						<th>Delete</th>                
+						<th width="1%">Sort</th>					
+						<th width="1%">Edit</th>  
+						<th width="1%">Delete</th>                  
 					</tr>
 				</thead>
 				<tbody>                                                

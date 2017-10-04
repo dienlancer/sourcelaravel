@@ -117,7 +117,7 @@ class MenuController extends Controller {
             if(empty($site_link)){
                 $checked = 0;
                 $error["site_link"]["type_msg"] = "has-error";
-                $error["site_link"]["msg"] = "site_link is required";
+                $error["site_link"]["msg"] = "Sitelink is required";
             }else{
                 $data=array();
                 if (empty($id)) {
@@ -128,7 +128,7 @@ class MenuController extends Controller {
                 if (count($data) > 0) {
                   $checked = 0;
                   $error["site_link"]["type_msg"] = "has-error";
-                  $error["site_link"]["msg"] = "site_link is existed in system";
+                  $error["site_link"]["msg"] = "Sitelink is existed in system";
                 }       
             }
             if(empty($sort_order)){

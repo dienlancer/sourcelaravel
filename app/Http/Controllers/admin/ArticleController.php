@@ -53,6 +53,7 @@ class ArticleController extends Controller {
         $title="";
         $icon=$this->_icon; 
         $arrRowData=array();
+        $arrArticleCategory=array();
         switch ($task) {
            case 'edit':
               $title=$this->_title . " : Update";

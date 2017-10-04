@@ -1,7 +1,7 @@
 @extends("admin.master")
 @section("content")
 <?php 
-$linkNew			=	route('admin.'.$controller.'.getForm',['add',$menu_type_id]);
+$linkNew			=	route('admin.'.$controller.'.getForm',['add',@$menu_type_id]);
 $linkCancel			=	route('admin.'.$controller.'.getList');
 $linkLoadData		=	route('admin.'.$controller.'.loadData');
 $linkChangeStatus	=	route('admin.'.$controller.'.changeStatus');
@@ -41,14 +41,12 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			<table class="table table-striped table-bordered table-hover table-checkable order-column" id="tbl-menu">
 				<thead>
 					<tr>
-						<th><input type="checkbox" onclick="checkAllAgent(this)"  name="checkall-toggle"></th>                
+						<th width="1%"><input type="checkbox" onclick="checkAllAgent(this)"  name="checkall-toggle"></th>                
 						<th>Fullname</th>						
-						<th>Sort</th>
-						<th>Status</th>
-						<th>Created at</th>
-						<th>Update at</th>     
-						<th>Edit</th>  
-						<th>Delete</th>                
+						<th width="1%">Sort</th>
+						<th width="1%">Status</th>						
+						<th width="1%">Edit</th>  
+						<th width="1%">Delete</th>                    
 					</tr>
 				</thead>
 				<tbody>                                                

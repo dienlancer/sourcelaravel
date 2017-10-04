@@ -12,9 +12,7 @@ var basicTable = function () {
                 { data: "parent_fullname"     },
                 { data: "image"         },
                 { data: "sort_order"    },
-                { data: "status"        },
-                { data: "created_at"    },
-                { data: "updated_at"    },
+                { data: "status"        },                            
                 { data: "edited"    },         
                 { data: "deleted"    },                
             ]
@@ -25,11 +23,10 @@ var basicTable = function () {
             columns: [                
                 { data: "checked"            },
                 { data: "fullname"      },
+                { data: "alias"      },
                 { data: "image"         },
                 { data: "sort_order"    },
-                { data: "status"        },
-                { data: "created_at"    },
-                { data: "updated_at"    },
+                { data: "status"        },                                
                 { data: "edited"    },         
                 { data: "deleted"    },                
             ]
@@ -40,9 +37,7 @@ var basicTable = function () {
             columns: [                
                 { data: "checked"            },
                 { data: "fullname"      },               
-                { data: "sort_order"    },                
-                { data: "created_at"    },
-                { data: "updated_at"    },
+                { data: "sort_order"    },                                                
                 { data: "edited"    },         
                 { data: "deleted"    },                
             ]
@@ -54,9 +49,7 @@ var basicTable = function () {
                 { data: "checked"            },
                 { data: "fullname"      },               
                 { data: "sort_order"    },   
-                { data: "status"        },            
-                { data: "created_at"    },
-                { data: "updated_at"    },
+                { data: "status"        },                                        
                 { data: "edited"    },         
                 { data: "deleted"    },                
             ]

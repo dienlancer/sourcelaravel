@@ -48,7 +48,7 @@ class CategoryArticleController extends Controller {
           $controller=$this->_controller;			
           $title="";
           $icon=$this->_icon; 
-          $arrRowData=array();
+          $arrRowData=array();                     
           switch ($task) {
             case 'edit':
                 $title=$this->_title . " : Update";
@@ -57,11 +57,10 @@ class CategoryArticleController extends Controller {
             case 'add':
                 $title=$this->_title . " : Add new";
             break;			
-         }		
-         $arrCategoryArticle=DB::select('call pro_getCategoryArticle(?)',array(""));
-         $arrCategoryArticle=convertToArray($arrCategoryArticle);
+         }		         
+         $arrCategoryArticle=CategoryArticleModel::select("id","fullname","parent_id")->where("id","!=",(int)$id)->orderBy("sort_order","asc")->get()->toArray();
          $arrCategoryArticleRecursive=array();			
-         categoryArticleRecursive($arrCategoryArticle ,0,"",$arrCategoryArticleRecursive)	 ;			
+         categoryArticleRecursiveFormArticle($arrCategoryArticle ,0,"",$arrCategoryArticleRecursive)	 ;			
          return view("admin.".$this->_controller.".form",compact("arrCategoryArticleRecursive","arrRowData","controller","task","title","icon"));	
      }
     public function save(Request $request){
