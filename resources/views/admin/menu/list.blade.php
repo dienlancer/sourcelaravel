@@ -95,10 +95,12 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 	}	
 	function changeStatus(id,status){		
 		var token = $('input[name="_token"]').val();   
+		var menu_type_id = $("#menu_type_id").val();
 		var dataItem={   
 			'id':id,
 			'status':status,         
-			'_token': token
+			'_token': token,
+			'menu_type_id':menu_type_id
 		};
 		$.ajax({
 			url: '<?php echo $linkChangeStatus; ?>',
@@ -128,9 +130,11 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		if(xac_nhan  == 0)
 			return 0;
 		var token 	 = $('input[name="_token"]').val();   
+		var menu_type_id = $("#menu_type_id").val();
 		var dataItem ={   
 			'id':id,			
-			'_token': token
+			'_token': token,
+			'menu_type_id':menu_type_id
 		};
 		$.ajax({
 			url: '<?php echo $linkDelete; ?>',
@@ -152,6 +156,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 	}
 	function updateStatus(status){		
 		var token 	= 	$('input[name="_token"]').val();   
+		var menu_type_id = $("#menu_type_id").val();
 		var dt 		= 	vMenuTable.data();
 		var str_id	=	"";		
 		for(var i=0;i<dt.length;i++){
@@ -163,7 +168,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		var dataItem ={   
 			'str_id':str_id,
 			'status':status,			
-			'_token': token
+			'_token': token,
+			'menu_type_id':menu_type_id
 		};
 		$.ajax({
 			url: '<?php echo $linkUpdateStatus; ?>',
@@ -186,6 +192,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 	function trash(){	
 		var xac_nhan = 0;
 		var msg="Do you really want to delete this item ?";
+		var menu_type_id = $("#menu_type_id").val();
 		if(window.confirm(msg)){ 
 			xac_nhan = 1;
 		}
@@ -202,7 +209,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		}
 		var dataItem ={   
 			'str_id':str_id,				
-			'_token': token
+			'_token': token,
+			'menu_type_id':menu_type_id
 		};
 		$.ajax({
 			url: '<?php echo $linkTrash; ?>',
@@ -224,15 +232,16 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 	}
 	function sort(){			
 		var token 	= 	$('input[name="_token"]').val();   
+		var menu_type_id = $("#menu_type_id").val();
 		var sort_json=$("#sort_json").val();
 		var dataItem ={   
 			sort_json:sort_json,		
-			'_token': token
+			'_token': token,
+			'menu_type_id':menu_type_id
 		};        
 		$.ajax({
 			url: '<?php echo $linkSortOrder; ?>',
-			type: 'POST', 
-			             
+			type: 'POST', 			             
 			data: dataItem,
 			success: function (data, status, jqXHR) {   	
 				var list = $.map(data.data, function(el) { return el });		
