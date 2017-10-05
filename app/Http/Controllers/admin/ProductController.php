@@ -2,13 +2,13 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\CategoryArticleModel;
-use App\ArticleModel;
-use App\ArticleCategoryModel;
+use App\CategoryProductModel;
+use App\ProductModel;
+use App\ProductCategoryModel;
 use DB;
-class ArticleController extends Controller {
-  	var $_controller="article";	
-  	var $_title="Article";
+class ProductController extends Controller {
+  	var $_controller="product";	
+  	var $_title="Product";
   	var $_icon="icon-settings font-dark";
   	public function getList(){		
     		$controller=$this->_controller;	
@@ -17,33 +17,33 @@ class ArticleController extends Controller {
     		$icon=$this->_icon;		
     		return view("admin.".$this->_controller.".list",compact("controller","task","title","icon"));	
   	}	
-    public function getStringCategoryArticleID($category_article_id,&$arrCategoryArticleID){    
-        $arrCategoryArticle=CategoryArticleModel::select("id")->where("parent_id","=",(int)@$category_article_id)->get()->toArray();
-        foreach ($arrCategoryArticle as $key => $value) {
-          $arrCategoryArticleID[]=$value["id"];
-          $this->getStringCategoryArticleID((int)$value["id"],$arrCategoryArticleID);
+    public function getStringCategoryProductID($category_product_id,&$arrCategoryProductID){    
+        $arrCategoryProduct=CategoryProductModel::select("id")->where("parent_id","=",(int)@$category_product_id)->get()->toArray();
+        foreach ($arrCategoryProduct as $key => $value) {
+          $arrCategoryProductID[]=$value["id"];
+          $this->getStringCategoryProductID((int)$value["id"],$arrCategoryProductID);
         }   
     }
   	public function loadData(Request $request){
     		$filter_search="";    
-        $category_article_id=0;  
+        $category_product_id=0;  
         if(!empty(@$request->filter_search)){      
-          $filter_search=trim(mb_strtolower(@$request->filter_search)) ;    
+          $filter_search=trim(mb_strtolower(@$request->filter_search)) ;   
         }
-        if(!empty(@$request->category_article_id)){
-          $category_article_id=(int)@$request->category_article_id;
+        if(!empty(@$request->category_product_id)){
+          $category_product_id=(int)@$request->category_product_id;
         }
         /* begin lấy chuỗi ID */
-        $arrCategoryArticleID=array();
-        $strCategoryArticleID="";
-        $arrCategoryArticleID[]=$category_article_id;
-        $this->getStringCategoryArticleID($category_article_id,$arrCategoryArticleID);    
-        $strCategoryArticleID=implode("#;#", $arrCategoryArticleID);    
-        $strCategoryArticleID="#".$strCategoryArticleID."#";    
+        $arrCategoryProductID=array();
+        $strCategoryProductID="";
+        $arrCategoryProductID[]=$category_product_id;
+        $this->getStringCategoryProductID($category_product_id,$arrCategoryProductID);    
+        $strCategoryProductID=implode("#;#", $arrCategoryProductID);    
+        $strCategoryProductID="#".$strCategoryProductID."#";    
         /* end lấy chuỗi ID */
-    		$data=DB::select('call pro_getArticle(?,?)',array($filter_search,$strCategoryArticleID));
+    		$data=DB::select('call pro_getProduct(?,?)',array($filter_search,$strCategoryProductID));
     		$data=convertToArray($data);		
-    		$data=articleConverter($data,$this->_controller);		    
+    		$data=productConverter($data,$this->_controller);		    
     		return $data;
   	}	
     public function getForm($task,$id=""){     
@@ -51,42 +51,56 @@ class ArticleController extends Controller {
         $title="";
         $icon=$this->_icon; 
         $arrRowData=array();
-        $arrArticleCategory=array();
+        $arrProductCategory=array();
         switch ($task) {
            case 'edit':
               $title=$this->_title . " : Update";
-              $arrRowData=ArticleModel::find($id)->toArray();       
-              $arrArticleCategory=ArticleCategoryModel::whereRaw("article_id = ?",[(int)@$id])->get()->toArray();
+              $arrRowData=ProductModel::find($id)->toArray();       
+              $arrProductCategory=ProductCategoryModel::whereRaw("product_id = ?",[(int)@$id])->get()->toArray();
            break;
            case 'add':
               $title=$this->_title . " : Add new";
            break;     
         }    
-        $arrCategoryArticle=CategoryArticleModel::select("id","fullname","alias","parent_id","image","sort_order","status","created_at","updated_at")->orderBy("sort_order","asc")->get()->toArray();        
-        $arrCategoryArticleRecursive=array();
-        categoryArticleRecursiveForm($arrCategoryArticle ,0,"",$arrCategoryArticleRecursive)   ;      
-        return view("admin.".$this->_controller.".form",compact("arrCategoryArticleRecursive","arrRowData","arrArticleCategory","controller","task","title","icon"));
+        $arrCategoryProduct=CategoryProductModel::select("id","fullname","alias","parent_id","image","sort_order","status","created_at","updated_at")->orderBy("sort_order","asc")->get()->toArray();        
+        $arrCategoryProductRecursive=array();
+        categoryProductRecursiveForm($arrCategoryProduct ,0,"",$arrCategoryProductRecursive)   ;      
+        return view("admin.".$this->_controller.".form",compact("arrCategoryProductRecursive","arrRowData","arrProductCategory","controller","task","title","icon"));
     }
      public function save(Request $request){
-          $id 					        =		trim($request->id);        
-          $fullname 				    =		trim($request->fullname);
-          $title                =   trim($request->title);
-          $alias 					      = 	trim($request->alias);
+          $id 					        =		trim($request->id);      
+          $code                 =   trim($request->code);  
+          $fullname 				    =		trim($request->fullname);          
+          $alias                =   trim($request->alias);
           $image                =   trim($request->image);
-          $image_hidden         =   trim($request->image_hidden);
-          $intro                =   trim($request->intro);
-          $content              =   trim($request->content);
-          $description          =   trim($request->description);
-          $meta_keyword         =   trim($request->meta_keyword);
-          $meta_description     =   trim($request->meta_description);
-          $sort_order           =   trim($request->sort_order);
           $status               =   trim($request->status);
-          $category_article_id	=		($request->category_article_id);            
+          $price                =   trim($request->price);                    
+          $detail               =   trim($request->detail);
+          $image_hidden         =   trim($request->image_hidden);          
+          $sort_order           =   trim($request->sort_order);          
+          $category_product_id	=		($request->category_product_id);            
           $data 		            =   array();
           $info 		            =   array();
           $error 		            =   array();
           $item		              =   null;
-          $checked 	            =   1;              
+          $checked 	            =   1;        
+          if(empty($code)){
+                 $checked = 0;
+                 $error["code"]["type_msg"] = "has-error";
+                 $error["code"]["msg"] = "code is required";
+          }else{
+              $data=array();
+              if (empty($id)) {
+                $data=ProductModel::whereRaw("trim(lower(code)) = ?",[trim(mb_strtolower($code,'UTF-8'))])->get()->toArray();           
+              }else{
+                $data=ProductModel::whereRaw("trim(lower(code)) = ? and id != ?",[trim(mb_strtolower($code,'UTF-8')),$id])->get()->toArray();   
+              }  
+              if (count($data) > 0) {
+                  $checked = 0;
+                  $error["code"]["type_msg"] = "has-error";
+                  $error["code"]["msg"] = "code is existed in system";
+              }       
+          }      
           if(empty($fullname)){
                  $checked = 0;
                  $error["fullname"]["type_msg"] = "has-error";
@@ -94,33 +108,16 @@ class ArticleController extends Controller {
           }else{
               $data=array();
               if (empty($id)) {
-                $data=ArticleModel::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get()->toArray();	        	
+                $data=ProductModel::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get()->toArray();	        	
               }else{
-                $data=ArticleModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),$id])->get()->toArray();		
+                $data=ProductModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),$id])->get()->toArray();		
               }  
               if (count($data) > 0) {
                   $checked = 0;
                   $error["fullname"]["type_msg"] = "has-error";
                   $error["fullname"]["msg"] = "Fullname is existed in system";
               }      	
-          }
-          if(empty($title)){
-                 $checked = 0;
-                 $error["title"]["type_msg"] = "has-error";
-                 $error["title"]["msg"] = "Title is required";
-          }else{
-              $data=array();
-              if (empty($id)) {
-                $data=ArticleModel::whereRaw("trim(lower(title)) = ?",[trim(mb_strtolower($title,'UTF-8'))])->get()->toArray();           
-              }else{
-                $data=ArticleModel::whereRaw("trim(lower(title)) = ? and id != ?",[trim(mb_strtolower($title,'UTF-8')),$id])->get()->toArray();   
-              }  
-              if (count($data) > 0) {
-                  $checked = 0;
-                  $error["title"]["type_msg"] = "has-error";
-                  $error["title"]["msg"] = "Title is existed in system";
-              }       
-          }
+          }          
           if(empty($alias)){
                 $checked = 0;
                 $error["alias"]["type_msg"] = "has-error";
@@ -128,9 +125,9 @@ class ArticleController extends Controller {
           }else{
                 $data=array();
                 if (empty($id)) {
-                  $data=ArticleModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias,'UTF-8'))])->get()->toArray();	        	
+                  $data=ProductModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias,'UTF-8'))])->get()->toArray();	        	
                 }else{
-                  $data=ArticleModel::whereRaw("trim(lower(alias)) = ? and id != ?",[trim(mb_strtolower($alias,'UTF-8')),$id])->get()->toArray();		
+                  $data=ProductModel::whereRaw("trim(lower(alias)) = ? and id != ?",[trim(mb_strtolower($alias,'UTF-8')),$id])->get()->toArray();		
                 }  
                 if (count($data) > 0) {
                   $checked = 0;
@@ -150,13 +147,13 @@ class ArticleController extends Controller {
           }
           if ($checked == 1) {    
                 if(empty($id)){
-                    $item 				= 	new ArticleModel;       
+                    $item 				= 	new ProductModel;       
                     $item->created_at 	=	date("Y-m-d H:i:s",time());        
                     if(!empty($image)){
                       $item->image    =   trim($image) ;  
                     }				
                 } else{
-                    $item				=	ArticleModel::find($id);   
+                    $item				=	ProductModel::find($id);   
                     $file_image="";                       
                     if(!empty($image_hidden)){
                       $file_image =$image_hidden;          
@@ -166,39 +163,36 @@ class ArticleController extends Controller {
                     }
                     $item->image=trim($file_image) ;            		  		 	
                 }  
-                $item->fullname 		=	$fullname;
-                $item->title = $title;
-                $item->alias 			=	$alias;
-                $item->intro= $intro;
-                $item->content=$content;
-                $item->description=$description;
-                $item->meta_keyword=$meta_keyword;
-                $item->meta_description=$meta_description;           
-                $item->sort_order 		=	$sort_order;
-                $item->status 			=	$status;    
+                $item->code = $code;
+                $item->fullname 		=	$fullname;                
+                $item->alias 			=	$alias;         
+                $item->status       = $status;    
+                $item->price       =(int)$price;
+                $item->detail = $detail;                                         
+                $item->sort_order 		=	$sort_order;                
                 $item->updated_at 		=	date("Y-m-d H:i:s",time());    	        	
                 $item->save();  	
-                if(!empty(@$category_article_id)){                            
-                    $arrArticleCategory=ArticleCategoryModel::whereRaw("article_id = ?",[@$item->id])->select("category_article_id")->get()->toArray();
-                    $arrCategoryArticleID=array();
-                    foreach ($arrArticleCategory as $key => $value) {
-                        $arrCategoryArticleID[]=$value["category_article_id"];
+                if(!empty(@$category_product_id)){                            
+                    $arrProductCategory=ProductCategoryModel::whereRaw("product_id = ?",[@$item->id])->select("category_product_id")->get()->toArray();
+                    $arrCategoryProductID=array();
+                    foreach ($arrProductCategory as $key => $value) {
+                        $arrCategoryProductID[]=$value["category_product_id"];
                     }
-                    $selected=@$category_article_id;
+                    $selected=@$category_product_id;
                     sort($selected);
-                    sort($arrCategoryArticleID);         
+                    sort($arrCategoryProductID);         
                     $resultCompare=0;
-                    if($selected == $arrCategoryArticleID){
+                    if($selected == $arrCategoryProductID){
                       $resultCompare=1;       
                     }
                     if($resultCompare==0){
-                          ArticleCategoryModel::whereRaw("article_id = ?",[(int)@$item->id])->delete();  
+                          ProductCategoryModel::whereRaw("product_id = ?",[(int)@$item->id])->delete();  
                           foreach ($selected as $key => $value) {
-                            $category_article_id=$value;
-                            $articleCategory=new ArticleCategoryModel;
-                            $articleCategory->article_id=@$item->id;
-                            $articleCategory->category_article_id=$category_article_id;            
-                            $articleCategory->save();
+                            $category_product_id=$value;
+                            $productCategory=new ProductCategoryModel;
+                            $productCategory->product_id=@$item->id;
+                            $productCategory->category_product_id=$category_product_id;            
+                            $productCategory->save();
                           }
                     }       
                 }
@@ -226,7 +220,7 @@ class ArticleController extends Controller {
                   $type_msg               =   "alert-success";
                   $msg                    =   "Update successfully";              
                   $status         =       (int)$request->status;
-                  $item           =       ArticleModel::find($id);        
+                  $item           =       ProductModel::find($id);        
                   $item->status   =       $status;
                   $item->save();
                   $data                   =   $this->loadData($request);
@@ -244,7 +238,7 @@ class ArticleController extends Controller {
             $type_msg               =   "alert-success";
             $msg                    =   "Delete successfully";                      
             if($checked == 1){
-                $item = ArticleModel::find($id);
+                $item = ProductModel::find($id);
                 $item->image     = null;      
                 $item->save();  
             }          
@@ -261,9 +255,9 @@ class ArticleController extends Controller {
             $type_msg               =   "alert-success";
             $msg                    =   "Delete successfully";                    
             if($checked == 1){
-              $item = ArticleModel::find($id);
+              $item = ProductModel::find($id);
                 $item->delete();
-                ArticleCategoryModel::whereRaw("article_id = ?",[(int)$id])->delete();
+                ProductCategoryModel::whereRaw("product_id = ?",[(int)$id])->delete();
             }        
             $data                   =   $this->loadData($request);
             $info = array(
@@ -289,7 +283,7 @@ class ArticleController extends Controller {
           if($checked==1){
               foreach ($arrID as $key => $value) {
                 if(!empty($value)){
-                    $item=ArticleModel::find($value);
+                    $item=ProductModel::find($value);
                     $item->status=$status;
                     $item->save();      
                 }            
@@ -318,10 +312,10 @@ class ArticleController extends Controller {
             if($checked == 1){                
                   $strID = implode(',',$arrID);   
                   $strID=substr($strID, 0,strlen($strID) - 1);
-                  $sqlDeleteArticle = "DELETE FROM `article` WHERE `id` IN  (".$strID.")";       
-                  $sqlDeleteArticleCategory = "DELETE FROM `article_category` WHERE `article_id` IN (".$strID.")";                
-                  DB::statement($sqlDeleteArticle);
-                  DB::statement($sqlDeleteArticleCategory);           
+                  $sqlDeleteproduct = "DELETE FROM `product` WHERE `id` IN  (".$strID.")";       
+                  $sqlDeleteproductCategory = "DELETE FROM `product_category` WHERE `product_id` IN (".$strID.")";                
+                  DB::statement($sqlDeleteproduct);
+                  DB::statement($sqlDeleteproductCategory);           
             }
             $data                   =   $this->loadData($request);
             $info = array(
@@ -340,7 +334,7 @@ class ArticleController extends Controller {
             $msg                    =   "Update successfully";      
             if(count($data_order) > 0){              
               foreach($data_order as $key => $value){                                        
-                $item=ArticleModel::find((int)$value->id);                
+                $item=ProductModel::find((int)$value->id);                
                 $item->sort_order=(int)$value->sort_order;                         
                 $item->save();                      
               }           

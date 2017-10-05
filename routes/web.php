@@ -14,15 +14,18 @@ Route::group(["prefix"=>"admin"],function(){
 		Route::post("upload-file",["as"=>"admin.category-product.uploadFile","uses"=>"admin\CategoryProductController@uploadFile"]);
 	});
 	Route::group(["prefix"=>"product"],function(){		
-		Route::match(["get","post"],"list",["as"=>"admin.product.getList","uses"=>"admin\ProductController@getList"]);
+		Route::get("list",["as"=>"admin.product.getList","uses"=>"admin\ProductController@getList"]);
+		Route::post("load-data",["as"=>"admin.product.loadData","uses"=>"admin\ProductController@loadData"]);		
 		Route::get("form/{task}/{id?}",["as"=>"admin.product.getForm","uses"=>"admin\ProductController@getForm"]);
-		Route::post("form/{task}",["as"=>"admin.product.postForm","uses"=>"admin\ProductController@postForm"]);
-		Route::get("delete/{id}",["as"=>"admin.product.getDelete","uses"=>"admin\ProductController@getDelete"]);
-		Route::post("ordering",["as"=>"admin.product.postOrdering","uses"=>"admin\ProductController@postOrdering"]);
-		Route::post("status/{status}",["as"=>"admin.product.postStatus","uses"=>"admin\ProductController@postStatus"]);
-		Route::get("ajaxStatus/{id}/{status}",["as"=>"admin.product.getAjaxStatus","uses"=>"admin\ProductController@getAjaxStatus"]);
-		Route::post("trash",["as"=>"admin.product.postTrash","uses"=>"admin\ProductController@postTrash"]);
-	});	
+		Route::post("save",["as"=>"admin.product.save","uses"=>"admin\ProductController@save"]);
+		Route::post("delete-item",["as"=>"admin.product.deleteItem","uses"=>"admin\ProductController@deleteItem"]);
+		Route::post("delete-image",["as"=>"admin.product.deleteImage","uses"=>"admin\ProductController@deleteImage"]);
+		Route::post("sort-order",["as"=>"admin.product.sortOrder","uses"=>"admin\ProductController@sortOrder"]);
+		Route::post("update-status",["as"=>"admin.product.updateStatus","uses"=>"admin\ProductController@updateStatus"]);
+		Route::post("change-status",["as"=>"admin.product.changeStatus","uses"=>"admin\ProductController@changeStatus"]);
+		Route::post("trash",["as"=>"admin.product.trash","uses"=>"admin\ProductController@trash"]);
+		Route::post("upload-file",["as"=>"admin.product.uploadFile","uses"=>"admin\ProductController@uploadFile"]);
+	});		
 	Route::group(["prefix"=>"privilege"],function(){		
 		Route::match(["get","post"],"list",["as"=>"admin.privilege.getList","uses"=>"admin\PrivilegeController@getList"]);
 		Route::get("form/{task}/{id?}",["as"=>"admin.privilege.getForm","uses"=>"admin\PrivilegeController@getForm"]);
@@ -141,35 +144,27 @@ Route::group(["prefix"=>"admin"],function(){
 		Route::post("trash",["as"=>"admin.menu-type.trash","uses"=>"admin\MenuTypeController@trash"]);		
 	});		
 	Route::group(["prefix"=>"module-menu"],function(){		
-		Route::match(["get","post"],"list",["as"=>"admin.module-menu.getList","uses"=>"admin\ModuleMenuController@getList"]);
+		Route::get("list",["as"=>"admin.module-menu.getList","uses"=>"admin\ModuleMenuController@getList"]);
+		Route::post("load-data",["as"=>"admin.module-menu.loadData","uses"=>"admin\ModuleMenuController@loadData"]);		
 		Route::get("form/{task}/{id?}",["as"=>"admin.module-menu.getForm","uses"=>"admin\ModuleMenuController@getForm"]);
-		Route::post("form/{task}",["as"=>"admin.module-menu.postForm","uses"=>"admin\ModuleMenuController@postForm"]);
-		Route::get("delete/{id}",["as"=>"admin.module-menu.getDelete","uses"=>"admin\ModuleMenuController@getDelete"]);
-		Route::post("ordering",["as"=>"admin.module-menu.postOrdering","uses"=>"admin\ModuleMenuController@postOrdering"]);
-		Route::post("status/{status}",["as"=>"admin.module-menu.postStatus","uses"=>"admin\ModuleMenuController@postStatus"]);
-		Route::get("ajaxStatus/{id}/{status}",["as"=>"admin.module-menu.getAjaxStatus","uses"=>"admin\ModuleMenuController@getAjaxStatus"]);
-		Route::post("trash",["as"=>"admin.module-menu.postTrash","uses"=>"admin\ModuleMenuController@postTrash"]);
-	});	
-	Route::group(["prefix"=>"module-custom"],function(){		
-		Route::match(["get","post"],"list",["as"=>"admin.module-custom.getList","uses"=>"admin\ModuleCustomController@getList"]);
-		Route::get("form/{task}/{id?}",["as"=>"admin.module-custom.getForm","uses"=>"admin\ModuleCustomController@getForm"]);
-		Route::post("form/{task}",["as"=>"admin.module-custom.postForm","uses"=>"admin\ModuleCustomController@postForm"]);
-		Route::get("delete/{id}",["as"=>"admin.module-custom.getDelete","uses"=>"admin\ModuleCustomController@getDelete"]);
-		Route::post("ordering",["as"=>"admin.module-custom.postOrdering","uses"=>"admin\ModuleCustomController@postOrdering"]);
-		Route::post("status/{status}",["as"=>"admin.module-custom.postStatus","uses"=>"admin\ModuleCustomController@postStatus"]);
-		Route::get("ajaxStatus/{id}/{status}",["as"=>"admin.module-custom.getAjaxStatus","uses"=>"admin\ModuleCustomController@getAjaxStatus"]);
-		Route::post("trash",["as"=>"admin.module-custom.postTrash","uses"=>"admin\ModuleCustomController@postTrash"]);
-	});	
+		Route::post("save",["as"=>"admin.module-menu.save","uses"=>"admin\ModuleMenuController@save"]);
+		Route::post("delete-item",["as"=>"admin.module-menu.deleteItem","uses"=>"admin\ModuleMenuController@deleteItem"]);		
+		Route::post("sort-order",["as"=>"admin.module-menu.sortOrder","uses"=>"admin\ModuleMenuController@sortOrder"]);
+		Route::post("update-status",["as"=>"admin.module-menu.updateStatus","uses"=>"admin\ModuleMenuController@updateStatus"]);
+		Route::post("change-status",["as"=>"admin.module-menu.changeStatus","uses"=>"admin\ModuleMenuController@changeStatus"]);
+		Route::post("trash",["as"=>"admin.module-menu.trash","uses"=>"admin\ModuleMenuController@trash"]);		
+	});
 	Route::group(["prefix"=>"module-article"],function(){		
-		Route::match(["get","post"],"list",["as"=>"admin.module-article.getList","uses"=>"admin\ModuleArticleController@getList"]);
+		Route::get("list",["as"=>"admin.module-article.getList","uses"=>"admin\ModuleArticleController@getList"]);
+		Route::post("load-data",["as"=>"admin.module-article.loadData","uses"=>"admin\ModuleArticleController@loadData"]);		
 		Route::get("form/{task}/{id?}",["as"=>"admin.module-article.getForm","uses"=>"admin\ModuleArticleController@getForm"]);
-		Route::post("form/{task}",["as"=>"admin.module-article.postForm","uses"=>"admin\ModuleArticleController@postForm"]);
-		Route::get("delete/{id}",["as"=>"admin.module-article.getDelete","uses"=>"admin\ModuleArticleController@getDelete"]);
-		Route::post("ordering",["as"=>"admin.module-article.postOrdering","uses"=>"admin\ModuleArticleController@postOrdering"]);
-		Route::post("status/{status}",["as"=>"admin.module-article.postStatus","uses"=>"admin\ModuleArticleController@postStatus"]);
-		Route::get("ajaxStatus/{id}/{status}",["as"=>"admin.module-article.getAjaxStatus","uses"=>"admin\ModuleArticleController@getAjaxStatus"]);
-		Route::post("trash",["as"=>"admin.module-article.postTrash","uses"=>"admin\ModuleArticleController@postTrash"]);
-	});		
+		Route::post("save",["as"=>"admin.module-article.save","uses"=>"admin\ModuleArticleController@save"]);
+		Route::post("delete-item",["as"=>"admin.module-article.deleteItem","uses"=>"admin\ModuleArticleController@deleteItem"]);		
+		Route::post("sort-order",["as"=>"admin.module-article.sortOrder","uses"=>"admin\ModuleArticleController@sortOrder"]);
+		Route::post("update-status",["as"=>"admin.module-article.updateStatus","uses"=>"admin\ModuleArticleController@updateStatus"]);
+		Route::post("change-status",["as"=>"admin.module-article.changeStatus","uses"=>"admin\ModuleArticleController@changeStatus"]);
+		Route::post("trash",["as"=>"admin.module-article.trash","uses"=>"admin\ModuleArticleController@trash"]);		
+	});
 	Route::group(["prefix"=>"media"],function(){		
 		Route::match(["get","post"],"list",["as"=>"admin.media.getList","uses"=>"admin\MediaController@getList"]);
 		Route::get("form/{task}/{id?}",["as"=>"admin.media.getForm","uses"=>"admin\MediaController@getForm"]);

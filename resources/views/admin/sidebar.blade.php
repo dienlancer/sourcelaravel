@@ -51,5 +51,26 @@
                     <i class="icon-notebook"></i>
                     <span class="title">Menu</span>                                            
                 </a>                                                                      
-    </li>                                                    
+    </li> 
+    <li class="nav-item  ">
+        <a href="javascript:;" class="nav-link nav-toggle">
+            <i class="fa fa-folder-open-o" ></i>
+            <span class="title">Module</span>
+            <span class="arrow"></span>
+        </a>
+        <ul class="sub-menu">                                    
+            <li class="nav-item  ">
+                <a href="{!! route('admin.module-menu.getList') !!}" class="nav-link nav-toggle">
+                    <i class="icon-notebook"></i>
+                    <span class="title">Module menu</span>                                            
+                </a>                                                                      
+            </li>
+            <li class="nav-item  ">
+                <a href="{!! route('admin.module-article.getList') !!}" class="nav-link nav-toggle">
+                    <i class="icon-notebook"></i>
+                    <span class="title">Module article</span>                                            
+                </a>                                                                      
+            </li>
+        </ul>
+    </li>                                                   
 </ul>

@@ -3,6 +3,8 @@ var vArticleTable=null;
 var vMenuTypeTable=null;
 var vMenuTable=null;
 var vCategoryProductTable=null;
+var vProductTable=null;
+var vModuleMenuTable=null;
 var basicTable = function () {
     var initCategoryArticleTable = function () {
         vCategoryArticleTable = $('#tbl-category-article').DataTable({
@@ -71,6 +73,33 @@ var basicTable = function () {
             ]
         });        
     };
+    var initProductTable = function () {
+        vProductTable = $('#tbl-product').DataTable({
+            columns: [                
+                { data: "checked"       },
+                { data: "fullname"      },
+                { data: "alias"         },
+                { data: "image"         },
+                { data: "sort_order"    },
+                { data: "status"        },                                
+                { data: "edited"        },         
+                { data: "deleted"       },                
+            ]
+        });        
+    };
+    var initModuleMenuTable = function () {
+        vModuleMenuTable = $('#tbl-module-menu').DataTable({
+            columns: [                
+                { data: "checked"       },
+                { data: "fullname"      },
+                { data: "position"         },                
+                { data: "sort_order"    },
+                { data: "status"        },                                
+                { data: "edited"        },         
+                { data: "deleted"       },                
+            ]
+        });        
+    };
     return {
         init: function () {
             if (!jQuery().dataTable)
@@ -78,8 +107,10 @@ var basicTable = function () {
             initCategoryArticleTable();  
             initCategoryProductTable();  
             initArticleTable();
+            initProductTable();
             initMenuTypeTable();
             initMenuTable();
+            initModuleMenuTable();
         }
     };
 }();

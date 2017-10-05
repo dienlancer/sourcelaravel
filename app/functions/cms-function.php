@@ -51,6 +51,25 @@ function cmsSelectboxCategoryArticleMultiple($id,$name, $class, $arrValue, $arrV
     $xhtml .= '</select>';
     return $xhtml;
   }
+  function cmsSelectboxCategoryProductMultiple($id,$name, $class, $arrValue, $arrValueSelected,$disabled){
+    $xhtml = '<select size="20" id="'.$id.'" name="'.$name.'" class="'.$class.'" '.$disabled.' multiple="multiple" >';
+    $xhtml .= '<option value = "">--Chọn danh mục--</option>';
+    foreach($arrValue as $key => $value){
+      $id=$value["id"];
+      $name=$value["fullname"];     
+      $strOption='<option value="'.$id.'">'.$name.'</option>';
+      if(!empty($arrValueSelected)){
+          foreach($arrValueSelected as $key_1 => $value_1) {
+              if((int)$id == (int)$value_1["category_product_id"]){
+                $strOption = str_replace('<option', '<option selected="selected" ', $strOption);
+              }
+          }
+      }      
+      $xhtml .=$strOption;
+    }
+    $xhtml .= '</select>';
+    return $xhtml;
+  }
 function cmsSelectboxMenuMultiple($id,$name, $class, $arrValue, $arrValueSelected,$disabled){
   $xhtml = '<select size="20" id="'.$id.'" name="'.$name.'" class="'.$class.'" '.$disabled.' multiple="multiple" >';
   $xhtml .= '<option value = "">--Chọn danh mục--</option>';

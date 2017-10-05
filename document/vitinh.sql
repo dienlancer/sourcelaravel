@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 03, 2017 lúc 01:05 PM
+-- Thời gian đã tạo: Th10 05, 2017 lúc 09:02 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -70,8 +70,8 @@ SELECT
 end$$
 
 DROP PROCEDURE IF EXISTS `pro_getCategoryArticle`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getCategoryArticle` (IN `keyword` VARCHAR(255))  BEGIN
-	SELECT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getCategoryArticle` (IN `keyword` VARCHAR(255))  BEGIN	
+    SELECT
     0 AS is_checked,
 	n.id,
 	n.fullname,
@@ -87,15 +87,37 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getCategoryArticle` (IN `keywor
     `category_article` n
     LEFT JOIN `category_article` a ON n.parent_id = a.id
     WHERE
-    ( (keyword='') or ( LOWER(n.fullname) LIKE CONCAT('%',keyword,'%')  ) )
+    ( (keyword='') OR ( LOWER(n.fullname) LIKE CONCAT('%',LOWER(keyword),'%')  ) )
     ORDER BY n.sort_order ASC       
     ;
 END$$
 
+DROP PROCEDURE IF EXISTS `pro_getCategoryProduct`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getCategoryProduct` (IN `keyword` VARCHAR(255) CHARSET utf8)  NO SQL
+SELECT
+    0 AS is_checked,
+	n.id,
+	n.fullname,
+	n.alias,
+	n.parent_id,
+	a.fullname AS parent_fullname,
+	n.image,
+	n.sort_order,
+	n.status,
+	n.created_at,
+	n.updated_at
+	FROM 
+    `category_product` n
+    LEFT JOIN `category_product` a ON n.parent_id = a.id
+    WHERE
+    ( (keyword='') OR ( LOWER(n.fullname) LIKE CONCAT('%',LOWER(keyword),'%')  ) )
+    ORDER BY n.sort_order ASC$$
+
 DROP PROCEDURE IF EXISTS `pro_getMenu`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getMenu` (IN `keyword` VARCHAR(255), IN `menu_type_id` INT(11))  BEGIN
 SELECT 
-	n.id
+0 AS is_checked
+	,n.id
 	,n.fullname
 	,n.alias
 	,n.site_link
@@ -133,6 +155,53 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getMenuType` (IN `keyword` VARC
     ;
 END$$
 
+DROP PROCEDURE IF EXISTS `pro_getModuleMenu`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getModuleMenu` (IN `keyword` VARCHAR(255) CHARSET utf8)  SELECT 
+	* FROM 
+    `module_menu` n
+    WHERE
+    (keyword ='' OR LOWER(n.fullname) LIKE CONCAT('%', LOWER(keyword) ,'%'))    
+    ORDER BY n.sort_order ASC$$
+
+DROP PROCEDURE IF EXISTS `pro_getProduct`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getProduct` (IN `keyword` VARCHAR(255), IN `strCategoryProductID` VARCHAR(255))  begin
+SELECT
+    0 AS is_checked
+    ,n.id
+    ,n.code
+    ,n.fullname
+    ,n.alias   
+    ,n.image
+    ,n.status
+    ,n.child_image
+    ,n.price
+    ,n.detail
+    ,n.sort_order
+    ,n.created_at    
+    ,n.updated_at
+	 FROM 
+    `product` n
+    LEFT JOIN `product_category` ac ON n.id = ac.product_id
+    LEFT JOIN `category_product` cate ON ac.category_product_id = cate.id
+    WHERE
+    (keyword ='' OR LOWER(n.fullname) LIKE CONCAT('%',LOWER(keyword),'%'))
+    AND (strCategoryProductID = '#0#' OR INSTR(strCategoryProductID,'#'+ac.category_product_id+'#') > 0)
+     GROUP BY 
+    n.id
+    ,n.code
+    ,n.fullname
+    ,n.alias   
+    ,n.image
+    ,n.status
+    ,n.child_image
+    ,n.price
+    ,n.detail
+    ,n.sort_order
+    ,n.created_at    
+    ,n.updated_at
+    ORDER BY n.sort_order ASC;
+end$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -166,7 +235,7 @@ CREATE TABLE `album` (
   `parent_id` int(11) DEFAULT NULL,
   `image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `sort_order` int(11) DEFAULT NULL,
-  `status` int(1) NOT NULL,
+  `status` int(1) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -195,11 +264,11 @@ CREATE TABLE `article` (
   `image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `intro` longtext COLLATE utf8_unicode_ci,
   `content` longtext COLLATE utf8_unicode_ci,
-  `description` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `description` longtext COLLATE utf8_unicode_ci,
   `meta_keyword` text COLLATE utf8_unicode_ci,
   `meta_description` text COLLATE utf8_unicode_ci,
   `sort_order` int(11) DEFAULT NULL,
-  `status` int(1) NOT NULL,
+  `status` int(1) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -209,7 +278,7 @@ CREATE TABLE `article` (
 --
 
 INSERT INTO `article` (`id`, `fullname`, `title`, `alias`, `image`, `intro`, `content`, `description`, `meta_keyword`, `meta_description`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(3, '1', '1', '1', '12965808_1.jpg', '1', '1', '1', '1', '1', 1, 1, '2017-10-02 16:12:20', '2017-10-03 04:30:52');
+(3, 'Giảm Mỡ Bụng - Giảm Mỡ Bụng Sau Sinh - Cùng Ưu Đãi 60%', '1', 'giam-mo-bung-giam-mo-bung-sau-sinh-cung-uu-dai-60', '12965808_1.jpg', '1', '1', '1', '1', '1', 4, 1, '2017-10-02 16:12:20', '2017-10-05 17:26:11');
 
 -- --------------------------------------------------------
 
@@ -220,10 +289,10 @@ INSERT INTO `article` (`id`, `fullname`, `title`, `alias`, `image`, `intro`, `co
 DROP TABLE IF EXISTS `article_category`;
 CREATE TABLE `article_category` (
   `id` bigint(20) NOT NULL,
-  `article_id` int(11) NOT NULL,
-  `category_article_id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `article_id` int(11) DEFAULT NULL,
+  `category_article_id` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -231,8 +300,8 @@ CREATE TABLE `article_category` (
 --
 
 INSERT INTO `article_category` (`id`, `article_id`, `category_article_id`, `created_at`, `updated_at`) VALUES
-(12, 3, 55, '2017-10-02 16:12:20', '2017-10-02 16:12:20'),
-(13, 3, 58, '2017-10-02 16:12:20', '2017-10-02 16:12:20');
+(42, 3, 58, '2017-10-05 17:26:11', '2017-10-05 17:26:11'),
+(43, 3, 59, '2017-10-05 17:26:11', '2017-10-05 17:26:11');
 
 -- --------------------------------------------------------
 
@@ -248,7 +317,7 @@ CREATE TABLE `category_article` (
   `parent_id` int(11) DEFAULT NULL,
   `image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `sort_order` int(11) DEFAULT NULL,
-  `status` int(1) NOT NULL,
+  `status` int(1) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -258,15 +327,15 @@ CREATE TABLE `category_article` (
 --
 
 INSERT INTO `category_article` (`id`, `fullname`, `alias`, `parent_id`, `image`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(51, 'Nám tàn nhang', 'nam-tan-nhang', NULL, '12919228_1.jpg', 1, 1, '2017-10-02 12:52:39', '2017-10-02 17:34:53'),
-(55, 'Công nghệ Hifu', 'cong-nghe-hifu', NULL, '12987989_1.jpg', 5, 1, '2017-10-02 12:54:01', '2017-10-02 17:35:19'),
-(56, 'Trị mụn thâm da', 'tri-mun-tham-da', NULL, '12997238_1001.jpg', 6, 1, '2017-10-02 12:54:23', '2017-10-03 04:40:45'),
-(57, 'Giảm cân', 'giam-can', NULL, '12987989_1.jpg', 7, 1, '2017-10-02 12:54:34', '2017-10-03 03:33:08'),
-(58, 'Chăm sóc da mặt', 'cham-soc-da-mat', NULL, '13000660_1.jpg', 9, 1, '2017-10-02 12:54:56', '2017-10-02 17:35:48'),
-(59, 'Triệt lông', 'triet-long', NULL, '12997953_1.jpg', 10, 1, '2017-10-02 12:55:12', '2017-10-03 04:40:54'),
-(67, 'Phi kim siêu vi điểm', 'phi-kim-sieu-vi-diem', NULL, '12956480_19.jpg', 2, 1, '2017-10-02 17:22:48', '2017-10-03 04:31:13'),
-(68, 'Phun thêu thẩm mỹ', 'phun-theu-tham-my', NULL, '12964555_1.jpg', 3, 1, '2017-10-02 17:23:07', '2017-10-03 04:11:32'),
-(69, 'Tắm trắng', 'tam-trang', NULL, '12965808_1.jpg', 4, 1, '2017-10-02 17:23:18', '2017-10-02 17:35:12');
+(51, 'Nám tàn nhang', 'nam-tan-nhang', NULL, '12919228_1.jpg', 1, 1, '2017-10-02 12:52:39', '2017-10-05 09:59:35'),
+(55, 'Công nghệ Hifu', 'cong-nghe-hifu', NULL, '12987989_1.jpg', 5, 1, '2017-10-02 12:54:01', '2017-10-05 09:59:35'),
+(56, 'Trị mụn thâm da', 'tri-mun-tham-da', NULL, '12997238_1001.jpg', 2, 1, '2017-10-02 12:54:23', '2017-10-05 09:59:35'),
+(57, 'Giảm cân', 'giam-can', NULL, '12987989_1.jpg', 3, 1, '2017-10-02 12:54:34', '2017-10-05 17:25:50'),
+(58, 'Chăm sóc da mặt', 'cham-soc-da-mat', NULL, '13000660_1.jpg', 4, 1, '2017-10-02 12:54:56', '2017-10-05 09:59:35'),
+(59, 'Triệt lông', 'triet-long', NULL, '12997953_1.jpg', 6, 1, '2017-10-02 12:55:12', '2017-10-05 09:59:35'),
+(67, 'Phi kim siêu vi điểm', 'phi-kim-sieu-vi-diem', NULL, '12956480_19.jpg', 7, 1, '2017-10-02 17:22:48', '2017-10-05 09:59:35'),
+(68, 'Phun thêu thẩm mỹ', 'phun-theu-tham-my', NULL, '12964555_1.jpg', 8, 1, '2017-10-02 17:23:07', '2017-10-05 09:59:35'),
+(69, 'Tắm trắng', 'tam-trang', NULL, '12965808_1.jpg', 9, 1, '2017-10-02 17:23:18', '2017-10-05 09:59:35');
 
 -- --------------------------------------------------------
 
@@ -277,15 +346,32 @@ INSERT INTO `category_article` (`id`, `fullname`, `alias`, `parent_id`, `image`,
 DROP TABLE IF EXISTS `category_product`;
 CREATE TABLE `category_product` (
   `id` int(11) NOT NULL,
-  `fullname` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `alias` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `fullname` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `alias` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `image` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `status` int(11) NOT NULL DEFAULT '0',
+  `status` int(11) DEFAULT NULL,
   `parent_id` int(11) DEFAULT NULL,
-  `sort_order` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `sort_order` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
+
+--
+-- Đang đổ dữ liệu cho bảng `category_product`
+--
+
+INSERT INTO `category_product` (`id`, `fullname`, `alias`, `image`, `status`, `parent_id`, `sort_order`, `created_at`, `updated_at`) VALUES
+(10, 'Laptop', 'laptop', NULL, 1, 0, 1, '2017-10-05 15:08:13', '2017-10-05 15:08:13'),
+(11, 'Máy tính bảng', 'may-tinh-bang', NULL, 1, 0, 2, '2017-10-05 15:08:25', '2017-10-05 15:08:25'),
+(12, 'Máy tính để bàn', 'may-tinh-de-ban', '', 1, 0, 3, '2017-10-05 15:08:38', '2017-10-05 17:26:36'),
+(13, 'Máy tính All In One', 'may-tinh-all-in-one', NULL, 1, 0, 3, '2017-10-05 15:08:57', '2017-10-05 15:08:57'),
+(14, 'Workstation', 'workstation', NULL, 1, 0, 4, '2017-10-05 15:09:11', '2017-10-05 15:09:16'),
+(15, 'Máy chủ', 'may-chu', NULL, 1, 0, 5, '2017-10-05 15:09:45', '2017-10-05 15:09:45'),
+(16, 'Màn hình', 'man-hinh', NULL, 1, 0, 6, '2017-10-05 15:09:57', '2017-10-05 15:09:57'),
+(17, 'Máy in', 'may-in', NULL, 1, 0, 7, '2017-10-05 15:10:07', '2017-10-05 15:10:07'),
+(18, 'Mực in - Giấy in', 'muc-in-giay-in', '', 1, 0, 8, '2017-10-05 15:10:24', '2017-10-05 15:10:36'),
+(19, 'Phần mềm', 'phan-mem', NULL, 1, 0, 9, '2017-10-05 15:10:50', '2017-10-05 15:10:50'),
+(20, 'Linh kiện', 'link-kien', NULL, 1, 0, 10, '2017-10-05 15:11:00', '2017-10-05 15:11:00');
 
 -- --------------------------------------------------------
 
@@ -296,18 +382,18 @@ CREATE TABLE `category_product` (
 DROP TABLE IF EXISTS `customer`;
 CREATE TABLE `customer` (
   `id` int(11) NOT NULL,
-  `username` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `password` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `username` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `fullname` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `address` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `phone` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `mobilephone` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `fax` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `status` int(11) NOT NULL,
-  `sort_order` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `fullname` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `address` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `mobilephone` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `fax` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `sort_order` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
 --
@@ -336,7 +422,7 @@ DROP TABLE IF EXISTS `group_member`;
 CREATE TABLE `group_member` (
   `id` bigint(20) NOT NULL,
   `fullname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `sort_order` int(11) NOT NULL,
+  `sort_order` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -359,10 +445,10 @@ INSERT INTO `group_member` (`id`, `fullname`, `sort_order`, `created_at`, `updat
 DROP TABLE IF EXISTS `group_privilege`;
 CREATE TABLE `group_privilege` (
   `id` int(11) NOT NULL,
-  `group_member_id` int(11) NOT NULL,
-  `privilege_id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `group_member_id` int(11) DEFAULT NULL,
+  `privilege_id` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -567,20 +653,20 @@ DROP TABLE IF EXISTS `invoice`;
 CREATE TABLE `invoice` (
   `id` int(11) NOT NULL,
   `code` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `customer_id` int(11) NOT NULL,
-  `username` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `customer_id` int(11) DEFAULT NULL,
+  `username` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `fullname` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `address` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `phone` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `mobilephone` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `fax` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `fullname` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `address` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `mobilephone` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `fax` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `quantity` int(11) DEFAULT NULL,
   `total_price` decimal(10,2) DEFAULT NULL,
-  `status` int(11) NOT NULL,
-  `sort_order` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `status` int(11) DEFAULT NULL,
+  `sort_order` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
 --
@@ -602,16 +688,16 @@ INSERT INTO `invoice` (`id`, `code`, `customer_id`, `username`, `email`, `fullna
 DROP TABLE IF EXISTS `invoice_detail`;
 CREATE TABLE `invoice_detail` (
   `id` int(11) NOT NULL,
-  `invoice_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
+  `invoice_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
   `product_code` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `product_fullname` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `product_image` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `product_image` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `product_price` decimal(10,2) DEFAULT NULL,
   `product_quantity` int(11) DEFAULT NULL,
   `product_total_price` decimal(10,2) DEFAULT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
 --
@@ -644,10 +730,17 @@ CREATE TABLE `menu` (
   `menu_type_id` int(11) DEFAULT NULL,
   `level` int(11) DEFAULT NULL,
   `sort_order` int(11) DEFAULT NULL,
-  `status` int(1) NOT NULL,
+  `status` int(1) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `menu`
+--
+
+INSERT INTO `menu` (`id`, `fullname`, `alias`, `site_link`, `parent_id`, `menu_type_id`, `level`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
+(9, 'menu 3', 'alias-3', 'sitelink-3', 0, 16, 0, 37, 1, '2017-10-04 04:23:35', '2017-10-04 08:10:57');
 
 -- --------------------------------------------------------
 
@@ -659,9 +752,9 @@ DROP TABLE IF EXISTS `menu_type`;
 CREATE TABLE `menu_type` (
   `id` int(11) NOT NULL,
   `fullname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `sort_order` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `sort_order` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -669,11 +762,11 @@ CREATE TABLE `menu_type` (
 --
 
 INSERT INTO `menu_type` (`id`, `fullname`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 'mainmenu-1', 1, '2017-10-03 09:25:24', '2017-10-03 09:25:24'),
-(5, 'mainmenu-5', 5, '2017-10-03 10:32:11', '2017-10-03 10:32:11'),
-(14, 'mainmenu-2', 2, '2017-10-03 10:38:36', '2017-10-03 10:38:36'),
-(15, 'mainmenu-4', 4, '2017-10-03 10:38:46', '2017-10-03 10:38:46'),
-(16, 'mainmenu-3', 3, '2017-10-03 10:39:00', '2017-10-03 10:39:00');
+(1, 'mainmenu-1', 1, '2017-10-03 09:25:24', '2017-10-05 05:03:53'),
+(5, 'mainmenu-5', 5, '2017-10-03 10:32:11', '2017-10-05 05:03:53'),
+(14, 'mainmenu-2', 2, '2017-10-03 10:38:36', '2017-10-05 05:03:53'),
+(16, 'mainmenu-3', 3, '2017-10-03 10:39:00', '2017-10-05 05:03:53'),
+(17, 'mainmenu-4', 4, '2017-10-04 03:49:07', '2017-10-05 05:03:53');
 
 -- --------------------------------------------------------
 
@@ -710,29 +803,10 @@ CREATE TABLE `module_article` (
   `fullname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `article_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `position` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `status` int(1) NOT NULL,
-  `sort_order` int(11) NOT NULL,
+  `status` int(1) DEFAULT NULL,
+  `sort_order` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `module_custom`
---
-
-DROP TABLE IF EXISTS `module_custom`;
-CREATE TABLE `module_custom` (
-  `id` int(11) NOT NULL,
-  `fullname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `content` longtext COLLATE utf8_unicode_ci,
-  `standard_text` text COLLATE utf8_unicode_ci,
-  `position` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `status` int(1) NOT NULL,
-  `sort_order` int(11) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -747,10 +821,10 @@ CREATE TABLE `module_menu` (
   `fullname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `menu_type_id` int(11) DEFAULT NULL,
   `position` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `status` int(1) NOT NULL,
-  `sort_order` int(11) NOT NULL,
+  `status` int(1) DEFAULT NULL,
+  `sort_order` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -781,9 +855,6 @@ CREATE TABLE `mod_menu_type` (
 --
 
 INSERT INTO `mod_menu_type` (`id`, `menu_id`, `module_id`, `module_type`, `created_at`, `updated_at`) VALUES
-(524, 1, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(525, 2, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(526, 3, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
 (527, 52, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
 (528, 53, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
 (529, 63, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
@@ -848,10 +919,10 @@ DROP TABLE IF EXISTS `photo`;
 CREATE TABLE `photo` (
   `id` int(11) NOT NULL,
   `fullname` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `alias` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `album_id` int(11) NOT NULL,
-  `image` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '0',
+  `alias` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `album_id` int(11) DEFAULT NULL,
+  `image` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
   `sort_order` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
@@ -1003,10 +1074,9 @@ CREATE TABLE `product` (
   `id` int(11) NOT NULL,
   `code` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `fullname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `alias` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `category_id` int(11) NOT NULL,
-  `image` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '0',
+  `alias` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `image` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
   `child_image` text CHARACTER SET utf8,
   `price` decimal(10,2) DEFAULT NULL,
   `detail` text CHARACTER SET utf8,
@@ -1019,19 +1089,31 @@ CREATE TABLE `product` (
 -- Đang đổ dữ liệu cho bảng `product`
 --
 
-INSERT INTO `product` (`id`, `code`, `fullname`, `alias`, `category_id`, `image`, `status`, `child_image`, `price`, `detail`, `sort_order`, `created_at`, `updated_at`) VALUES
-(2, '123456789', 'Dell XPS13_9360, Core i7 7500U, SSD 256GB, Ram 8GB, 13.3in QHD+ Touch, Win 10', 'dell-xps13-9360-core-i7-7500u', 5, '5920ilx1cqnj7hbv.png', 1, NULL, '33500000.00', 'ghi chú 1', 1, '2017-05-08 11:08:11', '2017-05-20 10:51:21'),
-(3, '987654321', 'Dell XPS13_9360, Core i5 7200U, SSD 256GB, Ram 8GB, 13.3inch FHD, Win 10', 'dell-xp-s13-9360-core-i5-7200u', 5, 'vi15of8jarwuldcp.png', 1, NULL, '27499000.00', 'chi tiết 1', 2, '2017-05-09 03:10:16', '2017-05-20 10:51:21'),
-(4, '321456789', 'Dell Inspiron 15-7559, Core i7-6700HQ, 1TB, 8GB, 4GB GTX 960M, 15.6 inch 4K Touch, Win 10', 'dell-inspiron-15-7559-core-i7-6700-hq', 5, 'nz26gicpxwys4eol.png', 1, NULL, '22499000.00', 'chi tiết 1', 3, '2017-05-09 03:16:57', '2017-05-20 10:51:21'),
-(5, '456321789', 'Dell XPS13_9350_4007SLV (NEW 2016), core i5 6200U, 256GB SSD, 8GB, 13.3 QHD Touch, Win 10', 'dell-xps13-9350-4007slv', 5, 'mo7g1izrj2k4yvef.png', 1, NULL, '23499000.00', 'chi tiết 1', 4, '2017-05-09 03:19:07', '2017-05-20 10:51:21'),
-(6, '512311891', 'Dell Inspiron 5378, Core i7-7500U, 256GB SSD, 8GB, Intel, 13.3in FHD Touch, Window 10', 'dell-inspiron-5378-core-i7-7500-u', 5, 'ke68yibf23rpuwda.png', 1, NULL, '21500000.00', '', 5, '2017-05-09 03:22:40', '2017-05-20 10:51:22'),
-(7, '776123821', 'Dell Inspiron 13 5378, Core i5-7200U, 256GB SSD, 8GB, Intel, 13.3in FHD Touch, Window 10', 'dell-inspiron-13-5378-core-i5-7200-u', 5, 'xuih91a4wc58s2ol.png', 1, NULL, '17500000.00', 'chi tiết 1', 6, '2017-05-09 03:24:47', '2017-05-20 10:51:22'),
-(8, '456987222', 'Dell XPS13_9360_1718SLV, Core i5 7200U, 128GB, 8GB, 13.3 FHD Touch, Win 10.', 'dell-xps13-9360-1718-slv-core-i5-7200-u', 5, 'bihxg0d4o2jmutcy.png', 1, NULL, '26999000.00', 'chi tiết 1', 7, '2017-05-09 03:27:41', '2017-05-20 10:51:22'),
-(9, '617123981', 'Dell Inspiron 13 5378, Core i5-7200U, 1TB, 8GB, Intel, 13.3in FHD Touch, Window 10', 'dell-inspiron-13-5378-core-i5-7200-u-1-tb', 5, 'uem9z5bfxsqpaw1i.png', 1, NULL, '16500000.00', 'chi tiết 1', 8, '2017-05-09 03:41:21', '2017-05-20 10:51:22'),
-(10, '213789123', 'Dell Inspiron 5378, Core i7-7500U, 1TB, 8GB, Intel, 13.3in FHD Touch, Window 10', 'dell-inspiron-5378-core-i7-7500-u-1-tb', 5, 'hse69cxt170vnior.png', 1, NULL, '18999000.00', 'chi tiết 1', 9, '2017-05-09 03:43:01', '2017-05-20 10:51:22'),
-(11, '567123789', 'Dell Inspiron 7460, Core i5-7200U, 500GB + 128GB SSD, 4GB, 2GB GT940MX, 14in FHD, Win10', 'dell-inspiron-7460-core-i5-7200-u', 5, 'mxcui7whynpezv2s.png', 1, NULL, '17700000.00', 'chi tiết 1', 10, '2017-05-09 03:44:43', '2017-05-20 10:51:22'),
-(12, '677123981', 'Dell Inspiron 5567, Core i5 7200U, 1TB, 4GB, 2G Radeon M445, 15.6inch FHD, Linux', 'dell-inspiron-5567-core-i5-7200-u', 5, 'zs7jxwfm92uybor8.png', 1, NULL, '13999000.00', 'chi tiết 1', 11, '2017-05-09 03:46:21', '2017-05-20 10:51:22'),
-(13, '726123998', 'Dell XPS13_9360, Core i7 7500U, SSD 256GB, Ram 8GB, 13.3inch FHD, Win 10', 'dell-xps13-9360-core-i7-7500u-ssd-256-gb', 5, '175f8uzhjsyqmca3.png', 1, NULL, '30500000.00', 'chi tiết 1', 12, '2017-05-09 03:47:46', '2017-05-20 10:51:22');
+INSERT INTO `product` (`id`, `code`, `fullname`, `alias`, `image`, `status`, `child_image`, `price`, `detail`, `sort_order`, `created_at`, `updated_at`) VALUES
+(6, '123456', 'Sản phẩm 1', 'san-pham-1', '12997238_1001.jpg', 1, NULL, '300000.00', '', 1, '2017-10-05 17:51:11', '2017-10-05 17:51:11');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `product_category`
+--
+
+DROP TABLE IF EXISTS `product_category`;
+CREATE TABLE `product_category` (
+  `id` bigint(20) NOT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `category_product_id` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `product_category`
+--
+
+INSERT INTO `product_category` (`id`, `product_id`, `category_product_id`, `created_at`, `updated_at`) VALUES
+(17, 6, 12, '2017-10-05 17:51:11', '2017-10-05 17:51:11'),
+(18, 6, 18, '2017-10-05 17:51:11', '2017-10-05 17:51:11');
 
 -- --------------------------------------------------------
 
@@ -1042,16 +1124,16 @@ INSERT INTO `product` (`id`, `code`, `fullname`, `alias`, `category_id`, `image`
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
-  `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `password` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
-  `level` tinyint(4) NOT NULL,
+  `username` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `password` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `level` tinyint(4) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `group_member_id` int(11) NOT NULL,
-  `user_order` int(11) NOT NULL,
+  `group_member_id` int(11) DEFAULT NULL,
+  `user_order` int(11) DEFAULT NULL,
   `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -1095,6 +1177,12 @@ ALTER TABLE `article_category`
 -- Chỉ mục cho bảng `category_article`
 --
 ALTER TABLE `category_article`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `category_product`
+--
+ALTER TABLE `category_product`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1146,12 +1234,6 @@ ALTER TABLE `module_article`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `module_custom`
---
-ALTER TABLE `module_custom`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Chỉ mục cho bảng `module_menu`
 --
 ALTER TABLE `module_menu`
@@ -1195,6 +1277,12 @@ ALTER TABLE `product`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Chỉ mục cho bảng `product_category`
+--
+ALTER TABLE `product_category`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Chỉ mục cho bảng `users`
 --
 ALTER TABLE `users`
@@ -1223,12 +1311,17 @@ ALTER TABLE `article`
 -- AUTO_INCREMENT cho bảng `article_category`
 --
 ALTER TABLE `article_category`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 --
 -- AUTO_INCREMENT cho bảng `category_article`
 --
 ALTER TABLE `category_article`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+--
+-- AUTO_INCREMENT cho bảng `category_product`
+--
+ALTER TABLE `category_product`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT cho bảng `customer`
 --
@@ -1258,21 +1351,16 @@ ALTER TABLE `invoice_detail`
 -- AUTO_INCREMENT cho bảng `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT cho bảng `menu_type`
 --
 ALTER TABLE `menu_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT cho bảng `module_article`
 --
 ALTER TABLE `module_article`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT cho bảng `module_custom`
---
-ALTER TABLE `module_custom`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT cho bảng `module_menu`
@@ -1303,7 +1391,12 @@ ALTER TABLE `privilege`
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT cho bảng `product_category`
+--
+ALTER TABLE `product_category`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT cho bảng `users`
 --

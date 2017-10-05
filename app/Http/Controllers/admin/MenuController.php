@@ -21,11 +21,12 @@ class MenuController extends Controller {
     	}	
     	public function loadData(Request $request){
       		$filter_search="";
-          $menu_type_id=(int)($request->menu_type_id);
-      		$data=DB::select('call pro_getMenu(?,?)',array($filter_search,$menu_type_id));
-      		
-      		$menuRecursiveData=array();
-      		
+          $menu_type_id=0;
+          if(!empty(@$request->menu_type_id)){
+            $menu_type_id=(int)($request->menu_type_id);
+          }          
+      		$data=DB::select('call pro_getMenu(?,?)',array($filter_search,$menu_type_id));      		
+      		$menuRecursiveData=array();      		
       		$data=convertToArray($data);    
           $data=menuConverter($data,$this->_controller);   
       		menuRecursive($data,0,null,$menuRecursiveData);  

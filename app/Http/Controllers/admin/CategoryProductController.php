@@ -43,7 +43,7 @@ class CategoryProductController extends Controller {
          }		         
          $arrCategoryProduct=CategoryProductModel::select("id","fullname","parent_id")->where("id","!=",(int)$id)->orderBy("sort_order","asc")->get()->toArray();
          $arrCategoryProductRecursive=array();			
-         CategoryProductRecursiveFormArticle($arrCategoryProduct ,0,"",$arrCategoryProductRecursive)	 ;			
+         categoryProductRecursiveForm($arrCategoryProduct ,0,"",$arrCategoryProductRecursive)	 ;			
          return view("admin.".$this->_controller.".form",compact("arrCategoryProductRecursive","arrRowData","controller","task","title","icon"));	
      }
     public function save(Request $request){
