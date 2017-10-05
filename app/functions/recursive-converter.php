@@ -98,7 +98,7 @@ function menuRecursiveForm($data ,$parent=null,$str="--",&$arrRecursiveMenu){
     }
   }  
 }
-function categoryProductRecursive($data ,$parent=null,$str="--",&$arrRecursiveMenu){
+function categoryProductRecursive($data ,$parent=0,$str="--",&$arrRecursiveMenu){
   foreach ($data as $key => $val) {
     $checked=isset($val["checked"]) ? $val["checked"] : 0 ;
     $is_checked=$val["is_checked"];

@@ -27,9 +27,8 @@ class CategoryProductController extends Controller {
           }
       		$data=convertToArray($data);    
           $data=categoryProductConverter($data,$this->_controller);             
-      		categoryProductRecursive($data,$parent_id,null,$categoryProductRecursiveData);            
-          $data=      	convertToArray($categoryProductRecursiveData)	;                   
-          
+      		categoryProductRecursive($data,$parent_id,"",$categoryProductRecursiveData);            
+          $data=      	convertToArray($categoryProductRecursiveData)	;                             
           return $data;
     	}    	
       public function getForm($task,$id=""){		 
