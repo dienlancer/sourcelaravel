@@ -23,8 +23,9 @@ class CategoryArticleController extends Controller {
 
       		$parent_id=0;
       		$categoryArticleRecursiveData=array();
-      		if(count($data) >0)
-      			$parent_id=$data[0]->parent_id;	
+      		if(count($data) >0){
+            $parent_id=(int)$data[0]->parent_id;  
+          }
       		$data=convertToArray($data);    
           $data=categoryArticleConverter($data,$this->_controller);   
       		categoryArticleRecursive($data,$parent_id,null,$categoryArticleRecursiveData);     
@@ -32,20 +33,7 @@ class CategoryArticleController extends Controller {
           $data=      	convertToArray($categoryArticleRecursiveData)	;                   
           
           return $data;
-    	}
-    	public function loadDataApi(Request $request){
-    		$filter_search="";
-        $data=DB::select('call pro_getCategoryArticle(?)',array($filter_search));
-        $parent_id=0;
-        $categoryArticleRecursiveData=array();
-        if(count($data) >0)
-          $parent_id=$data[0]->parent_id; 
-        $data=convertToArray($data);
-        categoryArticleRecursive($data,$parent_id,null,$categoryArticleRecursiveData);        
-        $data=categoryArticleConverter($categoryArticleRecursiveData,$this->_controller);                               
-        return $data;
-
-      }
+    	}    	
       public function getForm($task,$id=""){		 
           $controller=$this->_controller;			
           $title="";

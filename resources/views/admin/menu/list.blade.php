@@ -255,7 +255,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		$("input[name='checkall-toggle']").prop("checked",false);
 	}
 	function setSortOrder(ctrl){
-		var id=$(ctrl).attr("id");
+		var id=$(ctrl).attr("sort_order_id");
 		var giatri=$(ctrl).val();		
 		var sort_json=$("#sort_json").val();
 		var data_sort=null;
@@ -274,11 +274,12 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 				data: dataItem,
 				async:false,
 				success: function (data, status, jqXHR) {  
-					var data = $.map(data, function(el) { return el }); 				                               				
+					var data = $.map(data, function(el) { return el }); 				                               						
 					data_sort = new Array(data.length);
-					for(var i=0;i<data_sort.length;i++){					
-						var sort_order=parseInt($(data[i]["sort_order"]).val());						
-						var obj={"id":parseInt(data[i]["id"]),"sort_order":sort_order};
+					for(var i=0;i<data_sort.length;i++){							
+						var sort_order_input=	$(data[i]["sort_order"]).find("input[name='sort_order']");
+						var sort_order=parseInt($(sort_order_input).val());												
+						var obj={"id":parseInt(data[i]["id"]),"sort_order":sort_order};						
 						data_sort[i]=obj;
 					}					
 				},
@@ -286,8 +287,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 					
 				},
 			});
-		}	
-		var data=new Array(data_sort.length);
+		}			
+		var data=new Array(data_sort.length);	
 		for(var i=0;i<data_sort.length;i++){								
 			var sort_order=parseInt(data_sort[i].sort_order);
 			if(parseInt(id)==parseInt(data_sort[i].id)){
@@ -295,7 +296,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			}
 			var obj={"id":data_sort[i].id,"sort_order":sort_order};
 			data[i]=obj;
-		}		
+		}				
 		$("#sort_json").val(JSON.stringify(data));
 	}
 	$(document).ready(function(){

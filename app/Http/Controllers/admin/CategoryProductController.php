@@ -22,28 +22,16 @@ class CategoryProductController extends Controller {
       		$data=DB::select('call pro_getCategoryProduct(?)',array($filter_search));
       		$parent_id=0;
       		$categoryProductRecursiveData=array();
-      		if(count($data) >0)
-      			$parent_id=$data[0]->parent_id;	
+      		if(count($data) >0){
+      			$parent_id=(int)$data[0]->parent_id;	
+          }
       		$data=convertToArray($data);    
-          $data=categoryProductConverter($data,$this->_controller);   
+          $data=categoryProductConverter($data,$this->_controller);             
       		categoryProductRecursive($data,$parent_id,null,$categoryProductRecursiveData);            
           $data=      	convertToArray($categoryProductRecursiveData)	;                   
           
           return $data;
-    	}
-    	public function loadDataApi(Request $request){
-    		$filter_search="";
-        $data=DB::select('call pro_getCategoryProduct(?)',array($filter_search));
-        $parent_id=0;
-        $CategoryProductRecursiveData=array();
-        if(count($data) >0)
-          $parent_id=$data[0]->parent_id; 
-        $data=convertToArray($data);
-        CategoryProductRecursive($data,$parent_id,null,$CategoryProductRecursiveData);        
-        $data=CategoryProductConverter($CategoryProductRecursiveData,$this->_controller);                               
-        return $data;
-
-      }
+    	}    	
       public function getForm($task,$id=""){		 
           $controller=$this->_controller;			
           $title="";
