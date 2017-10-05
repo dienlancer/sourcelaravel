@@ -113,8 +113,8 @@ function categoryProductRecursive($data ,$parent=0,$str="--",&$arrRecursiveMenu)
     $created_at=$val["created_at"];
     $updated_at=$val["updated_at"];
     $edited=isset($val["edited"]) ? $val["edited"] : "" ;
-    $deleted=isset($val["deleted"]) ? $val["deleted"] : "" ;
-    if((int)$val["parent_id"] == (int)$parent) {
+    $deleted=isset($val["deleted"]) ? $val["deleted"] : "" ;    
+    if((int)$val["parent_id"] == (int)$parent) {      
           $arrRecursiveMenu[$key]["checked"]=$checked;
           $arrRecursiveMenu[$key]["is_checked"]=$is_checked;
           $arrRecursiveMenu[$key]["id"]=$id;

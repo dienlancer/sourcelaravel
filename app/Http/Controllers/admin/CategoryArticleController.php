@@ -20,18 +20,11 @@ class CategoryArticleController extends Controller {
     	public function loadData(Request $request){
       		$filter_search="";
       		$data=DB::select('call pro_getCategoryArticle(?)',array($filter_search));
-
-      		$parent_id=0;
       		$categoryArticleRecursiveData=array();
-      		if(count($data) >0){
-            $parent_id=(int)$data[0]->parent_id;  
-          }
       		$data=convertToArray($data);    
           $data=categoryArticleConverter($data,$this->_controller);   
-      		categoryArticleRecursive($data,$parent_id,null,$categoryArticleRecursiveData);     
-
+      		categoryArticleRecursive($data,0,null,$categoryArticleRecursiveData);     
           $data=      	convertToArray($categoryArticleRecursiveData)	;                   
-          
           return $data;
     	}    	
       public function getForm($task,$id=""){		 

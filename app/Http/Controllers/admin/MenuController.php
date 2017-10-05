@@ -24,15 +24,13 @@ class MenuController extends Controller {
       		$filter_search="";
           $menu_type_id=(int)($request->menu_type_id);
       		$data=DB::select('call pro_getMenu(?,?)',array($filter_search,$menu_type_id));
-      		$parent_id=0;
-      		$MenuRecursiveData=array();
-      		if(count($data) >0){
-            $parent_id=(int)$data[0]->parent_id;  
-          }
+      		
+      		$menuRecursiveData=array();
+      		
       		$data=convertToArray($data);    
           $data=menuConverter($data,$this->_controller);   
-      		menuRecursive($data,$parent_id,null,$MenuRecursiveData);  
-          $data=      	convertToArray($MenuRecursiveData)	;         
+      		menuRecursive($data,0,null,$menuRecursiveData);  
+          $data=      	convertToArray($menuRecursiveData)	;         
           return $data;
     	}    	
       public function getForm($task,$menu_type_id="",$id=""){   

@@ -19,15 +19,11 @@ class CategoryProductController extends Controller {
     	}	
     	public function loadData(Request $request){
       		$filter_search="";
-      		$data=DB::select('call pro_getCategoryProduct(?)',array($filter_search));
-      		$parent_id=0;
-      		$categoryProductRecursiveData=array();
-      		if(count($data) >0){
-      			$parent_id=(int)$data[0]->parent_id;	
-          }
+      		$data=DB::select('call pro_getCategoryProduct(?)',array($filter_search));      		
+      		$categoryProductRecursiveData=array();      		
       		$data=convertToArray($data);    
           $data=categoryProductConverter($data,$this->_controller);             
-      		categoryProductRecursive($data,$parent_id,"",$categoryProductRecursiveData);            
+      		categoryProductRecursive($data,0,"",$categoryProductRecursiveData);            
           $data=      	convertToArray($categoryProductRecursiveData)	;                             
           return $data;
     	}    	
