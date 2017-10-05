@@ -256,7 +256,7 @@ class CategoryProductController extends Controller {
             }else{
               foreach ($arrID as $key => $value) {
                 if(!empty($value)){
-                  $count = CategoryProductModel::where("parent_id",$value)->count();
+                  $count = CategoryProductModel::where("parent_id",$value)->count();                  
                   if($count > 0){
                     $checked     =   0;
                     $type_msg           =   "alert-warning";            

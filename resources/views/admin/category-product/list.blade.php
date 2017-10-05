@@ -287,8 +287,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			}
 			var obj={"id":data_sort[i].id,"sort_order":sort_order};
 			data[i]=obj;
-		}	
-		
+		}			
 		$("#sort_json").val(JSON.stringify(data));
 	}
 	$(document).ready(function(){

@@ -2,7 +2,6 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\MenuRequest;
 use App\MenuModel;
 use App\ProductModel;
 use App\MenuTypeModel;
