@@ -19,7 +19,7 @@ class CategoryArticleController extends Controller {
     	}	
     	public function loadData(Request $request){
       		$filter_search="";
-      		$data=DB::select('call pro_getCategoryArticle(?)',array($filter_search));
+      		$data=DB::select('call pro_getCategoryArticle(?)',array(mb_strtolower($filter_search)));
       		$categoryArticleRecursiveData=array();
       		$data=convertToArray($data);    
           $data=categoryArticleConverter($data,$this->_controller);   
@@ -293,10 +293,12 @@ class CategoryArticleController extends Controller {
           $type_msg               =   "alert-success";
           $msg                    =   "Update successfully";      
           if(count($data_order) > 0){              
-            foreach($data_order as $key => $value){                                        
-              $item=CategoryArticleModel::find((int)$value->id);                
+            foreach($data_order as $key => $value){         
+              if(!empty($value)){
+                $item=CategoryArticleModel::find((int)$value->id);                
               $item->sort_order=(int)$value->sort_order;                         
               $item->save();                      
+              }                                             
             }           
           }        
           $data                   =   $this->loadData($request);

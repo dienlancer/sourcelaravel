@@ -41,7 +41,7 @@ class ProductController extends Controller {
         $strCategoryProductID=implode("#;#", $arrCategoryProductID);    
         $strCategoryProductID="#".$strCategoryProductID."#";    
         /* end lấy chuỗi ID */
-    		$data=DB::select('call pro_getProduct(?,?)',array($filter_search,$strCategoryProductID));
+    		$data=DB::select('call pro_getProduct(?,?)',array( mb_strtolower($filter_search) ,$strCategoryProductID));
     		$data=convertToArray($data);		
     		$data=productConverter($data,$this->_controller);		    
     		return $data;
@@ -333,10 +333,12 @@ class ProductController extends Controller {
             $type_msg               =   "alert-success";
             $msg                    =   "Update successfully";      
             if(count($data_order) > 0){              
-              foreach($data_order as $key => $value){                                        
-                $item=ProductModel::find((int)$value->id);                
-                $item->sort_order=(int)$value->sort_order;                         
-                $item->save();                      
+              foreach($data_order as $key => $value){       
+                if(!empty($value)){
+                  $item=ProductModel::find((int)$value->id);                
+                  $item->sort_order=(int)$value->sort_order;                         
+                  $item->save();                      
+                }                                                 
               }           
             }        
             $data                   =   $this->loadData($request);

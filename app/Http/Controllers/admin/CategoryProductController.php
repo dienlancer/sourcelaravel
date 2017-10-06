@@ -19,7 +19,7 @@ class CategoryProductController extends Controller {
     	}	
     	public function loadData(Request $request){
       		$filter_search="";
-      		$data=DB::select('call pro_getCategoryProduct(?)',array($filter_search));      		
+      		$data=DB::select('call pro_getCategoryProduct(?)',array( mb_strtolower($filter_search) ));      		
       		$categoryProductRecursiveData=array();      		
       		$data=convertToArray($data);    
           $data=categoryProductConverter($data,$this->_controller);             
@@ -294,10 +294,12 @@ class CategoryProductController extends Controller {
           $type_msg               =   "alert-success";
           $msg                    =   "Update successfully";      
           if(count($data_order) > 0){              
-            foreach($data_order as $key => $value){                                        
-              $item=CategoryProductModel::find((int)$value->id);                
+            foreach($data_order as $key => $value){   
+              if(!empty($value)){
+                $item=CategoryProductModel::find((int)$value->id);                
               $item->sort_order=(int)$value->sort_order;                         
               $item->save();                      
+              }                                                  
             }           
           }        
           $data                   =   $this->loadData($request);

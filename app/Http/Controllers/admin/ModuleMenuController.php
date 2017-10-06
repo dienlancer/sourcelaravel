@@ -21,9 +21,9 @@ class ModuleMenuController extends Controller {
   	public function loadData(Request $request){
     		$filter_search="";            
         if(!empty(@$request->filter_search)){      
-          $filter_search=trim(mb_strtolower(@$request->filter_search)) ;    
+          $filter_search=trim(@$request->filter_search) ;    
         }                
-    		$data=DB::select('call pro_getModuleMenu(?)',array($filter_search));
+    		$data=DB::select('call pro_getModuleMenu(?)',array(mb_strtolower($filter_search)));
     		$data=convertToArray($data);		
     		$data=moduleMenuConverter($data,$this->_controller);		    
     		return $data;
@@ -46,13 +46,13 @@ class ModuleMenuController extends Controller {
               $title=$this->_title . " : Add new";
            break;     
         }    
-        $arrMenuType=MenuTypeModel::select("id","name","menu_type_order","created_at","updated_at")->get()->toArray();
+        $arrMenuType=MenuTypeModel::select("id","fullname","sort_order","created_at","updated_at")->get()->toArray();
 
-    $arrMenu=MenuModel::select("id","name","alias","site_link","parent_id","menu_type_id","level","menu_order","status","created_at","updated_at")->orderBy("menu_order","asc")->get()->toArray();  
+    $arrMenu=MenuModel::select("id","fullname","alias","site_link","parent_id","menu_type_id","level","sort_order","status","created_at","updated_at")->orderBy("sort_order","asc")->get()->toArray();  
 
     $arrMenuRecursive=array();
 
-    menuRecursive($arrMenu ,0,"",$arrMenuRecursive)  ;
+    menuRecursiveForm($arrMenu ,0,"",$arrMenuRecursive)  ;
 
     return view("admin.".$this->_controller.".form",compact("arrMenuRecursive","arrRowData","arrModMenuType","arrMenuType","controller","task","title","icon"));
     }
@@ -99,20 +99,9 @@ class ModuleMenuController extends Controller {
           if ($checked == 1) {    
                 if(empty($id)){
                     $item 				= 	new ModuleMenuModel;       
-                    $item->created_at 	=	date("Y-m-d H:i:s",time());        
-                    if(!empty($image)){
-                      $item->image    =   trim($image) ;  
-                    }				
+                    $item->created_at 	=	date("Y-m-d H:i:s",time());                            
                 } else{
-                    $item				=	ModuleMenuModel::find($id);   
-                    $file_image="";                       
-                    if(!empty($image_hidden)){
-                      $file_image =$image_hidden;          
-                    }
-                    if(!empty($image))  {
-                      $file_image=$image;                                                
-                    }
-                    $item->image=trim($file_image) ;            		  		 	
+                    $item				=	ModuleMenuModel::find($id);                        		 
                 }  
                 $item->fullname 		=	$fullname;
                 $item->menu_type_id = $menu_type_id;
@@ -121,7 +110,7 @@ class ModuleMenuController extends Controller {
                 $item->sort_order 		=	$sort_order;                
                 $item->updated_at 		=	date("Y-m-d H:i:s",time());    	        	
                 $item->save();  	
-                if(!empty(@$request->menu_id)){                            
+                if(!empty(@$request->menu_id)){                         
                     $arrModMenuType=ModMenuTypeModel::whereRaw("module_id = ? and module_type",[@$item->id,trim(mb_strtolower(@$this->_controller,'UTF-8'))])->get()->toArray();
                     $arrMenuID=array();
                     foreach ($arrModMenuType as $key => $value) {
@@ -205,7 +194,7 @@ class ModuleMenuController extends Controller {
       public function updateStatus(Request $request){
           $str_id                 =   $request->str_id;   
           $status                 =   $request->status;  
-          $arrID                 =   explode(",", $str_id)  ;
+          $arrID                 =   explode(",", $str_id)  ;          
           $checked                =   1;
           $type_msg               =   "alert-success";
           $msg                    =   "Update successfully";     
@@ -216,9 +205,11 @@ class ModuleMenuController extends Controller {
           }
           if($checked==1){
               foreach ($arrID as $key => $value) {
-                $item=ModuleMenuModel::find($value);
+                if(!empty($value)){
+                  $item=ModuleMenuModel::find($value);
                 $item->status=$status;
                 $item->save();    
+                }                
               }
           }                 
           $data                   =   $this->loadData($request);
@@ -265,10 +256,12 @@ class ModuleMenuController extends Controller {
             $type_msg               =   "alert-success";
             $msg                    =   "Update successfully";      
             if(count($data_order) > 0){              
-              foreach($data_order as $key => $value){                                        
+              foreach($data_order as $key => $value){       
+              if(!empty($value)){
                 $item=ModuleMenuModel::find((int)$value->id);                
                 $item->sort_order=(int)$value->sort_order;                         
                 $item->save();                      
+              }                                                 
               }           
             }        
             $data                   =   $this->loadData($request);

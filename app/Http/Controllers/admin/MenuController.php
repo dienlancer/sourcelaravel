@@ -25,7 +25,7 @@ class MenuController extends Controller {
           if(!empty(@$request->menu_type_id)){
             $menu_type_id=(int)($request->menu_type_id);
           }          
-      		$data=DB::select('call pro_getMenu(?,?)',array($filter_search,$menu_type_id));      		
+      		$data=DB::select('call pro_getMenu(?,?)',array( mb_strtolower($filter_search) ,$menu_type_id));      		
       		$menuRecursiveData=array();      		
       		$data=convertToArray($data);    
           $data=menuConverter($data,$this->_controller);   
@@ -291,10 +291,12 @@ class MenuController extends Controller {
         $type_msg               =   "alert-success";
         $msg                    =   "Update successfully";      
         if(count($data_order) > 0){              
-          foreach($data_order as $key => $value){                                        
-            $item=MenuModel::find((int)$value->id);                
+          foreach($data_order as $key => $value){
+            if(!empty($value)){
+              $item=MenuModel::find((int)$value->id);                
             $item->sort_order=(int)$value->sort_order;                         
             $item->save();                      
+            }                                                    
           }           
         }        
         $data                   =   $this->loadData($request);

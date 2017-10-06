@@ -66,11 +66,10 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			url: '<?php echo $linkLoadData; ?>',
 			type: 'POST', 
 			data: dataItem,
-			success: function (data, status, jqXHR) {  
-				
+			success: function (data, status, jqXHR) {  				
 				basicTable.init();
-				vModuleMenu.clear().draw();
-				vModuleMenu.rows.add(data).draw();
+				vModuleMenuTable.clear().draw();
+				vModuleMenuTable.rows.add(data).draw();
 				spinner.hide();
 			},
 			beforeSend  : function(jqXHR,setting){
@@ -79,7 +78,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		});
 	}	
 	function checkWithList(this_checkbox){
-		var dr = vModuleMenu.row( $(this_checkbox).closest('tr') ).data();       		
+		var dr = vModuleMenuTable.row( $(this_checkbox).closest('tr') ).data();       		
 		if(parseInt(dr['is_checked']) == 0){
 			dr['checked'] ='<input type="checkbox" checked onclick="checkWithList(this)" name="cid" />';
 			dr['is_checked'] = 1;
@@ -87,7 +86,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			dr['checked'] ='<input type="checkbox" onclick="checkWithList(this)" name="cid" />';
 			dr['is_checked'] = 0;
 		}
-		vModuleMenu.row( $(this_checkbox).closest('tr') ).data(dr);
+		vModuleMenuTable.row( $(this_checkbox).closest('tr') ).data(dr);
 	}	
 	function changeStatus(id,status){		
 		var token = $('input[name="_token"]').val();   
@@ -102,8 +101,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			data: dataItem,
 			success: function (data, status, jqXHR) {   							                              				
 				showMsg('alert',data.msg,data.type_msg);               		
-				vModuleMenu.clear().draw();
-				vModuleMenu.rows.add(data.data).draw();
+				vModuleMenuTable.clear().draw();
+				vModuleMenuTable.rows.add(data.data).draw();
 				spinner.hide();
 			},
 			beforeSend  : function(jqXHR,setting){
@@ -132,8 +131,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			data: dataItem,
 			success: function (data, status, jqXHR) {  				
 				showMsg('alert',data.msg,data.type_msg);               		
-				vModuleMenu.clear().draw();
-				vModuleMenu.rows.add(data.data).draw();
+				vModuleMenuTable.clear().draw();
+				vModuleMenuTable.rows.add(data.data).draw();
 				spinner.hide();
 			},
 			beforeSend  : function(jqXHR,setting){
@@ -144,7 +143,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 	}
 	function updateStatus(status){		
 		var token 	= 	$('input[name="_token"]').val();   
-		var dt 		= 	vModuleMenu.data();
+		var dt 		= 	vModuleMenuTable.data();
 		var str_id	=	"";		
 		for(var i=0;i<dt.length;i++){
 			var dr=dt[i];
@@ -164,8 +163,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			data: dataItem,
 			success: function (data, status, jqXHR) {   							                              				
 				showMsg('alert',data.msg,data.type_msg);               		
-				vModuleMenu.clear().draw();
-				vModuleMenu.rows.add(data.data).draw();
+				vModuleMenuTable.clear().draw();
+				vModuleMenuTable.rows.add(data.data).draw();
 				spinner.hide();
 			},
 			beforeSend  : function(jqXHR,setting){
@@ -183,7 +182,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		if(xac_nhan  == 0)
 			return 0;	
 		var token 	= 	$('input[name="_token"]').val();   
-		var dt 		= 	vModuleMenu.data();
+		var dt 		= 	vModuleMenuTable.data();
 		var str_id	=	"";		
 		for(var i=0;i<dt.length;i++){
 			var dr=dt[i];
@@ -202,8 +201,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			data: dataItem,
 			success: function (data, status, jqXHR) {
 				showMsg('alert',data.msg,data.type_msg);  
-				vModuleMenu.clear().draw();
-				vModuleMenu.rows.add(data.data).draw();
+				vModuleMenuTable.clear().draw();
+				vModuleMenuTable.rows.add(data.data).draw();
 				spinner.hide();
 			},
 			beforeSend  : function(jqXHR,setting){
@@ -226,8 +225,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			data: dataItem,
 			success: function (data, status, jqXHR) {   	
 				showMsg('alert',data.msg,data.type_msg);  
-				vModuleMenu.clear().draw();
-				vModuleMenu.rows.add(data.data).draw();
+				vModuleMenuTable.clear().draw();
+				vModuleMenuTable.rows.add(data.data).draw();
 				spinner.hide();
 			},
 			beforeSend  : function(jqXHR,setting){

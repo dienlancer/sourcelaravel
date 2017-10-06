@@ -41,7 +41,7 @@ class ArticleController extends Controller {
         $strCategoryArticleID=implode("#;#", $arrCategoryArticleID);    
         $strCategoryArticleID="#".$strCategoryArticleID."#";    
         /* end lấy chuỗi ID */
-    		$data=DB::select('call pro_getArticle(?,?)',array($filter_search,$strCategoryArticleID));
+    		$data=DB::select('call pro_getArticle(?,?)',array(mb_strtolower($filter_search),$strCategoryArticleID));
     		$data=convertToArray($data);		
     		$data=articleConverter($data,$this->_controller);		    
     		return $data;
@@ -339,10 +339,12 @@ class ArticleController extends Controller {
             $type_msg               =   "alert-success";
             $msg                    =   "Update successfully";      
             if(count($data_order) > 0){              
-              foreach($data_order as $key => $value){                                        
-                $item=ArticleModel::find((int)$value->id);                
+              foreach($data_order as $key => $value){      
+                if(!empty($value)){
+                  $item=ArticleModel::find((int)$value->id);                
                 $item->sort_order=(int)$value->sort_order;                         
                 $item->save();                      
+                }                                                  
               }           
             }        
             $data                   =   $this->loadData($request);
