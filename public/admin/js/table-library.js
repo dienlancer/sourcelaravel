@@ -92,7 +92,7 @@ var basicTable = function () {
             columns: [                
                 { data: "checked"       },
                 { data: "fullname"      },
-                { data: "position"         },                
+                { data: "position"      },                
                 { data: "sort_order"    },
                 { data: "status"        },                                
                 { data: "edited"        },         

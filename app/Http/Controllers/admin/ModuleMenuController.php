@@ -8,7 +8,7 @@ use App\MenuModel;
 use App\ModMenuTypeModel;
 use DB;
 class ModuleMenuController extends Controller {
-  	var $_controller="module_menu";	
+  	var $_controller="module-menu";	
   	var $_title="Module Menu";
   	var $_icon="icon-settings font-dark";
   	public function getList(){		
