@@ -1,6 +1,28 @@
-
-
-/* Admin backend grid table elements */
+.clr{
+	clear: both;
+}
+.box-ads {
+    float: left;
+    width: 15%;
+    height: 96px;
+    background: #ffffff;
+    margin-left: 10px;
+    margin-top: 15px;
+}
+.rowmedia{
+	width: 60px;
+	margin:auto;
+}
+div.rowmedia > div{
+	padding-left: 0;
+	padding-right: 0;
+}
+.title-media{
+	font-size: 11px;
+}
+.box-ads:first-child,.box-ads:nth-child(6){
+    margin-left: 0 !important;
+}
 a.jgrid:hover {	text-decoration: none;}
 
 .jgrid span.state {

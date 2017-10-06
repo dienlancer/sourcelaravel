@@ -175,6 +175,14 @@ Route::group(["prefix"=>"admin"],function(){
 		Route::get("ajaxStatus/{id}/{status}",["as"=>"admin.media.getAjaxStatus","uses"=>"admin\MediaController@getAjaxStatus"]);
 		Route::post("trash",["as"=>"admin.media.postTrash","uses"=>"admin\MediaController@postTrash"]);
 	});	
+	Route::group(["prefix"=>"media"],function(){		
+		Route::get("list",["as"=>"admin.media.getList","uses"=>"admin\MediaController@getList"]);
+		Route::post("load-data",["as"=>"admin.media.loadData","uses"=>"admin\MediaController@loadData"]);		
+		Route::get("form/{task}/{id?}",["as"=>"admin.media.getForm","uses"=>"admin\MediaController@getForm"]);
+		Route::post("save",["as"=>"admin.media.save","uses"=>"admin\MediaController@save"]);
+		Route::post("delete-item",["as"=>"admin.media.deleteItem","uses"=>"admin\MediaController@deleteItem"]);
+		Route::post("trash",["as"=>"admin.media.trash","uses"=>"admin\MediaController@trash"]);
+	});	
 	Route::group(["prefix"=>"group-member"],function(){		
 		Route::match(["get","post"],"list",["as"=>"admin.group-member.getList","uses"=>"admin\GroupMemberController@getList"]);
 		Route::get("form/{task}/{id?}",["as"=>"admin.group-member.getForm","uses"=>"admin\GroupMemberController@getForm"]);

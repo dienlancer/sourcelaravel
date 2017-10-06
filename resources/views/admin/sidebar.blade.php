@@ -72,5 +72,11 @@
                 </a>                                                                      
             </li>
         </ul>
+    </li>
+    <li class="nav-item  ">
+                <a href="{!! route('admin.media.getList') !!}" class="nav-link nav-toggle">
+                    <i class="icon-notebook"></i>
+                    <span class="title">Media</span>                                            
+                </a>                                                                      
     </li>                                                   
 </ul>
