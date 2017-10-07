@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 05, 2017 lúc 09:02 PM
+-- Thời gian đã tạo: Th10 07, 2017 lúc 08:07 AM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -155,12 +155,57 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getMenuType` (IN `keyword` VARC
     ;
 END$$
 
+DROP PROCEDURE IF EXISTS `pro_getModuleArticle`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getModuleArticle` (IN `keyword` VARCHAR(255))  NO SQL
+SELECT 
+	0 AS  is_checked
+	,n.id
+	,n.fullname
+	,n.article_id
+	,n.position
+	,n.status
+	,n.sort_order
+	,n.created_at
+	,n.updated_at
+	 FROM 
+    `module_article` n
+    WHERE
+    (keyword ='' OR LOWER(n.fullname) LIKE CONCAT('%', LOWER(keyword) ,'%'))    
+    GROUP BY
+	n.id
+    	,n.fullname
+	,n.article_id
+	,n.position
+	,n.status
+	,n.sort_order
+	,n.created_at
+	,n.updated_at
+    ORDER BY n.sort_order ASC$$
+
 DROP PROCEDURE IF EXISTS `pro_getModuleMenu`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getModuleMenu` (IN `keyword` VARCHAR(255) CHARSET utf8)  SELECT 
-	* FROM 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getModuleMenu` (IN `keyword` VARCHAR(255))  SELECT 
+	0 as  is_checked
+	,n.id
+	,n.fullname
+	,n.menu_type_id
+	,n.position
+	,n.status
+	,n.sort_order
+	,n.created_at
+	,n.updated_at
+	 FROM 
     `module_menu` n
     WHERE
     (keyword ='' OR LOWER(n.fullname) LIKE CONCAT('%', LOWER(keyword) ,'%'))    
+    group by
+	n.id
+    	,n.fullname
+	,n.menu_type_id
+	,n.position
+	,n.status
+	,n.sort_order
+	,n.created_at
+	,n.updated_at
     ORDER BY n.sort_order ASC$$
 
 DROP PROCEDURE IF EXISTS `pro_getProduct`$$
@@ -740,7 +785,12 @@ CREATE TABLE `menu` (
 --
 
 INSERT INTO `menu` (`id`, `fullname`, `alias`, `site_link`, `parent_id`, `menu_type_id`, `level`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(9, 'menu 3', 'alias-3', 'sitelink-3', 0, 16, 0, 37, 1, '2017-10-04 04:23:35', '2017-10-04 08:10:57');
+(10, 'menu 2-1', 'alias-2-1', 'sitelink-2-1', 0, 14, 0, 1, 1, '2017-10-06 13:49:05', '2017-10-06 13:49:05'),
+(11, 'menu 2-2', 'alias-2-2', 'sitelink-2-2', 0, 14, 0, 2, 1, '2017-10-06 13:49:21', '2017-10-06 13:49:21'),
+(12, 'menu 2-3', 'alias-2-3', 'sitelink-2-3', 0, 14, 0, 3, 1, '2017-10-06 13:50:08', '2017-10-06 13:50:08'),
+(13, 'menu 4-1', 'alias-4-1', 'sitelink-4-1', 0, 17, 0, 1, 1, '2017-10-06 13:50:35', '2017-10-06 13:50:35'),
+(14, 'menu 4-2', 'alias-4-2', 'sitelink-4-2', 0, 17, 0, 2, 1, '2017-10-06 13:50:58', '2017-10-06 13:50:58'),
+(15, 'menu 4-3', 'alias-4-3', 'sitelink-4-3', 0, 17, 0, 3, 1, '2017-10-06 13:51:19', '2017-10-06 13:51:19');
 
 -- --------------------------------------------------------
 
@@ -809,6 +859,13 @@ CREATE TABLE `module_article` (
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `module_article`
+--
+
+INSERT INTO `module_article` (`id`, `fullname`, `article_id`, `position`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, 'module article 1', '1,2,3', 'module-article-1', 1, 11, '2017-10-06 16:02:31', '2017-10-06 16:03:55');
+
 -- --------------------------------------------------------
 
 --
@@ -826,13 +883,6 @@ CREATE TABLE `module_menu` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `module_menu`
---
-
-INSERT INTO `module_menu` (`id`, `fullname`, `menu_type_id`, `position`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
-(2, 'MainMenu', 1, 'main-menu', 1, 1, '2017-05-29 18:57:17', '2017-05-31 06:52:54');
 
 -- --------------------------------------------------------
 
@@ -855,31 +905,8 @@ CREATE TABLE `mod_menu_type` (
 --
 
 INSERT INTO `mod_menu_type` (`id`, `menu_id`, `module_id`, `module_type`, `created_at`, `updated_at`) VALUES
-(527, 52, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(528, 53, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(529, 63, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(530, 64, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(531, 65, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(532, 66, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(533, 67, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(534, 80, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(535, 81, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(536, 82, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(537, 83, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(538, 84, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(539, 85, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(540, 86, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(541, 87, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(542, 88, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(543, 89, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(544, 90, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(545, 91, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(546, 92, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(547, 93, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(548, 94, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(549, 95, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(550, 96, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32'),
-(551, 97, 2, 'module-menu', '2017-05-31 06:37:32', '2017-05-31 06:37:32');
+(1, 12, 1, 'module-article', '2017-10-06 16:02:31', '2017-10-06 16:02:31'),
+(2, 13, 1, 'module-article', '2017-10-06 16:02:31', '2017-10-06 16:02:31');
 
 -- --------------------------------------------------------
 
@@ -1351,7 +1378,7 @@ ALTER TABLE `invoice_detail`
 -- AUTO_INCREMENT cho bảng `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT cho bảng `menu_type`
 --
@@ -1361,17 +1388,17 @@ ALTER TABLE `menu_type`
 -- AUTO_INCREMENT cho bảng `module_article`
 --
 ALTER TABLE `module_article`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT cho bảng `module_menu`
 --
 ALTER TABLE `module_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT cho bảng `mod_menu_type`
 --
 ALTER TABLE `mod_menu_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=552;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT cho bảng `persistences`
 --

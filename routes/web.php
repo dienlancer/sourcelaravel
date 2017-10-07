@@ -166,16 +166,6 @@ Route::group(["prefix"=>"admin"],function(){
 		Route::post("trash",["as"=>"admin.module-article.trash","uses"=>"admin\ModuleArticleController@trash"]);		
 	});
 	Route::group(["prefix"=>"media"],function(){		
-		Route::match(["get","post"],"list",["as"=>"admin.media.getList","uses"=>"admin\MediaController@getList"]);
-		Route::get("form/{task}/{id?}",["as"=>"admin.media.getForm","uses"=>"admin\MediaController@getForm"]);
-		Route::post("form/{task}",["as"=>"admin.media.postForm","uses"=>"admin\MediaController@postForm"]);
-		Route::get("delete/{id}",["as"=>"admin.media.getDelete","uses"=>"admin\MediaController@getDelete"]);
-		Route::post("ordering",["as"=>"admin.media.postOrdering","uses"=>"admin\MediaController@postOrdering"]);
-		Route::post("status/{status}",["as"=>"admin.media.postStatus","uses"=>"admin\MediaController@postStatus"]);
-		Route::get("ajaxStatus/{id}/{status}",["as"=>"admin.media.getAjaxStatus","uses"=>"admin\MediaController@getAjaxStatus"]);
-		Route::post("trash",["as"=>"admin.media.postTrash","uses"=>"admin\MediaController@postTrash"]);
-	});	
-	Route::group(["prefix"=>"media"],function(){		
 		Route::get("list",["as"=>"admin.media.getList","uses"=>"admin\MediaController@getList"]);
 		Route::post("load-data",["as"=>"admin.media.loadData","uses"=>"admin\MediaController@loadData"]);		
 		Route::get("form/{task}/{id?}",["as"=>"admin.media.getForm","uses"=>"admin\MediaController@getForm"]);
@@ -192,7 +182,6 @@ Route::group(["prefix"=>"admin"],function(){
 		Route::post("status/{status}",["as"=>"admin.group-member.postStatus","uses"=>"admin\GroupMemberController@postStatus"]);
 		Route::get("ajaxStatus/{id}/{status}",["as"=>"admin.group-member.getAjaxStatus","uses"=>"admin\GroupMemberController@getAjaxStatus"]);
 		Route::post("trash",["as"=>"admin.group-member.postTrash","uses"=>"admin\GroupMemberController@postTrash"]);
-	});	
-	
+	});		
 });
 ?>

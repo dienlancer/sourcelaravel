@@ -69,8 +69,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			type: 'POST', 		     
 			data: dataItem,			
 			success: function (data, status, jqXHR) {   						
-	            var data = $.map(data, function(el) { return el });	    
-	            console.log(data);        
+	            var data = $.map(data, function(el) { return el });	    	                   
 				basicTable.init();
 				vCategoryArticleTable.clear().draw();
 				vCategoryArticleTable.rows.add(data).draw();

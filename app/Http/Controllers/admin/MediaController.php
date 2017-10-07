@@ -19,113 +19,67 @@ class MediaController extends Controller {
 
 	public function getForm($task){		 
 		$controller=$this->_controller;	
-		$title=$this->_title . " : Thêm mới";
+		$title=$this->_title . " : Add new";
 		$icon=$this->_icon; 				
 		return view("admin.".$this->_controller.".form",compact("controller","task","title","icon"));
 	}
 
-	public function save(Request $request){		
+	public function save(){		
 		$data 		            =   array();
         $info 		            =   array();
         $error 		            =   array();
-        $item		              =   null;
-        $checked 	            =   1;  
-		$strDirUpload=base_path()."/resources/upload";
-		$lstFile=$_FILES["media_file"];		
-		$arrName = $lstFile["name"];    
-		$arrTmpName=$lstFile["tmp_name"];       
-		$uploadDir    =$strDirUpload  ;		
+        $item		            =   null;
+        $checked 	            =   1;          		
+		$lstFile				=	$_FILES["media_file"];		
+		$arrName 				= 	$lstFile["name"];    
+		$arrTmpName 			=	$lstFile["tmp_name"];       		
 		foreach ($arrName as $key => $value) {      
          	if(!empty($value)){
 	          	$fileName   = $value;
-	          	@copy($arrTmpName[$key], $uploadDir . DS . $fileName);  
+	          	@copy($arrTmpName[$key], base_path("resources/upload/".$fileName) );  
         	}       
       	}
-      	$info = array(
-                  'type_msg' 			=> "has-success",
-                  'msg' 				=> 'Save data successfully',
-                  "checked" 			=> 1,
-                  "error" 			=> $error,
-                  "id"    			=> $id
-                );
-      	return $info;      	
+      	return redirect()->route("admin.".$this->_controller.".getList");
 	}
 	
-	public function trash(){			
-		$arrPrivilege=getArrPrivilege();
-		$requestControllerAction=$this->_controller."-trash";					
-		if(in_array($requestControllerAction,$arrPrivilege)){
-			$enabledThaoTac=true;
-			$strMessage="";
-			$strDirUpload=base_path()."/resources/upload"; 
-			$arrID=@$_POST["cid"];
-			if(empty($arrID)){
-				$enabledThaoTac=false;		 	
-			 	$strMessage="Xin chọn một phần tử để xóa";		 	
-			}
-			if($enabledThaoTac){				
-				foreach ($arrID as $key => $value) {
-				 	$pathFile=$strDirUpload.DS.$value;
-				 	if(file_exists($pathFile)){
+	public function trash(){	
+		$checked                =   1;
+	    $type_msg               =   "alert-success";
+	    $msg                    =   "Delete successfully";   								
+		$arrID=@$_POST["cid"];
+		if(count($arrID) == 0){
+			$checked=0;
+		}
+		if($checked==1){				
+			foreach ($arrID as $key => $value) {
+				if(!empty($value)){
+					$pathFile=base_path("resources/upload/".$value);
+			 		if(file_exists($pathFile)){
 						unlink($pathFile);
 					}	
-		 		}
-				return redirect()->route("admin.".$this->_controller.".getList")->with(["flash_message"=>array("class"=>"success","content"=>"Đã xóa")]);		 
-			}
-			else{
-				$strMessage= "<script type='text/javascript' language='javascript'>
-					alert('".$strMessage."');			
-					window.location='".route("admin.".$this->_controller.".getList")."'
-					</script>";
-				echo $strMessage;
-			}
-		}	 				
-	}
-	/*public function trash(Request $request){
-            $str_id                 =   $request->str_id;   
-            $checked                =   1;
-            $type_msg               =   "alert-success";
-            $msg                    =   "Delete successfully";      
-            $arrID                  =   explode(",", $str_id)  ;        
-            if(empty($str_id)){
-              $checked     =   0;
-              $type_msg           =   "alert-warning";            
-              $msg                =   "Please choose at least one item to delete";
-            }
-            if($checked == 1){                
-                  $strID = implode(',',$arrID);   
-                  $strID=substr($strID, 0,strlen($strID) - 1);
-                  $sqlDeleteModuleArticle = "DELETE FROM `module_article` WHERE `id` IN  (".$strID.")";       
-                  $sqlDeleteModMenuType = "DELETE FROM `mod_menu_type` WHERE `module_id` IN (".$strID.") and `module_type` = '".trim(mb_strtolower($this->_controller,'UTF-8'))."' ";                
-                  DB::statement($sqlDeleteModuleArticle);
-                  DB::statement($sqlDeleteModMenuType);           
-            }
-            $data                   =   $this->loadData($request);
-            $info = array(
-              'checked'           => $checked,
-              'type_msg'          => $type_msg,                
-              'msg'               => $msg,                
-              'data'              => $data
-            );
-            return $info;
-      }*/
+				}			 	
+	 		}			 
+		}	
+		return redirect()->route("admin.".$this->_controller.".getList");						
+	}	
 	public function deleteItem(Request $request){
-		/* begin phân quyền */
-		$arrPrivilege=getArrPrivilege();
-		$requestControllerAction=$this->_controller."-delete";			
-		/* end phân quyền */			
-		if(in_array($requestControllerAction,$arrPrivilege)){
-			$strDirUpload=base_path()."/resources/upload";
-			$pathFile=$strDirUpload.DS.$name;
-			$co_file=false; 
-			if(file_exists($pathFile)){
-				unlink($pathFile);
-			}		
-			return redirect()->route("admin.".$this->_controller.".getList")->with(["flash_message"=>array("class"=>"success","content"=>"Đã xóa file ".$name)]);	
-		}
-		else{
-			return view("admin.".$this->_pageAccessDenied);
-		}				
+		$id                     =   $request->id;              
+	    $checked                =   1;
+	    $type_msg               =   "alert-success";
+	    $msg                    =   "Delete successfully";   
+	    $pathFile 				= 	base_path("resources/upload/".$id);	
+	    if(!file_exists($pathFile)){
+			$checked=0;
+		}			         	    
+	    if($checked == 1){
+	        unlink($pathFile);
+	    }          
+	    $info = array(
+	       'checked'           => $checked,
+	       'type_msg'          => $type_msg,                
+	       'msg'               => $msg,                    
+	    );
+	    return $info;
 	}
 }
 
