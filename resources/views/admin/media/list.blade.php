@@ -22,8 +22,9 @@ $linkDelete			=	route('admin.'.$controller.'.deleteItem');
 					<div class="row">
 						<div class="col-md-12">						
 							<a href="<?php echo $linkNew; ?>" class="btn green">Add new <i class="fa fa-plus"></i></a> 			
-							<button type="submit" class="btn red">Trash<i class="fa fa-trash"></i></button>							
-							<input type="hidden" name="_token" value="{!! csrf_token() !!}" />							  									
+							<button onclick="return xacnhanxoa();" type="submit" class="btn red">Trash<i class="fa fa-trash"></i></button>							
+							<input type="hidden" name="_token" value="{!! csrf_token() !!}" />							  								
+							<input type="hidden" name="json_id" value="" />
 						</div>                                                
 					</div>
 				</div>    
@@ -61,7 +62,7 @@ $linkDelete			=	route('admin.'.$controller.'.deleteItem');
 							<div class="col-sm-6">
 								<center><a href="javascript:void(0)" onclick="deleteItem('<?php echo $name; ?>')" ><img src="<?php echo url('public/admin/images/delete-icon.png'); ?>"></a></center>
 							</div>
-							<div class="col-sm-6"><center><input type="checkbox" name="cid[]" value="<?php echo $name; ?>" /></center></div>
+							<div class="col-sm-6"><center><input type="checkbox" name="cid[]"  value="<?php echo $name; ?>" /></center></div>
 							<div class="clr"></div>					
 						</div>		
 						<div class="title-media"><center><?php echo $name; ?></center></div>		 					
@@ -104,6 +105,14 @@ $linkDelete			=	route('admin.'.$controller.'.deleteItem');
 			},
 		});
 		$("input[name='checkall-toggle']").prop("checked",false);
+	}	
+	function xacnhanxoa(){
+		var xac_nhan = false;
+		var msg="Do you really want to delete this item ?";
+		if(window.confirm(msg)){ 
+			xac_nhan = true;
+		}
+		return xac_nhan;
 	}
 </script>
 @endsection()         
