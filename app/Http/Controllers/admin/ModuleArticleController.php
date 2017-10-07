@@ -78,7 +78,7 @@ class ModuleArticleController extends Controller {
               if (empty($id)) {
                 $data=ModuleArticleModel::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get()->toArray();	        	
               }else{
-                $data=ModuleArticleModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),$id])->get()->toArray();		
+                $data=ModuleArticleModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),(int)@$id])->get()->toArray();		
               }  
               if (count($data) > 0) {
                   $checked = 0;
@@ -101,7 +101,7 @@ class ModuleArticleController extends Controller {
                     $item 				      = 	new ModuleArticleModel;       
                     $item->created_at 	=	date("Y-m-d H:i:s",time());                            
                 } else{
-                    $item				        =	ModuleArticleModel::find($id);                        		 
+                    $item				        =	ModuleArticleModel::find((int)@$id);                        		 
                 }  
                 $item->fullname 		    =	$fullname;
                 $item->article_id       = $article_id;
@@ -159,7 +159,7 @@ class ModuleArticleController extends Controller {
                   $type_msg               =   "alert-success";
                   $msg                    =   "Update successfully";              
                   $status         =       (int)$request->status;
-                  $item           =       ModuleArticleModel::find($id);        
+                  $item           =       ModuleArticleModel::find((int)@$id);        
                   $item->status   =       $status;
                   $item->save();
                   $data                   =   $this->loadData($request);
@@ -178,7 +178,7 @@ class ModuleArticleController extends Controller {
             $type_msg               =   "alert-success";
             $msg                    =   "Delete successfully";                    
             if($checked == 1){
-              $item = ModuleArticleModel::find($id);
+              $item = ModuleArticleModel::find((int)@$id);
               $item->delete();
               ModMenuTypeModel::whereRaw("module_id = ? and module_type = ?",[(int)$id,trim(mb_strtolower($this->_controller,'UTF-8'))])->delete();
             }        

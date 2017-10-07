@@ -55,7 +55,7 @@ class ArticleController extends Controller {
         switch ($task) {
            case 'edit':
               $title=$this->_title . " : Update";
-              $arrRowData=ArticleModel::find($id)->toArray();       
+              $arrRowData=ArticleModel::find((int)@$id)->toArray();       
               $arrArticleCategory=ArticleCategoryModel::whereRaw("article_id = ?",[(int)@$id])->get()->toArray();
            break;
            case 'add':
@@ -96,7 +96,7 @@ class ArticleController extends Controller {
               if (empty($id)) {
                 $data=ArticleModel::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get()->toArray();	        	
               }else{
-                $data=ArticleModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),$id])->get()->toArray();		
+                $data=ArticleModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),(int)@$id])->get()->toArray();		
               }  
               if (count($data) > 0) {
                   $checked = 0;
@@ -113,7 +113,7 @@ class ArticleController extends Controller {
               if (empty($id)) {
                 $data=ArticleModel::whereRaw("trim(lower(title)) = ?",[trim(mb_strtolower($title,'UTF-8'))])->get()->toArray();           
               }else{
-                $data=ArticleModel::whereRaw("trim(lower(title)) = ? and id != ?",[trim(mb_strtolower($title,'UTF-8')),$id])->get()->toArray();   
+                $data=ArticleModel::whereRaw("trim(lower(title)) = ? and id != ?",[trim(mb_strtolower($title,'UTF-8')),(int)@$id])->get()->toArray();   
               }  
               if (count($data) > 0) {
                   $checked = 0;
@@ -130,7 +130,7 @@ class ArticleController extends Controller {
                 if (empty($id)) {
                   $data=ArticleModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias,'UTF-8'))])->get()->toArray();	        	
                 }else{
-                  $data=ArticleModel::whereRaw("trim(lower(alias)) = ? and id != ?",[trim(mb_strtolower($alias,'UTF-8')),$id])->get()->toArray();		
+                  $data=ArticleModel::whereRaw("trim(lower(alias)) = ? and id != ?",[trim(mb_strtolower($alias,'UTF-8')),(int)@$id])->get()->toArray();		
                 }  
                 if (count($data) > 0) {
                   $checked = 0;
@@ -156,7 +156,7 @@ class ArticleController extends Controller {
                       $item->image    =   trim($image) ;  
                     }				
                 } else{
-                    $item				=	ArticleModel::find($id);   
+                    $item				=	ArticleModel::find((int)@$id);   
                     $file_image="";                       
                     if(!empty($image_hidden)){
                       $file_image =$image_hidden;          
@@ -179,7 +179,7 @@ class ArticleController extends Controller {
                 $item->updated_at 		  =	date("Y-m-d H:i:s",time());    	        	
                 $item->save();  	
                 if(count(@$category_article_id)>0){                            
-                    $arrArticleCategory=ArticleCategoryModel::whereRaw("article_id = ?",[@$item->id])->select("category_article_id")->get()->toArray();
+                    $arrArticleCategory=ArticleCategoryModel::whereRaw("article_id = ?",[(int)@$item->id])->select("category_article_id")->get()->toArray();
                     $arrCategoryArticleID=array();
                     foreach ($arrArticleCategory as $key => $value) {
                         $arrCategoryArticleID[]=$value["category_article_id"];
@@ -196,8 +196,8 @@ class ArticleController extends Controller {
                           foreach ($selected as $key => $value) {
                             $category_article_id=$value;
                             $articleCategory=new ArticleCategoryModel;
-                            $articleCategory->article_id=@$item->id;
-                            $articleCategory->category_article_id=$category_article_id;            
+                            $articleCategory->article_id=(int)@$item->id;
+                            $articleCategory->category_article_id=(int)@$category_article_id;            
                             $articleCategory->save();
                           }
                     }       
@@ -226,7 +226,7 @@ class ArticleController extends Controller {
                   $type_msg               =   "alert-success";
                   $msg                    =   "Update successfully";              
                   $status         =       (int)$request->status;
-                  $item           =       ArticleModel::find($id);        
+                  $item           =       ArticleModel::find((int)@$id);        
                   $item->status   =       $status;
                   $item->save();
                   $data                   =   $this->loadData($request);
@@ -244,7 +244,7 @@ class ArticleController extends Controller {
             $type_msg               =   "alert-success";
             $msg                    =   "Delete successfully";                      
             if($checked == 1){
-                $item = ArticleModel::find($id);
+                $item = ArticleModel::find((int)@$id);
                 $item->image     = null;      
                 $item->save();  
             }          
@@ -261,7 +261,7 @@ class ArticleController extends Controller {
             $type_msg               =   "alert-success";
             $msg                    =   "Delete successfully";                    
             if($checked == 1){
-              $item = ArticleModel::find($id);
+              $item = ArticleModel::find((int)@$id);
                 $item->delete();
                 ArticleCategoryModel::whereRaw("article_id = ?",[(int)$id])->delete();
             }        
@@ -341,7 +341,7 @@ class ArticleController extends Controller {
             if(count($data_order) > 0){              
               foreach($data_order as $key => $value){      
                 if(!empty($value)){
-                  $item=ArticleModel::find((int)$value->id);                
+                  $item=ArticleModel::find((int)@$value->id);                
                 $item->sort_order=(int)$value->sort_order;                         
                 $item->save();                      
                 }                                                  

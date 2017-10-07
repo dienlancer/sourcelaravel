@@ -31,7 +31,7 @@ class MenuTypeController extends Controller {
         switch ($task) {
             case 'edit':
                 $title=$this->_title . " : Update";
-                $arrRowData=MenuTypeModel::find($id)->toArray();			 
+                $arrRowData=MenuTypeModel::find((int)@$id)->toArray();			 
               break;
             case 'add':
                 $title=$this->_title . " : Add new";
@@ -57,7 +57,7 @@ class MenuTypeController extends Controller {
             if (empty($id)) {
                 $data=MenuTypeModel::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get()->toArray();	        	
             }else{
-              $data=MenuTypeModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),$id])->get()->toArray();		
+              $data=MenuTypeModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),(int)@$id])->get()->toArray();		
             }  
             if (count($data) > 0) {
               $checked = 0;
@@ -78,7 +78,7 @@ class MenuTypeController extends Controller {
                   $item->image      =   trim($image) ;  
                 }				
               }else{
-                    $item				    =	MenuTypeModel::find($id);     	  		 
+                    $item				    =	MenuTypeModel::find((int)@$id);     	  		 
               }  
               $item->fullname 		  =	$fullname;
               $item->sort_order 		=	(int)$sort_order;  
@@ -108,7 +108,7 @@ class MenuTypeController extends Controller {
         $type_msg               =   "alert-success";
         $msg                    =   "Update successfully";              
         $status         =       (int)$request->status;
-        $item           =       MenuTypeModel::find($id);        
+        $item           =       MenuTypeModel::find((int)@$id);        
         $item->status   =       $status;
         $item->save();
         $data                   =   $this->loadData($request);
@@ -124,15 +124,15 @@ class MenuTypeController extends Controller {
           $id                     =   (int)$request->id;              
           $checked                =   1;
           $type_msg               =   "alert-success";
-          $msg                    =   "Delete successfully";            
-          $count = MenuModel::where("menu_type_id",(int)($id))->count();
-          if($count > 0){
+          $msg                    =   "Delete successfully";
+          $data                   =   MenuModel::whereRaw("menu_type_id = ?",[(int)@$id])->get()->toArray();                      
+          if(count($data) > 0){
             $checked     =   0;
             $type_msg           =   "alert-warning";            
             $msg                =   "Cannot delete this item";            
           }  
           if($checked == 1){
-            $item               =   MenuTypeModel::find($id);
+            $item               =   MenuTypeModel::find((int)@$id);
             $item->delete();            
           }        
           $data                   =   $this->loadData($request);
@@ -185,9 +185,9 @@ class MenuTypeController extends Controller {
             $type_msg           =   "alert-warning";            
             $msg                =   "Please choose at least one item to delete";
           }else{
-            foreach ($arrID as $key => $value) {        
-                  $count = MenuModel::where("menu_type_id",$value)->count();
-                  if($count > 0){
+            foreach ($arrID as $key => $value) {    
+                  $data                   =   MenuModel::whereRaw("menu_type_id = ?",[(int)@$value])->get()->toArray();                             
+                  if(count($data) > 0){
                       $checked     =   0;
                       $type_msg           =   "alert-warning";            
                       $msg                =   "Cannot delete this item";

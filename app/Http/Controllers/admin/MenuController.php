@@ -41,7 +41,7 @@ class MenuController extends Controller {
             switch ($task) {
                case 'edit':
                   $title=$this->_title . " : Update";
-                  $arrRowData=MenuModel::find($id)->toArray();			 
+                  $arrRowData=MenuModel::find((int)@$id)->toArray();			 
                break;
                case 'add':
                   $title=$this->_title . " : Add new";
@@ -93,7 +93,7 @@ class MenuController extends Controller {
                 if (empty($id)) {
                   $data=MenuModel::whereRaw("trim(lower(alias)) = ? and menu_type_id = ?",[trim(mb_strtolower($alias,'UTF-8')),(int)@$menu_type_id])->get();	        	
                 }else{
-                  $data=MenuModel::whereRaw("trim(lower(alias)) = ? and id != ? and menu_type_id = ?",[trim(mb_strtolower($alias,'UTF-8')),$id,(int)@$menu_type_id])->get();		
+                  $data=MenuModel::whereRaw("trim(lower(alias)) = ? and id != ? and menu_type_id = ?",[trim(mb_strtolower($alias,'UTF-8')),(int)@$id,(int)@$menu_type_id])->get();		
                 }  
                 if (count($data) > 0) {
                   $checked = 0;
@@ -110,7 +110,7 @@ class MenuController extends Controller {
                 if (empty($id)) {
                   $data=MenuModel::whereRaw("trim(lower(site_link)) = ? and menu_type_id = ?",[trim(mb_strtolower($site_link,'UTF-8')),@$menu_type_id])->get();            
                 }else{
-                  $data=MenuModel::whereRaw("trim(lower(site_link)) = ? and id != ? and menu_type_id = ?",[trim(mb_strtolower($site_link,'UTF-8')),$id,@$menu_type_id])->get();    
+                  $data=MenuModel::whereRaw("trim(lower(site_link)) = ? and id != ? and menu_type_id = ?",[trim(mb_strtolower($site_link,'UTF-8')),(int)@$id,@$menu_type_id])->get();    
                 }  
                 if (count($data) > 0) {
                   $checked = 0;
@@ -133,7 +133,7 @@ class MenuController extends Controller {
                     $item 				      = 	new MenuModel;       
                     $item->created_at 	=	date("Y-m-d H:i:s",time());                          
                 } else{
-                    $item				         =	MenuModel::find($id);                     	  		 
+                    $item				         =	MenuModel::find((int)@$id);                     	  		 
                 }  
                 $item->fullname 		     = $fullname;
                 $item->alias 			       = $alias;
@@ -174,7 +174,7 @@ class MenuController extends Controller {
           $type_msg               =   "alert-success";
           $msg                    =   "Update successfully";              
           $status         =       (int)$request->status;
-          $item           =       MenuModel::find($id);        
+          $item           =       MenuModel::find((int)@$id);        
           $item->status   =       $status;
           $item->save();
           $data                   =   $this->loadData($request);
@@ -191,19 +191,19 @@ class MenuController extends Controller {
             $checked                =   1;
             $type_msg               =   "alert-success";
             $msg                    =   "Delete successfully";            
-            $menu_type_id           =   0;                
-            $count                  =   MenuModel::where("parent_id",$id)->count();
-            $item                   =   MenuModel::find($id);
+            $menu_type_id           =   0;        
+            $data                   =   MenuModel::whereRaw("parent_id = ?",[(int)@$id])->get()->toArray();                    
+            $item                   =   MenuModel::find((int)@$id);
             $menu_type_id           =   $item->toArray()["menu_type_id"];
-            if($count > 0){
+            if(count($data) > 0){
                 $checked            =   0;
                 $type_msg           =   "alert-warning";            
                 $msg                =   "Cannot delete this item";            
             }          
             if($checked == 1){
-                $item               =   MenuModel::find($id);
+                $item               =   MenuModel::find((int)@$id);
                 $item->delete();            
-                ModMenuTypeModel::whereRaw("menu_id = ?",[(int)$id])->delete();
+                ModMenuTypeModel::whereRaw("menu_id = ?",[(int)@$id])->delete();
             }        
             $data                   =   $this->loadData($request);
             $info = array(
@@ -257,9 +257,9 @@ class MenuController extends Controller {
         }else{          
             foreach ($arrID as $key => $value) {
               if(!empty($value)){
-                  $item=MenuModel::find((int)$value);                 
-                  $count = MenuModel::where("parent_id",(int)$value)->count();
-                  if($count > 0){
+                  $item=MenuModel::find((int)$value);           
+                  $data                   =   MenuModel::whereRaw("parent_id = ?",[(int)@$value])->get()->toArray();                               
+                  if(count($data) > 0){
                     $checked            =   0;
                     $type_msg           =   "alert-warning";            
                     $msg                =   "Cannot delete this item"; 

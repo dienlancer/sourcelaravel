@@ -55,7 +55,7 @@ class ProductController extends Controller {
         switch ($task) {
            case 'edit':
               $title=$this->_title . " : Update";
-              $arrRowData=ProductModel::find($id)->toArray();       
+              $arrRowData=ProductModel::find((int)@$id)->toArray();       
               $arrProductCategory=ProductCategoryModel::whereRaw("product_id = ?",[(int)@$id])->get()->toArray();
            break;
            case 'add':
@@ -93,7 +93,7 @@ class ProductController extends Controller {
               if (empty($id)) {
                 $data=ProductModel::whereRaw("trim(lower(code)) = ?",[trim(mb_strtolower($code,'UTF-8'))])->get()->toArray();           
               }else{
-                $data=ProductModel::whereRaw("trim(lower(code)) = ? and id != ?",[trim(mb_strtolower($code,'UTF-8')),$id])->get()->toArray();   
+                $data=ProductModel::whereRaw("trim(lower(code)) = ? and id != ?",[trim(mb_strtolower($code,'UTF-8')),(int)@$id])->get()->toArray();   
               }  
               if (count($data) > 0) {
                   $checked = 0;
@@ -110,7 +110,7 @@ class ProductController extends Controller {
               if (empty($id)) {
                 $data=ProductModel::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get()->toArray();	        	
               }else{
-                $data=ProductModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),$id])->get()->toArray();		
+                $data=ProductModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),(int)@$id])->get()->toArray();		
               }  
               if (count($data) > 0) {
                   $checked = 0;
@@ -127,7 +127,7 @@ class ProductController extends Controller {
                 if (empty($id)) {
                   $data=ProductModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias,'UTF-8'))])->get()->toArray();	        	
                 }else{
-                  $data=ProductModel::whereRaw("trim(lower(alias)) = ? and id != ?",[trim(mb_strtolower($alias,'UTF-8')),$id])->get()->toArray();		
+                  $data=ProductModel::whereRaw("trim(lower(alias)) = ? and id != ?",[trim(mb_strtolower($alias,'UTF-8')),(int)@$id])->get()->toArray();		
                 }  
                 if (count($data) > 0) {
                   $checked = 0;
@@ -153,7 +153,7 @@ class ProductController extends Controller {
                       $item->image    =   trim($image) ;  
                     }				
                 } else{
-                    $item				=	ProductModel::find($id);   
+                    $item				=	ProductModel::find((int)@$id);   
                     $file_image="";                       
                     if(!empty($image_hidden)){
                       $file_image =$image_hidden;          
@@ -220,7 +220,7 @@ class ProductController extends Controller {
                   $type_msg               =   "alert-success";
                   $msg                    =   "Update successfully";              
                   $status         =       (int)$request->status;
-                  $item           =       ProductModel::find($id);        
+                  $item           =       ProductModel::find((int)@$id);        
                   $item->status   =       $status;
                   $item->save();
                   $data                   =   $this->loadData($request);
@@ -238,7 +238,7 @@ class ProductController extends Controller {
             $type_msg               =   "alert-success";
             $msg                    =   "Delete successfully";                      
             if($checked == 1){
-                $item = ProductModel::find($id);
+                $item = ProductModel::find((int)@$id);
                 $item->image     = null;      
                 $item->save();  
             }          
@@ -255,7 +255,7 @@ class ProductController extends Controller {
             $type_msg               =   "alert-success";
             $msg                    =   "Delete successfully";                    
             if($checked == 1){
-              $item = ProductModel::find($id);
+              $item = ProductModel::find((int)@$id);
                 $item->delete();
                 ProductCategoryModel::whereRaw("product_id = ?",[(int)$id])->delete();
             }        

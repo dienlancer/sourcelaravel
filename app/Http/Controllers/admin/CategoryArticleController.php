@@ -35,7 +35,7 @@ class CategoryArticleController extends Controller {
           switch ($task) {
             case 'edit':
                 $title=$this->_title . " : Update";
-                $arrRowData=CategoryArticleModel::find($id)->toArray();			 
+                $arrRowData=CategoryArticleModel::find((int)@$id)->toArray();			 
             break;
             case 'add':
                 $title=$this->_title . " : Add new";
@@ -69,7 +69,7 @@ class CategoryArticleController extends Controller {
              if (empty($id)) {
                 $data=CategoryArticleModel::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get()->toArray();	        	
             }else{
-              $data=CategoryArticleModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),$id])->get()->toArray();		
+              $data=CategoryArticleModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),(int)@$id])->get()->toArray();		
             }  
             if (count($data) > 0) {
               $checked = 0;
@@ -86,7 +86,7 @@ class CategoryArticleController extends Controller {
              if (empty($id)) {
               $data=CategoryArticleModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias,'UTF-8'))])->get()->toArray();	        	
             }else{
-              $data=CategoryArticleModel::whereRaw("trim(lower(alias)) = ? and id != ?",[trim(mb_strtolower($alias,'UTF-8')),$id])->get()->toArray();		
+              $data=CategoryArticleModel::whereRaw("trim(lower(alias)) = ? and id != ?",[trim(mb_strtolower($alias,'UTF-8')),(int)@$id])->get()->toArray();		
             }  
             if (count($data) > 0) {
               $checked = 0;
@@ -112,7 +112,7 @@ class CategoryArticleController extends Controller {
                 $item->image    =   trim($image) ;  
               }				
         } else{
-              $item				=	CategoryArticleModel::find($id);   
+              $item				=	CategoryArticleModel::find((int)@$id);   
               $file_image=null;                       
               if(!empty($image_hidden)){
                 $file_image =$image_hidden;          
@@ -153,7 +153,7 @@ class CategoryArticleController extends Controller {
             $type_msg               =   "alert-success";
             $msg                    =   "Update successfully";              
             $status         =       (int)$request->status;
-            $item           =       CategoryArticleModel::find($id);        
+            $item           =       CategoryArticleModel::find((int)@$id);        
             $item->status   =       $status;
             $item->save();
             $data                   =   $this->loadData($request);
@@ -172,7 +172,7 @@ class CategoryArticleController extends Controller {
           $msg                    =   "Delete successfully";            
         
           if($checked == 1){
-              $item = CategoryArticleModel::find($id);
+              $item = CategoryArticleModel::find((int)@$id);
               $item->image     = null;      
               $item->save();  
           }          
@@ -187,21 +187,21 @@ class CategoryArticleController extends Controller {
             $id                     =   (int)$request->id;              
             $checked                =   1;
             $type_msg               =   "alert-success";
-            $msg                    =   "Delete successfully";            
-            $count                  =   CategoryArticleModel::where("parent_id",$id)->count();
-            if($count > 0){
+            $msg                    =   "Delete successfully";                        
+            $data                   =   CategoryArticleModel::whereRaw("parent_id = ?",[(int)@$id])->get()->toArray();  
+            if(count($data) > 0){
                 $checked     =   0;
                 $type_msg           =   "alert-warning";            
                 $msg                =   "Cannot delete this item";            
             }
-            $count                  =   ArticleCategoryModel::where("category_article_id",$id)->count();
-            if($count > 0){
+            $data                   =   ArticleCategoryModel::whereRaw("category_article_id = ?",[(int)@$id])->get()->toArray();              
+            if(count($data) > 0){
                 $checked     =   0;
                 $type_msg           =   "alert-warning";            
                 $msg                =   "Cannot delete this item";            
             }
             if($checked == 1){
-                $item               =   CategoryArticleModel::find($id);
+                $item               =   CategoryArticleModel::find((int)@$id);
                 $item->delete();            
             }        
             $data                   =   $this->loadData($request);
@@ -256,14 +256,14 @@ class CategoryArticleController extends Controller {
             }else{
               foreach ($arrID as $key => $value) {
                 if(!empty($value)){
-                  $count = CategoryArticleModel::where("parent_id",$value)->count();
-                  if($count > 0){
+                  $data                   =   CategoryArticleModel::whereRaw("parent_id = ?",[(int)@$value])->get()->toArray();                    
+                  if(count($data) > 0){
                     $checked     =   0;
                     $type_msg           =   "alert-warning";            
                     $msg                =   "Cannot delete this item";
                   }
-                  $count = ArticleCategoryModel::where("category_article_id",$value)->count();
-                  if($count > 0){
+                  $data                   =   ArticleCategoryModel::whereRaw("category_article_id = ?",[(int)@$value])->get()->toArray();                     
+                  if(count($data) > 0){
                     $checked     =   0;
                     $type_msg           =   "alert-warning";            
                     $msg                =   "Cannot delete this item"; 
