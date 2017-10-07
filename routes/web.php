@@ -174,14 +174,13 @@ Route::group(["prefix"=>"admin"],function(){
 		Route::post("trash",["as"=>"admin.media.trash","uses"=>"admin\MediaController@trash"]);
 	});	
 	Route::group(["prefix"=>"group-member"],function(){		
-		Route::match(["get","post"],"list",["as"=>"admin.group-member.getList","uses"=>"admin\GroupMemberController@getList"]);
+		Route::get("list",["as"=>"admin.group-member.getList","uses"=>"admin\GroupMemberController@getList"]);
+		Route::post("load-data",["as"=>"admin.group-member.loadData","uses"=>"admin\GroupMemberController@loadData"]);		
 		Route::get("form/{task}/{id?}",["as"=>"admin.group-member.getForm","uses"=>"admin\GroupMemberController@getForm"]);
-		Route::post("form/{task}",["as"=>"admin.group-member.postForm","uses"=>"admin\GroupMemberController@postForm"]);
-		Route::get("delete/{id}",["as"=>"admin.group-member.getDelete","uses"=>"admin\GroupMemberController@getDelete"]);
-		Route::post("ordering",["as"=>"admin.group-member.postOrdering","uses"=>"admin\GroupMemberController@postOrdering"]);
-		Route::post("status/{status}",["as"=>"admin.group-member.postStatus","uses"=>"admin\GroupMemberController@postStatus"]);
-		Route::get("ajaxStatus/{id}/{status}",["as"=>"admin.group-member.getAjaxStatus","uses"=>"admin\GroupMemberController@getAjaxStatus"]);
-		Route::post("trash",["as"=>"admin.group-member.postTrash","uses"=>"admin\GroupMemberController@postTrash"]);
-	});		
+		Route::post("save",["as"=>"admin.group-member.save","uses"=>"admin\GroupMemberController@save"]);
+		Route::post("delete-item",["as"=>"admin.group-member.deleteItem","uses"=>"admin\GroupMemberController@deleteItem"]);		
+		Route::post("sort-order",["as"=>"admin.group-member.sortOrder","uses"=>"admin\GroupMemberController@sortOrder"]);		
+		Route::post("trash",["as"=>"admin.group-member.trash","uses"=>"admin\GroupMemberController@trash"]);		
+	});	
 });
 ?>

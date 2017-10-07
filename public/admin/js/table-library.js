@@ -121,8 +121,7 @@ var basicTable = function () {
             columns: [                
                 { data: "checked"            },
                 { data: "fullname"      },               
-                { data: "sort_order"    },
-                { data: "status"        },                            
+                { data: "sort_order"    },                      
                 { data: "edited"    },         
                 { data: "deleted"    },                
             ]

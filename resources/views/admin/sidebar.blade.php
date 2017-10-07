@@ -78,5 +78,26 @@
                     <i class="icon-notebook"></i>
                     <span class="title">Media</span>                                            
                 </a>                                                                      
-    </li>                                                   
+    </li>       
+    <li class="nav-item  ">
+        <a href="javascript:;" class="nav-link nav-toggle">
+            <i class="fa fa-folder-open-o" ></i>
+            <span class="title">User</span>
+            <span class="arrow"></span>
+        </a>
+        <ul class="sub-menu">                                    
+            <li class="nav-item  ">
+                <a href="{!! route('admin.group-member.getList') !!}" class="nav-link nav-toggle">
+                    <i class="icon-notebook"></i>
+                    <span class="title">Group member</span>                                            
+                </a>                                                                      
+            </li>
+            <li class="nav-item  ">
+                <a href="{!! route('admin.user.getList') !!}" class="nav-link nav-toggle">
+                    <i class="icon-notebook"></i>
+                    <span class="title">User</span>                                            
+                </a>                                                                      
+            </li>
+        </ul>
+    </li>                                           
 </ul>

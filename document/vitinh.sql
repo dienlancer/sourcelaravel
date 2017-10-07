@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 07, 2017 lúc 08:07 AM
+-- Thời gian đã tạo: Th10 07, 2017 lúc 09:08 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -111,6 +111,27 @@ SELECT
     LEFT JOIN `category_product` a ON n.parent_id = a.id
     WHERE
     ( (keyword='') OR ( LOWER(n.fullname) LIKE CONCAT('%',LOWER(keyword),'%')  ) )
+    ORDER BY n.sort_order ASC$$
+
+DROP PROCEDURE IF EXISTS `pro_getGroupMember`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getGroupMember` (IN `keyword` VARCHAR(255))  NO SQL
+SELECT
+	0 as is_checked
+	,n.id
+	,n.fullname
+	,n.sort_order
+	,n.created_at
+	,n.updated_at
+     FROM 
+    `group_member` n
+    WHERE
+    (keyword ='' OR LOWER(n.fullname) LIKE CONCAT('%', LOWER(keyword) ,'%'))    
+    group by
+    n.id
+	,n.fullname
+	,n.sort_order
+	,n.created_at
+	,n.updated_at
     ORDER BY n.sort_order ASC$$
 
 DROP PROCEDURE IF EXISTS `pro_getMenu`$$
@@ -477,9 +498,9 @@ CREATE TABLE `group_member` (
 --
 
 INSERT INTO `group_member` (`id`, `fullname`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 'Administrator', 1, '2016-12-17 05:05:18', '2017-05-19 18:47:03'),
-(2, 'Bài viết', 2, '2016-12-17 05:05:41', '2017-05-20 09:21:12'),
-(4, 'Hệ thống', 3, '2016-12-17 05:26:59', '2017-05-20 09:21:12');
+(1, 'Administrator', 3, '2016-12-17 05:05:18', '2017-10-07 19:06:51'),
+(2, 'Bài viết', 2, '2016-12-17 05:05:41', '2017-10-07 19:06:35'),
+(4, 'Hệ thống', 1, '2016-12-17 05:26:59', '2017-10-07 19:06:51');
 
 -- --------------------------------------------------------
 
@@ -686,7 +707,11 @@ INSERT INTO `group_privilege` (`id`, `group_member_id`, `privilege_id`, `created
 (889, 4, 57, '2017-05-19 18:38:18', '2017-05-19 18:38:18'),
 (890, 4, 58, '2017-05-19 18:38:18', '2017-05-19 18:38:18'),
 (891, 4, 59, '2017-05-19 18:38:18', '2017-05-19 18:38:18'),
-(892, 4, 60, '2017-05-19 18:38:18', '2017-05-19 18:38:18');
+(892, 4, 60, '2017-05-19 18:38:18', '2017-05-19 18:38:18'),
+(895, 8, 5, '2017-10-07 19:04:18', '2017-10-07 19:04:18'),
+(896, 8, 30, '2017-10-07 19:04:18', '2017-10-07 19:04:18'),
+(899, 9, 5, '2017-10-07 19:05:35', '2017-10-07 19:05:35'),
+(900, 9, 32, '2017-10-07 19:05:35', '2017-10-07 19:05:35');
 
 -- --------------------------------------------------------
 
@@ -785,9 +810,9 @@ CREATE TABLE `menu` (
 --
 
 INSERT INTO `menu` (`id`, `fullname`, `alias`, `site_link`, `parent_id`, `menu_type_id`, `level`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(10, 'menu 2-1', 'alias-2-1', 'sitelink-2-1', 0, 14, 0, 1, 1, '2017-10-06 13:49:05', '2017-10-06 13:49:05'),
-(11, 'menu 2-2', 'alias-2-2', 'sitelink-2-2', 0, 14, 0, 2, 1, '2017-10-06 13:49:21', '2017-10-06 13:49:21'),
-(12, 'menu 2-3', 'alias-2-3', 'sitelink-2-3', 0, 14, 0, 3, 1, '2017-10-06 13:50:08', '2017-10-06 13:50:08'),
+(10, 'menu 2-1', 'alias-2-1', 'sitelink-2-1', 0, 14, 0, 1, 1, '2017-10-06 13:49:05', '2017-10-07 15:18:11'),
+(11, 'menu 2-2', 'alias-2-2', 'sitelink-2-2', 0, 14, 0, 2, 1, '2017-10-06 13:49:21', '2017-10-07 15:18:15'),
+(12, 'menu 2-3', 'alias-2-3', 'sitelink-2-3', 0, 14, 0, 3, 1, '2017-10-06 13:50:08', '2017-10-07 15:18:18'),
 (13, 'menu 4-1', 'alias-4-1', 'sitelink-4-1', 0, 17, 0, 1, 1, '2017-10-06 13:50:35', '2017-10-06 13:50:35'),
 (14, 'menu 4-2', 'alias-4-2', 'sitelink-4-2', 0, 17, 0, 2, 1, '2017-10-06 13:50:58', '2017-10-06 13:50:58'),
 (15, 'menu 4-3', 'alias-4-3', 'sitelink-4-3', 0, 17, 0, 3, 1, '2017-10-06 13:51:19', '2017-10-06 13:51:19');
@@ -920,21 +945,6 @@ CREATE TABLE `password_resets` (
   `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `persistences`
---
-
-DROP TABLE IF EXISTS `persistences`;
-CREATE TABLE `persistences` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `user_id` int(10) UNSIGNED NOT NULL,
-  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1117,7 +1127,8 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `code`, `fullname`, `alias`, `image`, `status`, `child_image`, `price`, `detail`, `sort_order`, `created_at`, `updated_at`) VALUES
-(6, '123456', 'Sản phẩm 1', 'san-pham-1', '12997238_1001.jpg', 1, NULL, '300000.00', '', 1, '2017-10-05 17:51:11', '2017-10-05 17:51:11');
+(6, '123456', 'Sản phẩm 1', 'san-pham-1', '12997238_1001.jpg', 1, NULL, '300000.00', '', 21, '2017-10-05 17:51:11', '2017-10-07 17:49:50'),
+(7, '654321', 'sản phẩm 2', 'san-pham-2', '12919228_1.jpg', 1, NULL, '100000.00', '', 52, '2017-10-07 17:47:51', '2017-10-07 17:49:50');
 
 -- --------------------------------------------------------
 
@@ -1140,7 +1151,9 @@ CREATE TABLE `product_category` (
 
 INSERT INTO `product_category` (`id`, `product_id`, `category_product_id`, `created_at`, `updated_at`) VALUES
 (17, 6, 12, '2017-10-05 17:51:11', '2017-10-05 17:51:11'),
-(18, 6, 18, '2017-10-05 17:51:11', '2017-10-05 17:51:11');
+(18, 6, 18, '2017-10-05 17:51:11', '2017-10-05 17:51:11'),
+(19, 7, 14, '2017-10-07 17:47:51', '2017-10-07 17:47:51'),
+(20, 7, 18, '2017-10-07 17:47:51', '2017-10-07 17:47:51');
 
 -- --------------------------------------------------------
 
@@ -1280,12 +1293,6 @@ ALTER TABLE `password_resets`
   ADD KEY `password_resets_token_index` (`token`);
 
 --
--- Chỉ mục cho bảng `persistences`
---
-ALTER TABLE `persistences`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Chỉ mục cho bảng `photo`
 --
 ALTER TABLE `photo`
@@ -1358,12 +1365,12 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT cho bảng `group_member`
 --
 ALTER TABLE `group_member`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT cho bảng `group_privilege`
 --
 ALTER TABLE `group_privilege`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=893;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=901;
 --
 -- AUTO_INCREMENT cho bảng `invoice`
 --
@@ -1400,11 +1407,6 @@ ALTER TABLE `module_menu`
 ALTER TABLE `mod_menu_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT cho bảng `persistences`
---
-ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT cho bảng `photo`
 --
 ALTER TABLE `photo`
@@ -1418,12 +1420,12 @@ ALTER TABLE `privilege`
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT cho bảng `product_category`
 --
 ALTER TABLE `product_category`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT cho bảng `users`
 --

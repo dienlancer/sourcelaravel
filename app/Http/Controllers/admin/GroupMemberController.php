@@ -42,7 +42,7 @@ class GroupMemberController extends Controller {
                 $title=$this->_title . " : Add new";
             break;			
          }		         
-         $arrPrivilege=PrivilegeModel::select("id","name","controller","action","privilege_order","created_at","updated_at")->orderBy("controller","asc")->orderBy("privilege_order","asc")->get()->toArray();  
+         $arrPrivilege=PrivilegeModel::select("id","fullname","controller","action","sort_order","created_at","updated_at")->orderBy("controller","asc")->orderBy("sort_order","asc")->get()->toArray();  
           return view("admin.".$this->_controller.".form",compact("arrRowData","arrPrivilege","arrGroupPrivilege","controller","task","title","icon"));
      }
     public function save(Request $request){
@@ -50,6 +50,7 @@ class GroupMemberController extends Controller {
         $fullname 				       =	trim($request->fullname)	;              
         $sort_order 			       =	trim($request->sort_order);   
         $privilege_id            =  $request->privilege_id;
+
         $data 		               =  array();
         $info 		               =  array();
         $error 		               =  array();
@@ -77,11 +78,7 @@ class GroupMemberController extends Controller {
              $error["sort_order"]["type_msg"] 	= "has-error";
              $error["sort_order"]["msg"] 		= "Sort order is required";
         }
-        if((int)$status==-1){
-             $checked = 0;
-             $error["status"]["type_msg"] 		= "has-error";
-             $error["status"]["msg"] 			= "Status is required";
-        }
+        
         if ($checked == 1) {    
              if(empty($id)){
               $item 				= 	new GroupMemberModel;       
@@ -99,7 +96,7 @@ class GroupMemberController extends Controller {
             foreach ($arrGroupPrivilege as $key => $value) {
               $arrGroupPrivilegeID[]=$value["privilege_id"];
             }
-            $selected=@$_POST["ddlGroupPrivilege"];
+            $selected=@$privilege_id;
             sort($selected);
             sort($arrGroupPrivilegeID);        
             $resultCompare=0;

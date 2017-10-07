@@ -38,8 +38,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 					<tr>
 						<th width="1%"><input type="checkbox" onclick="checkAllAgent(this)"  name="checkall-toggle"></th>                
 						<th>Fullname</th>						
-						<th width="1%">Sort</th>
-						<th width="1%">Status</th>							
+						<th width="1%">Sort</th>										
 						<th width="1%">Edit</th>  
 						<th width="1%">Delete</th>                 
 					</tr>
@@ -83,29 +82,6 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		}
 		vGroupMemberTable.row( $(this_checkbox).closest('tr') ).data(dr);
 	}	
-	function changeStatus(id,status){		
-		var token = $('input[name="_token"]').val();   
-		var dataItem={   
-			'id':id,
-			'status':status,         
-			'_token': token
-		};
-		$.ajax({
-			url: '<?php echo $linkChangeStatus; ?>',
-			type: 'POST',     
-			data: dataItem,
-			success: function (data, status, jqXHR) {   							                              				
-				showMsg('alert',data.msg,data.type_msg);               		
-				vGroupMemberTable.clear().draw();
-				vGroupMemberTable.rows.add(data.data).draw();
-				spinner.hide();
-			},
-			beforeSend  : function(jqXHR,setting){
-				spinner.show();
-			},
-		});		
-		$("input[name='checkall-toggle']").prop("checked",false);
-	}
 	
 	function deleteItem(id){		
 		var xac_nhan = 0;
@@ -136,38 +112,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		});
 		$("input[name='checkall-toggle']").prop("checked",false);
 	}
-	function updateStatus(status){		
-		var token 	= 	$('input[name="_token"]').val();   
-		var dt 		= 	vGroupMemberTable.data();
-		var str_id	=	"";		
-		for(var i=0;i<dt.length;i++){
-			var dr=dt[i];
-			if(dr.is_checked==1){
-				str_id +=dr.id+",";	            
-			}
-		}
-		var dataItem ={   
-			'str_id':str_id,
-			'status':status,			
-			'_token': token
-		};
-		$.ajax({
-			url: '<?php echo $linkUpdateStatus; ?>',
-			type: 'POST', 
-			             
-			data: dataItem,
-			success: function (data, status, jqXHR) {   							                              				
-				showMsg('alert',data.msg,data.type_msg);               		
-				vGroupMemberTable.clear().draw();
-				vGroupMemberTable.rows.add(data.data).draw();
-				spinner.hide();
-			},
-			beforeSend  : function(jqXHR,setting){
-				spinner.show();
-			},
-		});
-		$("input[name='checkall-toggle']").prop("checked",false);		
-	}
+	
 	function trash(){	
 		var xac_nhan = 0;
 		var msg="Do you really want to delete this item ?";
@@ -250,7 +195,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 				data: dataItem,
 				async:false,
 				success: function (data, status, jqXHR) {  
-					 				                               						
+					console.log(data); 				                               						
 					data_sort = new Array(data.length);
 					for(var i=0;i<data_sort.length;i++){							
 						var sort_order_input=	$(data[i]["sort_order"]).find("input[name='sort_order']");
