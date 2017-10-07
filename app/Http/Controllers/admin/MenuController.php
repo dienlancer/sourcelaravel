@@ -58,10 +58,10 @@ class MenuController extends Controller {
             $fullname 				   =	  trim($request->fullname)	;
             $alias 					     = 		trim($request->alias);
             $site_link           =    trim($request->site_link);
-            $parent_id	         =		(int)$request->parent_id;
-            $menu_type_id        =    (int)$request->menu_type_id;      
-            $sort_order 			   =		(int)($request->sort_order);
-            $status 				     =		(int)($request->status);          
+            $parent_id	         =		trim($request->parent_id);
+            $menu_type_id        =    trim($request->menu_type_id);      
+            $sort_order 			   =		trim($request->sort_order);
+            $status 				     =		trim($request->status);          
             $data 		           =    array();
             $info 		           =    array();
             $error 		           =    array();
@@ -138,17 +138,17 @@ class MenuController extends Controller {
                 $item->fullname 		=	$fullname;
                 $item->alias 			  =	$alias;
                 $item->site_link    = $site_link;               
-                $item->parent_id 		=	$parent_id;
-                $item->menu_type_id = $menu_type_id;
+                $item->parent_id 		=	(int)$parent_id;
+                $item->menu_type_id = (int)$menu_type_id;
                 $level=0;              
                 $parent=MenuModel::find($parent_id); 
                 if(count($parent) > 0){
                   $level=(int)$parent->toArray()["level"]+1;                
                 }                     
                 $item->level=$level;            
-                $item->sort_order 		=	$sort_order;
-                $item->status 			=	$status;    
-                $item->updated_at 		=	date("Y-m-d H:i:s",time());    	        	
+                $item->sort_order 	=	(int)$sort_order;
+                $item->status 			=	(int)$status;    
+                $item->updated_at 	=	date("Y-m-d H:i:s",time());    	        	
                 $item->save();  	
                 $info = array(
                   'type_msg' 			=> "has-success",

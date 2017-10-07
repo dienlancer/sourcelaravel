@@ -166,19 +166,19 @@ class ArticleController extends Controller {
                     }
                     $item->image=trim($file_image) ;            		  		 	
                 }  
-                $item->fullname 		=	$fullname;
-                $item->title = $title;
-                $item->alias 			=	$alias;
-                $item->intro= $intro;
-                $item->content=$content;
-                $item->description=$description;
-                $item->meta_keyword=$meta_keyword;
-                $item->meta_description=$meta_description;           
-                $item->sort_order 		=	$sort_order;
-                $item->status 			=	$status;    
-                $item->updated_at 		=	date("Y-m-d H:i:s",time());    	        	
+                $item->fullname 		    =	$fullname;
+                $item->title            = $title;
+                $item->alias 			      =	$alias;
+                $item->intro            = $intro;
+                $item->content          = $content;
+                $item->description      = $description;
+                $item->meta_keyword     = $meta_keyword;
+                $item->meta_description = $meta_description;           
+                $item->sort_order 		  =	(int)$sort_order;
+                $item->status 			    =	(int)$status;    
+                $item->updated_at 		  =	date("Y-m-d H:i:s",time());    	        	
                 $item->save();  	
-                if(!empty(@$category_article_id)){                            
+                if(count(@$category_article_id)>0){                            
                     $arrArticleCategory=ArticleCategoryModel::whereRaw("article_id = ?",[@$item->id])->select("category_article_id")->get()->toArray();
                     $arrCategoryArticleID=array();
                     foreach ($arrArticleCategory as $key => $value) {

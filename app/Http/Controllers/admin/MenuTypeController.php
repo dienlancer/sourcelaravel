@@ -80,8 +80,8 @@ class MenuTypeController extends Controller {
               }else{
                     $item				=	MenuTypeModel::find($id);     	  		 
               }  
-              $item->fullname 		=	$fullname;
-              $item->sort_order 		=	$sort_order;  
+              $item->fullname 		  =	$fullname;
+              $item->sort_order 		=	(int)$sort_order;  
               $item->updated_at 		=	date("Y-m-d H:i:s",time());    	        	
               $item->save();  	
               $info = array(

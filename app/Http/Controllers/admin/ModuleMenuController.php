@@ -110,7 +110,7 @@ class ModuleMenuController extends Controller {
                 $item->sort_order 		=	$sort_order;                
                 $item->updated_at 		=	date("Y-m-d H:i:s",time());    	        	
                 $item->save();  	
-                if(!empty(@$request->menu_id)){                         
+                if(!empty(@$menu_id)){                         
                     $arrModMenuType=ModMenuTypeModel::whereRaw("module_id = ? and module_type",[@$item->id,trim(mb_strtolower(@$this->_controller,'UTF-8'))])->get()->toArray();
                     $arrMenuID=array();
                     foreach ($arrModMenuType as $key => $value) {

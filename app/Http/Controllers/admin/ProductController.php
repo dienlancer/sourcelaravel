@@ -172,7 +172,7 @@ class ProductController extends Controller {
                 $item->sort_order 		=	$sort_order;                
                 $item->updated_at 		=	date("Y-m-d H:i:s",time());    	        	
                 $item->save();  	
-                if(!empty(@$category_product_id)){                            
+                if(count(@$category_product_id) > 0){                            
                     $arrProductCategory=ProductCategoryModel::whereRaw("product_id = ?",[@$item->id])->select("category_product_id")->get()->toArray();
                     $arrCategoryProductID=array();
                     foreach ($arrProductCategory as $key => $value) {

@@ -123,11 +123,11 @@ class CategoryProductController extends Controller {
               $item->image=trim($file_image) ;                 
         }  
         $item->fullname 		=	$fullname;
-        $item->alias 			=	$alias;
+        $item->alias 			  =	$alias;
         $item->parent_id 		=	(int)$category_product_id;            
-        $item->sort_order 		=	$sort_order;
-        $item->status 			=	$status;    
-        $item->updated_at 		=	date("Y-m-d H:i:s",time());    	        	
+        $item->sort_order 	=	(int)$sort_order;
+        $item->status 			=	(int)$status;    
+        $item->updated_at 	=	date("Y-m-d H:i:s",time());    	        	
         $item->save();  	
         $info = array(
           'type_msg' 			=> "has-success",
