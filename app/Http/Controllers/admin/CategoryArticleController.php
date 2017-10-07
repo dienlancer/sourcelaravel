@@ -47,18 +47,18 @@ class CategoryArticleController extends Controller {
          return view("admin.".$this->_controller.".form",compact("arrCategoryArticleRecursive","arrRowData","controller","task","title","icon"));	
      }
     public function save(Request $request){
-        $id 					=	trim($request->id)	;        
-        $fullname 				=	trim($request->fullname)	;
-        $alias 					= 		trim($request->alias);
-        $category_article_id	=		($request->category_article_id);
-        $image                  =       trim($request->image);
-        $image_hidden           =       trim($request->image_hidden);
-        $sort_order 			=		trim($request->sort_order);
-        $status 				=		trim($request->status);
-        $data 		= array();
-        $info 		= array();
-        $error 		= array();
-        $item		= null;
+        $id 					           =	trim($request->id)	;        
+        $fullname 				       =	trim($request->fullname)	;
+        $alias 					         = 	trim($request->alias);
+        $category_article_id	   =	trim($request->category_article_id);
+        $image                   =  trim($request->image);
+        $image_hidden            =  trim($request->image_hidden);
+        $sort_order 			       =	trim($request->sort_order);
+        $status 				         =  trim($request->status);
+        $data 		               =  array();
+        $info 		               =  array();
+        $error 		               =  array();
+        $item		                 =  null;
         $checked 	= 1;              
         if(empty($fullname)){
            $checked = 0;
@@ -123,11 +123,11 @@ class CategoryArticleController extends Controller {
               $item->image=trim($file_image) ;                 
         }  
         $item->fullname 		=	$fullname;
-        $item->alias 			=	$alias;
-        $item->parent_id 		=	$category_article_id;            
-        $item->sort_order 		=	$sort_order;
+        $item->alias 			  =	$alias;
+        $item->parent_id 		=	(int)$category_article_id;            
+        $item->sort_order 	=	$sort_order;
         $item->status 			=	$status;    
-        $item->updated_at 		=	date("Y-m-d H:i:s",time());    	        	
+        $item->updated_at 	=	date("Y-m-d H:i:s",time());    	        	
         $item->save();  	
         $info = array(
           'type_msg' 			=> "has-success",

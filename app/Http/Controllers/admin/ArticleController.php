@@ -81,7 +81,7 @@ class ArticleController extends Controller {
           $meta_description     =   trim($request->meta_description);
           $sort_order           =   trim($request->sort_order);
           $status               =   trim($request->status);
-          $category_article_id	=		($request->category_article_id);            
+          $category_article_id	=		$request->category_article_id;            
           $data 		            =   array();
           $info 		            =   array();
           $error 		            =   array();

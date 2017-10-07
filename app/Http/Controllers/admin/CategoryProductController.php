@@ -47,17 +47,17 @@ class CategoryProductController extends Controller {
          return view("admin.".$this->_controller.".form",compact("arrCategoryProductRecursive","arrRowData","controller","task","title","icon"));	
      }
     public function save(Request $request){
-        $id 					=	trim($request->id)	;        
-        $fullname 				=	trim($request->fullname)	;
-        $alias 					= 		trim($request->alias);
-        $category_product_id	=		(int)($request->category_product_id);
-        $image                  =       trim($request->image);
-        $image_hidden           =       trim($request->image_hidden);
-        $sort_order 			=		trim($request->sort_order);
-        $status 				=		trim($request->status);
-        $data 		= array();
-        $info 		= array();
-        $error 		= array();
+        $id 					          =	  trim($request->id)	;        
+        $fullname 				      =	  trim($request->fullname)	;
+        $alias 					        =   trim($request->alias);
+        $category_product_id	  =		trim($request->category_product_id);
+        $image                  =   trim($request->image);
+        $image_hidden           =   trim($request->image_hidden);
+        $sort_order 			      =		trim($request->sort_order);
+        $status 				        =		trim($request->status);
+        $data 		              =   array();
+        $info 		              =   array();
+        $error 		              =   array();
         $item		= null;
         $checked 	= 1;              
         if(empty($fullname)){
@@ -124,7 +124,7 @@ class CategoryProductController extends Controller {
         }  
         $item->fullname 		=	$fullname;
         $item->alias 			=	$alias;
-        $item->parent_id 		=	$category_product_id;            
+        $item->parent_id 		=	(int)$category_product_id;            
         $item->sort_order 		=	$sort_order;
         $item->status 			=	$status;    
         $item->updated_at 		=	date("Y-m-d H:i:s",time());    	        	

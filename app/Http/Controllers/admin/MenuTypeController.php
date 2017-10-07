@@ -40,9 +40,9 @@ class MenuTypeController extends Controller {
        return view("admin.".$this->_controller.".form",compact("arrRowData","controller","task","title","icon"));
     }
     public function save(Request $request){
-        $id 					=	trim($request->id)	;        
-        $fullname 				=	trim($request->fullname)	;  
-        $sort_order 			=		trim($request->sort_order);
+        $id 					       =	trim($request->id)	;        
+        $fullname 				   =	trim($request->fullname)	;  
+        $sort_order 			   =	trim($request->sort_order);
         $data 		= array();
         $info 		= array();
         $error 		= array();
