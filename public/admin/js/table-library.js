@@ -50,12 +50,13 @@ var basicTable = function () {
     var initMenuTable = function () {
         vMenuTable = $('#tbl-menu').DataTable({
             columns: [                
-                { data: "checked"            },
-                { data: "fullname"      },               
+                { data: "checked"       },
+                { data: "fullname"      },      
+                { data: "level"         },         
                 { data: "sort_order"    },   
                 { data: "status"        },                                        
-                { data: "edited"    },         
-                { data: "deleted"    },                
+                { data: "edited"        },         
+                { data: "deleted"       },                
             ]
         });        
     };

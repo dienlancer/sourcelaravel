@@ -130,24 +130,24 @@ class MenuController extends Controller {
             }
             if ($checked == 1) {    
                 if(empty($id)){
-                    $item 				= 	new MenuModel;       
+                    $item 				      = 	new MenuModel;       
                     $item->created_at 	=	date("Y-m-d H:i:s",time());                          
                 } else{
-                    $item				=	MenuModel::find($id);                     	  		 
+                    $item				         =	MenuModel::find($id);                     	  		 
                 }  
-                $item->fullname 		=	$fullname;
-                $item->alias 			  =	$alias;
-                $item->site_link    = $site_link;               
-                $item->parent_id 		=	(int)$parent_id;
-                $item->menu_type_id = (int)$menu_type_id;
-                $level=0;              
+                $item->fullname 		     = $fullname;
+                $item->alias 			       = $alias;
+                $item->site_link         = $site_link;               
+                $item->parent_id 		     = (int)$parent_id;
+                $item->menu_type_id      = (int)$menu_type_id;
+                $level                   = 0;              
                 $parent=MenuModel::find($parent_id); 
                 if(count($parent) > 0){
-                  $level=(int)$parent->toArray()["level"]+1;                
+                    $level=(int)$parent->toArray()["level"]+1;                
                 }                     
-                $item->level=$level;            
-                $item->sort_order 	=	(int)$sort_order;
-                $item->status 			=	(int)$status;    
+                $item->level             =  (int)$level;            
+                $item->sort_order 	     =	(int)$sort_order;
+                $item->status 			     =  (int)$status;    
                 $item->updated_at 	=	date("Y-m-d H:i:s",time());    	        	
                 $item->save();  	
                 $info = array(
@@ -270,8 +270,8 @@ class MenuController extends Controller {
         if($checked == 1){                
             $strID = implode(',',$arrID);   
             $strID=substr($strID, 0,strlen($strID) - 1);
-            $sqlDeleteMenu = "DELETE FROM `menu` WHERE `id` IN ($strID)";       
-            $sqlDeleteModMenuType = "DELETE FROM `mod_menu_type` WHERE `menu_id` IN ($strID)";        
+            $sqlDeleteMenu = "DELETE FROM `menu` WHERE `id` IN  (".$strID.")";       
+            $sqlDeleteModMenuType = "DELETE FROM `mod_menu_type` WHERE `menu_id` IN (".$strID.")";        
             DB::statement($sqlDeleteMenu);
             DB::statement($sqlDeleteModMenuType);
         }

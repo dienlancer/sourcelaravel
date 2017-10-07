@@ -98,19 +98,19 @@ class ModuleMenuController extends Controller {
           }
           if ($checked == 1) {    
                 if(empty($id)){
-                    $item 				= 	new ModuleMenuModel;       
+                    $item 				  = 	new ModuleMenuModel;       
                     $item->created_at 	=	date("Y-m-d H:i:s",time());                            
                 } else{
-                    $item				=	ModuleMenuModel::find($id);                        		 
+                    $item				    =	ModuleMenuModel::find($id);                        		 
                 }  
                 $item->fullname 		=	$fullname;
-                $item->menu_type_id = $menu_type_id;
-                $item->position 			=	$position;  
-                $item->status       = $status;                  
-                $item->sort_order 		=	$sort_order;                
-                $item->updated_at 		=	date("Y-m-d H:i:s",time());    	        	
+                $item->menu_type_id = (int)$menu_type_id;
+                $item->position 		=	$position;  
+                $item->status       = (int)$status;                  
+                $item->sort_order 	=	(int)$sort_order;                
+                $item->updated_at 	=	date("Y-m-d H:i:s",time());    	        	
                 $item->save();  	
-                if(!empty(@$menu_id)){                         
+                if(count(@$menu_id) > 0){                         
                     $arrModMenuType=ModMenuTypeModel::whereRaw("module_id = ? and module_type",[@$item->id,trim(mb_strtolower(@$this->_controller,'UTF-8'))])->get()->toArray();
                     $arrMenuID=array();
                     foreach ($arrModMenuType as $key => $value) {
@@ -126,10 +126,10 @@ class ModuleMenuController extends Controller {
                     if($resultCompare==0){
                           ModMenuTypeModel::whereRaw("module_id = ? and module_type = ?",[(int)@$item->id,trim(mb_strtolower($this->_controller,'UTF-8'))])->delete();   
                           foreach ($selected as $key => $value) {
-                            $menu_id=$value;
+                            $menuid=$value;
                             $modMenuType=new ModMenuTypeModel;
-                            $modMenuType->menu_id=$menu_id;
-                            $modMenuType->module_id=@$item->id;
+                            $modMenuType->menu_id=(int)@$menuid;
+                            $modMenuType->module_id=(int)@$item->id;
                             $modMenuType->module_type=$this->_controller;                  
                             $modMenuType->save();
                           }

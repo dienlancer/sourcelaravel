@@ -72,32 +72,32 @@ class MenuTypeController extends Controller {
         }
         if($checked == 1) {    
              if(empty($id)){
-                $item 				= 	new MenuTypeModel;       
+                $item 				      = 	new MenuTypeModel;       
                 $item->created_at 	=	date("Y-m-d H:i:s",time());        
                 if(!empty($image)){
-                  $item->image    =   trim($image) ;  
+                  $item->image      =   trim($image) ;  
                 }				
               }else{
-                    $item				=	MenuTypeModel::find($id);     	  		 
+                    $item				    =	MenuTypeModel::find($id);     	  		 
               }  
               $item->fullname 		  =	$fullname;
               $item->sort_order 		=	(int)$sort_order;  
               $item->updated_at 		=	date("Y-m-d H:i:s",time());    	        	
               $item->save();  	
               $info = array(
-                'type_msg' 			=> "has-success",
-                'msg' 				=> 'Save data successfully',
-                "checked" 			=> 1,
-                "error" 			=> $error,
-                "id"    			=> $id
+                'type_msg' 			 => "has-success",
+                'msg' 				   => 'Save data successfully',
+                "checked" 			 => 1,
+                "error" 			   => $error,
+                "id"    			   => $id
               );
         } else {
               $info = array(
                 'type_msg' 			=> "has-error",
-                'msg' 				=> 'Input data has some warning',
+                'msg' 				  => 'Input data has some warning',
                 "checked" 			=> 0,
-                "error" 			=> $error,
-                "id"				=> ""
+                "error" 			  => $error,
+                "id"				    => ""
               );
         }        		 			       
         return $info;       

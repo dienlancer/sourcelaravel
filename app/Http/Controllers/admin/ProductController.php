@@ -163,14 +163,14 @@ class ProductController extends Controller {
                     }
                     $item->image=trim($file_image) ;            		  		 	
                 }  
-                $item->code = $code;
+                $item->code         = $code;
                 $item->fullname 		=	$fullname;                
-                $item->alias 			=	$alias;         
-                $item->status       = $status;    
-                $item->price       =(int)$price;
-                $item->detail = $detail;                                         
-                $item->sort_order 		=	$sort_order;                
-                $item->updated_at 		=	date("Y-m-d H:i:s",time());    	        	
+                $item->alias 			  =	$alias;         
+                $item->status       = (int)$status;    
+                $item->price        = (int)$price;
+                $item->detail       = $detail;                                         
+                $item->sort_order 	=	(int)$sort_order;                
+                $item->updated_at 	=	date("Y-m-d H:i:s",time());    	        	
                 $item->save();  	
                 if(count(@$category_product_id) > 0){                            
                     $arrProductCategory=ProductCategoryModel::whereRaw("product_id = ?",[@$item->id])->select("category_product_id")->get()->toArray();
@@ -190,8 +190,8 @@ class ProductController extends Controller {
                           foreach ($selected as $key => $value) {
                             $category_product_id=$value;
                             $productCategory=new ProductCategoryModel;
-                            $productCategory->product_id=@$item->id;
-                            $productCategory->category_product_id=$category_product_id;            
+                            $productCategory->product_id=(int)@$item->id;
+                            $productCategory->category_product_id=(int)$category_product_id;            
                             $productCategory->save();
                           }
                     }       

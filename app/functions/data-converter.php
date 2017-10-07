@@ -116,6 +116,7 @@ function menuConverter($data=array(),$controller){
                 'is_checked'               =>   0,
                 "id"                       =>   $data[$i]["id"],
                 "fullname"                 =>   $data[$i]["fullname"],
+                "level"                    =>   $data[$i]["level"],
                 "alias"                    =>   $data[$i]["alias"],
                 "site_link"                =>   $data[$i]["site_link"],
                 "parent_id"                =>   $data[$i]["parent_id"],
