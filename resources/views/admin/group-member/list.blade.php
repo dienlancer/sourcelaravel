@@ -4,9 +4,7 @@
 $linkNew			=	route('admin.'.$controller.'.getForm',['add']);
 $linkCancel			=	route('admin.'.$controller.'.getList');
 $linkLoadData		=	route('admin.'.$controller.'.loadData');
-$linkChangeStatus	=	route('admin.'.$controller.'.changeStatus');
 $linkDelete			=	route('admin.'.$controller.'.deleteItem');
-$linkUpdateStatus	=	route('admin.'.$controller.'.updateStatus');
 $linkTrash			=	route('admin.'.$controller.'.trash');
 $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 ?>
@@ -25,8 +23,6 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 					<div class="row">
 						<div class="col-md-12">						
 							<a href="<?php echo $linkNew; ?>" class="btn green">Add new <i class="fa fa-plus"></i></a> 
-							<a href="javascript:void(0)" onclick="updateStatus(1)" class="btn blue">Show <i class="fa fa-eye"></i></a> 
-							<a href="javascript:void(0)" onclick="updateStatus(0)" class="btn yellow">Hide <i class="fa fa-eye-slash"></i></a> 
 							<a href="javascript:void(0)" onclick="sort()" class="btn grey-cascade">Sort <i class="fa fa-sort"></i></a> 
 							<a href="javascript:void(0)" onclick="trash()" class="btn red">Trash <i class="fa fa-trash"></i></a> 	
 							<input type="hidden" name="_token" value="{!! csrf_token() !!}" />    		
@@ -37,17 +33,15 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			</div>                                 
 		</div>
 		<div class="portlet-body">		
-			<table class="table table-striped table-bordered table-hover table-checkable order-column" id="tbl-product">
+			<table class="table table-striped table-bordered table-hover table-checkable order-column" id="tbl-group-member">
 				<thead>
 					<tr>
 						<th width="1%"><input type="checkbox" onclick="checkAllAgent(this)"  name="checkall-toggle"></th>                
-						<th>Fullname</th>
-						<th>Alias</th>
-						<th width="1%">Image</th>
+						<th>Fullname</th>						
 						<th width="1%">Sort</th>
-						<th width="1%">Status</th>						
+						<th width="1%">Status</th>							
 						<th width="1%">Edit</th>  
-						<th width="1%">Delete</th>                
+						<th width="1%">Delete</th>                 
 					</tr>
 				</thead>
 				<tbody>                                                
@@ -67,11 +61,10 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			url: '<?php echo $linkLoadData; ?>',
 			type: 'POST', 
 			data: dataItem,
-			success: function (data, status, jqXHR) {  
-				
+			success: function (data, status, jqXHR) {  				
 				basicTable.init();
-				vProductTable.clear().draw();
-				vProductTable.rows.add(data).draw();
+				vGroupMemberTable.clear().draw();
+				vGroupMemberTable.rows.add(data).draw();
 				spinner.hide();
 			},
 			beforeSend  : function(jqXHR,setting){
@@ -80,7 +73,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		});
 	}	
 	function checkWithList(this_checkbox){
-		var dr = vProductTable.row( $(this_checkbox).closest('tr') ).data();       		
+		var dr = vGroupMemberTable.row( $(this_checkbox).closest('tr') ).data();       		
 		if(parseInt(dr['is_checked']) == 0){
 			dr['checked'] ='<input type="checkbox" checked onclick="checkWithList(this)" name="cid" />';
 			dr['is_checked'] = 1;
@@ -88,7 +81,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			dr['checked'] ='<input type="checkbox" onclick="checkWithList(this)" name="cid" />';
 			dr['is_checked'] = 0;
 		}
-		vProductTable.row( $(this_checkbox).closest('tr') ).data(dr);
+		vGroupMemberTable.row( $(this_checkbox).closest('tr') ).data(dr);
 	}	
 	function changeStatus(id,status){		
 		var token = $('input[name="_token"]').val();   
@@ -103,8 +96,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			data: dataItem,
 			success: function (data, status, jqXHR) {   							                              				
 				showMsg('alert',data.msg,data.type_msg);               		
-				vProductTable.clear().draw();
-				vProductTable.rows.add(data.data).draw();
+				vGroupMemberTable.clear().draw();
+				vGroupMemberTable.rows.add(data.data).draw();
 				spinner.hide();
 			},
 			beforeSend  : function(jqXHR,setting){
@@ -133,8 +126,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			data: dataItem,
 			success: function (data, status, jqXHR) {  				
 				showMsg('alert',data.msg,data.type_msg);               		
-				vProductTable.clear().draw();
-				vProductTable.rows.add(data.data).draw();
+				vGroupMemberTable.clear().draw();
+				vGroupMemberTable.rows.add(data.data).draw();
 				spinner.hide();
 			},
 			beforeSend  : function(jqXHR,setting){
@@ -145,7 +138,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 	}
 	function updateStatus(status){		
 		var token 	= 	$('input[name="_token"]').val();   
-		var dt 		= 	vProductTable.data();
+		var dt 		= 	vGroupMemberTable.data();
 		var str_id	=	"";		
 		for(var i=0;i<dt.length;i++){
 			var dr=dt[i];
@@ -165,8 +158,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			data: dataItem,
 			success: function (data, status, jqXHR) {   							                              				
 				showMsg('alert',data.msg,data.type_msg);               		
-				vProductTable.clear().draw();
-				vProductTable.rows.add(data.data).draw();
+				vGroupMemberTable.clear().draw();
+				vGroupMemberTable.rows.add(data.data).draw();
 				spinner.hide();
 			},
 			beforeSend  : function(jqXHR,setting){
@@ -184,7 +177,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		if(xac_nhan  == 0)
 			return 0;	
 		var token 	= 	$('input[name="_token"]').val();   
-		var dt 		= 	vProductTable.data();
+		var dt 		= 	vGroupMemberTable.data();
 		var str_id	=	"";		
 		for(var i=0;i<dt.length;i++){
 			var dr=dt[i];
@@ -203,8 +196,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			data: dataItem,
 			success: function (data, status, jqXHR) {
 				showMsg('alert',data.msg,data.type_msg);  
-				vProductTable.clear().draw();
-				vProductTable.rows.add(data.data).draw();
+				vGroupMemberTable.clear().draw();
+				vGroupMemberTable.rows.add(data.data).draw();
 				spinner.hide();
 			},
 			beforeSend  : function(jqXHR,setting){
@@ -227,8 +220,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			data: dataItem,
 			success: function (data, status, jqXHR) {   	
 				showMsg('alert',data.msg,data.type_msg);  
-				vProductTable.clear().draw();
-				vProductTable.rows.add(data.data).draw();
+				vGroupMemberTable.clear().draw();
+				vGroupMemberTable.rows.add(data.data).draw();
 				spinner.hide();
 			},
 			beforeSend  : function(jqXHR,setting){
@@ -256,7 +249,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 				             
 				data: dataItem,
 				async:false,
-				success: function (data, status, jqXHR) {  			
+				success: function (data, status, jqXHR) {  
+					 				                               						
 					data_sort = new Array(data.length);
 					for(var i=0;i<data_sort.length;i++){							
 						var sort_order_input=	$(data[i]["sort_order"]).find("input[name='sort_order']");

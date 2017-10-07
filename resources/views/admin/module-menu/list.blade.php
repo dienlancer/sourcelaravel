@@ -255,7 +255,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 				data: dataItem,
 				async:false,
 				success: function (data, status, jqXHR) {  
-					var data = $.map(data, function(el) { return el }); 				                               						
+					 				                               						
 					data_sort = new Array(data.length);
 					for(var i=0;i<data_sort.length;i++){							
 						var sort_order_input=	$(data[i]["sort_order"]).find("input[name='sort_order']");

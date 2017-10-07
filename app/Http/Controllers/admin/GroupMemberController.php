@@ -187,7 +187,7 @@ class GroupMemberController extends Controller {
             if($checked == 1){                
               $strID = implode(',',$arrID);       
               $strID = substr($strID, 0,strlen($strID) - 1);            
-              $sql = "DELETE FROM `category_article` WHERE `id` IN (".$strID.")";                                 
+              $sql = "DELETE FROM `group_member` WHERE `id` IN (".$strID.")";                                 
               DB::statement($sql);    
             }
             $data                   =   $this->loadData($request);
@@ -208,7 +208,7 @@ class GroupMemberController extends Controller {
           if(count($data_order) > 0){              
             foreach($data_order as $key => $value){         
               if(!empty($value)){
-                $item=GroupMemberModel::find((int)$value->id);                
+                $item=GroupMemberModel::find((int)@$value->id);                
               $item->sort_order=(int)$value->sort_order;                         
               $item->save();                      
               }                                             
