@@ -387,6 +387,44 @@ function customerConverter($data=array(),$controller){
     }
     return $result;
 }
+function invoiceConverter($data=array(),$controller){        
+    $result = array();
+    if( count($data) > 0){
+        for($i = 0 ;$i < count($data);$i++){
+            $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.url("/public/admin/images/edit-icon.png").'" /></a></center>';
+            $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.url("/public/admin/images/delete-icon.png").'" /></a></center>';
+            $kicked=0;
+            if((int)$data[$i]["status"]==1)
+                $kicked=0;
+            else
+                $kicked=1;
+            $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["status"],$kicked).'</center>';
+            $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';                
+            $result[$i] = array(
+                'checked'                  =>   '<input type="checkbox" onclick="checkWithList(this)" name="cid" value="'.$data[$i]["is_checked"].'" />',
+                'is_checked'               =>   0,
+                "id"                       =>   $data[$i]["id"],
+                "code"                     =>   $data[$i]["code"],
+                "username"                 =>   $data[$i]["username"],
+                "email"                    =>   $data[$i]["email"],
+                "fullname"                 =>   $data[$i]["fullname"],
+                "address"                  =>   $data[$i]["address"],
+                "phone"                    =>   $data[$i]["phone"],
+                "mobilephone"              =>   $data[$i]["mobilephone"],
+                "fax"                      =>   $data[$i]["fax"],
+                "quantity"                 =>   $data[$i]["quantity"],
+                "total_price"              =>   $data[$i]["total_price"],                
+                "sort_order"               =>   $sort_order,
+                "status"                   =>   $status,
+                "created_at"               =>   datetimeConverterVn($data[$i]["created_at"]),
+                "updated_at"               =>   datetimeConverterVn($data[$i]["updated_at"]),
+                "edited"                   =>   $edited,
+                "deleted"                  =>   $deleted
+            );
+        }
+    }
+    return $result;
+}
 function convertToArray($stdArray){
     $newArr=array();
     foreach($stdArray as $key => $value)
