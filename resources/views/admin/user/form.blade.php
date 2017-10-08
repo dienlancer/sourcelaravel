@@ -3,7 +3,11 @@
 <?php 
 $linkCancel             =   route('admin.'.$controller.'.getList');
 $linkSave               =   route('admin.'.$controller.'.save');
-$inputUsername          =   '<input type="text" class="form-control" name="username"    id="username"       value="'.@$arrRowData['username'].'">'; 
+$str_disabled           =   "";
+if($task == "edit"){
+    $str_disabled       =   "disabled";
+}
+$inputUsername          =   '<input type="text" class="form-control" name="username"  '.$str_disabled.'  id="username"       value="'.@$arrRowData['username'].'">'; 
 $inputEmail             =   '<input type="text" class="form-control" name="email"       id="email"          value="'.@$arrRowData['email'].'">'; 
 $inputPassword          =   '<input type="password" id="password" name="password" class="form-control" />';
 $inputConfirmPassword   =   '<input type="password" id="confirm_password" name="confirm_password" class="form-control"  />';

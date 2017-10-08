@@ -1,6 +1,7 @@
 @extends("admin.master")
 @section("content")
 <?php 
+
 $linkCancel             =   route('admin.'.$controller.'.getList');
 $linkSave               =   route('admin.'.$controller.'.save');
 $linkUploadFile         =   route('admin.'.$controller.'.uploadFile');

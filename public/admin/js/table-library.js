@@ -132,7 +132,9 @@ var basicTable = function () {
         vUserTable = $('#tbl-user').DataTable({
             columns: [                
                 { data: "checked"       },
-                { data: "fullname"      },               
+                { data: "username"      },
+                { data: "fullname"      },   
+                { data: "group_member_name" },            
                 { data: "sort_order"    },  
                 { data: "status"        },                      
                 { data: "edited"        },         

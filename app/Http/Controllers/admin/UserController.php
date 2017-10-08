@@ -9,7 +9,7 @@ use DB;
 use Hash;
 class UserController extends Controller {
   	var $_controller="user";	
-  	var $_title="Article";
+  	var $_title="User";
   	var $_icon="icon-settings font-dark";
   	public function getList(){		
     		$controller=$this->_controller;	
@@ -71,18 +71,11 @@ class UserController extends Controller {
                  $checked = 0;
                  $error["fullname"]["type_msg"] = "has-error";
                  $error["fullname"]["msg"] = "Fullname is required";
-          }else{
-              $data=array();
-              if (empty($id)) {
-                $data=User::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get()->toArray();	        	
-              }else{
-                $data=User::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),(int)@$id])->get()->toArray();		
-              }  
-              if (count($data) > 0) {
-                  $checked = 0;
-                  $error["fullname"]["type_msg"] = "has-error";
-                  $error["fullname"]["msg"] = "Fullname is existed in system";
-              }      	
+          }
+          if(empty($group_member_id)){
+                 $checked = 0;
+                 $error["group_member_id"]["type_msg"] = "has-error";
+                 $error["group_member_id"]["msg"] = "Group_member_id is required";
           }
           if(empty($username)){
                  $checked = 0;
@@ -124,12 +117,12 @@ class UserController extends Controller {
               if(mb_strlen($password) < 6 ){
                   $checked = 0;
                   $error["password"]["type_msg"] = "has-error";
-                  $error["password"]["msg"] = "Mật khẩu phải từ 6 ký tự trở lên";
+                  $error["password"]["msg"] = "Password at least six character";
               }else{
                   if(strcmp($password, $confirm_password) !=0 ){
                     $checked = 0;
                     $error["password"]["type_msg"] = "has-error";
-                    $error["password"]["msg"] = "Mật khẩu xác nhận không khớp";
+                    $error["password"]["msg"] = "Password and confirm password do not not matched";
                   }
               }     
           }else{
@@ -137,12 +130,12 @@ class UserController extends Controller {
                   if(mb_strlen($password) < 6 ){
                     $checked = 0;
                     $error["password"]["type_msg"] = "has-error";
-                    $error["password"]["msg"] = "Mật khẩu phải từ 6 ký tự trở lên";
+                    $error["password"]["msg"] = "Password at least six character";
                   }else{
                       if(strcmp($password, $confirm_password) !=0 ){
                         $checked = 0;
                         $error["password"]["type_msg"] = "has-error";
-                        $error["password"]["msg"] = "Mật khẩu xác nhận không khớp";
+                        $error["password"]["msg"] = "Password and confirm password do not not matched";
                       }
                   }        
               }     
@@ -166,7 +159,9 @@ class UserController extends Controller {
                 }  
                 $item->username 		    =	$username;
                 $item->email            = $email;
-                $item->password         = Hash::make(trim($password));
+                if(!empty($password)){
+                  $item->password         = Hash::make(trim($password));
+                }                
                 $level                  = 0;
                 if(!empty($status)){
                   $level                = (int)@$status;
