@@ -10,6 +10,7 @@ var vGroupMemberTable       =   null;
 var vUserTable              =   null;
 var vPrivilegeTable         =   null;
 var vCustomerTable          =   null;
+var vInvoiceTable          =   null;
 var basicTable = function () {
     var initCategoryArticleTable = function () {
         vCategoryArticleTable = $('#tbl-category-article').DataTable({
@@ -186,6 +187,22 @@ var basicTable = function () {
             ]
         });        
     };
+    var initInvoiceTable = function () {
+        vInvoiceTable = $('#tbl-invoice').DataTable({
+            columns: [                
+                { data: "checked"       },               
+                { data: "code"      },
+                { data: "username"      },   
+                { data: "email"         },     
+                { data: "fullname"      },            
+                { data: "mobilephone"   },            
+                { data: "sort_order"    },
+                { data: "status"        },                  
+                { data: "edited"        },         
+                { data: "deleted"       },                
+            ]
+        });        
+    };
     return {
         init: function () {
             if (!jQuery().dataTable)
@@ -202,6 +219,7 @@ var basicTable = function () {
             initUserTable();
             initPrivilegeTable();
             initCustomerTable();
+            initInvoiceTable();
         }
     };
 }();

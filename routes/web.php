@@ -57,14 +57,15 @@ Route::group(["prefix"=>"admin"],function(){
 		Route::post("trash",["as"=>"admin.customer.trash","uses"=>"admin\CustomerController@trash"]);		
 	});
 	Route::group(["prefix"=>"invoice"],function(){		
-		Route::match(["get","post"],"list",["as"=>"admin.invoice.getList","uses"=>"admin\InvoiceController@getList"]);
+		Route::get("list",["as"=>"admin.invoice.getList","uses"=>"admin\InvoiceController@getList"]);
+		Route::post("load-data",["as"=>"admin.invoice.loadData","uses"=>"admin\InvoiceController@loadData"]);		
 		Route::get("form/{task}/{id?}",["as"=>"admin.invoice.getForm","uses"=>"admin\InvoiceController@getForm"]);
-		Route::post("form/{task}",["as"=>"admin.invoice.postForm","uses"=>"admin\InvoiceController@postForm"]);
-		Route::get("delete/{id}",["as"=>"admin.invoice.getDelete","uses"=>"admin\InvoiceController@getDelete"]);
-		Route::post("ordering",["as"=>"admin.invoice.postOrdering","uses"=>"admin\InvoiceController@postOrdering"]);
-		Route::post("status/{status}",["as"=>"admin.invoice.postStatus","uses"=>"admin\InvoiceController@postStatus"]);
-		Route::get("ajaxStatus/{id}/{status}",["as"=>"admin.invoice.getAjaxStatus","uses"=>"admin\InvoiceController@getAjaxStatus"]);
-		Route::post("trash",["as"=>"admin.invoice.postTrash","uses"=>"admin\InvoiceController@postTrash"]);
+		Route::post("save",["as"=>"admin.invoice.save","uses"=>"admin\InvoiceController@save"]);
+		Route::post("delete-item",["as"=>"admin.invoice.deleteItem","uses"=>"admin\InvoiceController@deleteItem"]);		
+		Route::post("sort-order",["as"=>"admin.invoice.sortOrder","uses"=>"admin\InvoiceController@sortOrder"]);
+		Route::post("update-status",["as"=>"admin.invoice.updateStatus","uses"=>"admin\InvoiceController@updateStatus"]);
+		Route::post("change-status",["as"=>"admin.invoice.changeStatus","uses"=>"admin\InvoiceController@changeStatus"]);
+		Route::post("trash",["as"=>"admin.invoice.trash","uses"=>"admin\InvoiceController@trash"]);
 	});
 	Route::group(["prefix"=>"user"],function(){		
 		Route::get("list",["as"=>"admin.user.getList","uses"=>"admin\UserController@getList"]);

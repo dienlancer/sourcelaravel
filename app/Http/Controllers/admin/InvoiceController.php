@@ -2,13 +2,12 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\CategoryArticleModel;
-use App\ArticleModel;
-use App\ArticleCategoryModel;
+use App\InvoiceModel;
+use App\InvoiceDetailModel;
 use DB;
-class CategoryArticleController extends Controller {
-    	var $_controller="category-article";	
-    	var $_title="Category Article";
+class InvoiceController extends Controller {
+    	var $_controller="invoice";	
+    	var $_title="Invoice";
     	var $_icon="icon-settings font-dark";
     	public function getList(){		
     		$controller=$this->_controller;	
@@ -19,81 +18,51 @@ class CategoryArticleController extends Controller {
     	}	
     	public function loadData(Request $request){
       		$filter_search="";
-      		$data=DB::select('call pro_getCategoryArticle(?)',array(mb_strtolower($filter_search)));
-      		$categoryArticleRecursiveData=array();
+      		$data=DB::select('call pro_getInvoice(?)',array(mb_strtolower($filter_search)));      		
       		$data=convertToArray($data);    
-          $data=categoryArticleConverter($data,$this->_controller);   
-      		categoryArticleRecursive($data,0,null,$categoryArticleRecursiveData);     
-          $data=      	convertToArray($categoryArticleRecursiveData)	;                   
+          $data=invoiceConverter($data,$this->_controller);         		          
           return $data;
     	}    	
       public function getForm($task,$id=""){		 
           $controller=$this->_controller;			
           $title="";
           $icon=$this->_icon; 
-          $arrRowData=array();                     
+          $arrRowData=array();    
+          $arrInvoiceDetail=array();  
           switch ($task) {
             case 'edit':
                 $title=$this->_title . " : Update";
-                $arrRowData=CategoryArticleModel::find((int)@$id)->toArray();			 
+                $arrRowData=InvoiceModel::find((int)@$id)->toArray();           
+                $arrInvoiceDetail=InvoiceDetailModel::select()->where("invoice_id","=",(int)@$id)->get()->toArray();
             break;
             case 'add':
                 $title=$this->_title . " : Add new";
             break;			
          }		         
-         $arrCategoryArticle=CategoryArticleModel::select("id","fullname","parent_id")->where("id","!=",(int)$id)->orderBy("sort_order","asc")->get()->toArray();
-         $arrCategoryArticleRecursive=array();			
-         categoryArticleRecursiveForm($arrCategoryArticle ,0,"",$arrCategoryArticleRecursive)	 ;			
-         return view("admin.".$this->_controller.".form",compact("arrCategoryArticleRecursive","arrRowData","controller","task","title","icon"));	
+         return view("admin.".$this->_controller.".form",compact("arrRowData","arrInvoiceDetail","controller","task","title","icon"));
      }
     public function save(Request $request){
         $id 					           =	trim($request->id)	;        
         $fullname 				       =	trim($request->fullname)	;
-        $alias 					         = 	trim($request->alias);
-        $category_article_id	   =	trim($request->category_article_id);
-        $image                   =  trim($request->image);
-        $image_hidden            =  trim($request->image_hidden);
+        $address 					       = 	trim($request->address);
+        $phone	                 =	trim($request->phone);
+        $mobilephone             =  trim($request->mobilephone);
+        $fax                     =  trim($request->fax);
         $sort_order 			       =	trim($request->sort_order);
         $status 				         =  trim($request->status);
+        /*echo "<pre>".print_r($id,true)."</pre>";
+        echo "<pre>".print_r($fullname,true)."</pre>";
+        echo "<pre>".print_r($address,true)."</pre>";
+        echo "<pre>".print_r($phone,true)."</pre>";
+        echo "<pre>".print_r($mobilephone,true)."</pre>";
+        echo "<pre>".print_r($fax,true)."</pre>";
+        echo "<pre>".print_r($sort_order,true)."</pre>";
+        echo "<pre>".print_r($status,true)."</pre>";die();*/
         $data 		               =  array();
         $info 		               =  array();
         $error 		               =  array();
         $item		                 =  null;
-        $checked 	= 1;              
-        if(empty($fullname)){
-           $checked = 0;
-           $error["fullname"]["type_msg"] = "has-error";
-           $error["fullname"]["msg"] = "Fullname is required";
-        }else{
-            $data=array();
-             if (empty($id)) {
-                $data=CategoryArticleModel::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get()->toArray();	        	
-            }else{
-              $data=CategoryArticleModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),(int)@$id])->get()->toArray();		
-            }  
-            if (count($data) > 0) {
-              $checked = 0;
-              $error["fullname"]["type_msg"] = "has-error";
-              $error["fullname"]["msg"] = "Fullname is existed in system";
-            }      	
-        }
-        if(empty($alias)){
-             $checked = 0;
-             $error["alias"]["type_msg"] = "has-error";
-             $error["alias"]["msg"] = "Alias is required";
-        }else{
-              $data=array();
-             if (empty($id)) {
-              $data=CategoryArticleModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias,'UTF-8'))])->get()->toArray();	        	
-            }else{
-              $data=CategoryArticleModel::whereRaw("trim(lower(alias)) = ? and id != ?",[trim(mb_strtolower($alias,'UTF-8')),(int)@$id])->get()->toArray();		
-            }  
-            if (count($data) > 0) {
-              $checked = 0;
-              $error["alias"]["type_msg"] 	= "has-error";
-              $error["alias"]["msg"] 			= "Alias is existed in system";
-            }      	
-        }
+        $checked 	= 1;                      
         if(empty($sort_order)){
              $checked = 0;
              $error["sort_order"]["type_msg"] 	= "has-error";
@@ -106,27 +75,18 @@ class CategoryArticleController extends Controller {
         }
         if ($checked == 1) {    
              if(empty($id)){
-              $item 				= 	new CategoryArticleModel;       
-              $item->created_at 	=	date("Y-m-d H:i:s",time());        
-              if(!empty($image)){
-                $item->image    =   trim($image) ;  
-              }				
+              $item 				= 	new InvoiceModel;       
+              $item->created_at 	=	date("Y-m-d H:i:s",time());                      			
         } else{
-              $item				=	CategoryArticleModel::find((int)@$id);   
-              $file_image=null;                       
-              if(!empty($image_hidden)){
-                $file_image =$image_hidden;          
-              }
-              if(!empty($image))  {
-                $file_image=$image;                                                
-              }
-              $item->image=trim($file_image) ;                 
+              $item				=	InvoiceModel::find((int)@$id);                         
         }  
         $item->fullname 		=	$fullname;
-        $item->alias 			  =	$alias;
-        $item->parent_id 		=	(int)$category_article_id;            
-        $item->sort_order 	=	(int)$sort_order;
-        $item->status 			=	(int)$status;    
+        $item->address 			=	$address;
+        $item->phone 		    =	$phone;            
+        $item->mobilephone  = $mobilephone;
+        $item->fax          = $fax;           
+        $item->sort_order 	=	(int)@$sort_order;
+        $item->status 			=	(int)@$status;    
         $item->updated_at 	=	date("Y-m-d H:i:s",time());    	        	
         $item->save();  	
         $info = array(
@@ -153,7 +113,7 @@ class CategoryArticleController extends Controller {
             $type_msg               =   "alert-success";
             $msg                    =   "Update successfully";              
             $status         =       (int)$request->status;
-            $item           =       CategoryArticleModel::find((int)@$id);        
+            $item           =       InvoiceModel::find((int)@$id);        
             $item->status   =       $status;
             $item->save();
             $data                   =   $this->loadData($request);
@@ -164,45 +124,16 @@ class CategoryArticleController extends Controller {
               'data'              => $data
             );
             return $info;
-      }
-      public function deleteImage(Request $request){
-          $id                     =   (int)$request->id;              
-          $checked                =   1;
-          $type_msg               =   "alert-success";
-          $msg                    =   "Delete successfully";            
-        
-          if($checked == 1){
-              $item = CategoryArticleModel::find((int)@$id);
-              $item->image     = null;      
-              $item->save();  
-          }          
-          $info = array(
-            'checked'           => $checked,
-            'type_msg'          => $type_msg,                
-            'msg'               => $msg,                    
-          );
-          return $info;
-      }
+      }      
       public function deleteItem(Request $request){
             $id                     =   (int)$request->id;              
             $checked                =   1;
             $type_msg               =   "alert-success";
-            $msg                    =   "Delete successfully";                        
-            $data                   =   CategoryArticleModel::whereRaw("parent_id = ?",[(int)@$id])->get()->toArray();  
-            if(count($data) > 0){
-                $checked     =   0;
-                $type_msg           =   "alert-warning";            
-                $msg                =   "Cannot delete this item";            
-            }
-            $data                   =   ArticleCategoryModel::whereRaw("category_article_id = ?",[(int)@$id])->get()->toArray();              
-            if(count($data) > 0){
-                $checked     =   0;
-                $type_msg           =   "alert-warning";            
-                $msg                =   "Cannot delete this item";            
-            }
+            $msg                    =   "Delete successfully";                                    
             if($checked == 1){
-                $item               =   CategoryArticleModel::find((int)@$id);
+                $item               =   InvoiceModel::find((int)@$id);
                 $item->delete();            
+                InvoiceDetailModel::whereRaw("invoice_id = ?",[(int)@$id])->delete();
             }        
             $data                   =   $this->loadData($request);
             $info = array(
@@ -228,7 +159,7 @@ class CategoryArticleController extends Controller {
             if($checked==1){
                 foreach ($arrID as $key => $value) {
                       if(!empty($value)){
-                        $item=CategoryArticleModel::find($value);
+                        $item=InvoiceModel::find($value);
                         $item->status=$status;
                         $item->save();      
                       }            
@@ -253,29 +184,14 @@ class CategoryArticleController extends Controller {
               $checked     =   0;
               $type_msg           =   "alert-warning";            
               $msg                =   "Please choose at least one item to delete";
-            }else{
-              foreach ($arrID as $key => $value) {
-                if(!empty($value)){
-                  $data                   =   CategoryArticleModel::whereRaw("parent_id = ?",[(int)@$value])->get()->toArray();                    
-                  if(count($data) > 0){
-                    $checked     =   0;
-                    $type_msg           =   "alert-warning";            
-                    $msg                =   "Cannot delete this item";
-                  }
-                  $data                   =   ArticleCategoryModel::whereRaw("category_article_id = ?",[(int)@$value])->get()->toArray();                     
-                  if(count($data) > 0){
-                    $checked     =   0;
-                    $type_msg           =   "alert-warning";            
-                    $msg                =   "Cannot delete this item"; 
-                  }
-                }                
-              }
             }
             if($checked == 1){                
               $strID = implode(',',$arrID);       
               $strID = substr($strID, 0,strlen($strID) - 1);            
-              $sql = "DELETE FROM `category_article` WHERE `id` IN (".$strID.")";                                 
-              DB::statement($sql);    
+              $sqlDeleteInvoice       = "DELETE FROM `invoice`        WHERE `id`          IN (".$strID.")";        
+              $sqlDeleteInvoiceDetail = "DELETE FROM `invoice_detail` WHERE `invoice_id`  IN (".$strID.")";       
+              DB::statement($sqlDeleteInvoice);
+              DB::statement($sqlDeleteInvoiceDetail); 
             }
             $data                   =   $this->loadData($request);
             $info = array(
@@ -295,7 +211,7 @@ class CategoryArticleController extends Controller {
           if(count($data_order) > 0){              
             foreach($data_order as $key => $value){         
               if(!empty($value)){
-                $item=CategoryArticleModel::find((int)$value->id);                
+                $item=InvoiceModel::find((int)@$value->id);                
               $item->sort_order=(int)$value->sort_order;                         
               $item->save();                      
               }                                             
@@ -310,8 +226,6 @@ class CategoryArticleController extends Controller {
           );
           return $info;
     }
-    public function uploadFile(Request $request){           
-      uploadImage($_FILES["image"],WIDTH,HEIGHT,1);
-    }
+    
 }
 ?>

@@ -50,6 +50,12 @@
                     <span class="title">Customer</span>                                            
                 </a>                                                                      
             </li>
+            <li class="nav-item  ">
+                <a href="{!! route('admin.invoice.getList') !!}" class="nav-link nav-toggle">
+                    <i class="icon-notebook"></i>
+                    <span class="title">Invoice</span>                                            
+                </a>                                                                      
+            </li>
         </ul>
     </li>
     <li class="nav-item  ">
