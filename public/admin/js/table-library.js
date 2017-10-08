@@ -8,6 +8,7 @@ var vModuleMenuTable=null;
 var vModuleArticleTable=null;
 var vGroupMemberTable=null;
 var vUserTable=null;
+var vPrivilegeTable=null;
 var basicTable = function () {
     var initCategoryArticleTable = function () {
         vCategoryArticleTable = $('#tbl-category-article').DataTable({
@@ -142,6 +143,33 @@ var basicTable = function () {
             ]
         });        
     };
+    var initUserTable = function () {
+        vUserTable = $('#tbl-user').DataTable({
+            columns: [                
+                { data: "checked"       },
+                { data: "username"      },
+                { data: "fullname"      },   
+                { data: "group_member_name" },            
+                { data: "sort_order"    },  
+                { data: "status"        },                      
+                { data: "edited"        },         
+                { data: "deleted"       },                
+            ]
+        });        
+    };
+    var initPrivilegeTable = function () {
+        vPrivilegeTable = $('#tbl-privilege').DataTable({
+            columns: [                
+                { data: "checked"       },               
+                { data: "fullname"      },   
+                { data: "controller"    },     
+                { data: "action"        },            
+                { data: "sort_order"    },                  
+                { data: "edited"        },         
+                { data: "deleted"       },                
+            ]
+        });        
+    };
     return {
         init: function () {
             if (!jQuery().dataTable)
@@ -156,6 +184,7 @@ var basicTable = function () {
             initModuleArticleTable();
             initGroupMemberTable();
             initUserTable();
+            initPrivilegeTable();
         }
     };
 }();

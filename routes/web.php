@@ -27,15 +27,14 @@ Route::group(["prefix"=>"admin"],function(){
 		Route::post("upload-file",["as"=>"admin.product.uploadFile","uses"=>"admin\ProductController@uploadFile"]);
 	});		
 	Route::group(["prefix"=>"privilege"],function(){		
-		Route::match(["get","post"],"list",["as"=>"admin.privilege.getList","uses"=>"admin\PrivilegeController@getList"]);
+		Route::get("list",["as"=>"admin.privilege.getList","uses"=>"admin\PrivilegeController@getList"]);
+		Route::post("load-data",["as"=>"admin.privilege.loadData","uses"=>"admin\PrivilegeController@loadData"]);		
 		Route::get("form/{task}/{id?}",["as"=>"admin.privilege.getForm","uses"=>"admin\PrivilegeController@getForm"]);
-		Route::post("form/{task}",["as"=>"admin.privilege.postForm","uses"=>"admin\PrivilegeController@postForm"]);
-		Route::get("delete/{id}",["as"=>"admin.privilege.getDelete","uses"=>"admin\PrivilegeController@getDelete"]);
-		Route::post("ordering",["as"=>"admin.privilege.postOrdering","uses"=>"admin\PrivilegeController@postOrdering"]);
-		Route::post("status/{status}",["as"=>"admin.privilege.postStatus","uses"=>"admin\PrivilegeController@postStatus"]);
-		Route::get("ajaxStatus/{id}/{status}",["as"=>"admin.privilege.getAjaxStatus","uses"=>"admin\PrivilegeController@getAjaxStatus"]);
-		Route::post("trash",["as"=>"admin.privilege.postTrash","uses"=>"admin\PrivilegeController@postTrash"]);
-	});	
+		Route::post("save",["as"=>"admin.privilege.save","uses"=>"admin\PrivilegeController@save"]);
+		Route::post("delete-item",["as"=>"admin.privilege.deleteItem","uses"=>"admin\PrivilegeController@deleteItem"]);		
+		Route::post("sort-order",["as"=>"admin.privilege.sortOrder","uses"=>"admin\PrivilegeController@sortOrder"]);		
+		Route::post("trash",["as"=>"admin.privilege.trash","uses"=>"admin\PrivilegeController@trash"]);		
+	});
 	Route::group(["prefix"=>"album"],function(){		
 		Route::match(["get","post"],"list",["as"=>"admin.album.getList","uses"=>"admin\AlbumController@getList"]);
 		Route::get("form/{task}/{id?}",["as"=>"admin.album.getForm","uses"=>"admin\AlbumController@getForm"]);

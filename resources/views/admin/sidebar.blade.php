@@ -98,6 +98,12 @@
                     <span class="title">User</span>                                            
                 </a>                                                                      
             </li>
+            <li class="nav-item  ">
+                <a href="{!! route('admin.privilege.getList') !!}" class="nav-link nav-toggle">
+                    <i class="icon-notebook"></i>
+                    <span class="title">Privilege</span>                                            
+                </a>                                                                      
+            </li>
         </ul>
     </li>                                           
 </ul>
