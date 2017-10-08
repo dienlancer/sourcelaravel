@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 08, 2017 lúc 07:05 AM
+-- Thời gian đã tạo: Th10 08, 2017 lúc 12:30 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -269,7 +269,7 @@ SELECT
 end$$
 
 DROP PROCEDURE IF EXISTS `pro_getUser`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getUser` (IN `keyword` VARCHAR(255), IN `strGroupMemberID` VARCHAR(255))  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getUser` (IN `keyword` VARCHAR(255), IN `group_member_id` INT)  NO SQL
 SELECT 
     0 as is_checked
     ,n.id
@@ -288,7 +288,7 @@ SELECT
     inner join group_member g on n.group_member_id = g.id
     WHERE
     (keyword ='' OR LOWER(n.fullname) LIKE CONCAT('%', LOWER(keyword) ,'%'))    
-    AND (strGroupMemberID = '#0#' OR INSTR(strGroupMemberID,'#'+g.group_member_id+'#') > 0)
+    AND (group_member_id = 0 OR n.group_member_id = group_member_id)
     ORDER BY n.sort_order ASC$$
 
 DELIMITER ;
@@ -1205,9 +1205,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `level`, `fullname`, `group_member_id`, `sort_order`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'diennk@ttcgroup.vn', '$2y$10$Ldz/pO3bAkeE3bk3P/hDwuRoFXsya.cOZ4BXj8L10jAJGU/FcVhpa', 1, 'Nguyễn Kim Điền', 1, 1, 'v1s3qvm4jQ1L5hnG9rXgEo8zIla62Qs4EgSYWDzCKBuCUXDeGbaIPh3P5Psk', '2016-12-15 19:15:48', '2017-05-20 03:48:30'),
-(2, 'trietnk', 'trietnk@ttcgroup.vn', '$2y$10$Ik1Q0rzlY1dBHxo3h.Kj8.itn/j/qB8SEgxiI66fQnzDacJpkfX8e', 1, 'Nguyễn Kim Triết', 2, 2, 'rPN5Un8gSv0CaorpuSTtAfKjVwgSvYAZfXgXIJxEXZLxWXTWnbbnakUmzSrJ', '2017-05-18 21:40:16', '2017-05-20 03:48:30'),
-(3, 'hoanglk', 'hoanglk@ttcgroup.vn', '$2y$10$KLFOj4PXMtCYUHknS/dgdO3xmzgLHJhf292gESULdsYi8Qtyn3Ft6', 1, 'Lê Kim Hoàng', 4, 3, 'DwgCnKUA12QqgHChZSJoAZiky7W8KEEkq1mhWVseHGjTqrxLzPE5BYqai56J', '2017-05-18 21:41:03', '2017-05-20 03:48:30');
+(1, 'admin', 'diennk@ttcgroup.vn', '$2y$10$Ldz/pO3bAkeE3bk3P/hDwuRoFXsya.cOZ4BXj8L10jAJGU/FcVhpa', 1, 'Nguyễn Kim Điền', 1, 11, 'v1s3qvm4jQ1L5hnG9rXgEo8zIla62Qs4EgSYWDzCKBuCUXDeGbaIPh3P5Psk', '2016-12-15 19:15:48', '2017-10-08 03:26:54'),
+(3, 'hoanglk', 'hoanglk@ttcgroup.vn', '$2y$10$KLFOj4PXMtCYUHknS/dgdO3xmzgLHJhf292gESULdsYi8Qtyn3Ft6', 0, 'Lê Kim Hoàng', 4, 14, 'DwgCnKUA12QqgHChZSJoAZiky7W8KEEkq1mhWVseHGjTqrxLzPE5BYqai56J', '2017-05-18 21:41:03', '2017-10-08 03:26:54');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -1389,12 +1388,12 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT cho bảng `group_member`
 --
 ALTER TABLE `group_member`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT cho bảng `group_privilege`
 --
 ALTER TABLE `group_privilege`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=910;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=903;
 --
 -- AUTO_INCREMENT cho bảng `invoice`
 --
@@ -1454,7 +1453,7 @@ ALTER TABLE `product_category`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;COMMIT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -6,6 +6,7 @@ use App\User;
 use App\GroupMemberModel;
 use App\UserGroupModel;
 use DB;
+use Hash;
 class UserController extends Controller {
   	var $_controller="user";	
   	var $_title="Article";
