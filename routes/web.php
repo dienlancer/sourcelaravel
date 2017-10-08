@@ -67,16 +67,16 @@ Route::group(["prefix"=>"admin"],function(){
 		Route::post("trash",["as"=>"admin.invoice.postTrash","uses"=>"admin\InvoiceController@postTrash"]);
 	});
 	Route::group(["prefix"=>"user"],function(){		
-		
-		Route::match(["get","post"],"list",["as"=>"admin.user.getList","uses"=>"admin\UserController@getList"]);
+		Route::get("list",["as"=>"admin.user.getList","uses"=>"admin\UserController@getList"]);
+		Route::post("load-data",["as"=>"admin.user.loadData","uses"=>"admin\UserController@loadData"]);		
 		Route::get("form/{task}/{id?}",["as"=>"admin.user.getForm","uses"=>"admin\UserController@getForm"]);
-		Route::post("form/{task}",["as"=>"admin.user.postForm","uses"=>"admin\UserController@postForm"]);
-		Route::get("delete/{id}",["as"=>"admin.user.getDelete","uses"=>"admin\UserController@getDelete"]);
-		Route::post("ordering",["as"=>"admin.user.postOrdering","uses"=>"admin\UserController@postOrdering"]);
-		Route::post("status/{status}",["as"=>"admin.user.postStatus","uses"=>"admin\UserController@postStatus"]);
-		Route::get("ajaxStatus/{id}/{status}",["as"=>"admin.user.getAjaxStatus","uses"=>"admin\UserController@getAjaxStatus"]);
-		Route::post("trash",["as"=>"admin.user.postTrash","uses"=>"admin\UserController@postTrash"]);
-	});	
+		Route::post("save",["as"=>"admin.user.save","uses"=>"admin\UserController@save"]);
+		Route::post("delete-item",["as"=>"admin.user.deleteItem","uses"=>"admin\UserController@deleteItem"]);		
+		Route::post("sort-order",["as"=>"admin.user.sortOrder","uses"=>"admin\UserController@sortOrder"]);
+		Route::post("update-status",["as"=>"admin.user.updateStatus","uses"=>"admin\UserController@updateStatus"]);
+		Route::post("change-status",["as"=>"admin.user.changeStatus","uses"=>"admin\UserController@changeStatus"]);
+		Route::post("trash",["as"=>"admin.user.trash","uses"=>"admin\UserController@trash"]);		
+	});
 	Route::group(["prefix"=>"category-article"],function(){		
 		Route::get("list",["as"=>"admin.category-article.getList","uses"=>"admin\CategoryArticleController@getList"]);
 		Route::post("load-data",["as"=>"admin.category-article.loadData","uses"=>"admin\CategoryArticleController@loadData"]);		

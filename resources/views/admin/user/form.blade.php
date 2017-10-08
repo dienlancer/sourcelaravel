@@ -3,8 +3,6 @@
 <?php 
 $linkCancel             =   route('admin.'.$controller.'.getList');
 $linkSave               =   route('admin.'.$controller.'.save');
-$linkUploadFile         =   route('admin.'.$controller.'.uploadFile');
-$linkDeleteImage        =   route('admin.'.$controller.'.deleteImage');
 $inputUsername          =   '<input type="text" class="form-control" name="username"    id="username"       value="'.@$arrRowData['username'].'">'; 
 $inputEmail             =   '<input type="text" class="form-control" name="email"       id="email"          value="'.@$arrRowData['email'].'">'; 
 $inputPassword          =   '<input type="password" id="password" name="password" class="form-control" />';
@@ -13,7 +11,7 @@ $status                 =   (count($arrRowData) > 0) ? @$arrRowData['status'] : 
 $arrStatus              =   array(-1 => '- Select status -', 1 => 'Publish', 0 => 'Unpublish');  
 $ddlStatus              =   cmsSelectbox("status","status","form-control",$arrStatus,$status,"");
 $inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"        value="'.@$arrRowData['fullname'].'">'; 
-$ddlGroupMember         =   cmsSelectboxCategory('group_member_id','group_member_id', 'inputbox',@$arrGroupMember,@$arrRowData['group_member_id'],"");
+$ddlGroupMember         =   cmsSelectboxCategory('group_member_id','group_member_id', 'form-control',@$arrGroupMember,@$arrRowData['group_member_id'],"");
 $inputSortOrder         =   '<input type="text" class="form-control" name="sort_order" id="sort_order"     value="'.@$arrRowData['sort_order'].'">';
 $id                     =   (count($arrRowData) > 0) ? @$arrRowData['id'] : "" ;
 $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$id.'" />'; 
@@ -104,17 +102,17 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             </div>  
             <div class="form-actions noborder">
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}" />          
-                <?php echo $inputPictureHidden; ?>                
+               
                 <?php echo  $inputID; ?>                      
             </div>                  
         </form>
     </div>
 </div>
 <script type="text/javascript" language="javascript">
-    function resetErrorStatus(){
-        var id                   =   $("#id");
+    function resetErrorStatus(){        
         var username             =   $("#username");
         var email                =   $("#email");
+        var fullname             =   $("#fullname");
         var password             =   $("#password");        
         var group_member_id      =   $("#group_member_id");
         var sort_order           =   $("#sort_order");
@@ -122,6 +120,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
         
         $(username).closest('.form-group').removeClass("has-error");
         $(email).closest('.form-group').removeClass("has-error");
+        $(fullname).closest('.form-group').removeClass("has-error");
         $(password).closest('.form-group').removeClass("has-error");
         $(group_member_id).closest('.form-group').removeClass("has-error");
         $(sort_order).closest('.form-group').removeClass("has-error");        
@@ -129,6 +128,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
 
         $(username).closest('.form-group').find('span').empty().hide();
         $(email).closest('.form-group').find('span').empty().hide();
+        $(fullname).closest('.form-group').find('span').empty().hide();
         $(password).closest('.form-group').find('span').empty().hide();
         $(group_member_id).closest('.form-group').find('span').empty().hide();
         $(status).closest('.form-group').find('span').empty().hide();        
@@ -137,38 +137,26 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
 
     function save(){
         var id=$("#id").val();        
+        var username=$("#username").val();
+        var email = $("#email").val();
+        var password=$("#password").val();
+        var confirm_password=$("#confirm_password").val();
+        var status=$("#status").val();
         var fullname=$("#fullname").val();
-        var title=$("#title").val();
-        var alias=$("#alias").val();
-        var category_article_id=$("#category_article_id").val();
-        var image = $("#image").val();
-        if (image != '')
-            image = image.substr(image.lastIndexOf('\\') + 1);       
-        var image_hidden=$("#image_hidden").val(); 
-        var intro=$("#intro").val();
-        var content=$("#content").val();
-        var description=$("#description").val();
-        var meta_keyword=$("#meta_keyword").val();
-        var meta_description=$("#meta_description").val();
-        var sort_order=$("#sort_order").val();
-        var status=$("#status").val();     
+        var group_member_id=$("#group_member_id").val();        
+        var sort_order=$("#sort_order").val();        
         var token = $('input[name="_token"]').val();   
         resetErrorStatus();
         var dataItem={
             "id":id,
+            "username":username,
+            "email":email,
+            "password":password,
+            "confirm_password":confirm_password,
+            "status":status,            
             "fullname":fullname,
-            "title":title,
-            "alias":alias,
-            "image":image,
-            "intro":intro,
-            "content":content,
-            "description":description,
-            "meta_keyword":meta_keyword,
-            "meta_description":meta_description,
-            "category_article_id":category_article_id,            
-            "image_hidden":image_hidden,
-            "sort_order":sort_order,
-            "status":status,
+            "group_member_id":group_member_id,                        
+            "sort_order":sort_order,            
             "_token": token
         };
         $.ajax({
@@ -178,24 +166,33 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             async: false,
             success: function (data) {
                 if(data.checked==true){
-                    uploadFileImport();
                     window.location.href = "<?php echo $linkCancel; ?>";
                 }else{
                     var data_error=data.error;
+                    if(typeof data_error.username               != "undefined"){
+                        $("#username").closest('.form-group').addClass(data_error.username.type_msg);
+                        $("#username").closest('.form-group').find('span').text(data_error.username.msg);
+                        $("#username").closest('.form-group').find('span').show();                        
+                    }
+                    if(typeof data_error.email               != "undefined"){
+                        $("#email").closest('.form-group').addClass(data_error.email.type_msg);
+                        $("#email").closest('.form-group').find('span').text(data_error.email.msg);
+                        $("#email").closest('.form-group').find('span').show();                        
+                    }
                     if(typeof data_error.fullname               != "undefined"){
                         $("#fullname").closest('.form-group').addClass(data_error.fullname.type_msg);
                         $("#fullname").closest('.form-group').find('span').text(data_error.fullname.msg);
                         $("#fullname").closest('.form-group').find('span').show();                        
+                    }                    
+                    if(typeof data_error.password                  != "undefined"){
+                        $("#password").closest('.form-group').addClass(data_error.password.type_msg);
+                        $("#password").closest('.form-group').find('span').text(data_error.password.msg);
+                        $("#password").closest('.form-group').find('span').show();                       
                     }
-                    if(typeof data_error.title               != "undefined"){
-                        $("#title").closest('.form-group').addClass(data_error.title.type_msg);
-                        $("#title").closest('.form-group').find('span').text(data_error.title.msg);
-                        $("#title").closest('.form-group').find('span').show();                        
-                    }
-                    if(typeof data_error.alias                  != "undefined"){
-                        $("#alias").closest('.form-group').addClass(data_error.alias.type_msg);
-                        $("#alias").closest('.form-group').find('span').text(data_error.alias.msg);
-                        $("#alias").closest('.form-group').find('span').show();                       
+                    if(typeof data_error.group_member_id               != "undefined"){
+                        $("#group_member_id").closest('.form-group').addClass(data_error.group_member_id.type_msg);
+                        $("#group_member_id").closest('.form-group').find('span').text(data_error.group_member_id.msg);
+                        $("#group_member_id").closest('.form-group').find('span').show();                        
                     }
                     if(typeof data_error.sort_order               != "undefined"){
                         $("#sort_order").closest('.form-group').addClass(data_error.sort_order.type_msg);
@@ -206,7 +203,6 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                         $("#status").closest('.form-group').addClass(data_error.status.type_msg);
                         $("#status").closest('.form-group').find('span').text(data_error.status.msg);
                         $("#status").closest('.form-group').find('span').show();
-
                     }                    
                 }
                 spinner.hide();

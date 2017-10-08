@@ -92,9 +92,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
 <script type="text/javascript" language="javascript">
     function resetErrorStatus(){
         var id                   =   $("#id");
-        var fullname             =   $("#fullname");
-        var alias                =   $("#alias");
-        var category_article_id  =   $("#category_article_id");
+        var fullname             =   $("#fullname");        
         var sort_order           =   $("#sort_order");
         var status               =   $("#status");
         

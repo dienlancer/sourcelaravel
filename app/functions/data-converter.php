@@ -302,11 +302,11 @@ function userConverter($data=array(),$controller){
             $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.url("/public/admin/images/delete-icon.png").'" /></a></center>';            
             $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';         
             $kicked=0;
-            if((int)$data[$i]["status"]==1)
+            if((int)$data[$i]["level"]==1)
                 $kicked=0;
             else
                 $kicked=1;
-            $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["status"],$kicked).'</center>';   
+            $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["level"],$kicked).'</center>';   
             $result[$i] = array(
                 'checked'                  =>   '<input type="checkbox" onclick="checkWithList(this)" name="cid" value="'.$data[$i]["is_checked"].'" />',
                 'is_checked'               =>   0,

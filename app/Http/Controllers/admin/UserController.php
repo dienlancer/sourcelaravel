@@ -6,7 +6,7 @@ use App\User;
 use App\GroupMemberModel;
 use App\UserGroupModel;
 use DB;
-class ArticleController extends Controller {
+class UserController extends Controller {
   	var $_controller="user";	
   	var $_title="Article";
   	var $_icon="icon-settings font-dark";
@@ -17,13 +17,7 @@ class ArticleController extends Controller {
     		$icon=$this->_icon;		
     		return view("admin.".$this->_controller.".list",compact("controller","task","title","icon"));	
   	}	
-    public function getStringGroupMemberID($group_member_id,&$arrGroupMemberID){    
-        $arrGroupMember=GroupMemberModel::select("id")->where("parent_id","=",(int)@$group_member_id)->get()->toArray();
-        foreach ($arrGroupMember as $key => $value) {
-          $arrGroupMemberID[]=$value["id"];
-          $this->getStringGroupMemberID((int)$value["id"],$arrGroupMemberID);
-        }   
-    }
+    
   	public function loadData(Request $request){
     		$filter_search="";    
         $group_member_id=0;  
@@ -32,16 +26,8 @@ class ArticleController extends Controller {
         }
         if(!empty(@$request->group_member_id)){
           $group_member_id=(int)@$request->group_member_id;
-        }
-        /* begin lấy chuỗi ID */
-        $arrGroupMemberID=array();
-        $strGroupMemberID="";
-        $arrGroupMemberID[]=$group_member_id;
-        $this->getStringGroupMemberID($group_member_id,$arrGroupMemberID);    
-        $strGroupMemberID=implode("#;#", $arrGroupMemberID);    
-        $strGroupMemberID="#".$strGroupMemberID."#";    
-        /* end lấy chuỗi ID */
-    		$data=DB::select('call pro_getGroupMember(?,?)',array(mb_strtolower($filter_search),$strGroupMemberID));
+        }        
+    		$data=DB::select('call pro_getUser(?,?)',array(mb_strtolower($filter_search),$group_member_id));
     		$data=convertToArray($data);		
     		$data=userConverter($data,$this->_controller);		    
     		return $data;
@@ -67,7 +53,7 @@ class ArticleController extends Controller {
     }
      public function save(Request $request){
           $id 					        =		trim(@$request->id); 
-          $username             =   trim(@$username);       
+          $username             =   trim(@$request->username);       
           $email 				        =		trim(@$request->email);
           $password             =   trim(@$request->password);
           $confirm_password     =   trim(@$request->confirm_password);
@@ -79,7 +65,7 @@ class ArticleController extends Controller {
           $info 		            =   array();
           $error 		            =   array();
           $item		              =   null;
-          $checked 	            =   1;              
+          $checked 	            =   1;                   
           if(empty($fullname)){
                  $checked = 0;
                  $error["fullname"]["type_msg"] = "has-error";
@@ -179,7 +165,7 @@ class ArticleController extends Controller {
                 }  
                 $item->username 		    =	$username;
                 $item->email            = $email;
-                $item->password 			  =	$password;
+                $item->password         = Hash::make(trim($password));
                 $level                  = 0;
                 if(!empty($status)){
                   $level                = (int)@$status;
@@ -189,8 +175,7 @@ class ArticleController extends Controller {
                 if(!empty($group_member_id)){
                     $item->group_member_id            = (int)@$group_member_id;
                 }              
-                $item->sort_order 		  =	(int)@$sort_order;
-                $item->status 			    =	(int)@$status;    
+                $item->sort_order 		  =	(int)@$sort_order;                
                 $item->updated_at 		  =	date("Y-m-d H:i:s",time());    	        	
                 $item->save();  	                
                 $info = array(

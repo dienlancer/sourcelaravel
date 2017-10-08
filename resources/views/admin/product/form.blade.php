@@ -123,9 +123,9 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
 <script type="text/javascript" language="javascript">
     function resetErrorStatus(){
         var id                   =   $("#id");
+        var code                 =   $("#code");
         var fullname             =   $("#fullname");
-        var alias                =   $("#alias");
-        var category_product_id  =   $("#category_product_id");
+        var alias                =   $("#alias");        
         var sort_order           =   $("#sort_order");
         var status               =   $("#status");
         
