@@ -28,7 +28,7 @@ class ArticleController extends Controller {
     		$filter_search="";    
         $category_article_id=0;  
         if(!empty(@$request->filter_search)){      
-          $filter_search=trim(mb_strtolower(@$request->filter_search)) ;    
+          $filter_search=trim(@$request->filter_search) ;    
         }
         if(!empty(@$request->category_article_id)){
           $category_article_id=(int)@$request->category_article_id;

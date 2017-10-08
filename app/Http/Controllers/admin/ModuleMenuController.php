@@ -273,8 +273,6 @@ class ModuleMenuController extends Controller {
             );
             return $info;
       }
-      public function uploadFile(Request $request){           
-        uploadImage($_FILES["image"],WIDTH,HEIGHT,1);
-      }
+  
 }
 ?>

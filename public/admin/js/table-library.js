@@ -7,6 +7,7 @@ var vProductTable=null;
 var vModuleMenuTable=null;
 var vModuleArticleTable=null;
 var vGroupMemberTable=null;
+var vUserTable=null;
 var basicTable = function () {
     var initCategoryArticleTable = function () {
         vCategoryArticleTable = $('#tbl-category-article').DataTable({
@@ -127,6 +128,18 @@ var basicTable = function () {
             ]
         });        
     };
+    var initUserTable = function () {
+        vUserTable = $('#tbl-user').DataTable({
+            columns: [                
+                { data: "checked"       },
+                { data: "fullname"      },               
+                { data: "sort_order"    },  
+                { data: "status"        },                      
+                { data: "edited"        },         
+                { data: "deleted"       },                
+            ]
+        });        
+    };
     return {
         init: function () {
             if (!jQuery().dataTable)
@@ -140,6 +153,7 @@ var basicTable = function () {
             initModuleMenuTable();
             initModuleArticleTable();
             initGroupMemberTable();
+            initUserTable();
         }
     };
 }();

@@ -2,14 +2,13 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\ModuleArticleModel;
-use App\MenuTypeModel;
-use App\MenuModel;
-use App\ModMenuTypeModel;
+use App\User;
+use App\GroupMemberModel;
+use App\UserGroupModel;
 use DB;
-class ModuleArticleController extends Controller {
-  	var $_controller="module-article";	
-  	var $_title="Module Article";
+class ArticleController extends Controller {
+  	var $_controller="user";	
+  	var $_title="Article";
   	var $_icon="icon-settings font-dark";
   	public function getList(){		
     		$controller=$this->_controller;	
@@ -17,15 +16,34 @@ class ModuleArticleController extends Controller {
     		$title=$this->_title;
     		$icon=$this->_icon;		
     		return view("admin.".$this->_controller.".list",compact("controller","task","title","icon"));	
-  	}	    
+  	}	
+    public function getStringGroupMemberID($group_member_id,&$arrGroupMemberID){    
+        $arrGroupMember=GroupMemberModel::select("id")->where("parent_id","=",(int)@$group_member_id)->get()->toArray();
+        foreach ($arrGroupMember as $key => $value) {
+          $arrGroupMemberID[]=$value["id"];
+          $this->getStringGroupMemberID((int)$value["id"],$arrGroupMemberID);
+        }   
+    }
   	public function loadData(Request $request){
-    		$filter_search="";            
+    		$filter_search="";    
+        $group_member_id=0;  
         if(!empty(@$request->filter_search)){      
           $filter_search=trim(@$request->filter_search) ;    
-        }                
-    		$data=DB::select('call pro_getModuleArticle(?)',array(mb_strtolower($filter_search)));
+        }
+        if(!empty(@$request->group_member_id)){
+          $group_member_id=(int)@$request->group_member_id;
+        }
+        /* begin lấy chuỗi ID */
+        $arrGroupMemberID=array();
+        $strGroupMemberID="";
+        $arrGroupMemberID[]=$group_member_id;
+        $this->getStringGroupMemberID($group_member_id,$arrGroupMemberID);    
+        $strGroupMemberID=implode("#;#", $arrGroupMemberID);    
+        $strGroupMemberID="#".$strGroupMemberID."#";    
+        /* end lấy chuỗi ID */
+    		$data=DB::select('call pro_getGroupMember(?,?)',array(mb_strtolower($filter_search),$strGroupMemberID));
     		$data=convertToArray($data);		
-    		$data=moduleArticleConverter($data,$this->_controller);		    
+    		$data=userConverter($data,$this->_controller);		    
     		return $data;
   	}	
     public function getForm($task,$id=""){     
@@ -33,37 +51,30 @@ class ModuleArticleController extends Controller {
         $title="";
         $icon=$this->_icon; 
         $arrRowData=array();
-        $arrModMenuType=array();
+
+    $arrUserGroup=array();
         switch ($task) {
            case 'edit':
               $title=$this->_title . " : Update";
-             $arrRowData=ModuleArticleModel::find(@$id)->toArray();  
-
-      $arrModMenuType=ModMenuTypeModel::whereRaw("module_id = ? and trim(lower(module_type)) = ?",[(int)@$id,trim(mb_strtolower($this->_controller,'UTF-8'))])->get()->toArray();      
-
+              $arrRowData=User::find((int)@$id)->toArray();  
            break;
            case 'add':
               $title=$this->_title . " : Add new";
            break;     
         }    
-        $arrMenuType=MenuTypeModel::select("id","fullname","sort_order","created_at","updated_at")->get()->toArray();
-
-    $arrMenu=MenuModel::select("id","fullname","alias","site_link","parent_id","menu_type_id","level","sort_order","status","created_at","updated_at")->orderBy("sort_order","asc")->get()->toArray();  
-
-    $arrMenuRecursive=array();
-
-    menuRecursiveForm($arrMenu ,0,"",$arrMenuRecursive)  ;
-
-    return view("admin.".$this->_controller.".form",compact("arrMenuRecursive","arrRowData","arrModMenuType","arrMenuType","controller","task","title","icon"));
+        $arrGroupMember=GroupMemberModel::select("id","fullname","created_at","updated_at")->get()->toArray();      
+        return view("admin.".$this->_controller.".form",compact("arrRowData","arrGroupMember","controller","task","title","icon"));
     }
      public function save(Request $request){
-          $id 					        =		trim($request->id);        
-          $fullname 				    =		trim($request->fullname);
-          $article_id           =   trim($request->article_id);          
-          $menu_id              =   $request->menu_id;
-          $position 					  = 	trim($request->position);  
-          $status               =   trim($request->status);        
-          $sort_order           =   trim($request->sort_order);                  
+          $id 					        =		trim(@$request->id); 
+          $username             =   trim(@$username);       
+          $email 				        =		trim(@$request->email);
+          $password             =   trim(@$request->password);
+          $confirm_password     =   trim(@$request->confirm_password);
+          $status               =   trim(@$request->status);
+          $fullname 					  = 	trim(@$request->fullname);    
+          $group_member_id      =   trim(@$request->group_member_id);                      
+          $sort_order           =   trim(@$request->sort_order);                          
           $data 		            =   array();
           $info 		            =   array();
           $error 		            =   array();
@@ -76,16 +87,79 @@ class ModuleArticleController extends Controller {
           }else{
               $data=array();
               if (empty($id)) {
-                $data=ModuleArticleModel::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get()->toArray();	        	
+                $data=User::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get()->toArray();	        	
               }else{
-                $data=ModuleArticleModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),(int)@$id])->get()->toArray();		
+                $data=User::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),(int)@$id])->get()->toArray();		
               }  
               if (count($data) > 0) {
                   $checked = 0;
                   $error["fullname"]["type_msg"] = "has-error";
                   $error["fullname"]["msg"] = "Fullname is existed in system";
               }      	
-          }          
+          }
+          if(empty($username)){
+                 $checked = 0;
+                 $error["username"]["type_msg"] = "has-error";
+                 $error["username"]["msg"] = "Username is required";
+          }else{
+              $data=array();
+              if (empty($id)) {
+                $data=User::whereRaw("trim(lower(username)) = ?",[trim(mb_strtolower($username,'UTF-8'))])->get()->toArray();           
+              }else{
+                $data=User::whereRaw("trim(lower(username)) = ? and id != ?",[trim(mb_strtolower($username,'UTF-8')),(int)@$id])->get()->toArray();   
+              }  
+              if (count($data) > 0) {
+                  $checked = 0;
+                  $error["username"]["type_msg"] = "has-error";
+                  $error["username"]["msg"] = "Username is existed in system";
+              }       
+          }
+          if(empty($email)){
+                 $checked = 0;
+                 $error["email"]["type_msg"] = "has-error";
+                 $error["email"]["msg"] = "Email is required";
+          }else{
+              $data=array();
+              if (empty($id)) {
+                $data=User::whereRaw("trim(lower(email)) = ?",[trim(mb_strtolower($email,'UTF-8'))])->get()->toArray();           
+              }else{
+                $data=User::whereRaw("trim(lower(email)) = ? and id != ?",[trim(mb_strtolower($email,'UTF-8')),(int)@$id])->get()->toArray();   
+              }  
+              if (count($data) > 0) {
+                  $checked = 0;
+                  $error["email"]["type_msg"] = "has-error";
+                  $error["email"]["msg"] = "Email is existed in system";
+              }       
+          }
+          $password         = trim(mb_strtolower($password));
+          $confirm_password = trim(mb_strtolower($confirm_password));
+          if(empty($id)){
+              if(mb_strlen($password) < 6 ){
+                  $checked = 0;
+                  $error["password"]["type_msg"] = "has-error";
+                  $error["password"]["msg"] = "Mật khẩu phải từ 6 ký tự trở lên";
+              }else{
+                  if(strcmp($password, $confirm_password) !=0 ){
+                    $checked = 0;
+                    $error["password"]["type_msg"] = "has-error";
+                    $error["password"]["msg"] = "Mật khẩu xác nhận không khớp";
+                  }
+              }     
+          }else{
+              if(!empty($password) || !empty($confirm_password)){
+                  if(mb_strlen($password) < 6 ){
+                    $checked = 0;
+                    $error["password"]["type_msg"] = "has-error";
+                    $error["password"]["msg"] = "Mật khẩu phải từ 6 ký tự trở lên";
+                  }else{
+                      if(strcmp($password, $confirm_password) !=0 ){
+                        $checked = 0;
+                        $error["password"]["type_msg"] = "has-error";
+                        $error["password"]["msg"] = "Mật khẩu xác nhận không khớp";
+                      }
+                  }        
+              }     
+          }
           if(empty($sort_order)){
              $checked = 0;
              $error["sort_order"]["type_msg"] 	= "has-error";
@@ -98,43 +172,27 @@ class ModuleArticleController extends Controller {
           }
           if ($checked == 1) {    
                 if(empty($id)){
-                    $item 				      = 	new ModuleArticleModel;       
+                    $item 				= 	new User;       
                     $item->created_at 	=	date("Y-m-d H:i:s",time());                            
                 } else{
-                    $item				        =	ModuleArticleModel::find((int)@$id);                        		 
+                    $item				=	User::find((int)@$id);                        		  		 	
                 }  
-                $item->fullname 		    =	$fullname;
-                $item->article_id       = $article_id;
-                $item->position 		    =	$position;  
-                $item->status           = (int)$status;                  
-                $item->sort_order 	    =	(int)$sort_order;                
-                $item->updated_at 	    =	date("Y-m-d H:i:s",time());    	        	
-                $item->save();  	
-                if(count(@$menu_id) > 0){                         
-                    $arrModMenuType=ModMenuTypeModel::whereRaw("module_id = ? and module_type",[@$item->id,trim(mb_strtolower(@$this->_controller,'UTF-8'))])->get()->toArray();
-                    $arrMenuID=array();
-                    foreach ($arrModMenuType as $key => $value) {
-                        $arrMenuID[]=$value["menu_id"];
-                    }
-                    $selected=@$menu_id;
-                    sort($selected);
-                    sort($arrMenuID);
-                    $resultCompare=0;
-                    if($selected == $arrMenuID){
-                          $resultCompare=1;       
-                    }
-                    if($resultCompare==0){
-                          ModMenuTypeModel::whereRaw("module_id = ? and module_type = ?",[(int)@$item->id,trim(mb_strtolower($this->_controller,'UTF-8'))])->delete();   
-                          foreach ($selected as $key => $value) {
-                            $menuid=$value;
-                            $modMenuType=new ModMenuTypeModel;
-                            $modMenuType->menu_id     =   (int)$menuid;
-                            $modMenuType->module_id   =   (int)@$item->id;
-                            $modMenuType->module_type =   $this->_controller;                  
-                            $modMenuType->save();
-                          }
-                    }   
+                $item->username 		    =	$username;
+                $item->email            = $email;
+                $item->password 			  =	$password;
+                $level                  = 0;
+                if(!empty($status)){
+                  $level                = (int)@$status;
                 }
+                $item->level            = $level;
+                $item->fullname         = $fullname;                
+                if(!empty($group_member_id)){
+                    $item->group_member_id            = (int)@$group_member_id;
+                }              
+                $item->sort_order 		  =	(int)@$sort_order;
+                $item->status 			    =	(int)@$status;    
+                $item->updated_at 		  =	date("Y-m-d H:i:s",time());    	        	
+                $item->save();  	                
                 $info = array(
                   'type_msg' 			=> "has-success",
                   'msg' 				=> 'Save data successfully',
@@ -159,8 +217,8 @@ class ModuleArticleController extends Controller {
                   $type_msg               =   "alert-success";
                   $msg                    =   "Update successfully";              
                   $status         =       (int)$request->status;
-                  $item           =       ModuleArticleModel::find((int)@$id);        
-                  $item->status   =       $status;
+                  $item           =       User::find((int)@$id);        
+                  $item->level   =       (int)@$status;
                   $item->save();
                   $data                   =   $this->loadData($request);
                   $info = array(
@@ -171,16 +229,15 @@ class ModuleArticleController extends Controller {
                   );
                   return $info;
           }
-        
+      
       public function deleteItem(Request $request){
             $id                     =   (int)$request->id;              
             $checked                =   1;
             $type_msg               =   "alert-success";
             $msg                    =   "Delete successfully";                    
             if($checked == 1){
-              $item = ModuleArticleModel::find((int)@$id);
-              $item->delete();
-              ModMenuTypeModel::whereRaw("module_id = ? and module_type = ?",[(int)$id,trim(mb_strtolower($this->_controller,'UTF-8'))])->delete();
+              $item = User::find((int)@$id);
+                $item->delete();                
             }        
             $data                   =   $this->loadData($request);
             $info = array(
@@ -194,7 +251,7 @@ class ModuleArticleController extends Controller {
       public function updateStatus(Request $request){
           $str_id                 =   $request->str_id;   
           $status                 =   $request->status;  
-          $arrID                 =   explode(",", $str_id)  ;          
+          $arrID                  =   explode(",", $str_id)  ;
           $checked                =   1;
           $type_msg               =   "alert-success";
           $msg                    =   "Update successfully";     
@@ -206,10 +263,10 @@ class ModuleArticleController extends Controller {
           if($checked==1){
               foreach ($arrID as $key => $value) {
                 if(!empty($value)){
-                  $item=ModuleArticleModel::find($value);
-                $item->status=$status;
-                $item->save();    
-                }                
+                    $item=User::find((int)@$value);
+                    $item->level=(int)@$status;
+                    $item->save();      
+                }            
               }
           }                 
           $data                   =   $this->loadData($request);
@@ -235,10 +292,8 @@ class ModuleArticleController extends Controller {
             if($checked == 1){                
                   $strID = implode(',',$arrID);   
                   $strID=substr($strID, 0,strlen($strID) - 1);
-                  $sqlDeleteModuleArticle = "DELETE FROM `module_article` WHERE `id` IN  (".$strID.")";       
-                  $sqlDeleteModMenuType = "DELETE FROM `mod_menu_type` WHERE `module_id` IN (".$strID.") and `module_type` = '".trim(mb_strtolower($this->_controller,'UTF-8'))."' ";                
-                  DB::statement($sqlDeleteModuleArticle);
-                  DB::statement($sqlDeleteModMenuType);           
+                  $sql = "DELETE FROM `users` WHERE `id` IN (".$strID.")";        
+                  DB::statement($sql);       
             }
             $data                   =   $this->loadData($request);
             $info = array(
@@ -256,12 +311,12 @@ class ModuleArticleController extends Controller {
             $type_msg               =   "alert-success";
             $msg                    =   "Update successfully";      
             if(count($data_order) > 0){              
-              foreach($data_order as $key => $value){       
-              if(!empty($value)){
-                $item=ModuleArticleModel::find((int)$value->id);                
+              foreach($data_order as $key => $value){      
+                if(!empty($value)){
+                  $item=User::find((int)@$value->id);                
                 $item->sort_order=(int)$value->sort_order;                         
                 $item->save();                      
-              }                                                 
+                }                                                  
               }           
             }        
             $data                   =   $this->loadData($request);
@@ -272,7 +327,6 @@ class ModuleArticleController extends Controller {
               'data'              => $data
             );
             return $info;
-      }
- 
+      }     
 }
 ?>

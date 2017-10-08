@@ -23,7 +23,7 @@ class MenuController extends Controller {
       		$filter_search="";
           $menu_type_id=0;
           if(!empty(@$request->menu_type_id)){
-            $menu_type_id=(int)($request->menu_type_id);
+            $menu_type_id=(int)(@$request->menu_type_id);
           }          
       		$data=DB::select('call pro_getMenu(?,?)',array( mb_strtolower($filter_search) ,$menu_type_id));      		
       		$menuRecursiveData=array();      		

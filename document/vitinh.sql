@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 07, 2017 lúc 09:08 PM
+-- Thời gian đã tạo: Th10 08, 2017 lúc 07:05 AM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -267,6 +267,29 @@ SELECT
     ,n.updated_at
     ORDER BY n.sort_order ASC;
 end$$
+
+DROP PROCEDURE IF EXISTS `pro_getUser`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getUser` (IN `keyword` VARCHAR(255), IN `strGroupMemberID` VARCHAR(255))  NO SQL
+SELECT 
+    0 as is_checked
+    ,n.id
+    ,n.username
+    ,n.email
+    ,n.password
+    ,n.level
+    ,n.fullname
+    ,n.group_member_id
+    ,g.fullname as group_member_name
+    ,n.sort_order
+    ,n.created_at
+    ,n.updated_at
+    FROM 
+    `users` n 
+    inner join group_member g on n.group_member_id = g.id
+    WHERE
+    (keyword ='' OR LOWER(n.fullname) LIKE CONCAT('%', LOWER(keyword) ,'%'))    
+    AND (strGroupMemberID = '#0#' OR INSTR(strGroupMemberID,'#'+g.group_member_id+'#') > 0)
+    ORDER BY n.sort_order ASC$$
 
 DELIMITER ;
 
@@ -708,10 +731,10 @@ INSERT INTO `group_privilege` (`id`, `group_member_id`, `privilege_id`, `created
 (890, 4, 58, '2017-05-19 18:38:18', '2017-05-19 18:38:18'),
 (891, 4, 59, '2017-05-19 18:38:18', '2017-05-19 18:38:18'),
 (892, 4, 60, '2017-05-19 18:38:18', '2017-05-19 18:38:18'),
-(895, 8, 5, '2017-10-07 19:04:18', '2017-10-07 19:04:18'),
-(896, 8, 30, '2017-10-07 19:04:18', '2017-10-07 19:04:18'),
 (899, 9, 5, '2017-10-07 19:05:35', '2017-10-07 19:05:35'),
-(900, 9, 32, '2017-10-07 19:05:35', '2017-10-07 19:05:35');
+(900, 9, 32, '2017-10-07 19:05:35', '2017-10-07 19:05:35'),
+(901, 10, 93, '2017-10-07 19:19:58', '2017-10-07 19:19:58'),
+(902, 11, 74, '2017-10-07 19:20:11', '2017-10-07 19:20:11');
 
 -- --------------------------------------------------------
 
@@ -815,7 +838,8 @@ INSERT INTO `menu` (`id`, `fullname`, `alias`, `site_link`, `parent_id`, `menu_t
 (12, 'menu 2-3', 'alias-2-3', 'sitelink-2-3', 0, 14, 0, 3, 1, '2017-10-06 13:50:08', '2017-10-07 15:18:18'),
 (13, 'menu 4-1', 'alias-4-1', 'sitelink-4-1', 0, 17, 0, 1, 1, '2017-10-06 13:50:35', '2017-10-06 13:50:35'),
 (14, 'menu 4-2', 'alias-4-2', 'sitelink-4-2', 0, 17, 0, 2, 1, '2017-10-06 13:50:58', '2017-10-06 13:50:58'),
-(15, 'menu 4-3', 'alias-4-3', 'sitelink-4-3', 0, 17, 0, 3, 1, '2017-10-06 13:51:19', '2017-10-06 13:51:19');
+(15, 'menu 4-3', 'alias-4-3', 'sitelink-4-3', 0, 17, 0, 3, 1, '2017-10-06 13:51:19', '2017-10-06 13:51:19'),
+(16, 'menu 3 - 1', 'alias-3-1', 'sitelink-3-1', 0, 16, 0, 1, 1, '2017-10-08 02:54:32', '2017-10-08 02:54:32');
 
 -- --------------------------------------------------------
 
@@ -1168,9 +1192,9 @@ CREATE TABLE `users` (
   `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `password` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL,
   `level` tinyint(4) DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `fullname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `group_member_id` int(11) DEFAULT NULL,
-  `user_order` int(11) DEFAULT NULL,
+  `sort_order` int(11) DEFAULT NULL,
   `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -1180,7 +1204,7 @@ CREATE TABLE `users` (
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `level`, `name`, `group_member_id`, `user_order`, `remember_token`, `created_at`, `updated_at`) VALUES
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `level`, `fullname`, `group_member_id`, `sort_order`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'admin', 'diennk@ttcgroup.vn', '$2y$10$Ldz/pO3bAkeE3bk3P/hDwuRoFXsya.cOZ4BXj8L10jAJGU/FcVhpa', 1, 'Nguyễn Kim Điền', 1, 1, 'v1s3qvm4jQ1L5hnG9rXgEo8zIla62Qs4EgSYWDzCKBuCUXDeGbaIPh3P5Psk', '2016-12-15 19:15:48', '2017-05-20 03:48:30'),
 (2, 'trietnk', 'trietnk@ttcgroup.vn', '$2y$10$Ik1Q0rzlY1dBHxo3h.Kj8.itn/j/qB8SEgxiI66fQnzDacJpkfX8e', 1, 'Nguyễn Kim Triết', 2, 2, 'rPN5Un8gSv0CaorpuSTtAfKjVwgSvYAZfXgXIJxEXZLxWXTWnbbnakUmzSrJ', '2017-05-18 21:40:16', '2017-05-20 03:48:30'),
 (3, 'hoanglk', 'hoanglk@ttcgroup.vn', '$2y$10$KLFOj4PXMtCYUHknS/dgdO3xmzgLHJhf292gESULdsYi8Qtyn3Ft6', 1, 'Lê Kim Hoàng', 4, 3, 'DwgCnKUA12QqgHChZSJoAZiky7W8KEEkq1mhWVseHGjTqrxLzPE5BYqai56J', '2017-05-18 21:41:03', '2017-05-20 03:48:30');
@@ -1365,12 +1389,12 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT cho bảng `group_member`
 --
 ALTER TABLE `group_member`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT cho bảng `group_privilege`
 --
 ALTER TABLE `group_privilege`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=901;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=910;
 --
 -- AUTO_INCREMENT cho bảng `invoice`
 --
@@ -1385,7 +1409,7 @@ ALTER TABLE `invoice_detail`
 -- AUTO_INCREMENT cho bảng `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT cho bảng `menu_type`
 --

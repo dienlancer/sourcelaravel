@@ -146,8 +146,9 @@ class GroupMemberController extends Controller {
                 $msg                =   "Cannot delete this item";            
             }           
             if($checked == 1){
-                $item               =   GroupMemberModel::find((int)@$id);
-                $item->delete();            
+                $item = GroupMemberModel::find((int)@$id);
+                $item->delete();
+                GroupPrivilegeModel::whereRaw("group_member_id = ?",[(int)@$id])->delete();
             }        
             $data                   =   $this->loadData($request);
             $info = array(
@@ -184,8 +185,10 @@ class GroupMemberController extends Controller {
             if($checked == 1){                
               $strID = implode(',',$arrID);       
               $strID = substr($strID, 0,strlen($strID) - 1);            
-              $sql = "DELETE FROM `group_member` WHERE `id` IN (".$strID.")";                                 
-              DB::statement($sql);    
+              $sqlDeleteGroupMember = "DELETE FROM `group_member` WHERE `id` IN (".$strID.")";        
+              $sqlDeleteGroupPrivilege = "DELETE FROM `group_privilege` WHERE `group_member_id` IN (".$strID.")";       
+              DB::statement($sqlDeleteGroupMember);
+              DB::statement($sqlDeleteGroupPrivilege);
             }
             $data                   =   $this->loadData($request);
             $info = array(
@@ -219,9 +222,6 @@ class GroupMemberController extends Controller {
             'data'              => $data
           );
           return $info;
-    }
-    public function uploadFile(Request $request){           
-      uploadImage($_FILES["image"],WIDTH,HEIGHT,1);
-    }
+    }    
 }
 ?>
