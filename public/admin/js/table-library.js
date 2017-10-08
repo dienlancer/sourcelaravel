@@ -1,14 +1,15 @@
-var vCategoryArticleTable=null;
-var vArticleTable=null;
-var vMenuTypeTable=null;
-var vMenuTable=null;
-var vCategoryProductTable=null;
-var vProductTable=null;
-var vModuleMenuTable=null;
-var vModuleArticleTable=null;
-var vGroupMemberTable=null;
-var vUserTable=null;
-var vPrivilegeTable=null;
+var vCategoryArticleTable   =   null;
+var vArticleTable           =   null;
+var vMenuTypeTable          =   null;
+var vMenuTable              =   null;
+var vCategoryProductTable   =   null;
+var vProductTable           =   null;
+var vModuleMenuTable        =   null;
+var vModuleArticleTable     =   null;
+var vGroupMemberTable       =   null;
+var vUserTable              =   null;
+var vPrivilegeTable         =   null;
+var vCustomerTable          =   null;
 var basicTable = function () {
     var initCategoryArticleTable = function () {
         vCategoryArticleTable = $('#tbl-category-article').DataTable({
@@ -170,6 +171,21 @@ var basicTable = function () {
             ]
         });        
     };
+    var initCustomerTable = function () {
+        vCustomerTable = $('#tbl-customer').DataTable({
+            columns: [                
+                { data: "checked"       },               
+                { data: "username"      },   
+                { data: "email"         },     
+                { data: "fullname"      },            
+                { data: "mobilephone"   },            
+                { data: "sort_order"    },
+                { data: "status"        },                  
+                { data: "edited"        },         
+                { data: "deleted"       },                
+            ]
+        });        
+    };
     return {
         init: function () {
             if (!jQuery().dataTable)
@@ -185,6 +201,7 @@ var basicTable = function () {
             initGroupMemberTable();
             initUserTable();
             initPrivilegeTable();
+            initCustomerTable();
         }
     };
 }();

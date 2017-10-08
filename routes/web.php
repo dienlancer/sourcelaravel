@@ -46,15 +46,16 @@ Route::group(["prefix"=>"admin"],function(){
 		Route::post("trash",["as"=>"admin.album.postTrash","uses"=>"admin\AlbumController@postTrash"]);
 	});	
 	Route::group(["prefix"=>"customer"],function(){		
-		Route::match(["get","post"],"list",["as"=>"admin.customer.getList","uses"=>"admin\CustomerController@getList"]);
+		Route::get("list",["as"=>"admin.customer.getList","uses"=>"admin\CustomerController@getList"]);
+		Route::post("load-data",["as"=>"admin.customer.loadData","uses"=>"admin\CustomerController@loadData"]);		
 		Route::get("form/{task}/{id?}",["as"=>"admin.customer.getForm","uses"=>"admin\CustomerController@getForm"]);
-		Route::post("form/{task}",["as"=>"admin.customer.postForm","uses"=>"admin\CustomerController@postForm"]);
-		Route::get("delete/{id}",["as"=>"admin.customer.getDelete","uses"=>"admin\CustomerController@getDelete"]);
-		Route::post("ordering",["as"=>"admin.customer.postOrdering","uses"=>"admin\CustomerController@postOrdering"]);
-		Route::post("status/{status}",["as"=>"admin.customer.postStatus","uses"=>"admin\CustomerController@postStatus"]);
-		Route::get("ajaxStatus/{id}/{status}",["as"=>"admin.customer.getAjaxStatus","uses"=>"admin\CustomerController@getAjaxStatus"]);
-		Route::post("trash",["as"=>"admin.customer.postTrash","uses"=>"admin\CustomerController@postTrash"]);
-	});	
+		Route::post("save",["as"=>"admin.customer.save","uses"=>"admin\CustomerController@save"]);
+		Route::post("delete-item",["as"=>"admin.customer.deleteItem","uses"=>"admin\CustomerController@deleteItem"]);		
+		Route::post("sort-order",["as"=>"admin.customer.sortOrder","uses"=>"admin\CustomerController@sortOrder"]);
+		Route::post("update-status",["as"=>"admin.customer.updateStatus","uses"=>"admin\CustomerController@updateStatus"]);
+		Route::post("change-status",["as"=>"admin.customer.changeStatus","uses"=>"admin\CustomerController@changeStatus"]);
+		Route::post("trash",["as"=>"admin.customer.trash","uses"=>"admin\CustomerController@trash"]);		
+	});
 	Route::group(["prefix"=>"invoice"],function(){		
 		Route::match(["get","post"],"list",["as"=>"admin.invoice.getList","uses"=>"admin\InvoiceController@getList"]);
 		Route::get("form/{task}/{id?}",["as"=>"admin.invoice.getForm","uses"=>"admin\InvoiceController@getForm"]);

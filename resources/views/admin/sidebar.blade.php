@@ -44,6 +44,12 @@
                     <span class="title">Product</span>                                            
                 </a>                                                                      
             </li>
+            <li class="nav-item  ">
+                <a href="{!! route('admin.customer.getList') !!}" class="nav-link nav-toggle">
+                    <i class="icon-notebook"></i>
+                    <span class="title">Customer</span>                                            
+                </a>                                                                      
+            </li>
         </ul>
     </li>
     <li class="nav-item  ">
