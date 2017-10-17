@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 08, 2017 lúc 10:23 PM
+-- Thời gian đã tạo: Th10 17, 2017 lúc 03:08 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -482,15 +482,14 @@ CREATE TABLE `category_article` (
 --
 
 INSERT INTO `category_article` (`id`, `fullname`, `alias`, `parent_id`, `image`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(51, 'Nám tàn nhang', 'nam-tan-nhang', NULL, '12919228_1.jpg', 9, 1, '2017-10-02 12:52:39', '2017-10-08 16:50:08'),
-(55, 'Công nghệ Hifu', 'cong-nghe-hifu', NULL, '12987989_1.jpg', 5, 1, '2017-10-02 12:54:01', '2017-10-08 16:50:08'),
-(56, 'Trị mụn thâm da', 'tri-mun-tham-da', NULL, '12997238_1001.jpg', 8, 1, '2017-10-02 12:54:23', '2017-10-08 16:50:08'),
-(57, 'Giảm cân', 'giam-can', NULL, '12987989_1.jpg', 7, 1, '2017-10-02 12:54:34', '2017-10-08 16:50:08'),
-(58, 'Chăm sóc da mặt', 'cham-soc-da-mat', NULL, '13000660_1.jpg', 6, 1, '2017-10-02 12:54:56', '2017-10-08 16:50:08'),
-(59, 'Triệt lông', 'triet-long', NULL, '12997953_1.jpg', 4, 1, '2017-10-02 12:55:12', '2017-10-08 16:50:08'),
-(67, 'Phi kim siêu vi điểm', 'phi-kim-sieu-vi-diem', NULL, '12956480_19.jpg', 3, 1, '2017-10-02 17:22:48', '2017-10-08 16:50:08'),
-(68, 'Phun thêu thẩm mỹ', 'phun-theu-tham-my', NULL, '12964555_1.jpg', 2, 1, '2017-10-02 17:23:07', '2017-10-08 16:50:08'),
-(69, 'Tắm trắng', 'tam-trang', NULL, '12965808_1.jpg', 1, 1, '2017-10-02 17:23:18', '2017-10-08 16:50:08');
+(55, 'Công nghệ Hifu', 'cong-nghe-hifu', NULL, '12987989_1.jpg', 8, 1, '2017-10-02 12:54:01', '2017-10-14 04:02:14'),
+(56, 'Trị mụn thâm da', 'tri-mun-tham-da', NULL, '12997238_1001.jpg', 3, 1, '2017-10-02 12:54:23', '2017-10-14 04:02:14'),
+(57, 'Giảm cân', 'giam-can', 0, '12997947_1.jpg', 2, 1, '2017-10-02 12:54:34', '2017-10-14 04:05:29'),
+(58, 'Chăm sóc da mặt', 'cham-soc-da-mat', NULL, '13000660_1.jpg', 1, 1, '2017-10-02 12:54:56', '2017-10-14 04:02:14'),
+(59, 'Triệt lông', 'triet-long', NULL, '12997953_1.jpg', 7, 1, '2017-10-02 12:55:12', '2017-10-14 04:02:14'),
+(67, 'Phi kim siêu vi điểm', 'phi-kim-sieu-vi-diem', NULL, '12956480_19.jpg', 6, 1, '2017-10-02 17:22:48', '2017-10-14 04:02:14'),
+(68, 'Phun thêu thẩm mỹ', 'phun-theu-tham-my', NULL, '12964555_1.jpg', 5, 1, '2017-10-02 17:23:07', '2017-10-14 04:02:14'),
+(69, 'Tắm trắng', 'tam-trang', NULL, '12965808_1.jpg', 4, 1, '2017-10-02 17:23:18', '2017-10-14 04:02:14');
 
 -- --------------------------------------------------------
 
@@ -517,7 +516,7 @@ CREATE TABLE `category_product` (
 
 INSERT INTO `category_product` (`id`, `fullname`, `alias`, `image`, `status`, `parent_id`, `sort_order`, `created_at`, `updated_at`) VALUES
 (10, 'Laptop', 'laptop', NULL, 1, 0, 1, '2017-10-05 15:08:13', '2017-10-05 15:08:13'),
-(11, 'Máy tính bảng', 'may-tinh-bang', NULL, 1, 0, 2, '2017-10-05 15:08:25', '2017-10-05 15:08:25'),
+(11, 'Máy tính bảng', 'may-tinh-bang', NULL, 1, 0, 2, '2017-10-05 15:08:25', '2017-10-11 06:45:46'),
 (12, 'Máy tính để bàn', 'may-tinh-de-ban', '', 1, 0, 3, '2017-10-05 15:08:38', '2017-10-05 17:26:36'),
 (13, 'Máy tính All In One', 'may-tinh-all-in-one', NULL, 1, 0, 3, '2017-10-05 15:08:57', '2017-10-05 15:08:57'),
 (14, 'Workstation', 'workstation', NULL, 1, 0, 4, '2017-10-05 15:09:11', '2017-10-05 15:09:16'),
@@ -631,16 +630,6 @@ CREATE TABLE `invoice` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
-
---
--- Đang đổ dữ liệu cho bảng `invoice`
---
-
-INSERT INTO `invoice` (`id`, `code`, `customer_id`, `username`, `email`, `fullname`, `address`, `phone`, `mobilephone`, `fax`, `quantity`, `total_price`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
-(2, '07e3pq9wx61mcbt2u8ny', 1, 'dienit02', 'dienit02@gmail.com', 'Nguyễn Kim Điền-8', '11 Tân Canh , P.1 , Q. Tân Bình , TP. Hồ Chí Minh-8', '0889715690-8', '0988162753-8', '1781378878-8', 3, '83498000.00', 1, 4, '2017-05-13 19:00:36', '2017-05-20 10:51:40'),
-(3, 'h4wc2i6peqzoum3t05yg', 1, 'dienit02', 'dienit02@gmail.com', 'Nguyễn Kim Điền', '11 Tân Canh , P.1 , Q. Tân Bình , TP. Hồ Chí Minh', '0889715690', '0988162753', '1781378878', 5, '99997000.00', 1, 3, '2017-05-14 05:08:51', '2017-05-20 10:51:40'),
-(4, 'la1o2mxy4kqbscphf5iz', 3, 'cuongtt', 'cuongtt@ttcgroup.vn', 'Trương Trí Cường', '24 Nguyễn Trọng Tuyển', '0889715692', '0988162752', '8727821812', 1, '33500000.00', 1, 2, '2017-05-14 15:46:14', '2017-05-20 10:51:40'),
-(5, 'qsho3iey9zkupv2a5r4f', 1, 'dienit02', 'dienit02@gmail.com', 'Nguyễn Kim Điền', '11 Tân Canh , P.1 , Q. Tân Phú , TP. Hồ Chí Minh', '0889715690', '0988162753', '1781378878', 3, '88500000.00', 1, 1, '2017-05-16 07:29:26', '2017-05-20 10:51:40');
 
 -- --------------------------------------------------------
 
@@ -1262,12 +1251,12 @@ ALTER TABLE `group_privilege`
 -- AUTO_INCREMENT cho bảng `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT cho bảng `invoice_detail`
 --
 ALTER TABLE `invoice_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT cho bảng `menu`
 --
