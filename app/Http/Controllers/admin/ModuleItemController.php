@@ -2,12 +2,14 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\CustomerModel;
+use App\ModuleItemModel;
+use App\MenuTypeModel;
+use App\MenuModel;
+use App\ModMenuTypeModel;
 use DB;
-use Hash;
-class CustomerController extends Controller {
-  	var $_controller="customer";	
-  	var $_title="Customer";
+class ModuleItemController extends Controller {
+  	var $_controller="module-item";	
+  	var $_title="Module Item";
   	var $_icon="icon-settings font-dark";
   	public function getList(){		
     		$controller=$this->_controller;	
@@ -20,40 +22,70 @@ class CustomerController extends Controller {
     		$filter_search="";            
         if(!empty(@$request->filter_search)){      
           $filter_search=trim(@$request->filter_search) ;    
-        }
-    		$data=DB::select('call pro_getCustomer(?)',array(mb_strtolower($filter_search)));
+        }                
+    		$data=DB::select('call pro_getModuleItem(?)',array(mb_strtolower($filter_search)));        
     		$data=convertToArray($data);		
-    		$data=customerConverter($data,$this->_controller);		    
+    		$data=moduleItemConverter($data,$this->_controller);		    
     		return $data;
   	}	
     public function getForm($task,$id=""){     
         $controller=$this->_controller;     
         $title="";
         $icon=$this->_icon; 
-        $arrRowData=array();        
+        $arrRowData=array();
+        $arrModMenuType=array();
         switch ($task) {
            case 'edit':
               $title=$this->_title . " : Update";
-              $arrRowData=CustomerModel::find((int)@$id)->toArray();                     
+             $arrRowData=ModuleItemModel::find(@$id)->toArray();  
+
+      $arrModMenuType=ModMenuTypeModel::whereRaw("module_id = ? and trim(lower(module_type)) = ?",[(int)@$id,trim(mb_strtolower($this->_controller,'UTF-8'))])->get()->toArray();      
+
            break;
            case 'add':
               $title=$this->_title . " : Add new";
            break;     
         }    
-        return view("admin.".$this->_controller.".form",compact("arrRowData","controller","task","title","icon"));
+        $arrMenuType=MenuTypeModel::select("id","fullname","sort_order","created_at","updated_at")->get()->toArray();
+
+    $arrMenu=MenuModel::select("id","fullname","alias","site_link","parent_id","menu_type_id","level","sort_order","status","created_at","updated_at")->orderBy("sort_order","asc")->get()->toArray();  
+
+    $arrMenuRecursive=array();
+
+    menuRecursiveForm($arrMenu ,0,"",$arrMenuRecursive)  ;
+
+    return view("admin.".$this->_controller.".form",compact("arrMenuRecursive","arrRowData","arrModMenuType","arrMenuType","controller","task","title","icon"));
     }
      public function save(Request $request){
-          $id 					        =		trim($request->id);       
-          $password             =   trim(@$request->password);
-          $confirmed_password   =   trim(@$request->confirmed_password);    
-
-          $sort_order           =   trim($request->sort_order);
-          $status               =   trim($request->status);              
+          $id 					        =		trim($request->id);        
+          $fullname 				    =		trim($request->fullname);
+          $item_id           =   trim($request->item_id);          
+          $menu_id              =   $request->menu_id;
+          $position 					  = 	trim($request->position);  
+          $status               =   trim($request->status);        
+          $sort_order           =   trim($request->sort_order);                  
           $data 		            =   array();
           $info 		            =   array();
           $error 		            =   array();
           $item		              =   null;
-          $checked 	            =   1;                        
+          $checked 	            =   1;              
+          if(empty($fullname)){
+                 $checked = 0;
+                 $error["fullname"]["type_msg"] = "has-error";
+                 $error["fullname"]["msg"] = "Fullname is required";
+          }else{
+              $data=array();
+              if (empty($id)) {
+                $data=ModuleItemModel::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get()->toArray();	        	
+              }else{
+                $data=ModuleItemModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),(int)@$id])->get()->toArray();		
+              }  
+              if (count($data) > 0) {
+                  $checked = 0;
+                  $error["fullname"]["type_msg"] = "has-error";
+                  $error["fullname"]["msg"] = "Fullname is existed in system";
+              }      	
+          }          
           if(empty($sort_order)){
              $checked = 0;
              $error["sort_order"]["type_msg"] 	= "has-error";
@@ -64,49 +96,45 @@ class CustomerController extends Controller {
              $error["status"]["type_msg"] 		= "has-error";
              $error["status"]["msg"] 			= "Status is required";
           }
-          $password         = trim(mb_strtolower($password));
-          $confirmed_password = trim(mb_strtolower($confirmed_password));
-          if(empty($id)){
-              if(mb_strlen($password) < 6 ){
-                  $checked = 0;
-                  $error["password"]["type_msg"] = "has-error";
-                  $error["password"]["msg"] = "Password at least six character";
-              }else{
-                  if(strcmp($password, $confirmed_password) !=0 ){
-                    $checked = 0;
-                    $error["password"]["type_msg"] = "has-error";
-                    $error["password"]["msg"] = "Password and confirm password do not matched";
-                  }
-              }     
-          }else{
-              if(!empty($password) || !empty($confirmed_password)){
-                  if(mb_strlen($password) < 6 ){
-                    $checked = 0;
-                    $error["password"]["type_msg"] = "has-error";
-                    $error["password"]["msg"] = "Password at least six character";
-                  }else{
-                      if(strcmp($password, $confirmed_password) !=0 ){
-                        $checked = 0;
-                        $error["password"]["type_msg"] = "has-error";
-                        $error["password"]["msg"] = "Password and confirm password do not matched";
-                      }
-                  }        
-              }     
-          }
           if ($checked == 1) {    
                 if(empty($id)){
-                    $item 				= 	new CustomerModel;       
-                    $item->created_at 	=	date("Y-m-d H:i:s",time());                            	
+                    $item 				      = 	new ModuleItemModel;       
+                    $item->created_at 	=	date("Y-m-d H:i:s",time());                            
                 } else{
-                    $item				=	CustomerModel::find((int)@$id);                               		  		 	
-                }        
-                if(!empty($password)){
-                  $item->password         = Hash::make(trim($password));
-                }                      
-                $item->sort_order 		  =	(int)@$sort_order;
-                $item->status 			    =	(int)@$status;    
-                $item->updated_at 		  =	date("Y-m-d H:i:s",time());    	        	
-                $item->save();  	                
+                    $item				        =	ModuleItemModel::find((int)@$id);                        		 
+                }  
+                $item->fullname 		    =	$fullname;
+                $item->item_id       = $item_id;
+                $item->position 		    =	$position;  
+                $item->status           = (int)$status;                  
+                $item->sort_order 	    =	(int)$sort_order;                
+                $item->updated_at 	    =	date("Y-m-d H:i:s",time());    	        	
+                $item->save();  	
+                if(count(@$menu_id) > 0){                         
+                    $arrModMenuType=ModMenuTypeModel::whereRaw("module_id = ? and module_type",[@$item->id,trim(mb_strtolower(@$this->_controller,'UTF-8'))])->get()->toArray();
+                    $arrMenuID=array();
+                    foreach ($arrModMenuType as $key => $value) {
+                        $arrMenuID[]=$value["menu_id"];
+                    }
+                    $selected=@$menu_id;
+                    sort($selected);
+                    sort($arrMenuID);
+                    $resultCompare=0;
+                    if($selected == $arrMenuID){
+                          $resultCompare=1;       
+                    }
+                    if($resultCompare==0){
+                          ModMenuTypeModel::whereRaw("module_id = ? and module_type = ?",[(int)@$item->id,trim(mb_strtolower($this->_controller,'UTF-8'))])->delete();   
+                          foreach ($selected as $key => $value) {
+                            $menuid=$value;
+                            $modMenuType=new ModMenuTypeModel;
+                            $modMenuType->menu_id     =   (int)$menuid;
+                            $modMenuType->module_id   =   (int)@$item->id;
+                            $modMenuType->module_type =   $this->_controller;                  
+                            $modMenuType->save();
+                          }
+                    }   
+                }
                 $info = array(
                   'type_msg' 			=> "has-success",
                   'msg' 				=> 'Save data successfully',
@@ -131,7 +159,7 @@ class CustomerController extends Controller {
                   $type_msg               =   "alert-success";
                   $msg                    =   "Update successfully";              
                   $status         =       (int)$request->status;
-                  $item           =       CustomerModel::find((int)@$id);        
+                  $item           =       ModuleItemModel::find((int)@$id);        
                   $item->status   =       $status;
                   $item->save();
                   $data                   =   $this->loadData($request);
@@ -142,15 +170,17 @@ class CustomerController extends Controller {
                     'data'              => $data
                   );
                   return $info;
-          }        
+          }
+        
       public function deleteItem(Request $request){
-            $id                     =   (int)@$request->id;              
+            $id                     =   (int)$request->id;              
             $checked                =   1;
             $type_msg               =   "alert-success";
             $msg                    =   "Delete successfully";                    
             if($checked == 1){
-                $item = CustomerModel::find((int)@$id);
-                $item->delete();                
+              $item = ModuleItemModel::find((int)@$id);
+              $item->delete();
+              ModMenuTypeModel::whereRaw("module_id = ? and module_type = ?",[(int)$id,trim(mb_strtolower($this->_controller,'UTF-8'))])->delete();
             }        
             $data                   =   $this->loadData($request);
             $info = array(
@@ -164,7 +194,7 @@ class CustomerController extends Controller {
       public function updateStatus(Request $request){
           $str_id                 =   $request->str_id;   
           $status                 =   $request->status;  
-          $arrID                 =   explode(",", $str_id)  ;
+          $arrID                 =   explode(",", $str_id)  ;          
           $checked                =   1;
           $type_msg               =   "alert-success";
           $msg                    =   "Update successfully";     
@@ -176,10 +206,10 @@ class CustomerController extends Controller {
           if($checked==1){
               foreach ($arrID as $key => $value) {
                 if(!empty($value)){
-                    $item=CustomerModel::find($value);
-                    $item->status=$status;
-                    $item->save();      
-                }            
+                  $item=ModuleItemModel::find($value);
+                $item->status=$status;
+                $item->save();    
+                }                
               }
           }                 
           $data                   =   $this->loadData($request);
@@ -205,8 +235,10 @@ class CustomerController extends Controller {
             if($checked == 1){                
                   $strID = implode(',',$arrID);   
                   $strID=substr($strID, 0,strlen($strID) - 1);
-                  $sql = "DELETE FROM `customer` WHERE `id` IN  (".$strID.")";                                 
-                  DB::statement($sql);                  
+                  $sqlDeleteModuleItem = "DELETE FROM `module_item` WHERE `id` IN  (".$strID.")";       
+                  $sqlDeleteModMenuType = "DELETE FROM `mod_menu_type` WHERE `module_id` IN (".$strID.") and `module_type` = '".trim(mb_strtolower($this->_controller,'UTF-8'))."' ";                
+                  DB::statement($sqlDeleteModuleItem);
+                  DB::statement($sqlDeleteModMenuType);           
             }
             $data                   =   $this->loadData($request);
             $info = array(
@@ -224,12 +256,12 @@ class CustomerController extends Controller {
             $type_msg               =   "alert-success";
             $msg                    =   "Update successfully";      
             if(count($data_order) > 0){              
-              foreach($data_order as $key => $value){      
-                if(!empty($value)){
-                  $item=CustomerModel::find((int)@$value->id);                
+              foreach($data_order as $key => $value){       
+              if(!empty($value)){
+                $item=ModuleItemModel::find((int)$value->id);                
                 $item->sort_order=(int)$value->sort_order;                         
                 $item->save();                      
-                }                                                  
+              }                                                 
               }           
             }        
             $data                   =   $this->loadData($request);
@@ -241,8 +273,6 @@ class CustomerController extends Controller {
             );
             return $info;
       }
-      public function uploadFile(Request $request){           
-        uploadImage($_FILES["image"],WIDTH,HEIGHT,1);
-      }
+ 
 }
 ?>

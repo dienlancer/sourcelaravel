@@ -122,7 +122,7 @@ class UserController extends Controller {
                   if(strcmp($password, $confirm_password) !=0 ){
                     $checked = 0;
                     $error["password"]["type_msg"] = "has-error";
-                    $error["password"]["msg"] = "Password and confirm password do not not matched";
+                    $error["password"]["msg"] = "Password and confirm password do not matched";
                   }
               }     
           }else{
@@ -135,7 +135,7 @@ class UserController extends Controller {
                       if(strcmp($password, $confirm_password) !=0 ){
                         $checked = 0;
                         $error["password"]["type_msg"] = "has-error";
-                        $error["password"]["msg"] = "Password and confirm password do not not matched";
+                        $error["password"]["msg"] = "Password and confirm password do not matched";
                       }
                   }        
               }     

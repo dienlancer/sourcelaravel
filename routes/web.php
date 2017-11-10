@@ -166,6 +166,17 @@ Route::group(["prefix"=>"admin"],function(){
 		Route::post("change-status",["as"=>"admin.module-article.changeStatus","uses"=>"admin\ModuleArticleController@changeStatus"]);
 		Route::post("trash",["as"=>"admin.module-article.trash","uses"=>"admin\ModuleArticleController@trash"]);		
 	});
+	Route::group(["prefix"=>"module-item"],function(){		
+		Route::get("list",["as"=>"admin.module-item.getList","uses"=>"admin\ModuleItemController@getList"]);
+		Route::post("load-data",["as"=>"admin.module-item.loadData","uses"=>"admin\ModuleItemController@loadData"]);		
+		Route::get("form/{task}/{id?}",["as"=>"admin.module-item.getForm","uses"=>"admin\ModuleItemController@getForm"]);
+		Route::post("save",["as"=>"admin.module-item.save","uses"=>"admin\ModuleItemController@save"]);
+		Route::post("delete-item",["as"=>"admin.module-item.deleteItem","uses"=>"admin\ModuleItemController@deleteItem"]);		
+		Route::post("sort-order",["as"=>"admin.module-item.sortOrder","uses"=>"admin\ModuleItemController@sortOrder"]);
+		Route::post("update-status",["as"=>"admin.module-item.updateStatus","uses"=>"admin\ModuleItemController@updateStatus"]);
+		Route::post("change-status",["as"=>"admin.module-item.changeStatus","uses"=>"admin\ModuleItemController@changeStatus"]);
+		Route::post("trash",["as"=>"admin.module-item.trash","uses"=>"admin\ModuleItemController@trash"]);		
+	});
 	Route::group(["prefix"=>"media"],function(){		
 		Route::get("list",["as"=>"admin.media.getList","uses"=>"admin\MediaController@getList"]);
 		Route::post("load-data",["as"=>"admin.media.loadData","uses"=>"admin\MediaController@loadData"]);		

@@ -83,6 +83,12 @@
                     <span class="title">Module article</span>                                            
                 </a>                                                                      
             </li>
+            <li class="nav-item  ">
+                <a href="{!! route('admin.module-item.getList') !!}" class="nav-link nav-toggle">
+                    <i class="icon-notebook"></i>
+                    <span class="title">Module item</span>                                            
+                </a>                                                                      
+            </li>
         </ul>
     </li>
     <li class="nav-item  ">

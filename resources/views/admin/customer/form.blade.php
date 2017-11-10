@@ -6,6 +6,8 @@ $linkCancel             =   route('admin.'.$controller.'.getList');
 $linkSave               =   route('admin.'.$controller.'.save');
 
 $inputUsername          =   '<input type="text" class="form-control" name="username"  disabled      id="username"        value="'.@$arrRowData['username'].'">';
+$inputPassword          =   '<input type="password" class="form-control" name="password"        id="password"        value="" />';
+$inputConfirmedPassword          =   '<input type="password" class="form-control" name="confirmed_password"        id="confirmed_password"        value="" />';
 $inputEmail             =   '<input type="text" class="form-control" name="email"      disabled     id="email"           value="'.@$arrRowData['email'].'">';
 $inputFullName          =   '<input type="text" class="form-control" name="fullname"    disabled    id="fullname"        value="'.@$arrRowData['fullname'].'">';  
 $inputAddress           =   '<input type="text" class="form-control" name="address"    disabled     id="address"         value="'.@$arrRowData['address'].'">'; 
@@ -50,6 +52,22 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                         <label class="col-md-3 control-label"><b>Email</b></label>
                         <div class="col-md-9">
                             <?php echo $inputEmail; ?>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>     
+                </div>      
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="col-md-3 control-label"><b>Password</b></label>
+                        <div class="col-md-9">
+                            <?php echo $inputPassword; ?>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>   
+                    <div class="form-group col-md-6">
+                        <label class="col-md-3 control-label"><b>Confirmed password</b></label>
+                        <div class="col-md-9">
+                            <?php echo $inputConfirmedPassword; ?>
                             <span class="help-block"></span>
                         </div>
                     </div>     
@@ -125,24 +143,31 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
 <script type="text/javascript" language="javascript">
     function resetErrorStatus(){
         var id                   =   $("#id");        
+        var password           =   $("#password");
         var sort_order           =   $("#sort_order");
         var status               =   $("#status");
                 
+        $(password).closest('.form-group').removeClass("has-error");        
         $(sort_order).closest('.form-group').removeClass("has-error");
         $(status).closest('.form-group').removeClass("has-error");        
         
+        $(password).closest('.form-group').find('span').empty().hide();
         $(sort_order).closest('.form-group').find('span').empty().hide();
         $(status).closest('.form-group').find('span').empty().hide();        
     }
 
     function save(){
         var id=$("#id").val();                
+        var password=$("#password").val();
+        var confirmed_password=$("#confirmed_password").val();
         var sort_order=$("#sort_order").val();
         var status=$("#status").val();     
         var token = $('input[name="_token"]').val();   
         resetErrorStatus();
         var dataItem={
             "id":id,            
+            "password":password,
+            "confirmed_password":confirmed_password,
             "sort_order":sort_order,
             "status":status,
             "_token": token
@@ -156,7 +181,12 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                 if(data.checked==true){                    
                     window.location.href = "<?php echo $linkCancel; ?>";
                 }else{
-                    var data_error=data.error;                    
+                    var data_error=data.error;          
+                    if(typeof data_error.password               != "undefined"){
+                        $("#password").closest('.form-group').addClass(data_error.password.type_msg);
+                        $("#password").closest('.form-group').find('span').text(data_error.password.msg);
+                        $("#password").closest('.form-group').find('span').show();                        
+                    }          
                     if(typeof data_error.sort_order               != "undefined"){
                         $("#sort_order").closest('.form-group').addClass(data_error.sort_order.type_msg);
                         $("#sort_order").closest('.form-group').find('span').text(data_error.sort_order.msg);

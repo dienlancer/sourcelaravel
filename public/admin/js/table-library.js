@@ -6,6 +6,7 @@ var vCategoryProductTable   =   null;
 var vProductTable           =   null;
 var vModuleMenuTable        =   null;
 var vModuleArticleTable     =   null;
+var vModuleItemTable        =   null;
 var vGroupMemberTable       =   null;
 var vUserTable              =   null;
 var vPrivilegeTable         =   null;
@@ -120,6 +121,19 @@ var basicTable = function () {
             ]
         });        
     };
+    var initModuleItemTable = function () {
+        vModuleItemTable = $('#tbl-module-item').DataTable({
+            columns: [                
+                { data: "checked"       },
+                { data: "fullname"      },
+                { data: "position"      },                
+                { data: "sort_order"    },
+                { data: "status"        },                                
+                { data: "edited"        },         
+                { data: "deleted"       },                
+            ]
+        });        
+    };
     var initGroupMemberTable = function () {
         vGroupMemberTable = $('#tbl-group-member').DataTable({
             columns: [                
@@ -220,6 +234,7 @@ var basicTable = function () {
             initPrivilegeTable();
             initCustomerTable();
             initInvoiceTable();
+            initModuleItemTable();
         }
     };
 }();
