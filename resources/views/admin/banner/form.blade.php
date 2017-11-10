@@ -18,7 +18,7 @@ $picture                =   "";
 $strImage               =   "";
 if(count($arrRowData > 0)){
     if(!empty(@$arrRowData["image"])){
-        $picture        =   '<div class="col-sm-6"><center>&nbsp;<img src="'.url("/resources/upload/".@$arrRowData["image"]).'"  />&nbsp;</center></div><div class="col-sm-6"><a href="javascript:void(0);" onclick="deleteImage();"><img src="'.url('public/admin/images/delete-icon.png').'"/></a></div>';                        
+        $picture        =   '<div class="col-sm-6"><center>&nbsp;<img style="width:100%" src="'.url("/resources/upload/".@$arrRowData["image"]).'"  />&nbsp;</center></div><div class="col-sm-6"><a href="javascript:void(0);" onclick="deleteImage();"><img src="'.url('public/admin/images/delete-icon.png').'"/></a></div>';                        
         $strImage       =   @$arrRowData["image"];
     }        
 }    
@@ -60,14 +60,7 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
                     </div>     
                 </div>      
                                 
-                <div class="row">
-                    <div class="form-group col-md-6">
-                        <label class="col-md-3 control-label"><b>Status</b></label>
-                        <div class="col-md-9">                            
-                            <?php echo $ddlStatus; ?>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>  
+                <div class="row">                    
                     <div class="form-group col-md-6">
                         <label class="col-md-3 control-label"><b>Sort</b></label>
                         <div class="col-md-9">
@@ -75,6 +68,13 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
                             <span class="help-block"></span>
                         </div>
                     </div>      
+                    <div class="form-group col-md-6">
+                        <label class="col-md-3 control-label"><b>Status</b></label>
+                        <div class="col-md-9">                            
+                            <?php echo $ddlStatus; ?>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>  
                 </div>   
                 <div class="row">
                     <div class="col-md-12">
@@ -139,6 +139,7 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
             async: false,
             success: function (data) {
                 if(data.checked==true){
+                    uploadFileImport();
                     window.location.href = "<?php echo $linkCancel; ?>";
                 }else{
                     var data_error=data.error;

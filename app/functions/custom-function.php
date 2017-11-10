@@ -5,12 +5,12 @@ function uploadImage($fileObj,$width,$height,$statusResize){
     $fileName="";
     if($fileObj['tmp_name'] != null){                
         $fileName   = $fileObj['name'];
-        @copy($fileObj['tmp_name'], $uploadDir . "/" . $fileName);       
+        @copy($fileObj['tmp_name'], $uploadDir . DS . $fileName);       
         if($statusResize == 1){
-          $thumb = PhpThumbFactory::create($uploadDir . "/" . $fileName);        
+          $thumb = PhpThumbFactory::create($uploadDir . DS . $fileName);        
           $thumb->adaptiveResize($width, $height);
           $prefix = $width . 'x' . $height . '-';
-          $veston = $uploadDir . "/" . $prefix  . $fileName;       
+          $veston = $uploadDir . DS . $prefix  . $fileName;       
           $thumb->save($veston);
         } 
     }   

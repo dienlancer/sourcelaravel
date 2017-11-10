@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 10, 2017 lúc 01:48 PM
+-- Thời gian đã tạo: Th10 10, 2017 lúc 08:29 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -68,6 +68,32 @@ SELECT
     ,n.updated_at
     ORDER BY n.sort_order ASC;
 end$$
+
+DROP PROCEDURE IF EXISTS `pro_getBanner`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getBanner` (IN `keyword` VARCHAR(255) charset utf8)  BEGIN
+SELECT 
+	0 AS  is_checked
+	,n.id
+	,n.fullname
+	,n.alias
+	,n.status
+	,n.sort_order
+	,n.created_at
+	,n.updated_at
+	 FROM 
+    `banner` n
+    WHERE
+    (keyword ='' OR LOWER(n.fullname) LIKE CONCAT('%', LOWER(keyword) ,'%'))    
+    GROUP BY
+	n.id
+    	,n.fullname
+    	,n.alias
+	,n.status
+	,n.sort_order
+	,n.created_at
+	,n.updated_at
+    ORDER BY n.sort_order ASC;
+    END$$
 
 DROP PROCEDURE IF EXISTS `pro_getCategoryArticle`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getCategoryArticle` (IN `keyword` VARCHAR(255))  BEGIN	
@@ -306,6 +332,32 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getModuleMenu` (IN `keyword` VA
 	,n.updated_at
     ORDER BY n.sort_order ASC$$
 
+DROP PROCEDURE IF EXISTS `pro_getPaymentMethod`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getPaymentMethod` (IN `keyword` VARCHAR(255) charset utf8)  BEGIN
+SELECT 
+	0 AS  is_checked
+	,n.id
+	,n.fullname
+	,n.alias
+	,n.status
+	,n.sort_order
+	,n.created_at
+	,n.updated_at
+	 FROM 
+    `payment_method` n
+    WHERE
+    (keyword ='' OR LOWER(n.fullname) LIKE CONCAT('%', LOWER(keyword) ,'%'))    
+    GROUP BY
+	n.id
+    	,n.fullname
+    	,n.alias
+	,n.status
+	,n.sort_order
+	,n.created_at
+	,n.updated_at
+    ORDER BY n.sort_order ASC;
+    END$$
+
 DROP PROCEDURE IF EXISTS `pro_getPrivilege`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getPrivilege` (IN `keyword` VARCHAR(255) CHARSET utf8)  NO SQL
 SELECT
@@ -486,6 +538,31 @@ CREATE TABLE `article_category` (
 INSERT INTO `article_category` (`id`, `article_id`, `category_article_id`, `created_at`, `updated_at`) VALUES
 (42, 3, 58, '2017-10-05 17:26:11', '2017-10-05 17:26:11'),
 (43, 3, 59, '2017-10-05 17:26:11', '2017-10-05 17:26:11');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `banner`
+--
+
+DROP TABLE IF EXISTS `banner`;
+CREATE TABLE `banner` (
+  `id` int(11) NOT NULL,
+  `fullname` varchar(255) DEFAULT NULL,
+  `alias` varchar(255) DEFAULT NULL,
+  `image` varchar(50) DEFAULT NULL,
+  `sort_order` int(11) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `banner`
+--
+
+INSERT INTO `banner` (`id`, `fullname`, `alias`, `image`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Banner1', 'banner-1', 'slideshow-1.jpg', 1, 1, '2017-11-10 19:20:58', '2017-11-10 19:29:11');
 
 -- --------------------------------------------------------
 
@@ -883,6 +960,31 @@ CREATE TABLE `password_resets` (
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `payment_method`
+--
+
+DROP TABLE IF EXISTS `payment_method`;
+CREATE TABLE `payment_method` (
+  `id` int(11) NOT NULL,
+  `fullname` varchar(255) DEFAULT NULL,
+  `alias` varchar(255) DEFAULT NULL,
+  `content` text,
+  `sort_order` int(11) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `payment_method`
+--
+
+INSERT INTO `payment_method` (`id`, `fullname`, `alias`, `content`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'paymentmethod1', 'payment-method-1', 'content-1', 1, 1, '2017-11-10 18:10:47', '2017-11-10 18:17:47');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `photo`
 --
 
@@ -1092,6 +1194,22 @@ INSERT INTO `product_category` (`id`, `product_id`, `category_product_id`, `crea
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `setting_system`
+--
+
+DROP TABLE IF EXISTS `setting_system`;
+CREATE TABLE `setting_system` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `alias` varchar(255) DEFAULT NULL,
+  `picture` varchar(50) DEFAULT NULL,
+  `sort_order` int(11) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `users`
 --
 
@@ -1143,6 +1261,12 @@ ALTER TABLE `article`
 -- Chỉ mục cho bảng `article_category`
 --
 ALTER TABLE `article_category`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `banner`
+--
+ALTER TABLE `banner`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1231,6 +1355,12 @@ ALTER TABLE `password_resets`
   ADD KEY `password_resets_token_index` (`token`);
 
 --
+-- Chỉ mục cho bảng `payment_method`
+--
+ALTER TABLE `payment_method`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Chỉ mục cho bảng `photo`
 --
 ALTER TABLE `photo`
@@ -1252,6 +1382,12 @@ ALTER TABLE `product`
 -- Chỉ mục cho bảng `product_category`
 --
 ALTER TABLE `product_category`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `setting_system`
+--
+ALTER TABLE `setting_system`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1284,6 +1420,11 @@ ALTER TABLE `article`
 --
 ALTER TABLE `article_category`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+--
+-- AUTO_INCREMENT cho bảng `banner`
+--
+ALTER TABLE `banner`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT cho bảng `category_article`
 --
@@ -1338,7 +1479,7 @@ ALTER TABLE `module_article`
 -- AUTO_INCREMENT cho bảng `module_item`
 --
 ALTER TABLE `module_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT cho bảng `module_menu`
 --
@@ -1348,7 +1489,12 @@ ALTER TABLE `module_menu`
 -- AUTO_INCREMENT cho bảng `mod_menu_type`
 --
 ALTER TABLE `mod_menu_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+--
+-- AUTO_INCREMENT cho bảng `payment_method`
+--
+ALTER TABLE `payment_method`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT cho bảng `photo`
 --
@@ -1369,6 +1515,11 @@ ALTER TABLE `product`
 --
 ALTER TABLE `product_category`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+--
+-- AUTO_INCREMENT cho bảng `setting_system`
+--
+ALTER TABLE `setting_system`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT cho bảng `users`
 --

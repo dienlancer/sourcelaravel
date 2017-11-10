@@ -242,12 +242,12 @@ class BannerController extends Controller {
             return $info;
         }
         public function uploadFile(Request $request){           
-          $uploadDir = base_path() ."/resources/upload";                 
+          $uploadDir = base_path() . DS ."resources".DS."upload";                 
           $fileObj=$_FILES["image"];          
           $fileName="";
           if($fileObj['tmp_name'] != null){                
             $fileName   = $fileObj['name'];
-            @copy($fileObj['tmp_name'], $uploadDir . "/" . $fileName);                   
+            @copy($fileObj['tmp_name'], $uploadDir . DS . $fileName);                   
           }   
         }
 }
