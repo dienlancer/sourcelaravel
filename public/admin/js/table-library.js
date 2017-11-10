@@ -11,7 +11,9 @@ var vGroupMemberTable       =   null;
 var vUserTable              =   null;
 var vPrivilegeTable         =   null;
 var vCustomerTable          =   null;
-var vInvoiceTable          =   null;
+var vInvoiceTable           =   null;
+var vPaymentMethodTable     =   null;
+var vBannerTable            =   null;
 var basicTable = function () {
     var initCategoryArticleTable = function () {
         vCategoryArticleTable = $('#tbl-category-article').DataTable({
@@ -134,6 +136,32 @@ var basicTable = function () {
             ]
         });        
     };
+    var initPaymentMethodTable = function () {
+        vPaymentMethodTable = $('#tbl-payment-method').DataTable({
+            columns: [                
+                { data: "checked"       },
+                { data: "fullname"      },
+                { data: "alias"         },                
+                { data: "sort_order"    },
+                { data: "status"        },                                
+                { data: "edited"        },         
+                { data: "deleted"       },                
+            ]
+        });        
+    };
+    var initBannerTable = function () {
+        vBannerTable = $('#tbl-banner').DataTable({
+            columns: [                
+                { data: "checked"       },
+                { data: "fullname"      },
+                { data: "alias"         },                
+                { data: "sort_order"    },
+                { data: "status"        },                                
+                { data: "edited"        },         
+                { data: "deleted"       },                
+            ]
+        });        
+    };
     var initGroupMemberTable = function () {
         vGroupMemberTable = $('#tbl-group-member').DataTable({
             columns: [                
@@ -235,6 +263,8 @@ var basicTable = function () {
             initCustomerTable();
             initInvoiceTable();
             initModuleItemTable();
+            initPaymentMethodTable();
+            initBannerTable();
         }
     };
 }();

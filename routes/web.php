@@ -13,6 +13,30 @@ Route::group(["prefix"=>"admin"],function(){
 		Route::post("trash",["as"=>"admin.category-product.trash","uses"=>"admin\CategoryProductController@trash"]);
 		Route::post("upload-file",["as"=>"admin.category-product.uploadFile","uses"=>"admin\CategoryProductController@uploadFile"]);
 	});
+	Route::group(["prefix"=>"banner"],function(){		
+		Route::get("list",["as"=>"admin.banner.getList","uses"=>"admin\BannerController@getList"]);
+		Route::post("load-data",["as"=>"admin.banner.loadData","uses"=>"admin\BannerController@loadData"]);		
+		Route::get("form/{task}/{id?}",["as"=>"admin.banner.getForm","uses"=>"admin\BannerController@getForm"]);
+		Route::post("save",["as"=>"admin.banner.save","uses"=>"admin\BannerController@save"]);
+		Route::post("delete-item",["as"=>"admin.banner.deleteItem","uses"=>"admin\BannerController@deleteItem"]);
+		Route::post("delete-image",["as"=>"admin.banner.deleteImage","uses"=>"admin\BannerController@deleteImage"]);
+		Route::post("sort-order",["as"=>"admin.banner.sortOrder","uses"=>"admin\BannerController@sortOrder"]);
+		Route::post("update-status",["as"=>"admin.banner.updateStatus","uses"=>"admin\BannerController@updateStatus"]);
+		Route::post("change-status",["as"=>"admin.banner.changeStatus","uses"=>"admin\BannerController@changeStatus"]);
+		Route::post("trash",["as"=>"admin.banner.trash","uses"=>"admin\BannerController@trash"]);
+		Route::post("upload-file",["as"=>"admin.banner.uploadFile","uses"=>"admin\BannerController@uploadFile"]);
+	});
+	Route::group(["prefix"=>"payment-method"],function(){		
+		Route::get("list",["as"=>"admin.payment-method.getList","uses"=>"admin\PaymentMethodController@getList"]);
+		Route::post("load-data",["as"=>"admin.payment-method.loadData","uses"=>"admin\PaymentMethodController@loadData"]);		
+		Route::get("form/{task}/{id?}",["as"=>"admin.payment-method.getForm","uses"=>"admin\PaymentMethodController@getForm"]);
+		Route::post("save",["as"=>"admin.payment-method.save","uses"=>"admin\PaymentMethodController@save"]);
+		Route::post("delete-item",["as"=>"admin.payment-method.deleteItem","uses"=>"admin\PaymentMethodController@deleteItem"]);		
+		Route::post("sort-order",["as"=>"admin.payment-method.sortOrder","uses"=>"admin\PaymentMethodController@sortOrder"]);
+		Route::post("update-status",["as"=>"admin.payment-method.updateStatus","uses"=>"admin\PaymentMethodController@updateStatus"]);
+		Route::post("change-status",["as"=>"admin.payment-method.changeStatus","uses"=>"admin\PaymentMethodController@changeStatus"]);
+		Route::post("trash",["as"=>"admin.payment-method.trash","uses"=>"admin\PaymentMethodController@trash"]);		
+	});
 	Route::group(["prefix"=>"product"],function(){		
 		Route::get("list",["as"=>"admin.product.getList","uses"=>"admin\ProductController@getList"]);
 		Route::post("load-data",["as"=>"admin.product.loadData","uses"=>"admin\ProductController@loadData"]);		

@@ -16,11 +16,17 @@
                     <i class="icon-notebook"></i>
                     <span class="title">Category article</span>                                            
                 </a>                                                                      
-            </li>
+            </li>            
             <li class="nav-item  ">
                 <a href="{!! route('admin.article.getList') !!}" class="nav-link nav-toggle">
                     <i class="icon-notebook"></i>
                     <span class="title">Article</span>                                            
+                </a>                                                                      
+            </li>
+            <li class="nav-item  ">
+                <a href="{!! route('admin.banner.getList') !!}" class="nav-link nav-toggle">
+                    <i class="icon-notebook"></i>
+                    <span class="title">Banner</span>                                            
                 </a>                                                                      
             </li>
         </ul>
@@ -48,6 +54,12 @@
                 <a href="{!! route('admin.customer.getList') !!}" class="nav-link nav-toggle">
                     <i class="icon-notebook"></i>
                     <span class="title">Customer</span>                                            
+                </a>                                                                      
+            </li>
+            <li class="nav-item  ">
+                <a href="{!! route('admin.payment-method.getList') !!}" class="nav-link nav-toggle">
+                    <i class="icon-notebook"></i>
+                    <span class="title">Payment method</span>                                            
                 </a>                                                                      
             </li>
             <li class="nav-item  ">
