@@ -37,6 +37,17 @@ Route::group(["prefix"=>"admin"],function(){
 		Route::post("change-status",["as"=>"admin.payment-method.changeStatus","uses"=>"admin\PaymentMethodController@changeStatus"]);
 		Route::post("trash",["as"=>"admin.payment-method.trash","uses"=>"admin\PaymentMethodController@trash"]);		
 	});
+	Route::group(["prefix"=>"setting-system"],function(){		
+		Route::get("list",["as"=>"admin.setting-system.getList","uses"=>"admin\SettingSystemController@getList"]);
+		Route::post("load-data",["as"=>"admin.setting-system.loadData","uses"=>"admin\SettingSystemController@loadData"]);		
+		Route::get("form/{task}/{id?}",["as"=>"admin.setting-system.getForm","uses"=>"admin\SettingSystemController@getForm"]);
+		Route::post("save",["as"=>"admin.setting-system.save","uses"=>"admin\SettingSystemController@save"]);
+		Route::post("delete-item",["as"=>"admin.setting-system.deleteItem","uses"=>"admin\SettingSystemController@deleteItem"]);		
+		Route::post("sort-order",["as"=>"admin.setting-system.sortOrder","uses"=>"admin\SettingSystemController@sortOrder"]);
+		Route::post("update-status",["as"=>"admin.setting-system.updateStatus","uses"=>"admin\SettingSystemController@updateStatus"]);
+		Route::post("change-status",["as"=>"admin.setting-system.changeStatus","uses"=>"admin\SettingSystemController@changeStatus"]);
+		Route::post("trash",["as"=>"admin.setting-system.trash","uses"=>"admin\SettingSystemController@trash"]);		
+	});
 	Route::group(["prefix"=>"product"],function(){		
 		Route::get("list",["as"=>"admin.product.getList","uses"=>"admin\ProductController@getList"]);
 		Route::post("load-data",["as"=>"admin.product.loadData","uses"=>"admin\ProductController@loadData"]);		

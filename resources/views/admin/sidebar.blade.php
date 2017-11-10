@@ -108,6 +108,12 @@
                     <i class="icon-notebook"></i>
                     <span class="title">Media</span>                                            
                 </a>                                                                      
+    </li>      
+    <li class="nav-item  ">
+                <a href="{!! route('admin.setting-system.getList') !!}" class="nav-link nav-toggle">
+                    <i class="icon-notebook"></i>
+                    <span class="title">Setting system</span>                                            
+                </a>                                                                      
     </li>       
     <li class="nav-item  ">
         <a href="javascript:;" class="nav-link nav-toggle">

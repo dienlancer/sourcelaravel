@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 10, 2017 lúc 08:29 PM
+-- Thời gian đã tạo: Th10 10, 2017 lúc 09:35 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -414,6 +414,32 @@ SELECT
     ,n.updated_at
     ORDER BY n.sort_order ASC;
 end$$
+
+DROP PROCEDURE IF EXISTS `pro_getSettingSystem`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getSettingSystem` (IN `keyword` VARCHAR(255) charset utf8)  BEGIN
+SELECT 
+	0 AS  is_checked
+	,n.id
+	,n.fullname
+	,n.alias
+	,n.status
+	,n.sort_order
+	,n.created_at
+	,n.updated_at
+	 FROM 
+    `setting_system` n
+    WHERE
+    (keyword ='' OR LOWER(n.fullname) LIKE CONCAT('%', LOWER(keyword) ,'%'))    
+    GROUP BY
+	n.id
+    	,n.fullname
+    	,n.alias
+	,n.status
+	,n.sort_order
+	,n.created_at
+	,n.updated_at
+    ORDER BY n.sort_order ASC;
+    END$$
 
 DROP PROCEDURE IF EXISTS `pro_getUser`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getUser` (IN `keyword` VARCHAR(255), IN `group_member_id` INT)  NO SQL
@@ -1200,12 +1226,51 @@ INSERT INTO `product_category` (`id`, `product_id`, `category_product_id`, `crea
 DROP TABLE IF EXISTS `setting_system`;
 CREATE TABLE `setting_system` (
   `id` int(11) NOT NULL,
-  `title` varchar(255) DEFAULT NULL,
+  `fullname` varchar(255) DEFAULT NULL,
   `alias` varchar(255) DEFAULT NULL,
-  `picture` varchar(50) DEFAULT NULL,
+  `article_perpage` int(11) DEFAULT NULL,
+  `article_width` int(11) DEFAULT NULL,
+  `article_height` int(11) DEFAULT NULL,
+  `product_perpage` int(11) DEFAULT NULL,
+  `product_width` int(11) DEFAULT NULL,
+  `product_height` int(11) DEFAULT NULL,
+  `currency_unit` varchar(255) DEFAULT NULL,
+  `smtp_host` varchar(255) DEFAULT NULL,
+  `smtp_port` varchar(255) DEFAULT NULL,
+  `encription` varchar(255) DEFAULT NULL,
+  `smtp_username` varchar(255) DEFAULT NULL,
+  `smtp_password` varchar(255) DEFAULT NULL,
+  `email_from` varchar(255) DEFAULT NULL,
+  `email_to` varchar(255) DEFAULT NULL,
+  `from_name` varchar(255) DEFAULT NULL,
+  `to_name` varchar(255) DEFAULT NULL,
+  `contacted_phone` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `website` varchar(255) DEFAULT NULL,
+  `telephone` varchar(255) DEFAULT NULL,
+  `opened_time` varchar(255) DEFAULT NULL,
+  `opened_date` varchar(255) DEFAULT NULL,
+  `contacted_name` varchar(255) DEFAULT NULL,
+  `facebook_url` varchar(255) DEFAULT NULL,
+  `twitter_url` varchar(255) DEFAULT NULL,
+  `google_plus` varchar(255) DEFAULT NULL,
+  `youtube_url` varchar(255) DEFAULT NULL,
+  `instagram_url` varchar(255) DEFAULT NULL,
+  `pinterest_url` varchar(255) DEFAULT NULL,
+  `slogan_about` text,
+  `map_url` text,
   `sort_order` int(11) DEFAULT NULL,
-  `status` int(11) DEFAULT NULL
+  `status` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `setting_system`
+--
+
+INSERT INTO `setting_system` (`id`, `fullname`, `alias`, `article_perpage`, `article_width`, `article_height`, `product_perpage`, `product_width`, `product_height`, `currency_unit`, `smtp_host`, `smtp_port`, `encription`, `smtp_username`, `smtp_password`, `email_from`, `email_to`, `from_name`, `to_name`, `contacted_phone`, `address`, `website`, `telephone`, `opened_time`, `opened_date`, `contacted_name`, `facebook_url`, `twitter_url`, `google_plus`, `youtube_url`, `instagram_url`, `pinterest_url`, `slogan_about`, `map_url`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'settingsystem1', 'setting-system-1', 0, NULL, NULL, NULL, NULL, NULL, '0', NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, '2017-11-10 19:46:32', '2017-11-10 20:16:12');
 
 -- --------------------------------------------------------
 
@@ -1519,7 +1584,7 @@ ALTER TABLE `product_category`
 -- AUTO_INCREMENT cho bảng `setting_system`
 --
 ALTER TABLE `setting_system`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT cho bảng `users`
 --
