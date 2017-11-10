@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 31, 2017 lúc 12:20 PM
+-- Thời gian đã tạo: Th10 10, 2017 lúc 01:48 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -93,7 +93,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getCategoryArticle` (IN `keywor
 END$$
 
 DROP PROCEDURE IF EXISTS `pro_getCategoryProduct`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getCategoryProduct` (IN `keyword` VARCHAR(255) CHARSET utf8)  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getCategoryProduct` (IN `keyword` VARCHAR(255) CHARSET utf8)  BEGIN
 SELECT
     0 AS is_checked,
 	n.id,
@@ -111,7 +111,8 @@ SELECT
     LEFT JOIN `category_product` a ON n.parent_id = a.id
     WHERE
     ( (keyword='') OR ( LOWER(n.fullname) LIKE CONCAT('%',LOWER(keyword),'%')  ) )
-    ORDER BY n.sort_order ASC$$
+    ORDER BY n.sort_order ASC;
+END$$
 
 DROP PROCEDURE IF EXISTS `pro_getCustomer`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getCustomer` (IN `keyword` VARCHAR(255) CHARSET utf8)  NO SQL
@@ -250,6 +251,34 @@ SELECT
 	,n.created_at
 	,n.updated_at
     ORDER BY n.sort_order ASC$$
+
+DROP PROCEDURE IF EXISTS `pro_getModuleItem`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getModuleItem` (IN `keyword` VARCHAR(255))  BEGIN
+SELECT 
+	0 AS  is_checked
+	,n.id
+	,n.fullname
+	,n.item_id
+	,n.position
+	,n.status
+	,n.sort_order
+	,n.created_at
+	,n.updated_at
+	 FROM 
+    `module_item` n
+    WHERE
+    (keyword ='' OR LOWER(n.fullname) LIKE CONCAT('%', LOWER(keyword) ,'%'))    
+    GROUP BY
+	n.id
+    	,n.fullname
+	,n.item_id
+	,n.position
+	,n.status
+	,n.sort_order
+	,n.created_at
+	,n.updated_at
+    ORDER BY n.sort_order ASC;
+    END$$
 
 DROP PROCEDURE IF EXISTS `pro_getModuleMenu`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getModuleMenu` (IN `keyword` VARCHAR(255))  SELECT 
@@ -563,8 +592,8 @@ INSERT INTO `customer` (`id`, `username`, `password`, `email`, `fullname`, `addr
 (6, 'chauttn', 'e10adc3949ba59abbe56e057f20f883e', 'chautt@gmail.com', 'Từ Thị Ngọc Châu', '76 Lý Thái Tổ', '0812345678', '0988123456', '2222233333', 1, 5, '2017-05-13 04:33:51', '2017-05-20 10:51:48'),
 (7, 'duyla', 'e10adc3949ba59abbe56e057f20f883e', 'duyla@ttcgroup.vn', 'Lý Anh Duy', '28 Trần Huy Liệu', '0872732772', '0988956123', '8787238728', 1, 4, '2017-05-13 09:22:00', '2017-05-20 10:51:48'),
 (8, 'chauvn', 'e10adc3949ba59abbe56e057f20f883e', 'chauvn@ttcgroup.vn', 'Võ Ngọc Châu', '70 Trương Quốc Dung', '88113322', '0988111222', '99887711', 1, 3, '2017-05-13 09:28:01', '2017-05-20 10:51:48'),
-(9, 'thangnc', 'e10adc3949ba59abbe56e057f20f883e', 'thangnc@ttcgroup.vn', 'Nguyễn Chí Thăng', '83 Nguyễn Trọng Tuyển', '3322116677', '0988666222', '4888221111', 1, 2, '2017-05-13 09:29:29', '2017-05-20 11:24:35'),
-(10, 'thaihst', '', 'thaihst@ttcgroup.vn', 'Hồ Sỹ Thiên Thai', '16 Nguyễn Văn Trỗi', '0811111111', '0911111111', '1111111111', 1, 1, '2017-05-14 10:05:55', '2017-05-20 10:51:48');
+(9, 'thangnc', '$2y$10$t1x/pR//bw/OaBZh5GbdiubXy9hfQF3TgKtOm6lGGTo/J88NQuPQy', 'thangnc@ttcgroup.vn', 'Nguyễn Chí Thăng', '83 Nguyễn Trọng Tuyển', '3322116677', '0988666222', '4888221111', 1, 2, '2017-05-13 09:29:29', '2017-11-10 12:04:58'),
+(10, 'thaihst', '$2y$10$n4w/Kcbpq0IQLU3izh1t2uqm4GPWxDSW8ta9XPKbUFsDqpzThqYmm', 'thaihst@ttcgroup.vn', 'Hồ Sỹ Thiên Thai', '16 Nguyễn Văn Trỗi', '0811111111', '0911111111', '1111111111', 1, 1, '2017-05-14 10:05:55', '2017-11-10 12:05:31');
 
 -- --------------------------------------------------------
 
@@ -763,6 +792,31 @@ INSERT INTO `module_article` (`id`, `fullname`, `article_id`, `position`, `statu
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `module_item`
+--
+
+DROP TABLE IF EXISTS `module_item`;
+CREATE TABLE `module_item` (
+  `id` int(11) NOT NULL,
+  `fullname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `item_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `position` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `status` int(1) DEFAULT NULL,
+  `sort_order` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `module_item`
+--
+
+INSERT INTO `module_item` (`id`, `fullname`, `item_id`, `position`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, 'ModuleItem1', '1', 'position-1', 1, 1, '2017-11-10 11:24:02', '2017-11-10 11:28:09');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `module_menu`
 --
 
@@ -809,7 +863,9 @@ INSERT INTO `mod_menu_type` (`id`, `menu_id`, `module_id`, `module_type`, `creat
 (5, 11, 1, 'module-menu', '2017-10-08 18:51:29', '2017-10-08 18:51:29'),
 (6, 12, 1, 'module-menu', '2017-10-08 18:51:29', '2017-10-08 18:51:29'),
 (13, 15, 2, 'module-article', '2017-10-08 18:56:18', '2017-10-08 18:56:18'),
-(14, 16, 2, 'module-article', '2017-10-08 18:56:18', '2017-10-08 18:56:18');
+(14, 16, 2, 'module-article', '2017-10-08 18:56:18', '2017-10-08 18:56:18'),
+(23, 12, 1, 'module-item', '2017-11-10 11:26:15', '2017-11-10 11:26:15'),
+(24, 13, 1, 'module-item', '2017-11-10 11:26:15', '2017-11-10 11:26:15');
 
 -- --------------------------------------------------------
 
@@ -1150,6 +1206,12 @@ ALTER TABLE `module_article`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Chỉ mục cho bảng `module_item`
+--
+ALTER TABLE `module_item`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Chỉ mục cho bảng `module_menu`
 --
 ALTER TABLE `module_menu`
@@ -1273,6 +1335,11 @@ ALTER TABLE `menu_type`
 ALTER TABLE `module_article`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
+-- AUTO_INCREMENT cho bảng `module_item`
+--
+ALTER TABLE `module_item`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
 -- AUTO_INCREMENT cho bảng `module_menu`
 --
 ALTER TABLE `module_menu`
@@ -1281,7 +1348,7 @@ ALTER TABLE `module_menu`
 -- AUTO_INCREMENT cho bảng `mod_menu_type`
 --
 ALTER TABLE `mod_menu_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT cho bảng `photo`
 --
