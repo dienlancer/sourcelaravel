@@ -242,7 +242,7 @@ class CustomerController extends Controller {
             return $info;
       }
       public function uploadFile(Request $request){           
-        uploadImage($_FILES["image"],WIDTH,HEIGHT,1);
+        uploadImage($_FILES["image"],WIDTH,HEIGHT);
       }
 }
 ?>

@@ -1,22 +1,25 @@
 <?php 
 function categoryArticleConverter($data=array(),$controller){        
     $result = array();
+    $dataSettingSystem= getSettingSystem();
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.url("/public/admin/images/edit-icon.png").'" /></a></center>';
             $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.url("/public/admin/images/delete-icon.png").'" /></a></center>';
             $kicked=0;
-            if((int)$data[$i]["status"]==1)
+            if((int)$data[$i]["status"]==1){
                 $kicked=0;
-            else
+            }
+            else{
                 $kicked=1;
+            }
             $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["status"],$kicked).'</center>';
             $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';
             $link_image="";
             $image="";
             if(!empty($data[$i]["image"])){
-                $link_image=url("/resources/upload/" . WIDTH . "x" . HEIGHT . "-".$data[$i]["image"]);            
-                $image = '<center><img src="'.$link_image.'" width="'.((int)(WIDTH/20)).'" height="'.((int)(HEIGHT/20)).'" /></center>';
+                $link_image=url("/resources/upload/" . $dataSettingSystem["article_width"] . "x" . $dataSettingSystem["article_height"] . "-".$data[$i]["image"]);            
+                $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }            
             $result[$i] = array(
                 'checked'                  =>   '<input type="checkbox" onclick="checkWithList(this)" name="cid" value="'.$data[$i]["is_checked"].'" />',
@@ -40,22 +43,25 @@ function categoryArticleConverter($data=array(),$controller){
 }
 function articleConverter($data=array(),$controller){        
     $result = array();
+    $dataSettingSystem= getSettingSystem();
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.url("/public/admin/images/edit-icon.png").'" /></a></center>';
             $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.url("/public/admin/images/delete-icon.png").'" /></a></center>';
             $kicked=0;
-            if((int)$data[$i]["status"]==1)
+            if((int)$data[$i]["status"]==1){
                 $kicked=0;
-            else
+            }
+            else{
                 $kicked=1;
+            }
             $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["status"],$kicked).'</center>';
             $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';
             $link_image="";
             $image="";
             if(!empty($data[$i]["image"])){
-                $link_image=url("/resources/upload/" . WIDTH . "x" . HEIGHT . "-".$data[$i]["image"]);            
-                $image = '<center><img src="'.$link_image.'" width="'.((int)(WIDTH/20)).'" height="'.((int)(HEIGHT/20)).'" /></center>';
+                $link_image=url("/resources/upload/" . $dataSettingSystem["article_width"] . "x" . $dataSettingSystem["article_height"] . "-".$data[$i]["image"]);            
+                $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }            
             $result[$i] = array(
                 'checked'                  =>   '<input type="checkbox" onclick="checkWithList(this)" name="cid" value="'.$data[$i]["is_checked"].'" />',
@@ -105,10 +111,12 @@ function menuConverter($data=array(),$controller){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['menu_type_id'],$data[$i]['id']]).'"><img src="'.url("/public/admin/images/edit-icon.png").'" /></a></center>';
             $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.url("/public/admin/images/delete-icon.png").'" /></a></center>';
             $kicked=0;
-            if((int)$data[$i]["status"]==1)
+            if((int)$data[$i]["status"]==1){
                 $kicked=0;
-            else
+            }
+            else{
                 $kicked=1;
+            }
             $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["status"],$kicked).'</center>';
             $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';           
             $result[$i] = array(
@@ -136,22 +144,25 @@ function menuConverter($data=array(),$controller){
 }
 function categoryProductConverter($data=array(),$controller){        
     $result = array();
+    $dataSettingSystem= getSettingSystem();
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.url("/public/admin/images/edit-icon.png").'" /></a></center>';
             $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.url("/public/admin/images/delete-icon.png").'" /></a></center>';
             $kicked=0;
-            if((int)$data[$i]["status"]==1)
+            if((int)$data[$i]["status"]==1){
                 $kicked=0;
-            else
+            }
+            else{
                 $kicked=1;
+            }
             $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["status"],$kicked).'</center>';
             $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';
             $link_image="";
             $image="";
             if(!empty($data[$i]["image"])){
-                $link_image=url("/resources/upload/" . WIDTH . "x" . HEIGHT . "-".$data[$i]["image"]);            
-                $image = '<center><img src="'.$link_image.'" width="'.((int)(WIDTH/20)).'" height="'.((int)(HEIGHT/20)).'" /></center>';
+                $link_image=url("/resources/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".$data[$i]["image"]);            
+                $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }            
             $result[$i] = array(
                 'checked'                  =>   '<input type="checkbox" onclick="checkWithList(this)" name="cid" value="'.$data[$i]["is_checked"].'" />',
@@ -175,22 +186,25 @@ function categoryProductConverter($data=array(),$controller){
 }
 function productConverter($data=array(),$controller){        
     $result = array();
+    $dataSettingSystem= getSettingSystem();
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.url("/public/admin/images/edit-icon.png").'" /></a></center>';
             $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.url("/public/admin/images/delete-icon.png").'" /></a></center>';
             $kicked=0;
-            if((int)$data[$i]["status"]==1)
+            if((int)$data[$i]["status"]==1){
                 $kicked=0;
-            else
+            }
+            else{
                 $kicked=1;
+            }
             $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["status"],$kicked).'</center>';
             $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';
             $link_image="";
             $image="";
             if(!empty($data[$i]["image"])){
-                $link_image=url("/resources/upload/" . WIDTH . "x" . HEIGHT . "-".$data[$i]["image"]);            
-                $image = '<center><img src="'.$link_image.'" width="'.((int)(WIDTH/20)).'" height="'.((int)(HEIGHT/20)).'" /></center>';
+                $link_image=url("/resources/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".$data[$i]["image"]);            
+                $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }            
             $result[$i] = array(
                 'checked'                  =>   '<input type="checkbox" onclick="checkWithList(this)" name="cid" value="'.$data[$i]["is_checked"].'" />',
@@ -219,10 +233,12 @@ function moduleMenuConverter($data=array(),$controller){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.url("/public/admin/images/edit-icon.png").'" /></a></center>';
             $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.url("/public/admin/images/delete-icon.png").'" /></a></center>';
             $kicked=0;
-            if((int)$data[$i]["status"]==1)
+            if((int)$data[$i]["status"]==1){
                 $kicked=0;
-            else
+            }
+            else{
                 $kicked=1;
+            }
             $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["status"],$kicked).'</center>';
             $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';                
             $result[$i] = array(
@@ -249,10 +265,12 @@ function moduleArticleConverter($data=array(),$controller){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.url("/public/admin/images/edit-icon.png").'" /></a></center>';
             $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.url("/public/admin/images/delete-icon.png").'" /></a></center>';
             $kicked=0;
-            if((int)$data[$i]["status"]==1)
+            if((int)$data[$i]["status"]==1){
                 $kicked=0;
-            else
+            }
+            else{
                 $kicked=1;
+            }
             $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["status"],$kicked).'</center>';
             $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';                
             $result[$i] = array(
@@ -279,10 +297,12 @@ function moduleItemConverter($data=array(),$controller){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.url("/public/admin/images/edit-icon.png").'" /></a></center>';
             $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.url("/public/admin/images/delete-icon.png").'" /></a></center>';
             $kicked=0;
-            if((int)$data[$i]["status"]==1)
+            if((int)$data[$i]["status"]==1){
                 $kicked=0;
-            else
+            }
+            else{
                 $kicked=1;
+            }
             $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["status"],$kicked).'</center>';
             $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';                
             $result[$i] = array(
@@ -309,10 +329,12 @@ function paymentMethodConverter($data=array(),$controller){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.url("/public/admin/images/edit-icon.png").'" /></a></center>';
             $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.url("/public/admin/images/delete-icon.png").'" /></a></center>';
             $kicked=0;
-            if((int)$data[$i]["status"]==1)
+            if((int)$data[$i]["status"]==1){
                 $kicked=0;
-            else
+            }
+            else{
                 $kicked=1;
+            }
             $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["status"],$kicked).'</center>';
             $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';                
             $result[$i] = array(
@@ -339,10 +361,12 @@ function settingSystemConverter($data=array(),$controller){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.url("/public/admin/images/edit-icon.png").'" /></a></center>';
             $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.url("/public/admin/images/delete-icon.png").'" /></a></center>';
             $kicked=0;
-            if((int)$data[$i]["status"]==1)
+            if((int)$data[$i]["status"]==1){
                 $kicked=0;
-            else
+            }
+            else{
                 $kicked=1;
+            }
             $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["status"],$kicked).'</center>';
             $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';                
             $result[$i] = array(
@@ -369,10 +393,12 @@ function bannerConverter($data=array(),$controller){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.url("/public/admin/images/edit-icon.png").'" /></a></center>';
             $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.url("/public/admin/images/delete-icon.png").'" /></a></center>';
             $kicked=0;
-            if((int)$data[$i]["status"]==1)
+            if((int)$data[$i]["status"]==1){
                 $kicked=0;
-            else
+            }
+            else{
                 $kicked=1;
+            }
             $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["status"],$kicked).'</center>';
             $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';                
             $result[$i] = array(
@@ -422,10 +448,12 @@ function userConverter($data=array(),$controller){
             $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.url("/public/admin/images/delete-icon.png").'" /></a></center>';            
             $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';         
             $kicked=0;
-            if((int)$data[$i]["level"]==1)
+            if((int)$data[$i]["level"]==1){
                 $kicked=0;
-            else
+            }
+            else{
                 $kicked=1;
+            }
             $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["level"],$kicked).'</center>';   
             $result[$i] = array(
                 'checked'                  =>   '<input type="checkbox" onclick="checkWithList(this)" name="cid" value="'.$data[$i]["is_checked"].'" />',
@@ -479,10 +507,12 @@ function customerConverter($data=array(),$controller){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.url("/public/admin/images/edit-icon.png").'" /></a></center>';
             $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.url("/public/admin/images/delete-icon.png").'" /></a></center>';
             $kicked=0;
-            if((int)$data[$i]["status"]==1)
+            if((int)$data[$i]["status"]==1){
                 $kicked=0;
-            else
+            }
+            else{
                 $kicked=1;
+            }
             $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["status"],$kicked).'</center>';
             $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';
                     
@@ -514,10 +544,12 @@ function invoiceConverter($data=array(),$controller){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.url("/public/admin/images/edit-icon.png").'" /></a></center>';
             $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.url("/public/admin/images/delete-icon.png").'" /></a></center>';
             $kicked=0;
-            if((int)$data[$i]["status"]==1)
+            if((int)$data[$i]["status"]==1){
                 $kicked=0;
-            else
+            }
+            else{
                 $kicked=1;
+            }
             $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["status"],$kicked).'</center>';
             $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';                
             $result[$i] = array(

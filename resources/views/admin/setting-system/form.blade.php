@@ -17,9 +17,14 @@ $inputCurrencyUnit          =   '<input type="text" class="form-control" name="c
 $inputSmtpHost          =   '<input type="text" class="form-control" name="smtp_host"    id="smtp_host"        value="'.@$arrRowData['smtp_host'].'">';  
 $inputSmtpPort          =   '<input type="text" class="form-control" name="smtp_port"    id="smtp_port"        value="'.@$arrRowData['smtp_port'].'">';  
 $inputEncription          =   '<input type="text" class="form-control" name="encription"    id="encription"        value="'.@$arrRowData['encription'].'">';  
-$inputAuthentication          =   '<input type="text" class="form-control" name="authentication"    id="authentication"        value="'.@$arrRowData['authentication'].'">';  
+
+$status                 =   (count($arrRowData) > 0) ? @$arrRowData['authentication'] : 1 ;
+$arrStatus              =   array(-1 => '- Select status -', 1 => 'Publish', 0 => 'Unpublish');  
+$ddlAuthentication              =   cmsSelectbox("authentication","authentication","form-control",$arrStatus,$status,"");
+
+
 $inputSmtpUsername          =   '<input type="text" class="form-control" name="smtp_username"    id="smtp_username"        value="'.@$arrRowData['smtp_username'].'">';  
-$inputSmtpPassword          =   '<input type="text" class="form-control" name="smtp_password"    id="smtp_password"        value="'.@$arrRowData['smtp_password'].'">';  
+$inputSmtpPassword          =   '<input type="password" class="form-control" name="smtp_password"    id="smtp_password"        value="'.@$arrRowData['smtp_password'].'">';  
 $inputEmailFrom          =   '<input type="text" class="form-control" name="email_from"    id="email_from"        value="'.@$arrRowData['email_from'].'">';$inputEmailTo          =   '<input type="text" class="form-control" name="email_to"    id="email_to"        value="'.@$arrRowData['email_to'].'">'; 
 $inputFromName          =   '<input type="text" class="form-control" name="from_name"    id="from_name"        value="'.@$arrRowData['from_name'].'">';     
 $inputToName          =   '<input type="text" class="form-control" name="to_name"    id="to_name"        value="'.@$arrRowData['to_name'].'" />';  
@@ -164,7 +169,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                     <div class="form-group col-md-6">
                         <label class="col-md-3 control-label"><b>Smtp authication</b></label>
                         <div class="col-md-9">
-                            <?php echo $inputAuthentication; ?>
+                            <?php echo $ddlAuthentication; ?>
                             <span class="help-block"></span>
                         </div>
                     </div>   

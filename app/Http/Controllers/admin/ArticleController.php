@@ -356,8 +356,9 @@ class ArticleController extends Controller {
             );
             return $info;
       }
-      public function uploadFile(Request $request){           
-        uploadImage($_FILES["image"],WIDTH,HEIGHT,1);
-      }
+      public function uploadFile(Request $request){ 
+      $dataSettingSystem= getSettingSystem();
+      uploadImage($_FILES["image"],$dataSettingSystem['article_width'],$dataSettingSystem['article_height']);
+    }
 }
 ?>

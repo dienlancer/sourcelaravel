@@ -311,8 +311,9 @@ class CategoryProductController extends Controller {
           );
           return $info;
     }
-    public function uploadFile(Request $request){           
-      uploadImage($_FILES["image"],WIDTH,HEIGHT,1);
+    public function uploadFile(Request $request){ 
+      $dataSettingSystem= getSettingSystem();
+      uploadImage($_FILES["image"],$dataSettingSystem['product_width'],$dataSettingSystem['product_height']);
     }
 }
 ?>

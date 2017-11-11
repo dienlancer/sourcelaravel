@@ -3,6 +3,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\CategoryArticleModel;
+use App\SettingSystemModel;
 use App\ArticleModel;
 use App\ArticleCategoryModel;
 use DB;
@@ -310,8 +311,9 @@ class CategoryArticleController extends Controller {
           );
           return $info;
     }
-    public function uploadFile(Request $request){           
-      uploadImage($_FILES["image"],WIDTH,HEIGHT,1);
+    public function uploadFile(Request $request){ 
+      $dataSettingSystem= getSettingSystem();
+      uploadImage($_FILES["image"],$dataSettingSystem['article_width'],$dataSettingSystem['article_height']);
     }
 }
 ?>
