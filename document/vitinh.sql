@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 11, 2017 lúc 01:32 PM
+-- Thời gian đã tạo: Th10 11, 2017 lúc 07:33 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -540,7 +540,7 @@ CREATE TABLE `article` (
 --
 
 INSERT INTO `article` (`id`, `fullname`, `title`, `alias`, `image`, `intro`, `content`, `description`, `meta_keyword`, `meta_description`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(3, 'Giảm Mỡ Bụng - Giảm Mỡ Bụng Sau Sinh - Cùng Ưu Đãi 60%', '1', 'giam-mo-bung-giam-mo-bung-sau-sinh-cung-uu-dai-60', '12965808_1.jpg', '1', '1', '1', '1', '1', 4, 1, '2017-10-02 16:12:20', '2017-10-05 17:26:11');
+(3, 'Cuộc Cách Mạng Trong Điều Trị Nám Tàn Nhang Bằng Laser Toning', 'Trị nám tàn nhang bằng laser toning cam kết đạt hiệu quả 99%', 'cuoc-cach-mang-trong-dieu-tri-nam-tan-nhang-bang-laser-toning', '', 'Sở hữu một khuôn mặt đẹp khả ái là niềm khao khát của không ít các chị em phụ nữ nhưng giờ việc điều trị nám tàn nhang bằng công nghệ Laser Toning sẽ giúp bạn biến giấc mơ đó thành hiện thực', '<p style=\"text-align:justify\">Kh&ocirc;ng Gordon Hayward, kh&ocirc;ng Al Horford, chủ nh&agrave; nhập cuộc tồi tệ với chỉ một lần th&agrave;nh c&ocirc;ng trong 11 t&igrave;nh huống b&oacute;ng sống đầu trận. Hy vọng tắt dần khi ng&ocirc;i sao Kyrie Irving chấn thương v&ugrave;ng mặt ngay trong hiệp một, rời s&acirc;n v&agrave; kh&ocirc;ng quay trở lại.</p>\n\n<p style=\"text-align:justify\">Celtics chỉ n&eacute;m th&agrave;nh c&ocirc;ng 33% trong nửa đầu trận, v&agrave; để đối thủ ghi 57 điểm trong hai hiệp đầu (cao thứ hai từ đầu giải).</p>', 'http://thammyvienngocdung.com/dich-vu/giam-mo-cong-nghe-lipo-hifu.html', 'trị nám tàn nhang', 'Cuộc cách mạng trong điều trị nám tàn nhang bằng laser toning luôn cho kết quả như mong muốn', 4, 1, '2017-10-02 16:12:20', '2017-11-11 18:32:32');
 
 -- --------------------------------------------------------
 
@@ -1189,7 +1189,7 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `code`, `fullname`, `alias`, `image`, `status`, `child_image`, `price`, `detail`, `sort_order`, `created_at`, `updated_at`) VALUES
-(6, '123456', 'Sản phẩm 1', 'san-pham-1', 'iphone-8-plus-256gb-h11-org.jpg', 1, NULL, '300000.00', '', 1, '2017-10-05 17:51:11', '2017-11-11 11:46:59');
+(6, '123456', 'Sản phẩm 1', 'san-pham-1', 'iphone-8-plus-256gb-h11-org.jpg', 1, '[\"iphone-8-plus-256gb-den-6-org.jpg\",\"iphone-8-plus-256gb-den-8-org.jpg\",\"iphone-8-plus-256gb-den-1-org.jpg\"]', '300000.00', '', 1, '2017-10-05 17:51:11', '2017-11-11 17:44:45');
 
 -- --------------------------------------------------------
 
@@ -1572,17 +1572,17 @@ ALTER TABLE `privilege`
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT cho bảng `product_category`
 --
 ALTER TABLE `product_category`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT cho bảng `setting_system`
 --
 ALTER TABLE `setting_system`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT cho bảng `users`
 --

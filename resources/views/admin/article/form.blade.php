@@ -9,7 +9,7 @@ $linkDeleteImage        =   route('admin.'.$controller.'.deleteImage');
 $inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"       value="'.@$arrRowData['fullname'].'">'; 
 $inputTitle             =   '<textarea id="title" name="title" rows="2" cols="100" class="form-control" >'.@$arrRowData['title'].'</textarea>'; 
 $inputAlias             =   '<input type="text" class="form-control" name="alias"      id="alias"          value="'.@$arrRowData['alias'].'">';
-$inputIntro             =   '<textarea id="intro" name="intro" rows="2" cols="100" class="form-control" >'.@$arrRowData['intro'].'</textarea>'; 
+$inputIntro             =   '<textarea id="intro" name="intro" rows="5" cols="100" class="form-control" >'.@$arrRowData['intro'].'</textarea>'; 
 $inputContent           =   '<textarea id="content" name="content" rows="2" cols="100" class="form-control" >'.@$arrRowData['content'].'</textarea>'; 
 $inputDescription       =   '<textarea id="description" name="description" rows="2" cols="100" class="form-control" >'.@$arrRowData['description'].'</textarea>'; 
 $inputMetakeyword             =   '<textarea id="meta_keyword" name="meta_keyword" rows="2" cols="100" class="form-control" >'.@$arrRowData['meta_keyword'].'</textarea>'; 
