@@ -118,6 +118,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- END DATATABLES PLUGINS -->
 
         <!-- BEGIN CUSTOM LIBRARY -->
+        <script language="javascript" type="text/javascript" src="{{url('public/admin/ckeditor/ckeditor.js')}}"                 ></script>
         <script language="javascript" type="text/javascript" src="{{url('public/admin/js/table-library.js')}}"                 ></script>
         <script language="javascript" type="text/javascript" src="{{url('public/admin/js/spinner.js')}}"                 ></script>
         <script language="javascript" type="text/javascript" src="{{url('public/admin/js/custom.js')}}"                 ></script>        

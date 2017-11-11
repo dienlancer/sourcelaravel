@@ -142,7 +142,12 @@ $inputChildPictureHidden     =   '<input type="hidden" name="image_child_hidden"
                             <span class="help-block"></span>
                         </div>
                     </div>     
-                </div>                                                                     
+                </div> 
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        
+                    </div>
+                </div>                                                                    
             </div>  
             <div class="form-actions noborder">
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}" />          

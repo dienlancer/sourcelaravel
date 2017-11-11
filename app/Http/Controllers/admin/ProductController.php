@@ -90,7 +90,7 @@ class ProductController extends Controller {
                  $checked = 0;
                  $error["code"]["type_msg"] = "has-error";
                  $error["code"]["msg"] = "code is required";
-           }else{
+            }else{
                 $data=array();
                 if (empty($id)) {
                   $data=ProductModel::whereRaw("trim(lower(code)) = ?",[trim(mb_strtolower($code,'UTF-8'))])->get()->toArray();           
@@ -102,24 +102,24 @@ class ProductController extends Controller {
                   $error["code"]["type_msg"] = "has-error";
                   $error["code"]["msg"] = "code is existed in system";
                 }       
-          }      
-          if(empty($fullname)){
+            }      
+            if(empty($fullname)){
                $checked = 0;
                $error["fullname"]["type_msg"] = "has-error";
                $error["fullname"]["msg"] = "Fullname is required";
-         }else{
-              $data=array();
-              if (empty($id)) {
-                $data=ProductModel::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get()->toArray();	        	
-              }else{
-                $data=ProductModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),(int)@$id])->get()->toArray();		
-              }  
-              if (count($data) > 0) {
-                $checked = 0;
-                $error["fullname"]["type_msg"] = "has-error";
-                $error["fullname"]["msg"] = "Fullname is existed in system";
-              }      	
-        }          
+           }else{
+                $data=array();
+                if (empty($id)) {
+                  $data=ProductModel::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get()->toArray();	        	
+                }else{
+                  $data=ProductModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),(int)@$id])->get()->toArray();		
+                }  
+                if (count($data) > 0) {
+                  $checked = 0;
+                  $error["fullname"]["type_msg"] = "has-error";
+                  $error["fullname"]["msg"] = "Fullname is existed in system";
+                }      	
+            }          
       if(empty($alias)){
             $checked = 0;
             $error["alias"]["type_msg"] = "has-error";
