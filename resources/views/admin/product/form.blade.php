@@ -229,15 +229,16 @@ if(count($arrRowData) > 0){
         if (image != ''){
             image = image.substr(image.lastIndexOf('\\') + 1);       
         }
-        var product_child_image=$("#table-image > tbody").find("input[type='file']");
-        var child_image_encode='';
-        if(product_child_image.length > 0){
-            var arr_child_image=new Array(product_child_image.length);
-            for(var i=0;i<product_child_image.length;i++){
-                var str_img=$(product_child_image[i]).val();
+        var child_image_ctrl=$("#table-image > tbody").find("input[type='file']");
+        var str_child_image='';
+        if(child_image_ctrl.length > 0){
+            var arr_child_image=new Array(child_image_ctrl.length);
+            for(var i=0;i<child_image_ctrl.length;i++){
+                var str_img=$(child_image_ctrl[i]).val();
                 str_img = str_img.substr(str_img.lastIndexOf('\\') + 1);       
                 arr_child_image[i]=str_img;
-            }                        
+            }              
+            str_child_image=arr_child_image.toString();          
         }    
         var image_hidden=$("#image_hidden").val(); 
         var status=$("#status").val();     
@@ -257,6 +258,7 @@ if(count($arrRowData) > 0){
             "detail":detail,
             "category_product_id":category_product_id,            
             "image_hidden":image_hidden,
+            "str_child_image":str_child_image,
             "sort_order":sort_order,
             "status":status,
             "_token": token

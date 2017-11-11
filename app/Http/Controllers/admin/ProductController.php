@@ -76,7 +76,8 @@ class ProductController extends Controller {
           $status               =   trim($request->status);
           $price                =   trim($request->price);                    
           $detail               =   trim($request->detail);
-          $image_hidden         =   trim($request->image_hidden);          
+          $image_hidden         =   trim($request->image_hidden);  
+          $str_child_image      =   trim($request->str_child_image);        
           $sort_order           =   trim($request->sort_order);          
           $category_product_id	=		($request->category_product_id);            
           $data 		            =   array();
@@ -170,7 +171,15 @@ class ProductController extends Controller {
                 $item->price        = (int)$price;
                 $item->detail       = $detail;                                         
                 $item->sort_order 	=	(int)$sort_order;                
-                $item->updated_at 	=	date("Y-m-d H:i:s",time());    	        	
+                $item->updated_at 	=	date("Y-m-d H:i:s",time());  
+                // begin upload product child image                
+                if(!empty($str_child_image)){
+                    $arrChildImage=explode(',', $str_child_image);
+                    if(count($arrChildImage) > 0){
+                      $item->child_image=json_encode($arrChildImage);
+                    }
+                }
+                // end upload product child image  	        	
                 $item->save();  	
                 if(count(@$category_product_id) > 0){                            
                     $arrProductCategory=ProductCategoryModel::whereRaw("product_id = ?",[@$item->id])->select("category_product_id")->get()->toArray();
