@@ -157,7 +157,7 @@ class ArticleController extends Controller {
                     }				
                 } else{
                     $item				=	ArticleModel::find((int)@$id);   
-                    $file_image="";                       
+                    $file_image=null;                       
                     if(!empty($image_hidden)){
                       $file_image =$image_hidden;          
                     }

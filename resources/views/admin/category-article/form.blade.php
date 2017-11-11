@@ -146,32 +146,8 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
         }
         if(xac_nhan  == 0)
             return 0;
-        var id=$("#id").val();       
-        var token = $('input[name="_token"]').val();  
-        var dataItem={
-            "id":id,            
-            "_token": token
-        };  
-        $.ajax({
-            url: '<?php echo $linkDeleteImage; ?>',
-            type: 'POST',
-            data: dataItem,
-            async: false,
-            success: function (data) {
-                console.log(data);
-                if(data.checked==true){
-                    $("#picture-area").empty();
-                    $("input[name='image_hidden']").val("");
-                }                
-                spinner.hide();
-            },
-            error : function (data){
-                spinner.hide();
-            },
-            beforeSend  : function(jqXHR,setting){
-                spinner.show();
-            },
-        });
+        $("#picture-area").empty();
+        $("input[name='image_hidden']").val("");        
     }
     function save(){
         var id=$("#id").val();        

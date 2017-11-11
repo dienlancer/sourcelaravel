@@ -74,8 +74,10 @@ class ProductController extends Controller {
             $alias                =   trim($request->alias);
             $image                =   trim($request->image);
             $status               =   trim($request->status);
-            $price                =   trim($request->price);                    
+            $price                =   trim($request->price);   
+            $sale_price                =   trim($request->sale_price);                    
             $detail               =   trim($request->detail);
+            $intro               =   trim($request->intro);
             $image_hidden         =   trim($request->image_hidden);  
             $child_image          =   trim($request->child_image);        
             $child_image_hidden   =   trim($request->child_image_hidden);                    
@@ -170,7 +172,9 @@ class ProductController extends Controller {
           $item->alias 			  =	$alias;         
           $item->status       = (int)$status;    
           $item->price        = (int)$price;
-          $item->detail       = $detail;                                         
+          $item->sale_price   = (int)$sale_price;
+          $item->detail       = $detail;       
+          $item->intro        = $intro;                                           
           $item->sort_order 	=	(int)$sort_order;                
           $item->updated_at 	=	date("Y-m-d H:i:s",time());  
           // begin upload product child image  

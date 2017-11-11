@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 11, 2017 lúc 07:34 PM
+-- Thời gian đã tạo: Th10 11, 2017 lúc 08:15 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -540,7 +540,7 @@ CREATE TABLE `article` (
 --
 
 INSERT INTO `article` (`id`, `fullname`, `title`, `alias`, `image`, `intro`, `content`, `description`, `meta_keyword`, `meta_description`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(3, 'Cuộc Cách Mạng Trong Điều Trị Nám Tàn Nhang Bằng Laser Toning', 'Trị nám tàn nhang bằng laser toning cam kết đạt hiệu quả 99%', 'cuoc-cach-mang-trong-dieu-tri-nam-tan-nhang-bang-laser-toning', '', 'Sở hữu một khuôn mặt đẹp khả ái là niềm khao khát của không ít các chị em phụ nữ nhưng giờ việc điều trị nám tàn nhang bằng công nghệ Laser Toning sẽ giúp bạn biến giấc mơ đó thành hiện thực', '<p style=\"text-align:justify\">Kh&ocirc;ng Gordon Hayward, kh&ocirc;ng Al Horford, chủ nh&agrave; nhập cuộc tồi tệ với chỉ một lần th&agrave;nh c&ocirc;ng trong 11 t&igrave;nh huống b&oacute;ng sống đầu trận. Hy vọng tắt dần khi ng&ocirc;i sao Kyrie Irving chấn thương v&ugrave;ng mặt ngay trong hiệp một, rời s&acirc;n v&agrave; kh&ocirc;ng quay trở lại.</p>\n\n<p style=\"text-align:justify\">Celtics chỉ n&eacute;m th&agrave;nh c&ocirc;ng 33% trong nửa đầu trận, v&agrave; để đối thủ ghi 57 điểm trong hai hiệp đầu (cao thứ hai từ đầu giải).</p>', 'http://thammyvienngocdung.com/dich-vu/giam-mo-cong-nghe-lipo-hifu.html', 'trị nám tàn nhang', 'Cuộc cách mạng trong điều trị nám tàn nhang bằng laser toning luôn cho kết quả như mong muốn', 4, 1, '2017-10-02 16:12:20', '2017-11-11 18:32:32');
+(3, 'Cuộc Cách Mạng Trong Điều Trị Nám Tàn Nhang Bằng Laser Toning', 'Trị nám tàn nhang bằng laser toning cam kết đạt hiệu quả 99%', 'cuoc-cach-mang-trong-dieu-tri-nam-tan-nhang-bang-laser-toning', '', 'Sở hữu một khuôn mặt đẹp khả ái là niềm khao khát của không ít các chị em phụ nữ nhưng giờ việc điều trị nám tàn nhang bằng công nghệ Laser Toning sẽ giúp bạn biến giấc mơ đó thành hiện thực', '<p style=\"text-align:justify\">Kh&ocirc;ng Gordon Hayward, kh&ocirc;ng Al Horford, chủ nh&agrave; nhập cuộc tồi tệ với chỉ một lần th&agrave;nh c&ocirc;ng trong 11 t&igrave;nh huống b&oacute;ng sống đầu trận. Hy vọng tắt dần khi ng&ocirc;i sao Kyrie Irving chấn thương v&ugrave;ng mặt ngay trong hiệp một, rời s&acirc;n v&agrave; kh&ocirc;ng quay trở lại.</p>\n\n<p style=\"text-align:justify\">Celtics chỉ n&eacute;m th&agrave;nh c&ocirc;ng 33% trong nửa đầu trận, v&agrave; để đối thủ ghi 57 điểm trong hai hiệp đầu (cao thứ hai từ đầu giải).</p>', 'http://thammyvienngocdung.com/dich-vu/giam-mo-cong-nghe-lipo-hifu.html', 'trị nám tàn nhang', 'Cuộc cách mạng trong điều trị nám tàn nhang bằng laser toning luôn cho kết quả như mong muốn', 4, 1, '2017-10-02 16:12:20', '2017-11-11 18:54:21');
 
 -- --------------------------------------------------------
 
@@ -617,7 +617,7 @@ INSERT INTO `category_article` (`id`, `fullname`, `alias`, `parent_id`, `image`,
 (55, 'Công nghệ Hifu', 'cong-nghe-hifu', 0, '', 8, 1, '2017-10-02 12:54:01', '2017-11-11 10:11:37'),
 (56, 'Trị mụn thâm da', 'tri-mun-tham-da', 0, '', 3, 1, '2017-10-02 12:54:23', '2017-11-11 10:10:54'),
 (57, 'Giảm cân', 'giam-can', 0, '', 2, 1, '2017-10-02 12:54:34', '2017-11-11 10:10:48'),
-(58, 'Chăm sóc da mặt', 'cham-soc-da-mat', 0, '', 1, 1, '2017-10-02 12:54:56', '2017-11-11 10:10:41'),
+(58, 'Chăm sóc da mặt', 'cham-soc-da-mat', 0, '', 1, 1, '2017-10-02 12:54:56', '2017-11-11 18:53:56'),
 (59, 'Triệt lông', 'triet-long', 0, '', 7, 1, '2017-10-02 12:55:12', '2017-11-11 10:11:31'),
 (67, 'Phi kim siêu vi điểm', 'phi-kim-sieu-vi-diem', 0, '', 6, 1, '2017-10-02 17:22:48', '2017-11-11 10:11:26'),
 (68, 'Phun thêu thẩm mỹ', 'phun-theu-tham-my', 0, '', 5, 1, '2017-10-02 17:23:07', '2017-11-11 10:11:10'),
@@ -647,7 +647,7 @@ CREATE TABLE `category_product` (
 --
 
 INSERT INTO `category_product` (`id`, `fullname`, `alias`, `image`, `status`, `parent_id`, `sort_order`, `created_at`, `updated_at`) VALUES
-(10, 'Laptop', 'laptop', NULL, 1, 0, 1, '2017-10-05 15:08:13', '2017-10-05 15:08:13'),
+(10, 'Laptop', 'laptop', '', 1, 0, 1, '2017-10-05 15:08:13', '2017-11-11 18:54:54'),
 (11, 'Máy tính bảng', 'may-tinh-bang', NULL, 1, 0, 2, '2017-10-05 15:08:25', '2017-10-11 06:45:46'),
 (12, 'Máy tính để bàn', 'may-tinh-de-ban', '', 1, 0, 3, '2017-10-05 15:08:38', '2017-10-05 17:26:36'),
 (13, 'Máy tính All In One', 'may-tinh-all-in-one', NULL, 1, 0, 3, '2017-10-05 15:08:57', '2017-10-05 15:08:57'),
@@ -1177,7 +1177,9 @@ CREATE TABLE `product` (
   `image` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   `child_image` text CHARACTER SET utf8,
-  `price` decimal(10,2) DEFAULT NULL,
+  `price` decimal(11,2) DEFAULT NULL,
+  `sale_price` decimal(11,2) DEFAULT NULL,
+  `intro` text COLLATE utf8_unicode_ci,
   `detail` text CHARACTER SET utf8,
   `sort_order` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -1188,8 +1190,8 @@ CREATE TABLE `product` (
 -- Đang đổ dữ liệu cho bảng `product`
 --
 
-INSERT INTO `product` (`id`, `code`, `fullname`, `alias`, `image`, `status`, `child_image`, `price`, `detail`, `sort_order`, `created_at`, `updated_at`) VALUES
-(6, '123456', 'Sản phẩm 1', 'san-pham-1', 'iphone-8-plus-256gb-h11-org.jpg', 1, '[\"iphone-8-plus-256gb-den-6-org.jpg\",\"iphone-8-plus-256gb-den-8-org.jpg\",\"iphone-8-plus-256gb-den-1-org.jpg\"]', '300000.00', '', 1, '2017-10-05 17:51:11', '2017-11-11 17:44:45');
+INSERT INTO `product` (`id`, `code`, `fullname`, `alias`, `image`, `status`, `child_image`, `price`, `sale_price`, `intro`, `detail`, `sort_order`, `created_at`, `updated_at`) VALUES
+(6, '123456', 'Sản phẩm 1', 'san-pham-1', 'iphone-8-plus-256gb-h11-org.jpg', 1, '[\"iphone-8-plus-256gb-den-6-org.jpg\",\"iphone-8-plus-256gb-den-8-org.jpg\",\"iphone-8-plus-256gb-den-1-org.jpg\"]', '300000.00', '200000.00', 'Mục tiêu đạt chuẩn Đại kiện tướng năm 2018 chỉ là bước đầu trong hành trình trở thành kỳ thủ chuyên nghiệp của Nguyễn Anh Khôi.', '<p style=\"text-align:justify\">L&agrave; kỳ thủ Việt Nam duy nhất hai lần v&ocirc; địch trẻ thế giới, Anh Kh&ocirc;i sở hữu tiềm năng kh&ocirc;ng thể b&agrave;n c&atilde;i. Cuối th&aacute;ng 10/2017, kỳ thủ 15 tuổi cũng đoạt th&ecirc;m hai HC v&agrave;ng cờ nhanh chớp trẻ thế giới, d&ugrave; kh&ocirc;ng phải so t&agrave;i với nhiều đối thủ xứng tầm. Bảng th&agrave;nh t&iacute;ch ở giải trẻ của Anh Kh&ocirc;i sẽ được k&eacute;o d&agrave;i trong những năm mới, c&ugrave;ng với đ&oacute; l&agrave; những giải mở, d&agrave;nh cho &ldquo;người lớn&rdquo;. Anh Kh&ocirc;i mới 15 tuổi, nhưng đọ sức với những kỳ thủ h&agrave;ng đầu lu&ocirc;n kh&ocirc;ng thừa.</p>', 1, '2017-10-05 17:51:11', '2017-11-11 19:14:57');
 
 -- --------------------------------------------------------
 
