@@ -64,9 +64,9 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                         </div>
                     </div>   
                     <div class="form-group col-md-6">
-                        <label class="col-md-3 control-label"><b>Level</b></label>
+                        <label class="col-md-3 control-label"><b>Password confirm</b></label>
                         <div class="col-md-9">
-                            <?php echo $ddlStatus; ?>
+                            <?php echo $inputConfirmPassword; ?>
                             <span class="help-block"></span>
                         </div>
                     </div>     
@@ -96,11 +96,11 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                         </div>
                     </div>   
                     <div class="form-group col-md-6">
-                        <label class="col-md-3 control-label"><b>Password confirm</b></label>
+                        <label class="col-md-3 control-label"><b>Level</b></label>
                         <div class="col-md-9">
-                            <?php echo $inputConfirmPassword; ?>
+                            <?php echo $ddlStatus; ?>
                             <span class="help-block"></span>
-                        </div>
+                        </div>                        
                     </div>      
                 </div>                                                               
             </div>  

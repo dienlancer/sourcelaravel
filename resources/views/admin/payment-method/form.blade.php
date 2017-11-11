@@ -49,16 +49,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                             <span class="help-block"></span>
                         </div>
                     </div>     
-                </div>      
-                <div class="row">
-                    <div class="form-group col-md-12">
-                        <label class="col-md-3 control-label"><b>Content</b></label>
-                        <div class="col-md-9">
-                            <?php echo $inputContent; ?>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>                       
-                </div>                      
+                </div>                                         
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label class="col-md-3 control-label"><b>Status</b></label>
@@ -74,7 +65,16 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                             <span class="help-block"></span>
                         </div>
                     </div>      
-                </div>                                                                                   
+                </div>      
+                <div class="row">
+                    <?php echo $inputContent; ?>
+                            <span class="help-block"></span>
+                            <script type="text/javascript" language="javascript">
+                                CKEDITOR.replace('content',{
+                                   height:300
+                               });
+                           </script>                
+                </div>                                                                                
             </div>  
             <div class="form-actions noborder">
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}" />                                  
@@ -106,7 +106,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
         var id=$("#id").val();        
         var fullname=$("#fullname").val();
         var alias=$("#alias").val();
-        var content=$("#content").val();
+        var content=CKEDITOR.instances['content'].getData();
         var status=$("#status").val();        
         var sort_order=$("#sort_order").val();        
         var token = $('input[name="_token"]').val();   

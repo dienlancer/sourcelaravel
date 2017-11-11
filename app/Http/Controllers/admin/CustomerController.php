@@ -101,7 +101,7 @@ class CustomerController extends Controller {
                     $item				=	CustomerModel::find((int)@$id);                               		  		 	
                 }        
                 if(!empty($password)){
-                  $item->password         = Hash::make(trim($password));
+                  $item->password         = md5(trim($password));
                 }                      
                 $item->sort_order 		  =	(int)@$sort_order;
                 $item->status 			    =	(int)@$status;    
