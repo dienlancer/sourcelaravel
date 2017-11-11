@@ -67,46 +67,47 @@ class ProductController extends Controller {
         categoryProductRecursiveForm($arrCategoryProduct ,0,"",$arrCategoryProductRecursive)   ;      
         return view("admin.".$this->_controller.".form",compact("arrCategoryProductRecursive","arrRowData","arrProductCategory","controller","task","title","icon"));
     }
-     public function save(Request $request){
-          $id 					        =		trim($request->id);      
-          $code                 =   trim($request->code);  
-          $fullname 				    =		trim($request->fullname);          
-          $alias                =   trim($request->alias);
-          $image                =   trim($request->image);
-          $status               =   trim($request->status);
-          $price                =   trim($request->price);                    
-          $detail               =   trim($request->detail);
-          $image_hidden         =   trim($request->image_hidden);  
-          $str_child_image      =   trim($request->str_child_image);        
-          $sort_order           =   trim($request->sort_order);          
-          $category_product_id	=		($request->category_product_id);            
-          $data 		            =   array();
-          $info 		            =   array();
-          $error 		            =   array();
-          $item		              =   null;
-          $checked 	            =   1;        
-          if(empty($code)){
+        public function save(Request $request){
+            $id 					        =		trim($request->id);      
+            $code                 =   trim($request->code);  
+            $fullname 				    =		trim($request->fullname);          
+            $alias                =   trim($request->alias);
+            $image                =   trim($request->image);
+            $status               =   trim($request->status);
+            $price                =   trim($request->price);                    
+            $detail               =   trim($request->detail);
+            $image_hidden         =   trim($request->image_hidden);  
+            $child_image          =   trim($request->child_image);        
+            $child_image_hidden   =   trim($request->child_image_hidden);                    
+            $sort_order           =   trim($request->sort_order);          
+            $category_product_id	=		($request->category_product_id);            
+            $data 		            =   array();
+            $info 		            =   array();
+            $error 		            =   array();
+            $item		              =   null;
+            $checked 	            =   1;        
+            if(empty($code)){
                  $checked = 0;
                  $error["code"]["type_msg"] = "has-error";
                  $error["code"]["msg"] = "code is required";
-          }else{
-              $data=array();
-              if (empty($id)) {
-                $data=ProductModel::whereRaw("trim(lower(code)) = ?",[trim(mb_strtolower($code,'UTF-8'))])->get()->toArray();           
-              }else{
-                $data=ProductModel::whereRaw("trim(lower(code)) = ? and id != ?",[trim(mb_strtolower($code,'UTF-8')),(int)@$id])->get()->toArray();   
-              }  
-              if (count($data) > 0) {
+           }else{
+                $data=array();
+                if (empty($id)) {
+                  $data=ProductModel::whereRaw("trim(lower(code)) = ?",[trim(mb_strtolower($code,'UTF-8'))])->get()->toArray();           
+                }else{
+                  $data=ProductModel::whereRaw("trim(lower(code)) = ? and id != ?",[trim(mb_strtolower($code,'UTF-8')),(int)@$id])->get()->toArray();   
+                }  
+                if (count($data) > 0) {
                   $checked = 0;
                   $error["code"]["type_msg"] = "has-error";
                   $error["code"]["msg"] = "code is existed in system";
-              }       
+                }       
           }      
           if(empty($fullname)){
-                 $checked = 0;
-                 $error["fullname"]["type_msg"] = "has-error";
-                 $error["fullname"]["msg"] = "Fullname is required";
-          }else{
+               $checked = 0;
+               $error["fullname"]["type_msg"] = "has-error";
+               $error["fullname"]["msg"] = "Fullname is required";
+         }else{
               $data=array();
               if (empty($id)) {
                 $data=ProductModel::whereRaw("trim(lower(fullname)) = ?",[trim(mb_strtolower($fullname,'UTF-8'))])->get()->toArray();	        	
@@ -114,114 +115,129 @@ class ProductController extends Controller {
                 $data=ProductModel::whereRaw("trim(lower(fullname)) = ? and id != ?",[trim(mb_strtolower($fullname,'UTF-8')),(int)@$id])->get()->toArray();		
               }  
               if (count($data) > 0) {
-                  $checked = 0;
-                  $error["fullname"]["type_msg"] = "has-error";
-                  $error["fullname"]["msg"] = "Fullname is existed in system";
-              }      	
-          }          
-          if(empty($alias)){
                 $checked = 0;
-                $error["alias"]["type_msg"] = "has-error";
-                $error["alias"]["msg"] = "Alias is required";
-          }else{
-                $data=array();
-                if (empty($id)) {
-                  $data=ProductModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias,'UTF-8'))])->get()->toArray();	        	
-                }else{
-                  $data=ProductModel::whereRaw("trim(lower(alias)) = ? and id != ?",[trim(mb_strtolower($alias,'UTF-8')),(int)@$id])->get()->toArray();		
-                }  
-                if (count($data) > 0) {
-                  $checked = 0;
-                  $error["alias"]["type_msg"] 	= "has-error";
-                  $error["alias"]["msg"] 			= "Alias is existed in system";
-                }      	
-          }
-          if(empty($sort_order)){
-             $checked = 0;
-             $error["sort_order"]["type_msg"] 	= "has-error";
-             $error["sort_order"]["msg"] 		= "Sort order is required";
-          }
-          if((int)$status==-1){
-             $checked = 0;
-             $error["status"]["type_msg"] 		= "has-error";
-             $error["status"]["msg"] 			= "Status is required";
-          }
-          if ($checked == 1) {    
-                if(empty($id)){
-                    $item 				= 	new ProductModel;       
-                    $item->created_at 	=	date("Y-m-d H:i:s",time());        
-                    if(!empty($image)){
-                      $item->image    =   trim($image) ;  
-                    }				
-                } else{
-                    $item				=	ProductModel::find((int)@$id);   
-                    $file_image="";                       
-                    if(!empty($image_hidden)){
-                      $file_image =$image_hidden;          
-                    }
-                    if(!empty($image))  {
-                      $file_image=$image;                                                
-                    }
-                    $item->image=trim($file_image) ;            		  		 	
-                }  
-                $item->code         = $code;
-                $item->fullname 		=	$fullname;                
-                $item->alias 			  =	$alias;         
-                $item->status       = (int)$status;    
-                $item->price        = (int)$price;
-                $item->detail       = $detail;                                         
-                $item->sort_order 	=	(int)$sort_order;                
-                $item->updated_at 	=	date("Y-m-d H:i:s",time());  
-                // begin upload product child image                
-                if(!empty($str_child_image)){
-                    $arrChildImage=explode(',', $str_child_image);
-                    if(count($arrChildImage) > 0){
-                      $item->child_image=json_encode($arrChildImage);
-                    }
+                $error["fullname"]["type_msg"] = "has-error";
+                $error["fullname"]["msg"] = "Fullname is existed in system";
+              }      	
+        }          
+      if(empty($alias)){
+            $checked = 0;
+            $error["alias"]["type_msg"] = "has-error";
+            $error["alias"]["msg"] = "Alias is required";
+      }else{
+            $data=array();
+            if (empty($id)) {
+              $data=ProductModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias,'UTF-8'))])->get()->toArray();	        	
+            }else{
+              $data=ProductModel::whereRaw("trim(lower(alias)) = ? and id != ?",[trim(mb_strtolower($alias,'UTF-8')),(int)@$id])->get()->toArray();		
+            }  
+            if (count($data) > 0) {
+              $checked = 0;
+              $error["alias"]["type_msg"] 	= "has-error";
+              $error["alias"]["msg"] 			= "Alias is existed in system";
+            }      	
+      }
+      if(empty($sort_order)){
+           $checked = 0;
+           $error["sort_order"]["type_msg"] 	= "has-error";
+           $error["sort_order"]["msg"] 		= "Sort order is required";
+      }
+       if((int)$status==-1){
+           $checked = 0;
+           $error["status"]["type_msg"] 		= "has-error";
+           $error["status"]["msg"] 			= "Status is required";
+       }
+      if ($checked == 1) {    
+          if(empty($id)){
+                $item 				= 	new ProductModel;       
+                $item->created_at 	=	date("Y-m-d H:i:s",time());        
+                if(!empty($image)){
+                  $item->image    =   trim($image) ;  
+                }				
+          } else{
+                $item				=	ProductModel::find((int)@$id);   
+                $file_image="";                       
+                if(!empty($image_hidden)){
+                  $file_image =$image_hidden;          
                 }
-                // end upload product child image  	        	
-                $item->save();  	
-                if(count(@$category_product_id) > 0){                            
-                    $arrProductCategory=ProductCategoryModel::whereRaw("product_id = ?",[@$item->id])->select("category_product_id")->get()->toArray();
-                    $arrCategoryProductID=array();
-                    foreach ($arrProductCategory as $key => $value) {
-                        $arrCategoryProductID[]=$value["category_product_id"];
-                    }
-                    $selected=@$category_product_id;
-                    sort($selected);
-                    sort($arrCategoryProductID);         
-                    $resultCompare=0;
-                    if($selected == $arrCategoryProductID){
-                      $resultCompare=1;       
-                    }
-                    if($resultCompare==0){
-                          ProductCategoryModel::whereRaw("product_id = ?",[(int)@$item->id])->delete();  
-                          foreach ($selected as $key => $value) {
-                            $category_product_id=$value;
-                            $productCategory=new ProductCategoryModel;
-                            $productCategory->product_id=(int)@$item->id;
-                            $productCategory->category_product_id=(int)$category_product_id;            
-                            $productCategory->save();
-                          }
-                    }       
+                if(!empty($image))  {
+                  $file_image=$image;                                                
                 }
-                $info = array(
-                  'type_msg' 			=> "has-success",
-                  'msg' 				=> 'Save data successfully',
-                  "checked" 			=> 1,
-                  "error" 			=> $error,
-                  "id"    			=> $id
-                );
-            }else {
-                    $info = array(
-                      'type_msg' 			=> "has-error",
-                      'msg' 				=> 'Input data has some warning',
-                      "checked" 			=> 0,
-                      "error" 			=> $error,
-                      "id"				=> ""
-                    );
-            }        		 			       
-            return $info;       
+                $item->image=trim($file_image) ;            		  		 	
+          }  
+          $item->code         = $code;
+          $item->fullname 		=	$fullname;                
+          $item->alias 			  =	$alias;         
+          $item->status       = (int)$status;    
+          $item->price        = (int)$price;
+          $item->detail       = $detail;                                         
+          $item->sort_order 	=	(int)$sort_order;                
+          $item->updated_at 	=	date("Y-m-d H:i:s",time());  
+          // begin upload product child image  
+          $arrImage=array();              
+          if(!empty($child_image)){
+            $arrChildImage=explode(',', $child_image);
+            if(count($arrChildImage) > 0){
+              for($i=0;$i<count($arrChildImage);$i++){
+                $arrImage[]=$arrChildImage[$i];
+              }
+            }
+          }
+          if(!empty($child_image_hidden)){
+            $arrChildImageHidden=explode(',', $child_image_hidden);
+            if(count($arrChildImageHidden) > 0){
+              for($i=0;$i<count($arrChildImageHidden);$i++){
+                $arrImage[]=$arrChildImageHidden[$i];
+              }
+            }
+          }
+          $item->child_image=null;
+          if(count($arrImage) > 0){
+            $item->child_image=json_encode($arrImage);  
+          }
+          // end upload product child image  	        	
+          $item->save();  	
+          if(count(@$category_product_id) > 0){                            
+              $arrProductCategory=ProductCategoryModel::whereRaw("product_id = ?",[@$item->id])->select("category_product_id")->get()->toArray();
+              $arrCategoryProductID=array();
+              foreach ($arrProductCategory as $key => $value) {
+                $arrCategoryProductID[]=$value["category_product_id"];
+              }
+              $selected=@$category_product_id;
+              sort($selected);
+              sort($arrCategoryProductID);         
+              $resultCompare=0;
+              if($selected == $arrCategoryProductID){
+                $resultCompare=1;       
+              }
+              if($resultCompare==0){
+                ProductCategoryModel::whereRaw("product_id = ?",[(int)@$item->id])->delete();  
+                foreach ($selected as $key => $value) {
+                  $category_product_id=$value;
+                  $productCategory=new ProductCategoryModel;
+                  $productCategory->product_id=(int)@$item->id;
+                  $productCategory->category_product_id=(int)$category_product_id;            
+                  $productCategory->save();
+                }
+              }       
+          }
+          $info = array(
+            'type_msg' 			=> "has-success",
+            'msg' 				=> 'Save data successfully',
+            "checked" 			=> 1,
+            "error" 			=> $error,
+            "id"    			=> $id
+          );
+    }else {
+      $info = array(
+        'type_msg' 			=> "has-error",
+        'msg' 				=> 'Input data has some warning',
+        "checked" 			=> 0,
+        "error" 			=> $error,
+        "id"				=> ""
+      );
+    }        		 			       
+    return $info;       
     }
           public function changeStatus(Request $request){
                   $id             =       (int)$request->id;     

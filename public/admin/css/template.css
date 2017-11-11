@@ -35,3 +35,12 @@ a.jgrid:hover {	text-decoration: none;}
 .table td, .table th{
 	font-size: 12px;
 }
+.table-image td,.table-image th{
+	padding: 5px;
+	border-left: 1px solid #dddddd;
+	border-top: 1px solid #dddddd
+}
+.table-image{
+	border-right: 1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
+}

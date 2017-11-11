@@ -29,17 +29,20 @@ if(count($arrRowData > 0)){
 }   
 $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_hidden" value="'.@$strImage.'" />';
 $strTr="";
+$str_child_image="";
 if(count($arrRowData) > 0){
-    $arrProductChildImage=json_decode(@$arrRowData['child_image']);
+    $arrProductChildImage=json_decode(@$arrRowData['child_image']);    
     if(count($arrProductChildImage) > 0){
         foreach ($arrProductChildImage as $key => $value) {
             $strTr .= '<tr>';
-            $strTr .= '<td align="center" valign="middle"><img src="'.$strImage.$value.'" style="width:100%" /><input type="hidden" name="product_child_image_hidden[]" value="'.$value.'" /></td>';      
-            $strTr .= '<td align="center" valign="middle" class="tdcmd"><a href="javascript:void(0)"  onclick="removeRow(this);"><img src="'.url("/public/admin/images/delete.png").'" /></a></td>';
+            $strTr .= '<td align="center" width="1%" valign="middle"><img src="'.url("/resources/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".@$value).'" width="'.((int)$dataSettingSystem["product_width"]/6).'" /><input type="hidden" name="product_child_image_hidden[]" value="'.$value.'" /></td>';      
+            $strTr .= '<td align="center" valign="middle" class="tdcmd"><a href="javascript:void(0)"  onclick="removeRow(this);"><img src="'.url("/public/admin/images/delete-icon.png").'" /></a></td>';
             $strTr .='</tr>';
         }
-    }
+        $str_child_image=implode(',',$arrProductChildImage);
+    }    
 }   
+$inputChildPictureHidden     =   '<input type="hidden" name="image_child_hidden" id="image_child_hidden" value="'.@$str_child_image.'" />';
 ?>
 <div class="portlet light bordered">
     <div class="portlet-title">
@@ -105,11 +108,12 @@ if(count($arrRowData) > 0){
                         <div class="col-md-9">
                             <input type="file" id="image" name="image"  />   
                             <div id="picture-area"><?php echo $picture; ?>                      </div>
+                            <div class="clr"></div>
                             <table class="table-image" id="table-image" border="0" cellpadding="0" cellspacing="0" border="1">
                                 <thead>
                                     <tr>                                    
-                                        <th>File</th>                                  
-                                        <th>Action</th>
+                                        <th><center>Thumbnails</center></th>                                  
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -119,7 +123,7 @@ if(count($arrRowData) > 0){
                                         <td align="center" valign="middle" class="tdcmd"><a href="javascript:void(0)"  onclick="addRow(this);"><img  src=" <?php echo url("/public/admin/images/add.png"); ?>" /></a></td>
                                     </tr>
                                 </tbody>
-                            </table>    
+                            </table>                        
                         </div>
                     </div>     
                 </div>       
@@ -142,8 +146,11 @@ if(count($arrRowData) > 0){
             </div>  
             <div class="form-actions noborder">
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}" />          
-                <?php echo $inputPictureHidden; ?>                
-                <?php echo  $inputID; ?>                      
+                <?php 
+                    echo $inputPictureHidden; 
+                    echo $inputChildPictureHidden;
+                    echo $inputID;
+                ?>                          
             </div>                  
         </form>
     </div>
@@ -230,7 +237,7 @@ if(count($arrRowData) > 0){
             image = image.substr(image.lastIndexOf('\\') + 1);       
         }
         var child_image_ctrl=$("#table-image > tbody").find("input[type='file']");
-        var str_child_image='';
+        var child_image='';
         if(child_image_ctrl.length > 0){
             var arr_child_image=new Array(child_image_ctrl.length);
             for(var i=0;i<child_image_ctrl.length;i++){
@@ -238,8 +245,9 @@ if(count($arrRowData) > 0){
                 str_img = str_img.substr(str_img.lastIndexOf('\\') + 1);       
                 arr_child_image[i]=str_img;
             }              
-            str_child_image=arr_child_image.toString();          
+            child_image=arr_child_image.toString();          
         }    
+        var image_child_hidden=$("#image_child_hidden").val();
         var image_hidden=$("#image_hidden").val(); 
         var status=$("#status").val();     
         var price=$("#price").val();
@@ -258,7 +266,8 @@ if(count($arrRowData) > 0){
             "detail":detail,
             "category_product_id":category_product_id,            
             "image_hidden":image_hidden,
-            "str_child_image":str_child_image,
+            "child_image":child_image,
+            "child_image_hidden":image_child_hidden,
             "sort_order":sort_order,
             "status":status,
             "_token": token
@@ -271,12 +280,12 @@ if(count($arrRowData) > 0){
             success: function (data) {
                 if(data.checked==true){
                     uploadFileImport($("#image"));                    
-                    if(product_child_image.length > 0){
-                        for(var i=0;i<product_child_image.length;i++){
-                            uploadFileImport(product_child_image[i]);
+                    if(child_image_ctrl.length > 0){
+                        for(var i=0;i<child_image_ctrl.length;i++){
+                            uploadFileImport(child_image_ctrl[i]);
                         }
                     }                    
-                    //window.location.href = "<?php echo $linkCancel; ?>";
+                    window.location.href = "<?php echo $linkCancel; ?>";
                 }else{
                     var data_error=data.error;
                     if(typeof data_error.code               != "undefined"){
@@ -335,6 +344,15 @@ if(count($arrRowData) > 0){
             var tbody=jQuery(control).closest("tbody")[0];
 
             var tr=jQuery(control).closest("tr")[0];
+            var image=$(tr).find("input[type='hidden']").val();            
+            var image_child_hidden=$("#image_child_hidden").val()            
+            var arrImageChild=image_child_hidden.split(',');
+            var index=arrImageChild.indexOf(image);
+            if (index > -1) {
+                arrImageChild.splice(index, 1);
+            }
+            var str=arrImageChild.toString();
+            $("#image_child_hidden").val(str);
 
             var index = jQuery(tr).index();         
 
