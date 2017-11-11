@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 11, 2017 lúc 11:16 AM
+-- Thời gian đã tạo: Th10 11, 2017 lúc 01:32 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -1189,8 +1189,7 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `code`, `fullname`, `alias`, `image`, `status`, `child_image`, `price`, `detail`, `sort_order`, `created_at`, `updated_at`) VALUES
-(6, '123456', 'Sản phẩm 1', 'san-pham-1', '12997238_1001.jpg', 1, NULL, '300000.00', '', 1, '2017-10-05 17:51:11', '2017-11-11 10:12:53'),
-(7, '654321', 'sản phẩm 2', 'san-pham-2', '12919228_1.jpg', 1, NULL, '100000.00', '', 2, '2017-10-07 17:47:51', '2017-11-11 10:12:53');
+(6, '123456', 'Sản phẩm 1', 'san-pham-1', 'iphone-8-plus-256gb-h11-org.jpg', 1, NULL, '300000.00', '', 1, '2017-10-05 17:51:11', '2017-11-11 11:46:59');
 
 -- --------------------------------------------------------
 
@@ -1213,9 +1212,7 @@ CREATE TABLE `product_category` (
 
 INSERT INTO `product_category` (`id`, `product_id`, `category_product_id`, `created_at`, `updated_at`) VALUES
 (17, 6, 12, '2017-10-05 17:51:11', '2017-10-05 17:51:11'),
-(18, 6, 18, '2017-10-05 17:51:11', '2017-10-05 17:51:11'),
-(19, 7, 14, '2017-10-07 17:47:51', '2017-10-07 17:47:51'),
-(20, 7, 18, '2017-10-07 17:47:51', '2017-10-07 17:47:51');
+(18, 6, 18, '2017-10-05 17:51:11', '2017-10-05 17:51:11');
 
 -- --------------------------------------------------------
 
@@ -1271,7 +1268,7 @@ CREATE TABLE `setting_system` (
 --
 
 INSERT INTO `setting_system` (`id`, `fullname`, `alias`, `article_perpage`, `article_width`, `article_height`, `product_perpage`, `product_width`, `product_height`, `currency_unit`, `smtp_host`, `smtp_port`, `encription`, `authentication`, `smtp_username`, `smtp_password`, `email_from`, `email_to`, `from_name`, `to_name`, `contacted_phone`, `address`, `website`, `telephone`, `opened_time`, `opened_date`, `contacted_name`, `facebook_url`, `twitter_url`, `google_plus`, `youtube_url`, `instagram_url`, `pinterest_url`, `slogan_about`, `map_url`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'settingsystem', 'setting-system', 6, 360, 230, 12, 400, 400, 'vi_VN', 'smtp.gmail.com', '465', 'ssl', 1, 'dien.toannang@gmail.com', 'lienhoancuoc', 'dienit02@gmail.com', 'tichtacso.com@gmail.com', 'Hệ thống', 'Công Ty TNHH VIDOCO', '096.302.7720', '35/6 Bùi Quang Là - P.12 - Q. Gò Vấp - HCM', 'noithatgialai.net', '096.302.7720', '8h - 20h', '(T2-T7). Chủ Nhật nghỉ', 'Mr. Vinh', 'https://www.facebook.com/nguyenvan.laptrinh', 'https://twitter.com/', 'https://plus.google.com/u/0/?hl=vi', 'https://www.youtube.com/watch?v=kAcV7S3sySU', 'http://flickr.com', 'http://daidung.vn/', 'Mipec cung cấp thực phẩm sạch, an toàn, đảm bảo chất lượng hàng đầu. Xóa đi nỗi lo về an toàn thực phẩm', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3871.605543764119!2d108.07355431421081!3d13.982069195684272!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDU4JzU1LjQiTiAxMDjCsDA0JzMyLjciRQ!5e0!3m2!1svi!2s!4v1508913801584', 1, 1, '2017-11-10 19:46:32', '2017-11-11 09:23:29');
+(1, 'settingsystem', 'setting-system', 6, 360, 230, 12, 510, 340, 'vi_VN', 'smtp.gmail.com', '465', 'ssl', 1, 'dien.toannang@gmail.com', 'lienhoancuoc', 'dienit02@gmail.com', 'tichtacso.com@gmail.com', 'Hệ thống', 'Công Ty TNHH VIDOCO', '096.302.7720', '35/6 Bùi Quang Là - P.12 - Q. Gò Vấp - HCM', 'noithatgialai.net', '096.302.7720', '8h - 20h', '(T2-T7). Chủ Nhật nghỉ', 'Mr. Vinh', 'https://www.facebook.com/nguyenvan.laptrinh', 'https://twitter.com/', 'https://plus.google.com/u/0/?hl=vi', 'https://www.youtube.com/watch?v=kAcV7S3sySU', 'http://flickr.com', 'http://daidung.vn/', 'Mipec cung cấp thực phẩm sạch, an toàn, đảm bảo chất lượng hàng đầu. Xóa đi nỗi lo về an toàn thực phẩm', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3871.605543764119!2d108.07355431421081!3d13.982069195684272!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDU4JzU1LjQiTiAxMDjCsDA0JzMyLjciRQ!5e0!3m2!1svi!2s!4v1508913801584', 1, 1, '2017-11-10 19:46:32', '2017-11-11 10:28:50');
 
 -- --------------------------------------------------------
 

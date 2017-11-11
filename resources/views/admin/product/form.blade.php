@@ -28,6 +28,18 @@ if(count($arrRowData > 0)){
     }        
 }   
 $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_hidden" value="'.@$strImage.'" />';
+$strTr="";
+if(count($arrRowData) > 0){
+    $arrProductChildImage=json_decode(@$arrRowData['child_image']);
+    if(count($arrProductChildImage) > 0){
+        foreach ($arrProductChildImage as $key => $value) {
+            $strTr .= '<tr>';
+            $strTr .= '<td align="center" valign="middle"><img src="'.$strImage.$value.'" style="width:100%" /><input type="hidden" name="product_child_image_hidden[]" value="'.$value.'" /></td>';      
+            $strTr .= '<td align="center" valign="middle" class="tdcmd"><a href="javascript:void(0)"  onclick="removeRow(this);"><img src="'.url("/public/admin/images/delete.png").'" /></a></td>';
+            $strTr .='</tr>';
+        }
+    }
+}   
 ?>
 <div class="portlet light bordered">
     <div class="portlet-title">
@@ -93,6 +105,21 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
                         <div class="col-md-9">
                             <input type="file" id="image" name="image"  />   
                             <div id="picture-area"><?php echo $picture; ?>                      </div>
+                            <table class="table-image" id="table-image" border="0" cellpadding="0" cellspacing="0" border="1">
+                                <thead>
+                                    <tr>                                    
+                                        <th>File</th>                                  
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php echo $strTr; ?>
+                                    <tr>                                    
+                                        <td align="center" valign="middle"><input type="file" name="product_child_image[]"></td>
+                                        <td align="center" valign="middle" class="tdcmd"><a href="javascript:void(0)"  onclick="addRow(this);"><img  src=" <?php echo url("/public/admin/images/add.png"); ?>" /></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>    
                         </div>
                     </div>     
                 </div>       
@@ -143,9 +170,9 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
         $(status).closest('.form-group').find('span').empty().hide();        
     }
 
-    function uploadFileImport(){    
+    function uploadFileImport(ctrl_image){    
         var token = $('input[name="_token"]').val();       
-        var image=$("#image");        
+        var image=ctrl_image;        
         var file_upload=$(image).get(0);
         var files = file_upload.files;
         var file  = files[0];    
@@ -199,8 +226,19 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
         var alias=$("#alias").val();
         var category_product_id=$("#category_product_id").val();
         var image = $("#image").val();
-        if (image != '')
+        if (image != ''){
             image = image.substr(image.lastIndexOf('\\') + 1);       
+        }
+        var product_child_image=$("#table-image > tbody").find("input[type='file']");
+        var child_image_encode='';
+        if(product_child_image.length > 0){
+            var arr_child_image=new Array(product_child_image.length);
+            for(var i=0;i<product_child_image.length;i++){
+                var str_img=$(product_child_image[i]).val();
+                str_img = str_img.substr(str_img.lastIndexOf('\\') + 1);       
+                arr_child_image[i]=str_img;
+            }                        
+        }    
         var image_hidden=$("#image_hidden").val(); 
         var status=$("#status").val();     
         var price=$("#price").val();
@@ -230,8 +268,13 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
             async: false,
             success: function (data) {
                 if(data.checked==true){
-                    uploadFileImport();
-                    window.location.href = "<?php echo $linkCancel; ?>";
+                    uploadFileImport($("#image"));                    
+                    if(product_child_image.length > 0){
+                        for(var i=0;i<product_child_image.length;i++){
+                            uploadFileImport(product_child_image[i]);
+                        }
+                    }                    
+                    //window.location.href = "<?php echo $linkCancel; ?>";
                 }else{
                     var data_error=data.error;
                     if(typeof data_error.code               != "undefined"){
@@ -271,5 +314,48 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
             },
         });
     }
+    function addRow(control) {
+
+            var tbody=jQuery(control).closest("tbody")[0];
+
+            var currRow = tbody.rows[tbody.rows.length - 1];
+
+            var cloneRow = currRow.cloneNode(true);
+
+            tbody.appendChild(cloneRow);
+
+            reIndex();
+
+        }
+
+        function removeRow(control) {
+
+            var tbody=jQuery(control).closest("tbody")[0];
+
+            var tr=jQuery(control).closest("tr")[0];
+
+            var index = jQuery(tr).index();         
+
+            tbody.deleteRow(index);
+
+            reIndex();
+
+        }
+
+        function reIndex() {            
+
+            var tbody=jQuery(".table-image > tbody")[0];
+
+            var tdcmd = jQuery(tbody).find("td.tdcmd");                    
+
+            for (var i = 0; i < tdcmd.length - 1; i++) {                
+
+               jQuery(tdcmd[i]).html('<a href="javascript:void(0)"  onclick="removeRow(this);"><img  src="<?php echo url("/public/admin/images/delete-icon.png"); ?>" /></a>');
+
+            }
+
+            jQuery(tdcmd[tdcmd.length - 1]).html('<a href="javascript:void(0)"  onclick="addRow(this);"><img  src="<?php echo url("/public/admin/images/add.png"); ?>" /></a>');
+
+        }
 </script>
 @endsection()            
