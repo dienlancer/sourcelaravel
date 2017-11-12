@@ -138,7 +138,7 @@ License: You must have a valid license purchased only from themeforest(the above
                 <div class="page-header-inner ">
                     <!-- BEGIN LOGO -->
                     <div class="page-logo">
-                        <a href="index.html">
+                        <a href="<?php echo route('admin.category-article.getList'); ?>">
                             <img src="{{asset('public/admin/assets/layouts/layout/img/logo.png')}}" alt="logo" class="logo-default" /> </a>
                         <div class="menu-toggler sidebar-toggler">
                             <span></span>
