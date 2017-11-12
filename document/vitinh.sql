@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 12, 2017 lúc 05:33 AM
+-- Thời gian đã tạo: Th10 12, 2017 lúc 03:34 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -476,12 +476,24 @@ DROP TABLE IF EXISTS `activations`;
 CREATE TABLE `activations` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
-  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `completed` tinyint(1) NOT NULL DEFAULT '0',
   `completed_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `activations`
+--
+
+INSERT INTO `activations` (`id`, `user_id`, `code`, `completed`, `completed_at`, `created_at`, `updated_at`) VALUES
+(1, 1, 'ilPOiDhmKqsxtUpi7ZgWe5vDYjt2ICJK', 1, '2017-11-12 06:15:56', '2017-11-12 06:15:55', '2017-11-12 06:15:56'),
+(2, 1, 'rcp04qHne8oATtrTCwKl9FuckJEarSCb', 1, '2017-11-12 06:20:02', '2017-11-12 06:20:02', '2017-11-12 06:20:02'),
+(3, 1, 'AHbwHv4BMq4Z5b7nkdvOlvcOvXnPqMk0', 1, '2017-11-12 06:24:14', '2017-11-12 06:24:14', '2017-11-12 06:24:14'),
+(4, 1, 'JqmoT6nwuNXt0D5jape2qCQsEVQgWEqA', 1, '2017-11-12 06:26:26', '2017-11-12 06:26:26', '2017-11-12 06:26:26'),
+(5, 1, '1TnyfEnFLs7gdNZXKP2r35tc1hBvcnPg', 1, '2017-11-12 07:22:52', '2017-11-12 07:22:52', '2017-11-12 07:22:52'),
+(6, 1, 'QlzbRQWzVJgg01NkGUVewoQhT4qPKTMZ', 1, '2017-11-12 07:23:56', '2017-11-12 07:23:56', '2017-11-12 07:23:56');
 
 -- --------------------------------------------------------
 
@@ -852,20 +864,18 @@ INSERT INTO `menu_type` (`id`, `fullname`, `sort_order`, `created_at`, `updated_
 
 DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE `migrations` (
-  `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `migrations`
 --
 
-INSERT INTO `migrations` (`migration`, `batch`) VALUES
-('2014_10_12_000000_create_users_table', 1),
-('2014_10_12_100000_create_password_resets_table', 1),
-('2016_12_08_040743_create_cates_table', 1),
-('2016_12_08_041407_create_products_table', 2),
-('2016_12_08_042123_create_product_images_table', 3);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '2014_07_02_230147_migration_cartalyst_sentinel', 1),
+(2, '2014_10_12_100000_create_password_resets_table', 1);
 
 -- --------------------------------------------------------
 
@@ -978,10 +988,10 @@ INSERT INTO `mod_menu_type` (`id`, `menu_id`, `module_id`, `module_type`, `creat
 
 DROP TABLE IF EXISTS `password_resets`;
 CREATE TABLE `password_resets` (
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1009,6 +1019,28 @@ INSERT INTO `payment_method` (`id`, `fullname`, `alias`, `content`, `sort_order`
 (1, 'Chuyển khoản bằng tiền mặt', 'chuyen-khoan-bang-tien-mat', '<p style=\"text-align:justify\">Cờ vua Việt Nam từng sở hữu nhiều kỳ thủ v&ocirc; địch thế giới c&aacute;c cấp độ trẻ. Ti&ecirc;n phong l&agrave; Đ&agrave;o Thi&ecirc;n Hải &ndash; người thầy hiện tại của Anh Kh&ocirc;i. Thi&ecirc;n Hải học đ&aacute;nh cờ khi mới năm tuổi, sớm bộc lộ năng khiếu v&agrave; được dạy dỗ bởi &ocirc;ng Đặng Tất Thắng - từng c&oacute; c&ocirc;ng mang cờ vua về Việt Nam.</p>', 1, 1, '2017-11-10 18:10:47', '2017-11-11 19:33:27'),
 (2, 'Chuyển khoản qua ngân hàng', 'chuyen-khoan-qua-ngan-hang', '<p style=\"text-align:justify\">Nhưng trong nh&oacute;m n&agrave;y chỉ c&oacute; Quang Li&ecirc;m đang tiến dần đến nh&oacute;m kỳ thủ h&agrave;ng đầu thế giới. Với Elo 2737 v&agrave; thứ 24 thế giới, kỳ thủ sinh năm 1991 trở th&agrave;nh niềm tự h&agrave;o l&agrave;ng cờ Việt. Quang Li&ecirc;m từng v&ocirc; địch cờ chớp thế giới, c&ugrave;ng những giải mở uy t&iacute;n như Aeroflot, SPICE Cup v&agrave; HDBank Cup&ndash; giải cờ quốc tế của Việt Nam. B&ecirc;n cạnh những yếu tố nội lực, si&ecirc;u đại kiện tướng duy nhất của Đ&ocirc;ng Nam &Aacute; tiến xa hơn cả nhờ được đầu tư, tập luyện c&ugrave;ng chuy&ecirc;n gia ngoại. Alexander Khalifman - thầy của Quang Li&ecirc;m, từng v&ocirc; địch thế giới do FIDE tổ chức.</p>', 2, 1, '2017-11-11 19:34:03', '2017-11-11 19:34:03'),
 (3, 'Thanh toán qua paypal', 'paypal', '<p style=\"text-align:justify\">Gia đ&igrave;nh Anh Kh&ocirc;i cũng sẵn s&agrave;ng theo bước kỳ thủ sinh năm 2002, ở cả kh&iacute;a cạnh tinh thần v&agrave; t&agrave;i ch&iacute;nh. &ldquo;Mỗi c&acirc;y mỗi hoa, mỗi nh&agrave; mỗi cảnh. Kh&ocirc;ng phải gia đ&igrave;nh n&agrave;o cũng c&oacute; điều kiện giống nhau. Nhưng nếu Anh Kh&ocirc;i thực sự c&oacute; đam m&ecirc; v&agrave; quyết t&acirc;m, gia đ&igrave;nh sẽ quyết t&acirc;m hỗ trợ con&rdquo;, mẹ Anh Kh&ocirc;i chia sẻ</p>', 3, 1, '2017-11-11 19:44:25', '2017-11-11 19:44:25');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `persistences`
+--
+
+DROP TABLE IF EXISTS `persistences`;
+CREATE TABLE `persistences` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `persistences`
+--
+
+INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`) VALUES
+(1, 1, '9VsBZz8qpNNhbPpD3gbM8q1cbj9B4Y8F', '2017-11-12 06:45:10', '2017-11-12 06:45:10');
 
 -- --------------------------------------------------------
 
@@ -1221,6 +1253,53 @@ INSERT INTO `product_category` (`id`, `product_id`, `category_product_id`, `crea
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `reminders`
+--
+
+DROP TABLE IF EXISTS `reminders`;
+CREATE TABLE `reminders` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `completed` tinyint(1) NOT NULL DEFAULT '0',
+  `completed_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE `roles` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `permissions` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `role_users`
+--
+
+DROP TABLE IF EXISTS `role_users`;
+CREATE TABLE `role_users` (
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `role_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `setting_system`
 --
 
@@ -1277,30 +1356,63 @@ INSERT INTO `setting_system` (`id`, `fullname`, `alias`, `article_perpage`, `art
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `throttle`
+--
+
+DROP TABLE IF EXISTS `throttle`;
+CREATE TABLE `throttle` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED DEFAULT NULL,
+  `type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ip` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `throttle`
+--
+
+INSERT INTO `throttle` (`id`, `user_id`, `type`, `ip`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'global', NULL, '2017-11-12 07:00:10', '2017-11-12 07:00:10'),
+(2, NULL, 'ip', '127.0.0.1', '2017-11-12 07:00:10', '2017-11-12 07:00:10'),
+(3, NULL, 'global', NULL, '2017-11-12 07:00:22', '2017-11-12 07:00:22'),
+(4, NULL, 'ip', '127.0.0.1', '2017-11-12 07:00:22', '2017-11-12 07:00:22'),
+(5, NULL, 'global', NULL, '2017-11-12 07:00:36', '2017-11-12 07:00:36'),
+(6, NULL, 'ip', '127.0.0.1', '2017-11-12 07:00:36', '2017-11-12 07:00:36'),
+(7, NULL, 'global', NULL, '2017-11-12 07:05:02', '2017-11-12 07:05:02'),
+(8, NULL, 'ip', '127.0.0.1', '2017-11-12 07:05:02', '2017-11-12 07:05:02'),
+(9, NULL, 'global', NULL, '2017-11-12 07:30:11', '2017-11-12 07:30:11'),
+(10, NULL, 'ip', '127.0.0.1', '2017-11-12 07:30:11', '2017-11-12 07:30:11'),
+(11, NULL, 'global', NULL, '2017-11-12 07:32:49', '2017-11-12 07:32:49'),
+(12, NULL, 'ip', '127.0.0.1', '2017-11-12 07:32:49', '2017-11-12 07:32:49');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `users`
 --
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
-  `username` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `password` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `level` tinyint(4) DEFAULT NULL,
-  `fullname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `group_member_id` int(11) DEFAULT NULL,
-  `sort_order` int(11) DEFAULT NULL,
-  `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `username` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `permissions` text COLLATE utf8mb4_unicode_ci,
+  `last_login` timestamp NULL DEFAULT NULL,
+  `first_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `level`, `fullname`, `group_member_id`, `sort_order`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'diennk@ttcgroup.vn', '$2y$10$xfil5kHAEGUV8tjlm00VCefPt0GygTJfGkg0fgACDEsmtwQEaMN3y', 1, 'Nguyễn Kim Điền', 4, 1, 'v1s3qvm4jQ1L5hnG9rXgEo8zIla62Qs4EgSYWDzCKBuCUXDeGbaIPh3P5Psk', '2016-12-15 19:15:48', '2017-11-11 12:35:41');
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `permissions`, `last_login`, `first_name`, `last_name`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'diennk@ttcgroup.vn', '$2y$10$tkcGVHhBGBxIPW03MJVEg.tV87DWn3JvIDYJuM93NQhteSLaGHVOa', NULL, NULL, 'Nguyễn', 'Kim Điền', '2017-11-12 07:23:56', '2017-11-12 07:23:56');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -1391,6 +1503,12 @@ ALTER TABLE `menu_type`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Chỉ mục cho bảng `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Chỉ mục cho bảng `module_article`
 --
 ALTER TABLE `module_article`
@@ -1415,17 +1533,17 @@ ALTER TABLE `mod_menu_type`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `password_resets`
---
-ALTER TABLE `password_resets`
-  ADD KEY `password_resets_email_index` (`email`),
-  ADD KEY `password_resets_token_index` (`token`);
-
---
 -- Chỉ mục cho bảng `payment_method`
 --
 ALTER TABLE `payment_method`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `persistences`
+--
+ALTER TABLE `persistences`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `persistences_code_unique` (`code`);
 
 --
 -- Chỉ mục cho bảng `photo`
@@ -1452,16 +1570,44 @@ ALTER TABLE `product_category`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Chỉ mục cho bảng `reminders`
+--
+ALTER TABLE `reminders`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `roles_slug_unique` (`slug`);
+
+--
+-- Chỉ mục cho bảng `role_users`
+--
+ALTER TABLE `role_users`
+  ADD PRIMARY KEY (`user_id`,`role_id`);
+
+--
 -- Chỉ mục cho bảng `setting_system`
 --
 ALTER TABLE `setting_system`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Chỉ mục cho bảng `throttle`
+--
+ALTER TABLE `throttle`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `throttle_user_id_index` (`user_id`);
+
+--
 -- Chỉ mục cho bảng `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `users_email_unique` (`email`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- AUTO_INCREMENT cho các bảng đã đổ
@@ -1471,7 +1617,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `activations`
 --
 ALTER TABLE `activations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT cho bảng `album`
 --
@@ -1538,6 +1684,11 @@ ALTER TABLE `menu`
 ALTER TABLE `menu_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
+-- AUTO_INCREMENT cho bảng `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT cho bảng `module_article`
 --
 ALTER TABLE `module_article`
@@ -1563,6 +1714,11 @@ ALTER TABLE `mod_menu_type`
 ALTER TABLE `payment_method`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
+-- AUTO_INCREMENT cho bảng `persistences`
+--
+ALTER TABLE `persistences`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT cho bảng `photo`
 --
 ALTER TABLE `photo`
@@ -1583,10 +1739,25 @@ ALTER TABLE `product`
 ALTER TABLE `product_category`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
+-- AUTO_INCREMENT cho bảng `reminders`
+--
+ALTER TABLE `reminders`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT cho bảng `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT cho bảng `setting_system`
 --
 ALTER TABLE `setting_system`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT cho bảng `throttle`
+--
+ALTER TABLE `throttle`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT cho bảng `users`
 --
