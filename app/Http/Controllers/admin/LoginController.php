@@ -9,8 +9,16 @@ class LoginController extends Controller
     public function login(){
     	return view('admin.login');
     }
-    public function postLogin(Request $request){
+    public function postLogin(Request $request){    	
     	Sentinel::authenticate($request->all());
-    	echo "<pre>".print_r(Sentinel::check(),true)."</pre>";
+    	if(Sentinel::check()){
+    		return redirect()->route('admin.category-article.getList');
+    	} else{
+    		return redirect()->route('admin.login');	
+    	}    	
+    }
+    public function logout(){
+    	Sentinel::logout();
+    	return redirect()->route('admin.login');
     }
 }

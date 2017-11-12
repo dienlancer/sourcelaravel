@@ -44,3 +44,20 @@ a.jgrid:hover {	text-decoration: none;}
 	border-right: 1px solid #dddddd;
 	border-bottom: 1px solid #dddddd;
 }
+.page-header.navbar .top-menu .navbar-nav>li.dropdown-user .dropdown-menu>li>form>a {
+    font-size: 14px;
+    font-weight: 300;
+}
+.page-header.navbar .top-menu .navbar-nav>li.dropdown .dropdown-menu>li>form>a {
+    color: #555;
+}
+.dropdown-menu>li>form>a {
+    padding: 8px 16px;
+    color: #6f6f6f;
+    text-decoration: none;
+    display: block;
+    clear: both;
+    font-weight: 300;
+    line-height: 18px;
+    white-space: nowrap;
+}

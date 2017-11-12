@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 12, 2017 lúc 03:34 PM
+-- Thời gian đã tạo: Th10 12, 2017 lúc 04:49 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -600,7 +600,7 @@ CREATE TABLE `banner` (
 --
 
 INSERT INTO `banner` (`id`, `fullname`, `alias`, `image`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Banner1', 'banner-1', 'slideshow-1.jpg', 1, 1, '2017-11-10 19:20:58', '2017-11-10 19:29:11');
+(1, 'Banner1', 'banner-1', 'slideshow-1.jpg', 1, 1, '2017-11-10 19:20:58', '2017-11-12 14:44:50');
 
 -- --------------------------------------------------------
 
@@ -1040,7 +1040,10 @@ CREATE TABLE `persistences` (
 --
 
 INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`) VALUES
-(1, 1, '9VsBZz8qpNNhbPpD3gbM8q1cbj9B4Y8F', '2017-11-12 06:45:10', '2017-11-12 06:45:10');
+(6, 1, 'WphP2gHqBbRpGKp2WcZb6APTYCNo1onf', '2017-11-12 08:12:08', '2017-11-12 08:12:08'),
+(12, 1, 'HMMWMPpBDgdUbv54tKOldPvWyvcaeDCp', '2017-11-12 08:20:55', '2017-11-12 08:20:55'),
+(20, 1, 'F4bWDfEvllT0fTv4EzWDp3NWpLxGo4n5', '2017-11-12 08:44:06', '2017-11-12 08:44:06'),
+(23, 1, '9BeX7AZESpkzzNw83tmtVR2AJfP1SSoc', '2017-11-12 08:48:31', '2017-11-12 08:48:31');
 
 -- --------------------------------------------------------
 
@@ -1385,7 +1388,29 @@ INSERT INTO `throttle` (`id`, `user_id`, `type`, `ip`, `created_at`, `updated_at
 (9, NULL, 'global', NULL, '2017-11-12 07:30:11', '2017-11-12 07:30:11'),
 (10, NULL, 'ip', '127.0.0.1', '2017-11-12 07:30:11', '2017-11-12 07:30:11'),
 (11, NULL, 'global', NULL, '2017-11-12 07:32:49', '2017-11-12 07:32:49'),
-(12, NULL, 'ip', '127.0.0.1', '2017-11-12 07:32:49', '2017-11-12 07:32:49');
+(12, NULL, 'ip', '127.0.0.1', '2017-11-12 07:32:49', '2017-11-12 07:32:49'),
+(13, NULL, 'global', NULL, '2017-11-12 07:39:23', '2017-11-12 07:39:23'),
+(14, NULL, 'ip', '127.0.0.1', '2017-11-12 07:39:23', '2017-11-12 07:39:23'),
+(15, NULL, 'global', NULL, '2017-11-12 07:55:42', '2017-11-12 07:55:42'),
+(16, NULL, 'ip', '127.0.0.1', '2017-11-12 07:55:42', '2017-11-12 07:55:42'),
+(17, NULL, 'global', NULL, '2017-11-12 07:59:33', '2017-11-12 07:59:33'),
+(18, NULL, 'ip', '127.0.0.1', '2017-11-12 07:59:33', '2017-11-12 07:59:33'),
+(19, NULL, 'global', NULL, '2017-11-12 08:01:13', '2017-11-12 08:01:13'),
+(20, NULL, 'ip', '127.0.0.1', '2017-11-12 08:01:13', '2017-11-12 08:01:13'),
+(21, NULL, 'global', NULL, '2017-11-12 08:01:34', '2017-11-12 08:01:34'),
+(22, NULL, 'ip', '127.0.0.1', '2017-11-12 08:01:34', '2017-11-12 08:01:34'),
+(23, NULL, 'global', NULL, '2017-11-12 08:01:41', '2017-11-12 08:01:41'),
+(24, NULL, 'ip', '127.0.0.1', '2017-11-12 08:01:41', '2017-11-12 08:01:41'),
+(25, NULL, 'global', NULL, '2017-11-12 08:02:05', '2017-11-12 08:02:05'),
+(26, NULL, 'ip', '127.0.0.1', '2017-11-12 08:02:05', '2017-11-12 08:02:05'),
+(27, NULL, 'global', NULL, '2017-11-12 08:12:23', '2017-11-12 08:12:23'),
+(28, NULL, 'ip', '127.0.0.1', '2017-11-12 08:12:23', '2017-11-12 08:12:23'),
+(29, NULL, 'global', NULL, '2017-11-12 08:18:51', '2017-11-12 08:18:51'),
+(30, NULL, 'ip', '127.0.0.1', '2017-11-12 08:18:51', '2017-11-12 08:18:51'),
+(31, NULL, 'global', NULL, '2017-11-12 08:19:22', '2017-11-12 08:19:22'),
+(32, NULL, 'ip', '127.0.0.1', '2017-11-12 08:19:22', '2017-11-12 08:19:22'),
+(33, NULL, 'global', NULL, '2017-11-12 08:34:38', '2017-11-12 08:34:38'),
+(34, NULL, 'ip', '127.0.0.1', '2017-11-12 08:34:38', '2017-11-12 08:34:38');
 
 -- --------------------------------------------------------
 
@@ -1412,7 +1437,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `permissions`, `last_login`, `first_name`, `last_name`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'diennk@ttcgroup.vn', '$2y$10$tkcGVHhBGBxIPW03MJVEg.tV87DWn3JvIDYJuM93NQhteSLaGHVOa', NULL, NULL, 'Nguyễn', 'Kim Điền', '2017-11-12 07:23:56', '2017-11-12 07:23:56');
+(1, 'admin', 'diennk@ttcgroup.vn', '$2y$10$tkcGVHhBGBxIPW03MJVEg.tV87DWn3JvIDYJuM93NQhteSLaGHVOa', NULL, '2017-11-12 08:48:31', 'Nguyễn', 'Kim Điền', '2017-11-12 07:23:56', '2017-11-12 08:48:31');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -1717,7 +1742,7 @@ ALTER TABLE `payment_method`
 -- AUTO_INCREMENT cho bảng `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT cho bảng `photo`
 --
@@ -1757,7 +1782,7 @@ ALTER TABLE `setting_system`
 -- AUTO_INCREMENT cho bảng `throttle`
 --
 ALTER TABLE `throttle`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 --
 -- AUTO_INCREMENT cho bảng `users`
 --

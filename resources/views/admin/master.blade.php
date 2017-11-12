@@ -447,7 +447,9 @@ License: You must have a valid license purchased only from themeforest(the above
                             <li class="dropdown dropdown-user">
                                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                     <img alt="" class="img-circle" src="{{url('public/admin/assets/layouts/layout/img/avatar3_small.jpg')}}" />
-                                    <span class="username username-hide-on-mobile"> Nick </span>
+                                    <span class="username username-hide-on-mobile">                                         
+                                        <?php echo Sentinel::getUser()->username; ?>
+                                    </span>
                                     <i class="fa fa-angle-down"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-default">
@@ -477,8 +479,12 @@ License: You must have a valid license purchased only from themeforest(the above
                                             <i class="icon-lock"></i> Lock Screen </a>
                                     </li>
                                     <li>
-                                        <a href="page_user_login_1.html">
-                                            <i class="icon-key"></i> Log Out </a>
+                                        <form action="{{ route('admin.logout') }}" method="POST" id="logout-form-2">
+                                            {{ csrf_field() }}
+                                            <a href="javascript:void(0);" onclick="document.getElementById('logout-form-2').submit();" >
+                                                <i class="icon-key"></i> Log Out
+                                            </a>
+                                        </form>                                        
                                     </li>
                                 </ul>
                             </li>
@@ -486,9 +492,12 @@ License: You must have a valid license purchased only from themeforest(the above
                             <!-- BEGIN QUICK SIDEBAR TOGGLER -->
                             <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
                             <li class="dropdown dropdown-quick-sidebar-toggler">
-                                <a href="javascript:;" class="dropdown-toggle">
-                                    <i class="icon-logout"></i>
-                                </a>
+                                <form action="{{ route('admin.logout') }}" method="POST" id="logout-form">
+                                    {{ csrf_field() }}
+                                    <a href="javascript:void(0);" onclick="document.getElementById('logout-form').submit();" class="dropdown-toggle">
+                                        <i class="icon-logout"></i>
+                                    </a>
+                                </form>                                
                             </li>
                             <!-- END QUICK SIDEBAR TOGGLER -->
                         </ul>

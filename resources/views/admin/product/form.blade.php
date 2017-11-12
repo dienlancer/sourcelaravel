@@ -4,7 +4,6 @@
 $linkCancel             =   route('admin.'.$controller.'.getList');
 $linkSave               =   route('admin.'.$controller.'.save');
 $linkUploadFile         =   route('admin.'.$controller.'.uploadFile');
-$linkDeleteImage        =   route('admin.'.$controller.'.deleteImage');
 $inputCode              =   '<input type="text" class="form-control" name="code"   id="code"       value="'.@$arrRowData['code'].'">'; 
 $inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"       value="'.@$arrRowData['fullname'].'">';
 $inputAlias             =   '<input type="text" class="form-control" name="alias"      id="alias"          value="'.@$arrRowData['alias'].'">'; 

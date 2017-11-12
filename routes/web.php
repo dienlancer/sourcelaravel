@@ -1,12 +1,11 @@
 <?php
-Route::group(["prefix"=>"admin"],function(){	
+Route::group(["prefix"=>"admin","middleware"=>"TestLogin"],function(){	
 	Route::group(["prefix"=>"category-product"],function(){		
 		Route::get("list",["as"=>"admin.category-product.getList","uses"=>"admin\CategoryProductController@getList"]);
 		Route::post("load-data",["as"=>"admin.category-product.loadData","uses"=>"admin\CategoryProductController@loadData"]);		
 		Route::get("form/{task}/{id?}",["as"=>"admin.category-product.getForm","uses"=>"admin\CategoryProductController@getForm"]);
 		Route::post("save",["as"=>"admin.category-product.save","uses"=>"admin\CategoryProductController@save"]);
-		Route::post("delete-item",["as"=>"admin.category-product.deleteItem","uses"=>"admin\CategoryProductController@deleteItem"]);
-		Route::post("delete-image",["as"=>"admin.category-product.deleteImage","uses"=>"admin\CategoryProductController@deleteImage"]);
+		Route::post("delete-item",["as"=>"admin.category-product.deleteItem","uses"=>"admin\CategoryProductController@deleteItem"]);		
 		Route::post("sort-order",["as"=>"admin.category-product.sortOrder","uses"=>"admin\CategoryProductController@sortOrder"]);
 		Route::post("update-status",["as"=>"admin.category-product.updateStatus","uses"=>"admin\CategoryProductController@updateStatus"]);
 		Route::post("change-status",["as"=>"admin.category-product.changeStatus","uses"=>"admin\CategoryProductController@changeStatus"]);
@@ -18,8 +17,7 @@ Route::group(["prefix"=>"admin"],function(){
 		Route::post("load-data",["as"=>"admin.banner.loadData","uses"=>"admin\BannerController@loadData"]);		
 		Route::get("form/{task}/{id?}",["as"=>"admin.banner.getForm","uses"=>"admin\BannerController@getForm"]);
 		Route::post("save",["as"=>"admin.banner.save","uses"=>"admin\BannerController@save"]);
-		Route::post("delete-item",["as"=>"admin.banner.deleteItem","uses"=>"admin\BannerController@deleteItem"]);
-		Route::post("delete-image",["as"=>"admin.banner.deleteImage","uses"=>"admin\BannerController@deleteImage"]);
+		Route::post("delete-item",["as"=>"admin.banner.deleteItem","uses"=>"admin\BannerController@deleteItem"]);		
 		Route::post("sort-order",["as"=>"admin.banner.sortOrder","uses"=>"admin\BannerController@sortOrder"]);
 		Route::post("update-status",["as"=>"admin.banner.updateStatus","uses"=>"admin\BannerController@updateStatus"]);
 		Route::post("change-status",["as"=>"admin.banner.changeStatus","uses"=>"admin\BannerController@changeStatus"]);
@@ -53,8 +51,7 @@ Route::group(["prefix"=>"admin"],function(){
 		Route::post("load-data",["as"=>"admin.product.loadData","uses"=>"admin\ProductController@loadData"]);		
 		Route::get("form/{task}/{id?}",["as"=>"admin.product.getForm","uses"=>"admin\ProductController@getForm"]);
 		Route::post("save",["as"=>"admin.product.save","uses"=>"admin\ProductController@save"]);
-		Route::post("delete-item",["as"=>"admin.product.deleteItem","uses"=>"admin\ProductController@deleteItem"]);
-		Route::post("delete-image",["as"=>"admin.product.deleteImage","uses"=>"admin\ProductController@deleteImage"]);
+		Route::post("delete-item",["as"=>"admin.product.deleteItem","uses"=>"admin\ProductController@deleteItem"]);		
 		Route::post("sort-order",["as"=>"admin.product.sortOrder","uses"=>"admin\ProductController@sortOrder"]);
 		Route::post("update-status",["as"=>"admin.product.updateStatus","uses"=>"admin\ProductController@updateStatus"]);
 		Route::post("change-status",["as"=>"admin.product.changeStatus","uses"=>"admin\ProductController@changeStatus"]);
@@ -118,8 +115,7 @@ Route::group(["prefix"=>"admin"],function(){
 		Route::post("load-data",["as"=>"admin.category-article.loadData","uses"=>"admin\CategoryArticleController@loadData"]);		
 		Route::get("form/{task}/{id?}",["as"=>"admin.category-article.getForm","uses"=>"admin\CategoryArticleController@getForm"]);
 		Route::post("save",["as"=>"admin.category-article.save","uses"=>"admin\CategoryArticleController@save"]);
-		Route::post("delete-item",["as"=>"admin.category-article.deleteItem","uses"=>"admin\CategoryArticleController@deleteItem"]);
-		Route::post("delete-image",["as"=>"admin.category-article.deleteImage","uses"=>"admin\CategoryArticleController@deleteImage"]);
+		Route::post("delete-item",["as"=>"admin.category-article.deleteItem","uses"=>"admin\CategoryArticleController@deleteItem"]);		
 		Route::post("sort-order",["as"=>"admin.category-article.sortOrder","uses"=>"admin\CategoryArticleController@sortOrder"]);
 		Route::post("update-status",["as"=>"admin.category-article.updateStatus","uses"=>"admin\CategoryArticleController@updateStatus"]);
 		Route::post("change-status",["as"=>"admin.category-article.changeStatus","uses"=>"admin\CategoryArticleController@changeStatus"]);
@@ -141,8 +137,7 @@ Route::group(["prefix"=>"admin"],function(){
 		Route::post("load-data",["as"=>"admin.article.loadData","uses"=>"admin\ArticleController@loadData"]);		
 		Route::get("form/{task}/{id?}",["as"=>"admin.article.getForm","uses"=>"admin\ArticleController@getForm"]);
 		Route::post("save",["as"=>"admin.article.save","uses"=>"admin\ArticleController@save"]);
-		Route::post("delete-item",["as"=>"admin.article.deleteItem","uses"=>"admin\ArticleController@deleteItem"]);
-		Route::post("delete-image",["as"=>"admin.article.deleteImage","uses"=>"admin\ArticleController@deleteImage"]);
+		Route::post("delete-item",["as"=>"admin.article.deleteItem","uses"=>"admin\ArticleController@deleteItem"]);		
 		Route::post("sort-order",["as"=>"admin.article.sortOrder","uses"=>"admin\ArticleController@sortOrder"]);
 		Route::post("update-status",["as"=>"admin.article.updateStatus","uses"=>"admin\ArticleController@updateStatus"]);
 		Route::post("change-status",["as"=>"admin.article.changeStatus","uses"=>"admin\ArticleController@changeStatus"]);
@@ -234,4 +229,5 @@ Route::get("admin/register",["as"=>"admin.register","uses"=>"admin\RegistrationC
 Route::post("admin/register",["as"=>"admin.postRegister","uses"=>"admin\RegistrationController@postRegister"]);
 Route::get("admin/login",["as"=>"admin.login","uses"=>"admin\LoginController@login"]);
 Route::post("admin/login",["as"=>"admin.postLogin","uses"=>"admin\LoginController@postLogin"]);
+Route::post("admin/logout",["as"=>"admin.logout","uses"=>"admin\LoginController@logout"]);
 ?>
