@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 12, 2017 lúc 08:27 PM
+-- Thời gian đã tạo: Th10 12, 2017 lúc 08:48 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -1054,7 +1054,8 @@ INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`)
 (68, 4, 'DsgzaC5yhMG3miJpNrQFeWCpBwqfsMuO', '2017-11-12 11:21:48', '2017-11-12 11:21:48'),
 (71, 4, 'aFa63uj6gzLcV0mZtU0nYvVinHZnvyAi', '2017-11-12 11:22:33', '2017-11-12 11:22:33'),
 (73, 4, 'P672dGDcBqxGazfRAzJtUxPwSjTq9N4K', '2017-11-12 11:22:59', '2017-11-12 11:22:59'),
-(74, 4, 'm0D8Z9mVczUYgqkSJXAwGQi8S9EaqrSg', '2017-11-12 11:23:03', '2017-11-12 11:23:03');
+(74, 4, 'm0D8Z9mVczUYgqkSJXAwGQi8S9EaqrSg', '2017-11-12 11:23:03', '2017-11-12 11:23:03'),
+(91, 1, '4o9WxHrdiSc4O7pqTSq0Rd62CKRdcIIy', '2017-11-12 12:44:55', '2017-11-12 12:44:55');
 
 -- --------------------------------------------------------
 
@@ -1458,7 +1459,13 @@ INSERT INTO `throttle` (`id`, `user_id`, `type`, `ip`, `created_at`, `updated_at
 (68, 4, 'user', NULL, '2017-11-12 11:19:22', '2017-11-12 11:19:22'),
 (69, NULL, 'global', NULL, '2017-11-12 12:21:15', '2017-11-12 12:21:15'),
 (70, NULL, 'ip', '127.0.0.1', '2017-11-12 12:21:15', '2017-11-12 12:21:15'),
-(71, 1, 'user', NULL, '2017-11-12 12:21:15', '2017-11-12 12:21:15');
+(71, 1, 'user', NULL, '2017-11-12 12:21:15', '2017-11-12 12:21:15'),
+(72, NULL, 'global', NULL, '2017-11-12 12:30:54', '2017-11-12 12:30:54'),
+(73, NULL, 'ip', '127.0.0.1', '2017-11-12 12:30:54', '2017-11-12 12:30:54'),
+(74, 1, 'user', NULL, '2017-11-12 12:30:54', '2017-11-12 12:30:54'),
+(75, NULL, 'global', NULL, '2017-11-12 12:31:09', '2017-11-12 12:31:09'),
+(76, NULL, 'ip', '127.0.0.1', '2017-11-12 12:31:09', '2017-11-12 12:31:09'),
+(77, 1, 'user', NULL, '2017-11-12 12:31:09', '2017-11-12 12:31:09');
 
 -- --------------------------------------------------------
 
@@ -1487,7 +1494,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `group_member_id`, `password`, `permissions`, `last_login`, `fullname`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'diennk@ttcgroup.vn', 1, '$2y$10$CrQWX6uardi3fpQ8IIGKcucTcxO6xSn9kFNVpxZ13p5wAGEQCnoEG', NULL, '2017-11-12 12:26:49', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-12 12:26:49'),
+(1, 'admin', 'diennk@dienkim.com', 1, '$2y$10$rpZe6oM3GUJmwL/ZMTKm/OSe24l9TJKFU9lwd8VmohkqH0Oax6rVK', NULL, '2017-11-12 12:44:55', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-12 12:44:55'),
 (4, 'trietnk', 'trietnk@dienkim.com', 1, '$2y$10$gYRDNe0sS5KlK14tGwzjd.IccKVZ7ea6bbdra6SZvqW/PEvvSB0Ra', NULL, '2017-11-12 11:23:16', 'Nguyễn Kim Triết', 2, 1, '2017-11-12 10:59:09', '2017-11-12 11:23:16');
 
 --
@@ -1793,7 +1800,7 @@ ALTER TABLE `payment_method`
 -- AUTO_INCREMENT cho bảng `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 --
 -- AUTO_INCREMENT cho bảng `photo`
 --
@@ -1833,7 +1840,7 @@ ALTER TABLE `setting_system`
 -- AUTO_INCREMENT cho bảng `throttle`
 --
 ALTER TABLE `throttle`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 --
 -- AUTO_INCREMENT cho bảng `users`
 --
