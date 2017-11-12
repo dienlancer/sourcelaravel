@@ -12,12 +12,18 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">Register</div>
 					<div class="panel-body">
-						<form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
+						<form class="form-horizontal" role="form" method="POST" action="">
 							{{ csrf_field() }}
 							<div class="form-group">
 								<label for="email" class="col-md-4 control-label">E-Mail Address</label>
 								<div class="col-md-6">
 									<input id="email" type="email" class="form-control" name="email" value="" />	
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="username" class="col-md-4 control-label">Username</label>
+								<div class="col-md-6">
+									<input id="username" type="text" class="form-control" name="username" value="" />	
 								</div>
 							</div>
 							<div class="form-group">
@@ -31,13 +37,7 @@
 								<div class="col-md-6">
 									<input id="last_name" type="text" class="form-control" name="last_name" value="" />	
 								</div>
-							</div>
-							<div class="form-group">
-								<label for="location" class="col-md-4 control-label">Location</label>
-								<div class="col-md-6">
-									<input id="location" type="text" class="form-control" name="location" value="" />	
-								</div>
-							</div>
+							</div>							
 							<div class="form-group">
 								<label for="password" class="col-md-4 control-label">Password</label>
 								<div class="col-md-6">
