@@ -49,15 +49,7 @@ class InvoiceController extends Controller {
         $mobilephone             =  trim($request->mobilephone);
         $fax                     =  trim($request->fax);
         $sort_order 			       =	trim($request->sort_order);
-        $status 				         =  trim($request->status);
-        /*echo "<pre>".print_r($id,true)."</pre>";
-        echo "<pre>".print_r($fullname,true)."</pre>";
-        echo "<pre>".print_r($address,true)."</pre>";
-        echo "<pre>".print_r($phone,true)."</pre>";
-        echo "<pre>".print_r($mobilephone,true)."</pre>";
-        echo "<pre>".print_r($fax,true)."</pre>";
-        echo "<pre>".print_r($sort_order,true)."</pre>";
-        echo "<pre>".print_r($status,true)."</pre>";die();*/
+        $status 				         =  trim($request->status);        
         $data 		               =  array();
         $info 		               =  array();
         $error 		               =  array();

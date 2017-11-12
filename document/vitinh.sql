@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 12, 2017 lúc 04:49 PM
+-- Thời gian đã tạo: Th10 12, 2017 lúc 08:27 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -449,7 +449,7 @@ SELECT
     ,n.username
     ,n.email
     ,n.password
-    ,n.level
+    ,n.status
     ,n.fullname
     ,n.group_member_id
     ,g.fullname as group_member_name
@@ -458,7 +458,7 @@ SELECT
     ,n.updated_at
     FROM 
     `users` n 
-    inner join group_member g on n.group_member_id = g.id
+    left join group_member g on n.group_member_id = g.id
     WHERE
     (keyword ='' OR LOWER(n.fullname) LIKE CONCAT('%', LOWER(keyword) ,'%'))    
     AND (group_member_id = 0 OR n.group_member_id = group_member_id)
@@ -493,7 +493,8 @@ INSERT INTO `activations` (`id`, `user_id`, `code`, `completed`, `completed_at`,
 (3, 1, 'AHbwHv4BMq4Z5b7nkdvOlvcOvXnPqMk0', 1, '2017-11-12 06:24:14', '2017-11-12 06:24:14', '2017-11-12 06:24:14'),
 (4, 1, 'JqmoT6nwuNXt0D5jape2qCQsEVQgWEqA', 1, '2017-11-12 06:26:26', '2017-11-12 06:26:26', '2017-11-12 06:26:26'),
 (5, 1, '1TnyfEnFLs7gdNZXKP2r35tc1hBvcnPg', 1, '2017-11-12 07:22:52', '2017-11-12 07:22:52', '2017-11-12 07:22:52'),
-(6, 1, 'QlzbRQWzVJgg01NkGUVewoQhT4qPKTMZ', 1, '2017-11-12 07:23:56', '2017-11-12 07:23:56', '2017-11-12 07:23:56');
+(6, 1, 'QlzbRQWzVJgg01NkGUVewoQhT4qPKTMZ', 1, '2017-11-12 07:23:56', '2017-11-12 07:23:56', '2017-11-12 07:23:56'),
+(8, 4, '3DIqppaoRZI0iaNdlvDo6id9OOnpOE45', 1, '2017-11-12 10:59:09', '2017-11-12 10:59:09', '2017-11-12 10:59:09');
 
 -- --------------------------------------------------------
 
@@ -628,7 +629,7 @@ CREATE TABLE `category_article` (
 INSERT INTO `category_article` (`id`, `fullname`, `alias`, `parent_id`, `image`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
 (55, 'Công nghệ Hifu', 'cong-nghe-hifu', 0, '', 8, 1, '2017-10-02 12:54:01', '2017-11-11 10:11:37'),
 (56, 'Trị mụn thâm da', 'tri-mun-tham-da', 0, '', 3, 1, '2017-10-02 12:54:23', '2017-11-11 10:10:54'),
-(57, 'Giảm cân', 'giam-can', 0, '', 2, 1, '2017-10-02 12:54:34', '2017-11-11 10:10:48'),
+(57, 'Giảm cân', 'giam-can', 0, '', 2, 1, '2017-10-02 12:54:34', '2017-11-12 19:18:34'),
 (58, 'Chăm sóc da mặt', 'cham-soc-da-mat', 0, '', 1, 1, '2017-10-02 12:54:56', '2017-11-11 18:53:56'),
 (59, 'Triệt lông', 'triet-long', 0, '', 7, 1, '2017-10-02 12:55:12', '2017-11-11 10:11:31'),
 (67, 'Phi kim siêu vi điểm', 'phi-kim-sieu-vi-diem', 0, '', 6, 1, '2017-10-02 17:22:48', '2017-11-11 10:11:26'),
@@ -1043,7 +1044,17 @@ INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`)
 (6, 1, 'WphP2gHqBbRpGKp2WcZb6APTYCNo1onf', '2017-11-12 08:12:08', '2017-11-12 08:12:08'),
 (12, 1, 'HMMWMPpBDgdUbv54tKOldPvWyvcaeDCp', '2017-11-12 08:20:55', '2017-11-12 08:20:55'),
 (20, 1, 'F4bWDfEvllT0fTv4EzWDp3NWpLxGo4n5', '2017-11-12 08:44:06', '2017-11-12 08:44:06'),
-(23, 1, '9BeX7AZESpkzzNw83tmtVR2AJfP1SSoc', '2017-11-12 08:48:31', '2017-11-12 08:48:31');
+(27, 1, 'f7VCzyYASPW5vTVgTfv3Ji50sxy2ckIt', '2017-11-12 10:14:09', '2017-11-12 10:14:09'),
+(35, 1, 'Zlbi5ja6c9Z7no06i5MvPsa8kZI3oLEZ', '2017-11-12 10:41:59', '2017-11-12 10:41:59'),
+(43, 3, 'ZsvbfzLh4A4k34VMpmZCqIO2KIDk9pzP', '2017-11-12 10:51:37', '2017-11-12 10:51:37'),
+(45, 3, '61CQHzrI8v42ppzJ35HclGUgzulYNwKD', '2017-11-12 10:51:57', '2017-11-12 10:51:57'),
+(48, 4, 'M1VbjAgWRrVuXhVCqqvWAQHP287e5fuk', '2017-11-12 11:00:38', '2017-11-12 11:00:38'),
+(52, 4, 'zWj9obfujhk7L1DEKOcSOMTi49HvkeVo', '2017-11-12 11:04:17', '2017-11-12 11:04:17'),
+(64, 4, 'sGcmm3lmMPLTUyFeagebRe9YiPjWxHn0', '2017-11-12 11:20:36', '2017-11-12 11:20:36'),
+(68, 4, 'DsgzaC5yhMG3miJpNrQFeWCpBwqfsMuO', '2017-11-12 11:21:48', '2017-11-12 11:21:48'),
+(71, 4, 'aFa63uj6gzLcV0mZtU0nYvVinHZnvyAi', '2017-11-12 11:22:33', '2017-11-12 11:22:33'),
+(73, 4, 'P672dGDcBqxGazfRAzJtUxPwSjTq9N4K', '2017-11-12 11:22:59', '2017-11-12 11:22:59'),
+(74, 4, 'm0D8Z9mVczUYgqkSJXAwGQi8S9EaqrSg', '2017-11-12 11:23:03', '2017-11-12 11:23:03');
 
 -- --------------------------------------------------------
 
@@ -1410,7 +1421,44 @@ INSERT INTO `throttle` (`id`, `user_id`, `type`, `ip`, `created_at`, `updated_at
 (31, NULL, 'global', NULL, '2017-11-12 08:19:22', '2017-11-12 08:19:22'),
 (32, NULL, 'ip', '127.0.0.1', '2017-11-12 08:19:22', '2017-11-12 08:19:22'),
 (33, NULL, 'global', NULL, '2017-11-12 08:34:38', '2017-11-12 08:34:38'),
-(34, NULL, 'ip', '127.0.0.1', '2017-11-12 08:34:38', '2017-11-12 08:34:38');
+(34, NULL, 'ip', '127.0.0.1', '2017-11-12 08:34:38', '2017-11-12 08:34:38'),
+(35, NULL, 'global', NULL, '2017-11-12 10:21:38', '2017-11-12 10:21:38'),
+(36, NULL, 'ip', '127.0.0.1', '2017-11-12 10:21:38', '2017-11-12 10:21:38'),
+(37, NULL, 'global', NULL, '2017-11-12 10:38:16', '2017-11-12 10:38:16'),
+(38, NULL, 'ip', '127.0.0.1', '2017-11-12 10:38:16', '2017-11-12 10:38:16'),
+(39, 1, 'user', NULL, '2017-11-12 10:38:16', '2017-11-12 10:38:16'),
+(40, NULL, 'global', NULL, '2017-11-12 10:39:37', '2017-11-12 10:39:37'),
+(41, NULL, 'ip', '127.0.0.1', '2017-11-12 10:39:37', '2017-11-12 10:39:37'),
+(42, 1, 'user', NULL, '2017-11-12 10:39:37', '2017-11-12 10:39:37'),
+(43, NULL, 'global', NULL, '2017-11-12 10:58:13', '2017-11-12 10:58:13'),
+(44, NULL, 'ip', '127.0.0.1', '2017-11-12 10:58:13', '2017-11-12 10:58:13'),
+(45, NULL, 'global', NULL, '2017-11-12 10:59:19', '2017-11-12 10:59:19'),
+(46, NULL, 'ip', '127.0.0.1', '2017-11-12 10:59:19', '2017-11-12 10:59:19'),
+(47, 4, 'user', NULL, '2017-11-12 10:59:19', '2017-11-12 10:59:19'),
+(48, NULL, 'global', NULL, '2017-11-12 11:00:10', '2017-11-12 11:00:10'),
+(49, NULL, 'ip', '127.0.0.1', '2017-11-12 11:00:10', '2017-11-12 11:00:10'),
+(50, 4, 'user', NULL, '2017-11-12 11:00:10', '2017-11-12 11:00:10'),
+(51, NULL, 'global', NULL, '2017-11-12 11:04:27', '2017-11-12 11:04:27'),
+(52, NULL, 'ip', '127.0.0.1', '2017-11-12 11:04:27', '2017-11-12 11:04:27'),
+(53, 4, 'user', NULL, '2017-11-12 11:04:27', '2017-11-12 11:04:27'),
+(54, NULL, 'global', NULL, '2017-11-12 11:05:04', '2017-11-12 11:05:04'),
+(55, NULL, 'ip', '127.0.0.1', '2017-11-12 11:05:04', '2017-11-12 11:05:04'),
+(56, 1, 'user', NULL, '2017-11-12 11:05:04', '2017-11-12 11:05:04'),
+(57, NULL, 'global', NULL, '2017-11-12 11:08:43', '2017-11-12 11:08:43'),
+(58, NULL, 'ip', '127.0.0.1', '2017-11-12 11:08:43', '2017-11-12 11:08:43'),
+(59, 1, 'user', NULL, '2017-11-12 11:08:43', '2017-11-12 11:08:43'),
+(60, NULL, 'global', NULL, '2017-11-12 11:14:37', '2017-11-12 11:14:37'),
+(61, NULL, 'ip', '127.0.0.1', '2017-11-12 11:14:37', '2017-11-12 11:14:37'),
+(62, 1, 'user', NULL, '2017-11-12 11:14:37', '2017-11-12 11:14:37'),
+(63, NULL, 'global', NULL, '2017-11-12 11:18:13', '2017-11-12 11:18:13'),
+(64, NULL, 'ip', '127.0.0.1', '2017-11-12 11:18:13', '2017-11-12 11:18:13'),
+(65, 4, 'user', NULL, '2017-11-12 11:18:13', '2017-11-12 11:18:13'),
+(66, NULL, 'global', NULL, '2017-11-12 11:19:22', '2017-11-12 11:19:22'),
+(67, NULL, 'ip', '127.0.0.1', '2017-11-12 11:19:22', '2017-11-12 11:19:22'),
+(68, 4, 'user', NULL, '2017-11-12 11:19:22', '2017-11-12 11:19:22'),
+(69, NULL, 'global', NULL, '2017-11-12 12:21:15', '2017-11-12 12:21:15'),
+(70, NULL, 'ip', '127.0.0.1', '2017-11-12 12:21:15', '2017-11-12 12:21:15'),
+(71, 1, 'user', NULL, '2017-11-12 12:21:15', '2017-11-12 12:21:15');
 
 -- --------------------------------------------------------
 
@@ -1423,11 +1471,13 @@ CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
   `username` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `group_member_id` int(11) DEFAULT NULL,
   `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `permissions` text COLLATE utf8mb4_unicode_ci,
   `last_login` timestamp NULL DEFAULT NULL,
-  `first_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `last_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fullname` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sort_order` int(11) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1436,8 +1486,9 @@ CREATE TABLE `users` (
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `permissions`, `last_login`, `first_name`, `last_name`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'diennk@ttcgroup.vn', '$2y$10$tkcGVHhBGBxIPW03MJVEg.tV87DWn3JvIDYJuM93NQhteSLaGHVOa', NULL, '2017-11-12 08:48:31', 'Nguyễn', 'Kim Điền', '2017-11-12 07:23:56', '2017-11-12 08:48:31');
+INSERT INTO `users` (`id`, `username`, `email`, `group_member_id`, `password`, `permissions`, `last_login`, `fullname`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'diennk@ttcgroup.vn', 1, '$2y$10$CrQWX6uardi3fpQ8IIGKcucTcxO6xSn9kFNVpxZ13p5wAGEQCnoEG', NULL, '2017-11-12 12:26:49', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-12 12:26:49'),
+(4, 'trietnk', 'trietnk@dienkim.com', 1, '$2y$10$gYRDNe0sS5KlK14tGwzjd.IccKVZ7ea6bbdra6SZvqW/PEvvSB0Ra', NULL, '2017-11-12 11:23:16', 'Nguyễn Kim Triết', 2, 1, '2017-11-12 10:59:09', '2017-11-12 11:23:16');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -1642,7 +1693,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `activations`
 --
 ALTER TABLE `activations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT cho bảng `album`
 --
@@ -1742,7 +1793,7 @@ ALTER TABLE `payment_method`
 -- AUTO_INCREMENT cho bảng `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 --
 -- AUTO_INCREMENT cho bảng `photo`
 --
@@ -1782,12 +1833,12 @@ ALTER TABLE `setting_system`
 -- AUTO_INCREMENT cho bảng `throttle`
 --
 ALTER TABLE `throttle`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 --
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;COMMIT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -7,6 +7,7 @@ use App\GroupMemberModel;
 use App\UserGroupModel;
 use DB;
 use Hash;
+use Sentinel;
 class UserController extends Controller {
   	var $_controller="user";	
   	var $_title="User";
@@ -58,7 +59,7 @@ class UserController extends Controller {
           $email 				        =		trim(@$request->email);
           $password             =   trim(@$request->password);
           $confirm_password     =   trim(@$request->confirm_password);
-          $status               =   trim(@$request->status);
+          $status               =   trim(@$request->status);          
           $fullname 					  = 	trim(@$request->fullname);    
           $group_member_id      =   trim(@$request->group_member_id);                      
           $sort_order           =   trim(@$request->sort_order);                          
@@ -150,30 +151,26 @@ class UserController extends Controller {
              $error["status"]["type_msg"] 		= "has-error";
              $error["status"]["msg"] 			= "Status is required";
           }
-          if ($checked == 1) {    
+          if ($checked == 1) {   
+
                 if(empty($id)){
-                    $item 				= 	new User;       
-                    $item->created_at 	=	date("Y-m-d H:i:s",time());                            
+                  $user=Sentinel::registerAndActivate($request->all());
                 } else{
-                    $item				=	User::find((int)@$id);                        		  		 	
-                }  
-                $item->username 		    =	$username;
-                $item->email            = $email;
-                if(!empty($password)){
-                  $item->password         = Hash::make(trim($password));
-                }                
-                $level                  = 0;
-                if(!empty($status)){
-                  $level                = (int)@$status;
-                }
-                $item->level            = $level;
-                $item->fullname         = $fullname;                
-                if(!empty($group_member_id)){
-                    $item->group_member_id            = (int)@$group_member_id;
-                }              
-                $item->sort_order 		  =	(int)@$sort_order;                
-                $item->updated_at 		  =	date("Y-m-d H:i:s",time());    	        	
-                $item->save();  	                
+                    $item				=	User::find((int)@$id);        
+                    $item->username         = $username;
+                    $item->email            = $email;
+                    if(!empty($password)){
+                      $item->password         = Hash::make(trim($password));
+                    }                                
+                    $item->status            = (int)$status;
+                    $item->fullname         = $fullname;                
+                    if(!empty($group_member_id)){
+                        $item->group_member_id            = (int)@$group_member_id;
+                    }              
+                    $item->sort_order       = (int)@$sort_order;                
+                    $item->updated_at       = date("Y-m-d H:i:s",time());               
+                    $item->save();                           		  		 	
+                }                  
                 $info = array(
                   'type_msg' 			=> "has-success",
                   'msg' 				=> 'Save data successfully',
@@ -199,7 +196,7 @@ class UserController extends Controller {
                   $msg                    =   "Update successfully";              
                   $status         =       (int)$request->status;
                   $item           =       User::find((int)@$id);        
-                  $item->level   =       (int)@$status;
+                  $item->status   =       (int)@$status;
                   $item->save();
                   $data                   =   $this->loadData($request);
                   $info = array(
@@ -217,8 +214,10 @@ class UserController extends Controller {
             $type_msg               =   "alert-success";
             $msg                    =   "Delete successfully";                    
             if($checked == 1){
-              $item = User::find((int)@$id);
-                $item->delete();                
+                $item = User::find((int)@$id);
+                $item->delete();            
+                $sql = "DELETE FROM `activations` WHERE `user_id` IN  (".$id.")";
+                DB::statement($sql);    
             }        
             $data                   =   $this->loadData($request);
             $info = array(
@@ -245,7 +244,7 @@ class UserController extends Controller {
               foreach ($arrID as $key => $value) {
                 if(!empty($value)){
                     $item=User::find((int)@$value);
-                    $item->level=(int)@$status;
+                    $item->status=(int)@$status;
                     $item->save();      
                 }            
               }
@@ -266,15 +265,17 @@ class UserController extends Controller {
             $msg                    =   "Delete successfully";      
             $arrID                  =   explode(",", $str_id)  ;        
             if(empty($str_id)){
-              $checked     =   0;
-              $type_msg           =   "alert-warning";            
-              $msg                =   "Please choose at least one item to delete";
+              $checked              =   0;
+              $type_msg             =   "alert-warning";            
+              $msg                  =   "Please choose at least one item to delete";
             }
             if($checked == 1){                
-                  $strID = implode(',',$arrID);   
-                  $strID=substr($strID, 0,strlen($strID) - 1);
-                  $sql = "DELETE FROM `users` WHERE `id` IN (".$strID.")";        
-                  DB::statement($sql);       
+                  $strID            = implode(',',$arrID);   
+                  $strID            = substr($strID, 0,strlen($strID) - 1);
+                  $sqlUser          = "DELETE FROM `users` WHERE `id` IN (".$strID.")";        
+                  $sqlActivation    = "DELETE FROM `activations` WHERE `user_id` IN  (".$strID.")";
+                  DB::statement($sqlUser);                      
+                  DB::statement($sqlActivation);       
             }
             $data                   =   $this->loadData($request);
             $info = array(

@@ -11,7 +11,7 @@ $inputUsername          =   '<input type="text" class="form-control" name="usern
 $inputEmail             =   '<input type="text" class="form-control" name="email"       id="email"          value="'.@$arrRowData['email'].'">'; 
 $inputPassword          =   '<input type="password" id="password" name="password" class="form-control" />';
 $inputConfirmPassword   =   '<input type="password" id="confirm_password" name="confirm_password" class="form-control"  />';
-$status                 =   (count($arrRowData) > 0) ? @$arrRowData['level'] : 1 ;
+$status                 =   (count($arrRowData) > 0) ? @$arrRowData['status'] : 1 ;
 $arrStatus              =   array(-1 => '- Select status -', 1 => 'Publish', 0 => 'Unpublish');  
 $ddlStatus              =   cmsSelectbox("status","status","form-control",$arrStatus,$status,"");
 $inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"        value="'.@$arrRowData['fullname'].'">'; 
@@ -96,7 +96,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                         </div>
                     </div>   
                     <div class="form-group col-md-6">
-                        <label class="col-md-3 control-label"><b>Level</b></label>
+                        <label class="col-md-3 control-label"><b>status</b></label>
                         <div class="col-md-9">
                             <?php echo $ddlStatus; ?>
                             <span class="help-block"></span>

@@ -21,7 +21,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
     <head>
         <meta charset="utf-8" />
-        <title>CRM | Admin Dashboard</title>
+        <title>Shopping cart | Admin Dashboard</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta content="#1 selling multi-purpose bootstrap admin theme sold in themeforest marketplace packed with angularjs, material design, rtl support with over thausands of templates and ui elements and plugins to power any type of web applications including saas and admin dashboards. Preview page of Theme #1 for statistics, charts, recent events and reports"
@@ -29,99 +29,99 @@ License: You must have a valid license purchased only from themeforest(the above
         <meta content="" name="author" />
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
-        <link href="{{url('public/admin/assets/global/plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
-        <link href="{{url('public/admin/assets/global/plugins/simple-line-icons/simple-line-icons.min.css')}}" rel="stylesheet" type="text/css" />
-        <link href="{{url('public/admin/assets/global/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
-        <link href="{{url('public/admin/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('public/admin/assets/global/plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('public/admin/assets/global/plugins/simple-line-icons/simple-line-icons.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('public/admin/assets/global/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('public/admin/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css')}}" rel="stylesheet" type="text/css" />
         <!-- END GLOBAL MANDATORY STYLES -->
         <!-- BEGIN PAGE LEVEL PLUGINS -->
-        <link href="{{url('public/admin/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css')}}" rel="stylesheet" type="text/css" />
-        <link href="{{url('public/admin/assets/global/plugins/morris/morris.css')}}" rel="stylesheet" type="text/css" />
-        <link href="{{url('public/admin/assets/global/plugins/fullcalendar/fullcalendar.min.css')}}" rel="stylesheet" type="text/css" />
-        <link href="{{url('public/admin/assets/global/plugins/jqvmap/jqvmap/jqvmap.css')}}" rel="stylesheet" type="text/css" />
-        <link href="{{url('public/admin/assets/global/plugins/datatables/datatables.min.css')}}" rel="stylesheet" type="text/css" />
-        <link href="{{url('public/admin/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('public/admin/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('public/admin/assets/global/plugins/morris/morris.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('public/admin/assets/global/plugins/fullcalendar/fullcalendar.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('public/admin/assets/global/plugins/jqvmap/jqvmap/jqvmap.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('public/admin/assets/global/plugins/datatables/datatables.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('public/admin/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css')}}" rel="stylesheet" type="text/css" />
         <!-- END PAGE LEVEL PLUGINS -->
         <!-- BEGIN THEME GLOBAL STYLES -->
-        <link href="{{url('public/admin/assets/global/css/components.min.css')}}" rel="stylesheet" id="style_components" type="text/css" />
-        <link href="{{url('public/admin/assets/global/css/plugins.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('public/admin/assets/global/css/components.min.css')}}" rel="stylesheet" id="style_components" type="text/css" />
+        <link href="{{asset('public/admin/assets/global/css/plugins.min.css')}}" rel="stylesheet" type="text/css" />
         <!-- END THEME GLOBAL STYLES -->
         <!-- BEGIN THEME LAYOUT STYLES -->
-        <link href="{{url('public/admin/assets/layouts/layout/css/layout.min.css')}}" rel="stylesheet" type="text/css" />
-        <link href="{{url('public/admin/assets/layouts/layout/css/themes/darkblue.min.css')}}" rel="stylesheet" type="text/css" id="style_color" />
-        <link href="{{url('public/admin/assets/layouts/layout/css/custom.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('public/admin/assets/layouts/layout/css/layout.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('public/admin/assets/layouts/layout/css/themes/darkblue.min.css')}}" rel="stylesheet" type="text/css" id="style_color" />
+        <link href="{{asset('public/admin/assets/layouts/layout/css/custom.min.css')}}" rel="stylesheet" type="text/css" />
         <!-- END THEME LAYOUT STYLES -->
-        <link href="{{url('public/admin/css/spinner.css')}}" rel="stylesheet" type="text/css" />
-        <link href="{{url('public/admin/css/template.css')}}" rel="stylesheet" type="text/css" />
-        <link rel="shortcut icon" href="{{url('public/favicon.ico')}}" /> 
+        <link href="{{asset('public/admin/css/spinner.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('public/admin/css/template.css')}}" rel="stylesheet" type="text/css" />
+        <link rel="shortcut icon" href="{{asset('public/favicon.ico')}}" /> 
         <!--[if lt IE 9]>
-<script src="{{url('public/admin/assets/global/plugins/respond.min.js')}}"></script>
-<script src="{{url('public/admin/assets/global/plugins/excanvas.min.js')}}"></script> 
-<script src="{{url('public/admin/assets/global/plugins/ie8.fix.min.js')}}"></script> 
+<script src="{{asset('public/admin/assets/global/plugins/respond.min.js')}}"></script>
+<script src="{{asset('public/admin/assets/global/plugins/excanvas.min.js')}}"></script> 
+<script src="{{asset('public/admin/assets/global/plugins/ie8.fix.min.js')}}"></script> 
 <![endif]-->
         <!-- BEGIN CORE PLUGINS -->
-        <script src="{{url('public/admin/assets/global/plugins/jquery.min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/bootstrap/js/bootstrap.min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/js.cookie.min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/jquery.blockui.min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/jquery.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/bootstrap/js/bootstrap.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/js.cookie.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/jquery.blockui.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js')}}" type="text/javascript"></script>
         <!-- END CORE PLUGINS -->
         <!-- BEGIN PAGE LEVEL PLUGINS -->
-        <script src="{{url('public/admin/assets/global/plugins/moment.min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/morris/morris.min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/morris/raphael-min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/counterup/jquery.waypoints.min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/counterup/jquery.counterup.min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/amcharts/amcharts/amcharts.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/amcharts/amcharts/serial.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/amcharts/amcharts/pie.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/amcharts/amcharts/radar.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/amcharts/amcharts/themes/light.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/amcharts/amcharts/themes/patterns.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/amcharts/amcharts/themes/chalk.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/amcharts/ammap/ammap.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/amcharts/ammap/maps/js/worldLow.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/amcharts/amstockcharts/amstock.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/fullcalendar/fullcalendar.min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/horizontal-timeline/horizontal-timeline.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/flot/jquery.flot.min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/flot/jquery.flot.resize.min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/flot/jquery.flot.categories.min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/jquery.sparkline.min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/jqvmap/jqvmap/jquery.vmap.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.russia.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.world.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.europe.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.germany.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/moment.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/morris/morris.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/morris/raphael-min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/counterup/jquery.waypoints.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/counterup/jquery.counterup.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/amcharts/amcharts/amcharts.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/amcharts/amcharts/serial.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/amcharts/amcharts/pie.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/amcharts/amcharts/radar.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/amcharts/amcharts/themes/light.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/amcharts/amcharts/themes/patterns.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/amcharts/amcharts/themes/chalk.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/amcharts/ammap/ammap.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/amcharts/ammap/maps/js/worldLow.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/amcharts/amstockcharts/amstock.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/fullcalendar/fullcalendar.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/horizontal-timeline/horizontal-timeline.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/flot/jquery.flot.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/flot/jquery.flot.resize.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/flot/jquery.flot.categories.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/jquery.sparkline.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/jqvmap/jqvmap/jquery.vmap.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.russia.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.world.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.europe.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.germany.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js')}}" type="text/javascript"></script>
         <!-- END PAGE LEVEL PLUGINS -->
         <!-- BEGIN THEME GLOBAL SCRIPTS -->
-        <script src="{{url('public/admin/assets/global/scripts/app.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/scripts/app.min.js')}}" type="text/javascript"></script>
         <!-- END THEME GLOBAL SCRIPTS -->
         <!-- BEGIN PAGE LEVEL SCRIPTS -->
-        <script src="{{url('public/admin/assets/pages/scripts/dashboard.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/pages/scripts/dashboard.min.js')}}" type="text/javascript"></script>
         <!-- END PAGE LEVEL SCRIPTS -->
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
-        <script src="{{url('public/admin/assets/layouts/layout/scripts/layout.min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/layouts/layout/scripts/demo.min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/layouts/global/scripts/quick-sidebar.min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/layouts/global/scripts/quick-nav.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/layouts/layout/scripts/layout.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/layouts/layout/scripts/demo.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/layouts/global/scripts/quick-sidebar.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/layouts/global/scripts/quick-nav.min.js')}}" type="text/javascript"></script>
         <!-- END THEME LAYOUT SCRIPTS -->
         <!-- BEGIN DATATABLES PLUGINS -->
-        <script src="{{url('public/admin/assets/global/scripts/datatable.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/datatables/datatables.min.js')}}" type="text/javascript"></script>
-        <script src="{{url('public/admin/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/scripts/datatable.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/datatables/datatables.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/admin/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js')}}" type="text/javascript"></script>
         <!-- END DATATABLES PLUGINS -->
 
         <!-- BEGIN CUSTOM LIBRARY -->
-        <script language="javascript" type="text/javascript" src="{{url('public/admin/ckeditor/ckeditor.js')}}"                 ></script>
-        <script language="javascript" type="text/javascript" src="{{url('public/admin/js/table-library.js')}}"                 ></script>
-        <script language="javascript" type="text/javascript" src="{{url('public/admin/js/spinner.js')}}"                 ></script>
-        <script language="javascript" type="text/javascript" src="{{url('public/admin/js/custom.js')}}"                 ></script>        
+        <script language="javascript" type="text/javascript" src="{{asset('public/admin/ckeditor/ckeditor.js')}}"                 ></script>
+        <script language="javascript" type="text/javascript" src="{{asset('public/admin/js/table-library.js')}}"                 ></script>
+        <script language="javascript" type="text/javascript" src="{{asset('public/admin/js/spinner.js')}}"                 ></script>
+        <script language="javascript" type="text/javascript" src="{{asset('public/admin/js/custom.js')}}"                 ></script>        
         <!-- END CUSTOM LIBRARY -->                
     </head>
     <!-- END HEAD -->
@@ -139,7 +139,7 @@ License: You must have a valid license purchased only from themeforest(the above
                     <!-- BEGIN LOGO -->
                     <div class="page-logo">
                         <a href="index.html">
-                            <img src="{{url('public/admin/assets/layouts/layout/img/logo.png')}}" alt="logo" class="logo-default" /> </a>
+                            <img src="{{asset('public/admin/assets/layouts/layout/img/logo.png')}}" alt="logo" class="logo-default" /> </a>
                         <div class="menu-toggler sidebar-toggler">
                             <span></span>
                         </div>
@@ -274,7 +274,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                             <li>
                                                 <a href="#">
                                                     <span class="photo">
-                                                        <img src="{{url('public/admin/assets/layouts/layout3/img/avatar2.jpg')}}" class="img-circle" alt=""> </span>
+                                                        <img src="{{asset('public/admin/assets/layouts/layout3/img/avatar2.jpg')}}" class="img-circle" alt=""> </span>
                                                     <span class="subject">
                                                         <span class="from"> Lisa Wong </span>
                                                         <span class="time">Just Now </span>
@@ -285,7 +285,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                             <li>
                                                 <a href="#">
                                                     <span class="photo">
-                                                        <img src="{{url('public/admin/assets/layouts/layout3/img/avatar3.jpg')}}" class="img-circle" alt=""> </span>
+                                                        <img src="{{asset('public/admin/assets/layouts/layout3/img/avatar3.jpg')}}" class="img-circle" alt=""> </span>
                                                     <span class="subject">
                                                         <span class="from"> Richard Doe </span>
                                                         <span class="time">16 mins </span>
@@ -296,7 +296,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                             <li>
                                                 <a href="#">
                                                     <span class="photo">
-                                                        <img src="{{url('public/admin/assets/layouts/layout3/img/avatar1.jpg')}}" class="img-circle" alt=""> </span>
+                                                        <img src="{{asset('public/admin/assets/layouts/layout3/img/avatar1.jpg')}}" class="img-circle" alt=""> </span>
                                                     <span class="subject">
                                                         <span class="from"> Bob Nilson </span>
                                                         <span class="time">2 hrs </span>
@@ -307,7 +307,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                             <li>
                                                 <a href="#">
                                                     <span class="photo">
-                                                        <img src="{{url('public/admin/assets/layouts/layout3/img/avatar2.jpg')}}" class="img-circle" alt=""> </span>
+                                                        <img src="{{asset('public/admin/assets/layouts/layout3/img/avatar2.jpg')}}" class="img-circle" alt=""> </span>
                                                     <span class="subject">
                                                         <span class="from"> Lisa Wong </span>
                                                         <span class="time">40 mins </span>
@@ -318,7 +318,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                             <li>
                                                 <a href="#">
                                                     <span class="photo">
-                                                        <img src="{{url('public/admin/assets/layouts/layout3/img/avatar3.jpg')}}" class="img-circle" alt=""> </span>
+                                                        <img src="{{asset('public/admin/assets/layouts/layout3/img/avatar3.jpg')}}" class="img-circle" alt=""> </span>
                                                     <span class="subject">
                                                         <span class="from"> Richard Doe </span>
                                                         <span class="time">46 mins </span>
@@ -446,7 +446,7 @@ License: You must have a valid license purchased only from themeforest(the above
                             <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
                             <li class="dropdown dropdown-user">
                                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                    <img alt="" class="img-circle" src="{{url('public/admin/assets/layouts/layout/img/avatar3_small.jpg')}}" />
+                                    <img alt="" class="img-circle" src="{{asset('public/admin/assets/layouts/layout/img/avatar3_small.jpg')}}" />
                                     <span class="username username-hide-on-mobile">                                         
                                         <?php echo Sentinel::getUser()->username; ?>
                                     </span>
@@ -571,14 +571,14 @@ License: You must have a valid license purchased only from themeforest(the above
                                             <div class="media-status">
                                                 <span class="badge badge-success">8</span>
                                             </div>
-                                            <img class="media-object" src="{{url('public/admin/assets/layouts/layout/img/avatar3.jpg')}}" alt="...">
+                                            <img class="media-object" src="{{asset('public/admin/assets/layouts/layout/img/avatar3.jpg')}}" alt="...">
                                             <div class="media-body">
                                                 <h4 class="media-heading">Bob Nilson</h4>
                                                 <div class="media-heading-sub"> Project Manager </div>
                                             </div>
                                         </li>
                                         <li class="media">
-                                            <img class="media-object" src="{{url('public/admin/assets/layouts/layout/img/avatar1.jpg')}}" alt="...">
+                                            <img class="media-object" src="{{asset('public/admin/assets/layouts/layout/img/avatar1.jpg')}}" alt="...">
                                             <div class="media-body">
                                                 <h4 class="media-heading">Nick Larson</h4>
                                                 <div class="media-heading-sub"> Art Director </div>
@@ -588,14 +588,14 @@ License: You must have a valid license purchased only from themeforest(the above
                                             <div class="media-status">
                                                 <span class="badge badge-danger">3</span>
                                             </div>
-                                            <img class="media-object" src="{{url('public/admin/assets/layouts/layout/img/avatar4.jpg')}}" alt="...">
+                                            <img class="media-object" src="{{asset('public/admin/assets/layouts/layout/img/avatar4.jpg')}}" alt="...">
                                             <div class="media-body">
                                                 <h4 class="media-heading">Deon Hubert</h4>
                                                 <div class="media-heading-sub"> CTO </div>
                                             </div>
                                         </li>
                                         <li class="media">
-                                            <img class="media-object" src="{{url('public/admin/assets/layouts/layout/img/avatar2.jpg')}}" alt="...">
+                                            <img class="media-object" src="{{asset('public/admin/assets/layouts/layout/img/avatar2.jpg')}}" alt="...">
                                             <div class="media-body">
                                                 <h4 class="media-heading">Ella Wong</h4>
                                                 <div class="media-heading-sub"> CEO </div>
@@ -608,7 +608,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                             <div class="media-status">
                                                 <span class="badge badge-warning">2</span>
                                             </div>
-                                            <img class="media-object" src="{{url('public/admin/assets/layouts/layout/img/avatar6.jpg')}}" alt="...">
+                                            <img class="media-object" src="{{asset('public/admin/assets/layouts/layout/img/avatar6.jpg')}}" alt="...">
                                             <div class="media-body">
                                                 <h4 class="media-heading">Lara Kunis</h4>
                                                 <div class="media-heading-sub"> CEO, Loop Inc </div>
@@ -619,7 +619,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                             <div class="media-status">
                                                 <span class="label label-sm label-success">new</span>
                                             </div>
-                                            <img class="media-object" src="{{url('public/admin/assets/layouts/layout/img/avatar7.jpg')}}" alt="...">
+                                            <img class="media-object" src="{{asset('public/admin/assets/layouts/layout/img/avatar7.jpg')}}" alt="...">
                                             <div class="media-body">
                                                 <h4 class="media-heading">Ernie Kyllonen</h4>
                                                 <div class="media-heading-sub"> Project Manager,
@@ -627,7 +627,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                             </div>
                                         </li>
                                         <li class="media">
-                                            <img class="media-object" src="{{url('public/admin/assets/layouts/layout/img/avatar8.jpg')}}" alt="...">
+                                            <img class="media-object" src="{{asset('public/admin/assets/layouts/layout/img/avatar8.jpg')}}" alt="...">
                                             <div class="media-body">
                                                 <h4 class="media-heading">Lisa Stone</h4>
                                                 <div class="media-heading-sub"> CTO, Keort Inc </div>
@@ -638,14 +638,14 @@ License: You must have a valid license purchased only from themeforest(the above
                                             <div class="media-status">
                                                 <span class="badge badge-success">7</span>
                                             </div>
-                                            <img class="media-object" src="{{url('public/admin/assets/layouts/layout/img/avatar9.jpg')}}" alt="...">
+                                            <img class="media-object" src="{{asset('public/admin/assets/layouts/layout/img/avatar9.jpg')}}" alt="...">
                                             <div class="media-body">
                                                 <h4 class="media-heading">Deon Portalatin</h4>
                                                 <div class="media-heading-sub"> CFO, H&D LTD </div>
                                             </div>
                                         </li>
                                         <li class="media">
-                                            <img class="media-object" src="{{url('public/admin/assets/layouts/layout/img/avatar10.jpg')}}" alt="...">
+                                            <img class="media-object" src="{{asset('public/admin/assets/layouts/layout/img/avatar10.jpg')}}" alt="...">
                                             <div class="media-body">
                                                 <h4 class="media-heading">Irina Savikova</h4>
                                                 <div class="media-heading-sub"> CEO, Tizda Motors Inc </div>
@@ -655,7 +655,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                             <div class="media-status">
                                                 <span class="badge badge-danger">4</span>
                                             </div>
-                                            <img class="media-object" src="{{url('public/admin/assets/layouts/layout/img/avatar11.jpg')}}" alt="...">
+                                            <img class="media-object" src="{{asset('public/admin/assets/layouts/layout/img/avatar11.jpg')}}" alt="...">
                                             <div class="media-body">
                                                 <h4 class="media-heading">Maria Gomez</h4>
                                                 <div class="media-heading-sub"> Manager, Infomatic Inc </div>
@@ -672,7 +672,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                         </div>
                                         <div class="page-quick-sidebar-chat-user-messages">
                                             <div class="post out">
-                                                <img class="avatar" alt="" src="{{url('public/admin/assets/layouts/layout/img/avatar3.jpg')}}" />
+                                                <img class="avatar" alt="" src="{{asset('public/admin/assets/layouts/layout/img/avatar3.jpg')}}" />
                                                 <div class="message">
                                                     <span class="arrow"></span>
                                                     <a href="javascript:;" class="name">Bob Nilson</a>
@@ -681,7 +681,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                 </div>
                                             </div>
                                             <div class="post in">
-                                                <img class="avatar" alt="" src="{{url('public/admin/assets/layouts/layout/img/avatar2.jpg')}}" />
+                                                <img class="avatar" alt="" src="{{asset('public/admin/assets/layouts/layout/img/avatar2.jpg')}}" />
                                                 <div class="message">
                                                     <span class="arrow"></span>
                                                     <a href="javascript:;" class="name">Ella Wong</a>
@@ -690,7 +690,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                 </div>
                                             </div>
                                             <div class="post out">
-                                                <img class="avatar" alt="" src="{{url('public/admin/assets/layouts/layout/img/avatar3.jpg')}}" />
+                                                <img class="avatar" alt="" src="{{asset('public/admin/assets/layouts/layout/img/avatar3.jpg')}}" />
                                                 <div class="message">
                                                     <span class="arrow"></span>
                                                     <a href="javascript:;" class="name">Bob Nilson</a>
@@ -699,7 +699,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                 </div>
                                             </div>
                                             <div class="post in">
-                                                <img class="avatar" alt="" src="{{url('public/admin/assets/layouts/layout/img/avatar2.jpg')}}" />
+                                                <img class="avatar" alt="" src="{{asset('public/admin/assets/layouts/layout/img/avatar2.jpg')}}" />
                                                 <div class="message">
                                                     <span class="arrow"></span>
                                                     <a href="javascript:;" class="name">Ella Wong</a>
@@ -708,7 +708,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                 </div>
                                             </div>
                                             <div class="post out">
-                                                <img class="avatar" alt="" src="{{url('public/admin/assets/layouts/layout/img/avatar3.jpg')}}" />
+                                                <img class="avatar" alt="" src="{{asset('public/admin/assets/layouts/layout/img/avatar3.jpg')}}" />
                                                 <div class="message">
                                                     <span class="arrow"></span>
                                                     <a href="javascript:;" class="name">Bob Nilson</a>
@@ -717,7 +717,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                 </div>
                                             </div>
                                             <div class="post in">
-                                                <img class="avatar" alt="" src="{{url('public/admin/assets/layouts/layout/img/avatar2.jpg')}}" />
+                                                <img class="avatar" alt="" src="{{asset('public/admin/assets/layouts/layout/img/avatar2.jpg')}}" />
                                                 <div class="message">
                                                     <span class="arrow"></span>
                                                     <a href="javascript:;" class="name">Ella Wong</a>
@@ -726,7 +726,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                 </div>
                                             </div>
                                             <div class="post out">
-                                                <img class="avatar" alt="" src="{{url('public/admin/assets/layouts/layout/img/avatar3.jpg')}}" />
+                                                <img class="avatar" alt="" src="{{asset('public/admin/assets/layouts/layout/img/avatar3.jpg')}}" />
                                                 <div class="message">
                                                     <span class="arrow"></span>
                                                     <a href="javascript:;" class="name">Bob Nilson</a>
@@ -735,7 +735,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                 </div>
                                             </div>
                                             <div class="post in">
-                                                <img class="avatar" alt="" src="{{url('public/admin/assets/layouts/layout/img/avatar2.jpg')}}" />
+                                                <img class="avatar" alt="" src="{{asset('public/admin/assets/layouts/layout/img/avatar2.jpg')}}" />
                                                 <div class="message">
                                                     <span class="arrow"></span>
                                                     <a href="javascript:;" class="name">Ella Wong</a>
@@ -744,7 +744,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                 </div>
                                             </div>
                                             <div class="post out">
-                                                <img class="avatar" alt="" src="{{url('public/admin/assets/layouts/layout/img/avatar3.jpg')}}" />
+                                                <img class="avatar" alt="" src="{{asset('public/admin/assets/layouts/layout/img/avatar3.jpg')}}" />
                                                 <div class="message">
                                                     <span class="arrow"></span>
                                                     <a href="javascript:;" class="name">Bob Nilson</a>

@@ -61,3 +61,6 @@ a.jgrid:hover {	text-decoration: none;}
     line-height: 18px;
     white-space: nowrap;
 }
+.dropdown-menu>li>form>a:hover{
+    background: #f0f0f0
+}

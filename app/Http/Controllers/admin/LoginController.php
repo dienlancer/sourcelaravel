@@ -7,18 +7,27 @@ use Sentinel;
 class LoginController extends Controller
 {
     public function login(){
-    	return view('admin.login');
+        if(Sentinel::check()){
+            return redirect()->route('admin.category-article.getList');  
+        }else{
+            return view('admin.login');
+        }    	
     }
     public function postLogin(Request $request){    	
     	Sentinel::authenticate($request->all());
     	if(Sentinel::check()){
-    		return redirect()->route('admin.category-article.getList');
-    	} else{
-    		return redirect()->route('admin.login');	
-    	}    	
+            $status=Sentinel::getUser()->status;
+            if($status==1){
+                return redirect()->route('admin.category-article.getList');  
+            }else{
+                return redirect()->route('admin.login');    
+            }            
+        }else{
+            return redirect()->route('admin.login');    
+        }    	
     }
     public function logout(){
-    	Sentinel::logout();
-    	return redirect()->route('admin.login');
+         Sentinel::logout();
+         return redirect()->route('admin.login');
     }
 }
