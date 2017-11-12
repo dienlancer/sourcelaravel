@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 11, 2017 lúc 08:39 PM
+-- Thời gian đã tạo: Th10 12, 2017 lúc 05:33 AM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -1007,7 +1007,8 @@ CREATE TABLE `payment_method` (
 
 INSERT INTO `payment_method` (`id`, `fullname`, `alias`, `content`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'Chuyển khoản bằng tiền mặt', 'chuyen-khoan-bang-tien-mat', '<p style=\"text-align:justify\">Cờ vua Việt Nam từng sở hữu nhiều kỳ thủ v&ocirc; địch thế giới c&aacute;c cấp độ trẻ. Ti&ecirc;n phong l&agrave; Đ&agrave;o Thi&ecirc;n Hải &ndash; người thầy hiện tại của Anh Kh&ocirc;i. Thi&ecirc;n Hải học đ&aacute;nh cờ khi mới năm tuổi, sớm bộc lộ năng khiếu v&agrave; được dạy dỗ bởi &ocirc;ng Đặng Tất Thắng - từng c&oacute; c&ocirc;ng mang cờ vua về Việt Nam.</p>', 1, 1, '2017-11-10 18:10:47', '2017-11-11 19:33:27'),
-(2, 'Chuyển khoản qua ngân hàng', 'chuyen-khoan-qua-ngan-hang', '<p style=\"text-align:justify\">Nhưng trong nh&oacute;m n&agrave;y chỉ c&oacute; Quang Li&ecirc;m đang tiến dần đến nh&oacute;m kỳ thủ h&agrave;ng đầu thế giới. Với Elo 2737 v&agrave; thứ 24 thế giới, kỳ thủ sinh năm 1991 trở th&agrave;nh niềm tự h&agrave;o l&agrave;ng cờ Việt. Quang Li&ecirc;m từng v&ocirc; địch cờ chớp thế giới, c&ugrave;ng những giải mở uy t&iacute;n như Aeroflot, SPICE Cup v&agrave; HDBank Cup&ndash; giải cờ quốc tế của Việt Nam. B&ecirc;n cạnh những yếu tố nội lực, si&ecirc;u đại kiện tướng duy nhất của Đ&ocirc;ng Nam &Aacute; tiến xa hơn cả nhờ được đầu tư, tập luyện c&ugrave;ng chuy&ecirc;n gia ngoại. Alexander Khalifman - thầy của Quang Li&ecirc;m, từng v&ocirc; địch thế giới do FIDE tổ chức.</p>', 2, 1, '2017-11-11 19:34:03', '2017-11-11 19:34:03');
+(2, 'Chuyển khoản qua ngân hàng', 'chuyen-khoan-qua-ngan-hang', '<p style=\"text-align:justify\">Nhưng trong nh&oacute;m n&agrave;y chỉ c&oacute; Quang Li&ecirc;m đang tiến dần đến nh&oacute;m kỳ thủ h&agrave;ng đầu thế giới. Với Elo 2737 v&agrave; thứ 24 thế giới, kỳ thủ sinh năm 1991 trở th&agrave;nh niềm tự h&agrave;o l&agrave;ng cờ Việt. Quang Li&ecirc;m từng v&ocirc; địch cờ chớp thế giới, c&ugrave;ng những giải mở uy t&iacute;n như Aeroflot, SPICE Cup v&agrave; HDBank Cup&ndash; giải cờ quốc tế của Việt Nam. B&ecirc;n cạnh những yếu tố nội lực, si&ecirc;u đại kiện tướng duy nhất của Đ&ocirc;ng Nam &Aacute; tiến xa hơn cả nhờ được đầu tư, tập luyện c&ugrave;ng chuy&ecirc;n gia ngoại. Alexander Khalifman - thầy của Quang Li&ecirc;m, từng v&ocirc; địch thế giới do FIDE tổ chức.</p>', 2, 1, '2017-11-11 19:34:03', '2017-11-11 19:34:03'),
+(3, 'Thanh toán qua paypal', 'paypal', '<p style=\"text-align:justify\">Gia đ&igrave;nh Anh Kh&ocirc;i cũng sẵn s&agrave;ng theo bước kỳ thủ sinh năm 2002, ở cả kh&iacute;a cạnh tinh thần v&agrave; t&agrave;i ch&iacute;nh. &ldquo;Mỗi c&acirc;y mỗi hoa, mỗi nh&agrave; mỗi cảnh. Kh&ocirc;ng phải gia đ&igrave;nh n&agrave;o cũng c&oacute; điều kiện giống nhau. Nhưng nếu Anh Kh&ocirc;i thực sự c&oacute; đam m&ecirc; v&agrave; quyết t&acirc;m, gia đ&igrave;nh sẽ quyết t&acirc;m hỗ trợ con&rdquo;, mẹ Anh Kh&ocirc;i chia sẻ</p>', 3, 1, '2017-11-11 19:44:25', '2017-11-11 19:44:25');
 
 -- --------------------------------------------------------
 
@@ -1560,7 +1561,7 @@ ALTER TABLE `mod_menu_type`
 -- AUTO_INCREMENT cho bảng `payment_method`
 --
 ALTER TABLE `payment_method`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT cho bảng `photo`
 --
