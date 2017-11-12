@@ -36,7 +36,7 @@ if(count($arrRowData) > 0){
     if(count($arrProductChildImage) > 0){
         foreach ($arrProductChildImage as $key => $value) {
             $strTr .= '<tr>';
-            $strTr .= '<td align="center" width="1%" valign="middle"><img src="'.url("/resources/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".@$value).'" width="'.((int)$dataSettingSystem["product_width"]/6).'" /><input type="hidden" name="product_child_image_hidden[]" value="'.$value.'" /></td>';      
+            $strTr .= '<td align="center" valign="middle"><img src="'.url("/resources/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".@$value).'" width="'.((int)$dataSettingSystem["product_width"]/6).'" /><input type="hidden" name="product_child_image_hidden[]" value="'.$value.'" /></td>';      
             $strTr .= '<td align="center" valign="middle" class="tdcmd"><a href="javascript:void(0)"  onclick="removeRow(this);"><img src="'.url("/public/admin/images/delete-icon.png").'" /></a></td>';
             $strTr .='</tr>';
         }
@@ -121,15 +121,18 @@ $inputChildPictureHidden     =   '<input type="hidden" name="image_child_hidden"
                 <div class="row">                      
                     <div class="form-group col-md-12">
                         <label class="col-md-2 control-label"><b>Image</b></label>
-                        <div class="col-md-10">
+                        <div class="col-md-4">
                             <input type="file" id="image" name="image"  />   
                             <div id="picture-area"><?php echo $picture; ?>                      </div>
                             <div class="clr"></div>
-                            <table class="table-image" id="table-image" border="0" cellpadding="0" cellspacing="0" border="1">
+                                                
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table-image" id="table-image" border="0" cellpadding="0" cellspacing="0" border="1" width="100%">
                                 <thead>
                                     <tr>                                    
                                         <th><center>Thumbnails</center></th>                                  
-                                        <th></th>
+                                        <th width="1%" ></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -139,7 +142,7 @@ $inputChildPictureHidden     =   '<input type="hidden" name="image_child_hidden"
                                         <td align="center" valign="middle" class="tdcmd"><a href="javascript:void(0)"  onclick="addRow(this);"><img  src=" <?php echo url("/public/admin/images/add.png"); ?>" /></a></td>
                                     </tr>
                                 </tbody>
-                            </table>                        
+                            </table>    
                         </div>
                     </div>     
                 </div>       
