@@ -230,4 +230,5 @@ Route::group(["prefix"=>"admin"],function(){
 		Route::post("trash",["as"=>"admin.group-member.trash","uses"=>"admin\GroupMemberController@trash"]);		
 	});	
 });
+Route::get('/register','RegistrationController@register');
 ?>
