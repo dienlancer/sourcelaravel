@@ -225,9 +225,6 @@ Route::group(["prefix"=>"admin","middleware"=>"TestLogin"],function(){
 		Route::post("trash",["as"=>"admin.group-member.trash","uses"=>"admin\GroupMemberController@trash"]);		
 	});	
 });
-Route::get("admin/register",["as"=>"admin.register","uses"=>"admin\RegistrationController@register"]);
-Route::post("admin/register",["as"=>"admin.postRegister","uses"=>"admin\RegistrationController@postRegister"]);
-Route::get("admin/login",["as"=>"admin.login","uses"=>"admin\LoginController@login"]);
-Route::post("admin/login",["as"=>"admin.postLogin","uses"=>"admin\LoginController@postLogin"]);
+Route::match(["get","post"],"admin/login",["as"=>"admin.login","uses"=>"admin\LoginController@login"]);
 Route::post("admin/logout",["as"=>"admin.logout","uses"=>"admin\LoginController@logout"]);
 ?>
