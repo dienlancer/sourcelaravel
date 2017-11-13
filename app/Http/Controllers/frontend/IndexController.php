@@ -26,26 +26,8 @@ class IndexController extends Controller {
     $component="trang-chu";               
     $alias="trang-chu";
     $meta_keyword="";
-    $meta_description="";
-    $menu_id=0;
-    $arrMainMenu=array();
-    $arrLstProduct=array();
-    $filter_search="";
-    $category_id=0;
-    $pagination="";
-    $currentPage=1;                  
-    $name="";                  
-    $arrRowProduct=array();     
-    $arrRowCategory=array();
-    $totalItems=0;
-    $totalItemsPerPage=0;
-    $pageRange=0;
-    $currentPage=1;
-    $position=0;
-    $arrCountLst=array();
-    $action="";
-                 
-    return view("frontend.index",compact("component","meta_keyword","meta_description","pagination","name","alias"));
+    $meta_description="";  
+    return view("frontend.index",compact("component","meta_keyword","meta_description","alias"));
   }
 	public function index($component,$alias)
       {                                 
