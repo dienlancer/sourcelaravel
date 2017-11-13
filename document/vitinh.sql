@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 13, 2017 lúc 03:35 PM
+-- Thời gian đã tạo: Th10 13, 2017 lúc 07:56 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -602,7 +602,8 @@ CREATE TABLE `banner` (
 --
 
 INSERT INTO `banner` (`id`, `fullname`, `alias`, `image`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Banner1', 'banner-1', 'slideshow-1.jpg', 1, 1, '2017-11-10 19:20:58', '2017-11-12 14:44:50');
+(1, 'Banner1', 'banner-1', 'megashop-banner-1.jpg', 1, 1, '2017-11-10 19:20:58', '2017-11-13 17:19:09'),
+(2, 'Banner2', 'banner-2', 'megashop-banner-2.jpg', 2, 1, '2017-11-13 17:19:24', '2017-11-13 17:19:24');
 
 -- --------------------------------------------------------
 
@@ -661,17 +662,33 @@ CREATE TABLE `category_product` (
 --
 
 INSERT INTO `category_product` (`id`, `fullname`, `alias`, `image`, `status`, `parent_id`, `sort_order`, `created_at`, `updated_at`) VALUES
-(10, 'Laptop', 'laptop', '', 1, 0, 1, '2017-10-05 15:08:13', '2017-11-11 18:54:54'),
-(11, 'Máy tính bảng', 'may-tinh-bang', NULL, 1, 0, 2, '2017-10-05 15:08:25', '2017-10-11 06:45:46'),
-(12, 'Máy tính để bàn', 'may-tinh-de-ban', '', 1, 0, 3, '2017-10-05 15:08:38', '2017-10-05 17:26:36'),
-(13, 'Máy tính All In One', 'may-tinh-all-in-one', NULL, 1, 0, 3, '2017-10-05 15:08:57', '2017-10-05 15:08:57'),
-(14, 'Workstation', 'workstation', NULL, 1, 0, 4, '2017-10-05 15:09:11', '2017-10-05 15:09:16'),
-(15, 'Máy chủ', 'may-chu', NULL, 1, 0, 5, '2017-10-05 15:09:45', '2017-10-05 15:09:45'),
-(16, 'Màn hình', 'man-hinh', NULL, 1, 0, 6, '2017-10-05 15:09:57', '2017-10-05 15:09:57'),
-(17, 'Máy in', 'may-in', NULL, 1, 0, 7, '2017-10-05 15:10:07', '2017-10-05 15:10:07'),
-(18, 'Mực in - Giấy in', 'muc-in-giay-in', '', 1, 0, 8, '2017-10-05 15:10:24', '2017-10-05 15:10:36'),
-(19, 'Phần mềm', 'phan-mem', NULL, 1, 0, 9, '2017-10-05 15:10:50', '2017-10-05 15:10:50'),
-(20, 'Linh kiện', 'link-kien', NULL, 1, 0, 10, '2017-10-05 15:11:00', '2017-10-05 15:11:00');
+(10, 'Phòng khách', 'phong-khach', 'category-product-4.png', 1, 0, 1, '2017-10-05 15:08:13', '2017-11-13 18:00:23'),
+(11, 'Phòng ngủ', 'phong-ngu', 'category-product-7.png', 1, 0, 2, '2017-10-05 15:08:25', '2017-11-13 18:00:34'),
+(12, 'Sofa', 'sofa', 'category-product-1.png', 1, 0, 3, '2017-10-05 15:08:38', '2017-11-13 18:00:40'),
+(13, 'Phòng bếp', 'phong-bep', 'category-product-5.png', 1, 0, 4, '2017-10-05 15:08:57', '2017-11-13 18:02:41'),
+(14, 'Phòng trẻ em', 'phong-tre-em', 'category-product-2.png', 1, 0, 5, '2017-10-05 15:09:11', '2017-11-13 18:02:41'),
+(15, 'Thiết bị bếp', 'thiet-bi-bep', 'category-product-9.png', 1, 0, 6, '2017-10-05 15:09:45', '2017-11-13 18:03:10'),
+(16, 'Thiết bị vệ sinh', 'thiet-bi-ve-sinh', 'category-product-8.png', 1, 0, 7, '2017-10-05 15:09:57', '2017-11-13 18:02:41'),
+(17, 'Đồ trang trí', 'do-trang-tri', 'category-product-10.png', 1, 0, 8, '2017-10-05 15:10:07', '2017-11-13 18:02:41'),
+(18, 'Phụ kiện bếp', 'phu-kien-bep', 'phu-kien-bep.png', 1, 0, 9, '2017-10-05 15:10:24', '2017-11-13 18:05:49'),
+(19, 'Nhà thông minh', 'nha-thong-minh', 'category-product-3.png', 1, 0, 10, '2017-10-05 15:10:50', '2017-11-13 18:02:41'),
+(21, 'Bàn ghế gỗ', 'ban-ghe-go', NULL, 1, 10, 1, '2017-11-13 18:06:56', '2017-11-13 18:06:56'),
+(22, 'Sofa - phòng khách', 'sofa-phong-khach', NULL, 1, 10, 2, '2017-11-13 18:07:25', '2017-11-13 18:07:25'),
+(23, 'Tủ để giày', 'tu-de-giay', NULL, 1, 10, 3, '2017-11-13 18:07:49', '2017-11-13 18:07:49'),
+(24, 'Tủ rượu', 'tu-ruou', NULL, 1, 10, 4, '2017-11-13 18:08:05', '2017-11-13 18:08:05'),
+(25, 'Vách ngăn', 'vach-ngan', NULL, 1, 10, 5, '2017-11-13 18:08:21', '2017-11-13 18:08:21'),
+(26, 'Bàn làm việc', 'ban-lam-viec', NULL, 1, 11, 6, '2017-11-13 18:08:55', '2017-11-13 18:08:55'),
+(27, 'Bàn trang điểm', 'ban-trang-diem', NULL, 1, 11, 2, '2017-11-13 18:09:15', '2017-11-13 18:09:15'),
+(28, 'Giường ngủ', 'giuong-ngu', NULL, 1, 11, 3, '2017-11-13 18:09:47', '2017-11-13 18:09:47'),
+(29, 'Kệ tivi', 'ke-tivi', NULL, 1, 11, 4, '2017-11-13 18:10:08', '2017-11-13 18:10:08'),
+(30, 'Quần áo', 'quan-ao', NULL, 1, 11, 5, '2017-11-13 18:10:24', '2017-11-13 18:10:24'),
+(31, 'Sofa cafe', 'sofa-cafe', NULL, 1, 12, 1, '2017-11-13 18:10:52', '2017-11-13 18:10:52'),
+(32, 'Sofa da', 'sofa-da', NULL, 1, 12, 2, '2017-11-13 18:11:05', '2017-11-13 18:11:05'),
+(33, 'Sofa giường', 'sofa-giuong', NULL, 1, 12, 3, '2017-11-13 18:11:22', '2017-11-13 18:11:22'),
+(34, 'Sofa nghỉ', 'sofa-nghi', NULL, 1, 12, 4, '2017-11-13 18:11:39', '2017-11-13 18:11:39'),
+(35, 'Bàn ghế ăn', 'ban-ghe-an', NULL, 1, 13, 1, '2017-11-13 18:12:08', '2017-11-13 18:12:08'),
+(36, 'Quầy bar', 'quay-bar', NULL, 1, 13, 2, '2017-11-13 18:12:45', '2017-11-13 18:12:45'),
+(37, 'Tủ bếp', 'tu-bep', NULL, 1, 13, 3, '2017-11-13 18:13:00', '2017-11-13 18:13:00');
 
 -- --------------------------------------------------------
 
@@ -833,7 +850,34 @@ INSERT INTO `menu` (`id`, `fullname`, `alias`, `site_link`, `parent_id`, `menu_t
 (10, 'Phòng ngủ', 'phong-phu', '/loai-san-pham/phong-ngu', 8, 1, 1, 2, 1, '2017-11-13 04:38:12', '2017-11-13 04:38:19'),
 (11, 'Sofa', 'sofa', '/loai-san-pham/sofa', 8, 1, 1, 3, 1, '2017-11-13 04:38:44', '2017-11-13 04:38:44'),
 (12, 'Phòng bếp', 'phong-bep', '/loai-san-pham/phong-bep', 8, 1, 1, 4, 1, '2017-11-13 04:39:09', '2017-11-13 04:39:09'),
-(13, 'Phòng trẻ em', 'phong-tre-em', '/loai-san-pham/phong-tre-em', 8, 1, 1, 5, 1, '2017-11-13 04:39:34', '2017-11-13 04:39:34');
+(13, 'Phòng trẻ em', 'phong-tre-em', '/loai-san-pham/phong-tre-em', 8, 1, 1, 5, 1, '2017-11-13 04:39:34', '2017-11-13 04:39:34'),
+(14, 'Phòng khách', 'phong-khach', '/loai-san-pham/phong-khach', 0, 2, 0, 1, 1, '2017-11-13 18:18:44', '2017-11-13 18:18:44'),
+(15, 'Phòng ngủ', 'phong-ngu', '/loai-san-pham/phong-ngu', 0, 2, 0, 2, 1, '2017-11-13 18:20:32', '2017-11-13 18:20:32'),
+(16, 'Sofa', 'sofa', '/loai-san-pham/sofa', 0, 2, 0, 3, 1, '2017-11-13 18:20:53', '2017-11-13 18:20:53'),
+(17, 'Phòng bếp', 'phong-bep', '/loai-san-pham/phong-bep', 0, 2, 0, 4, 1, '2017-11-13 18:21:24', '2017-11-13 18:21:24'),
+(18, 'Phòng trẻ em', 'phong-tre-em', '/loai-san-pham/phong-tre-em', 0, 2, 0, 5, 1, '2017-11-13 18:21:54', '2017-11-13 18:21:54'),
+(19, 'Thiết bị bếp', 'thiet-bi-bep', '/loai-san-pham/thiet-bi-bep', 0, 2, 0, 6, 1, '2017-11-13 18:22:23', '2017-11-13 18:22:23'),
+(20, 'Thiết bị vệ sinh', 'thiet-bi-ve-sinh', '/loai-san-pham/thiet-bi-ve-sinh', 0, 2, 0, 7, 1, '2017-11-13 18:22:47', '2017-11-13 18:22:47'),
+(21, 'Đồ trang trí', 'do-trang-tri', '/loai-san-pham/do-trang-tri', 0, 2, 0, 8, 1, '2017-11-13 18:23:13', '2017-11-13 18:23:17'),
+(22, 'Phụ kiện bếp', 'phu-kien-bep', '/loai-san-pham/phu-kien-bep', 0, 2, 0, 9, 1, '2017-11-13 18:23:41', '2017-11-13 18:23:41'),
+(23, 'Nhà thông minh', 'nha-thong-minh', '/loai-san-pham/nha-thong-minh', 0, 2, 0, 10, 1, '2017-11-13 18:24:08', '2017-11-13 18:24:08'),
+(24, 'Bàn ghế gỗ', 'ban-ghe-go', '/loai-san-pham/ban-ghe-go', 14, 2, 1, 1, 1, '2017-11-13 18:24:41', '2017-11-13 18:24:41'),
+(25, 'Sofa phòng khách', 'sofa-phong-khach', '/loai-san-pham/sofa-phong-khach', 14, 2, 1, 2, 1, '2017-11-13 18:25:10', '2017-11-13 18:25:10'),
+(26, 'Tủ để giày', 'tu-de-giay', '/loai-san-pham/tu-de-giay', 14, 2, 1, 3, 1, '2017-11-13 18:25:38', '2017-11-13 18:25:38'),
+(27, 'Tủ rượu', 'tu-ruou', '/loai-san-pham/tu-ruou', 14, 2, 1, 4, 1, '2017-11-13 18:26:00', '2017-11-13 18:26:00'),
+(28, 'Vách ngăn', 'vach-ngan', '/loai-san-pham/vach-ngan', 14, 2, 1, 5, 1, '2017-11-13 18:26:41', '2017-11-13 18:26:41'),
+(29, 'Bàn làm việc', 'ban-lam-viec', '/loai-san-pham/ban-lam-viec', 15, 2, 1, 1, 1, '2017-11-13 18:27:20', '2017-11-13 18:27:20'),
+(30, 'Bàn trang điểm', 'ban-trang-diem', '/loai-san-pham/ban-trang-diem', 15, 2, 1, 2, 1, '2017-11-13 18:27:51', '2017-11-13 18:27:51'),
+(31, 'Giường ngủ', 'giuong-ngu', '/loai-san-pham/giuong-ngu', 15, 2, 1, 3, 1, '2017-11-13 18:28:20', '2017-11-13 18:28:20'),
+(32, 'Kệ tivi', 'ke-tivi', '/loai-san-pham/ke-tivi', 15, 2, 1, 4, 1, '2017-11-13 18:28:51', '2017-11-13 18:28:51'),
+(33, 'Tủ quần áo', 'tu-quan-ao', '/loai-san-pham/quan-ao', 15, 2, 1, 5, 1, '2017-11-13 18:29:25', '2017-11-13 18:29:25'),
+(34, 'Sofa cafe', 'sofa-cafe', '1', 16, 2, 1, 1, 1, '2017-11-13 18:29:52', '2017-11-13 18:29:52'),
+(35, 'Sofa da', 'sofa-da', '/loai-san-pham/sofa-da', 16, 2, 1, 2, 1, '2017-11-13 18:30:11', '2017-11-13 18:30:11'),
+(36, 'Sofa giường', 'sofa-giuong', '/loai-san-pham/sofa-giuong', 16, 2, 1, 2, 1, '2017-11-13 18:30:35', '2017-11-13 18:30:35'),
+(37, 'Sofa nghỉ', 'sofa-nghi', '/loai-san-pham/sofa-nghi', 16, 2, 1, 4, 1, '2017-11-13 18:30:59', '2017-11-13 18:30:59'),
+(38, 'Bàn ghế ăn', 'ban-ghe-an', '/loai-san-pham/ban-ghe-an', 17, 2, 1, 1, 1, '2017-11-13 18:31:34', '2017-11-13 18:31:34'),
+(39, 'Quầy bar', 'quay-bar', '/loai-san-pham/quay-bar', 17, 2, 1, 2, 1, '2017-11-13 18:32:20', '2017-11-13 18:32:30'),
+(40, 'Tủ bếp', 'tu-bep', '/loai-san-pham/tu-bep', 17, 2, 1, 3, 1, '2017-11-13 18:32:55', '2017-11-13 18:32:55');
 
 -- --------------------------------------------------------
 
@@ -856,7 +900,8 @@ CREATE TABLE `menu_type` (
 --
 
 INSERT INTO `menu_type` (`id`, `fullname`, `alias`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 'MainMenu', 'main-menu', 1, '2017-11-13 04:27:56', '2017-11-13 04:55:08');
+(1, 'MainMenu', 'main-menu', 1, '2017-11-13 04:27:56', '2017-11-13 04:55:08'),
+(2, 'CategoryProductHome', 'category-product-home', 2, '2017-11-13 18:14:33', '2017-11-13 18:14:33');
 
 -- --------------------------------------------------------
 
@@ -1053,7 +1098,7 @@ INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`)
 (115, 1, 'WQkHX9pd7HnW6Fwd58b6FNwURcoRYyK6', '2017-11-12 19:36:57', '2017-11-12 19:36:57'),
 (119, 4, 'FGLu6nkqZkVigimI5Chx4mNmXgdi22qe', '2017-11-12 19:44:50', '2017-11-12 19:44:50'),
 (124, 1, '1kZXCQqSfCEwmILvBACrUaHl5MpzQWXX', '2017-11-12 20:47:34', '2017-11-12 20:47:34'),
-(125, 1, 'RMVSsrsld3Bt2yiDuw8k5VhfohZMSTnH', '2017-11-13 06:37:54', '2017-11-13 06:37:54');
+(128, 1, 'fprEz7BqstCwooNygjHWJ3DMMRK4L5WK', '2017-11-13 11:49:28', '2017-11-13 11:49:28');
 
 -- --------------------------------------------------------
 
@@ -1238,7 +1283,7 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `code`, `fullname`, `alias`, `image`, `status`, `child_image`, `price`, `sale_price`, `intro`, `detail`, `sort_order`, `created_at`, `updated_at`) VALUES
-(6, '123456', 'Sản phẩm 1', 'san-pham-1', 'iphone-8-plus-256gb-h11-org.jpg', 1, '[\"iphone-8-plus-256gb-den-6-org.jpg\",\"iphone-8-plus-256gb-den-8-org.jpg\",\"iphone-8-plus-256gb-den-1-org.jpg\"]', '300000.00', '200000.00', 'Mục tiêu đạt chuẩn Đại kiện tướng năm 2018 chỉ là bước đầu trong hành trình trở thành kỳ thủ chuyên nghiệp của Nguyễn Anh Khôi.', '<p style=\"text-align:justify\">L&agrave; kỳ thủ Việt Nam duy nhất hai lần v&ocirc; địch trẻ thế giới, Anh Kh&ocirc;i sở hữu tiềm năng kh&ocirc;ng thể b&agrave;n c&atilde;i. Cuối th&aacute;ng 10/2017, kỳ thủ 15 tuổi cũng đoạt th&ecirc;m hai HC v&agrave;ng cờ nhanh chớp trẻ thế giới, d&ugrave; kh&ocirc;ng phải so t&agrave;i với nhiều đối thủ xứng tầm. Bảng th&agrave;nh t&iacute;ch ở giải trẻ của Anh Kh&ocirc;i sẽ được k&eacute;o d&agrave;i trong những năm mới, c&ugrave;ng với đ&oacute; l&agrave; những giải mở, d&agrave;nh cho &ldquo;người lớn&rdquo;. Anh Kh&ocirc;i mới 15 tuổi, nhưng đọ sức với những kỳ thủ h&agrave;ng đầu lu&ocirc;n kh&ocirc;ng thừa.</p>', 1, '2017-10-05 17:51:11', '2017-11-13 01:00:32');
+(7, '123456789', 'Sofa 1', 'sofa-1', 'sofa-1.png', 1, NULL, '5000000.00', '4000000.00', 'Đang cập nhật', '<p>đang cập nhật</p>', 1, '2017-11-13 18:51:54', '2017-11-13 18:55:46');
 
 -- --------------------------------------------------------
 
@@ -1260,8 +1305,7 @@ CREATE TABLE `product_category` (
 --
 
 INSERT INTO `product_category` (`id`, `product_id`, `category_product_id`, `created_at`, `updated_at`) VALUES
-(17, 6, 12, '2017-10-05 17:51:11', '2017-10-05 17:51:11'),
-(18, 6, 18, '2017-10-05 17:51:11', '2017-10-05 17:51:11');
+(22, 7, 32, '2017-11-13 18:54:33', '2017-11-13 18:54:33');
 
 -- --------------------------------------------------------
 
@@ -1364,7 +1408,7 @@ CREATE TABLE `setting_system` (
 --
 
 INSERT INTO `setting_system` (`id`, `fullname`, `alias`, `article_perpage`, `article_width`, `article_height`, `product_perpage`, `product_width`, `product_height`, `currency_unit`, `smtp_host`, `smtp_port`, `encription`, `authentication`, `smtp_username`, `smtp_password`, `email_from`, `email_to`, `from_name`, `to_name`, `contacted_phone`, `address`, `website`, `telephone`, `opened_time`, `opened_date`, `contacted_name`, `facebook_url`, `twitter_url`, `google_plus`, `youtube_url`, `instagram_url`, `pinterest_url`, `slogan_about`, `map_url`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'settingsystem', 'setting-system', 6, 360, 230, 12, 510, 340, 'vi_VN', 'smtp.gmail.com', '465', 'ssl', 1, 'dien.toannang@gmail.com', 'lienhoancuoc', 'dienit02@gmail.com', 'tichtacso.com@gmail.com', 'Hệ thống', 'Công Ty TNHH VIDOCO', '096.302.7720', '35/6 Bùi Quang Là - P.12 - Q. Gò Vấp - HCM', 'noithatgialai.net', '096.302.7720', '8h - 20h', '(T2-T7). Chủ Nhật nghỉ', 'Mr. Vinh', 'https://www.facebook.com/nguyenvan.laptrinh', 'https://twitter.com/', 'https://plus.google.com/u/0/?hl=vi', 'https://www.youtube.com/watch?v=kAcV7S3sySU', 'http://flickr.com', 'http://daidung.vn/', 'Mipec cung cấp thực phẩm sạch, an toàn, đảm bảo chất lượng hàng đầu. Xóa đi nỗi lo về an toàn thực phẩm', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3871.605543764119!2d108.07355431421081!3d13.982069195684272!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDU4JzU1LjQiTiAxMDjCsDA0JzMyLjciRQ!5e0!3m2!1svi!2s!4v1508913801584', 1, 1, '2017-11-10 19:46:32', '2017-11-11 10:28:50');
+(1, 'settingsystem', 'setting-system', 6, 360, 230, 12, 400, 400, 'vi_VN', 'smtp.gmail.com', '465', 'ssl', 1, 'dien.toannang@gmail.com', 'lienhoancuoc', 'dienit02@gmail.com', 'tichtacso.com@gmail.com', 'Hệ thống', 'Công Ty TNHH VIDOCO', '096.302.7720', '35/6 Bùi Quang Là - P.12 - Q. Gò Vấp - HCM', 'noithatgialai.net', '096.302.7720', '8h - 20h', '(T2-T7). Chủ Nhật nghỉ', 'Mr. Vinh', 'https://www.facebook.com/nguyenvan.laptrinh', 'https://twitter.com/', 'https://plus.google.com/u/0/?hl=vi', 'https://www.youtube.com/watch?v=kAcV7S3sySU', 'http://flickr.com', 'http://daidung.vn/', 'Mipec cung cấp thực phẩm sạch, an toàn, đảm bảo chất lượng hàng đầu. Xóa đi nỗi lo về an toàn thực phẩm', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3871.605543764119!2d108.07355431421081!3d13.982069195684272!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDU4JzU1LjQiTiAxMDjCsDA0JzMyLjciRQ!5e0!3m2!1svi!2s!4v1508913801584', 1, 1, '2017-11-10 19:46:32', '2017-11-13 17:52:55');
 
 -- --------------------------------------------------------
 
@@ -1718,7 +1762,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `group_member_id`, `password`, `permissions`, `last_login`, `fullname`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'diennk@dienkim.com', 1, '$2y$10$rpZe6oM3GUJmwL/ZMTKm/OSe24l9TJKFU9lwd8VmohkqH0Oax6rVK', NULL, '2017-11-13 06:37:54', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-13 06:37:54'),
+(1, 'admin', 'diennk@dienkim.com', 1, '$2y$10$rpZe6oM3GUJmwL/ZMTKm/OSe24l9TJKFU9lwd8VmohkqH0Oax6rVK', NULL, '2017-11-13 11:49:28', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-13 11:49:28'),
 (4, 'trietnk', 'trietnk@dienkim.com', 1, '$2y$10$0zm9JjK..Cr6zZSzlhxrbuCQAHSy1HjptXb5.02PIzDNubHYD0dje', NULL, '2017-11-12 20:47:22', 'Nguyễn Kim Triết', 2, 0, '2017-11-12 10:59:09', '2017-11-12 20:47:40');
 
 --
@@ -1944,7 +1988,7 @@ ALTER TABLE `article_category`
 -- AUTO_INCREMENT cho bảng `banner`
 --
 ALTER TABLE `banner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT cho bảng `category_article`
 --
@@ -1954,7 +1998,7 @@ ALTER TABLE `category_article`
 -- AUTO_INCREMENT cho bảng `category_product`
 --
 ALTER TABLE `category_product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT cho bảng `customer`
 --
@@ -1984,12 +2028,12 @@ ALTER TABLE `invoice_detail`
 -- AUTO_INCREMENT cho bảng `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT cho bảng `menu_type`
 --
 ALTER TABLE `menu_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT cho bảng `migrations`
 --
@@ -2024,7 +2068,7 @@ ALTER TABLE `payment_method`
 -- AUTO_INCREMENT cho bảng `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
 --
 -- AUTO_INCREMENT cho bảng `photo`
 --
@@ -2039,12 +2083,12 @@ ALTER TABLE `privilege`
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT cho bảng `product_category`
 --
 ALTER TABLE `product_category`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT cho bảng `reminders`
 --

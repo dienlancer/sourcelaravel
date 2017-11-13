@@ -1,5 +1,4 @@
 <?php 
-use App\SettingSystemModel;
 $data_setting_system=getSettingSystem();
 $contacted_phone=$data_setting_system['contacted_phone'];
 $email_to=$data_setting_system['email_to'];

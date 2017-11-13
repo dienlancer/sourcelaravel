@@ -46,11 +46,11 @@ function wp_nav_menu($args){
     }
     $menu_str              =  "";      
     $lanDau                =  0;    
-    mooMenuRecursive($arr_menu,0,$menu_str,$lanDau,url('/'),$args['alias'],$args['menu_id'],$args['menu_class'],$args['menu_li_actived'],$args['menu_item_has_children']);
+    mooMenuRecursive($arr_menu,0,$menu_str,$lanDau,url('/'),$args['alias'],$args['menu_id'],$args['menu_class'],$args['menu_li_actived'],$args['menu_item_has_children'],$args['link_before'],$args['link_after']);
     $menu_str = str_replace('<ul></ul>', '', $menu_str);
     echo $menu_str;
 }
-function mooMenuRecursive($source,$parent,&$menu_str,&$lanDau,$url,$alias,$menu_id,$menu_class,$menu_li_actived,$menu_item_has_children){
+function mooMenuRecursive($source,$parent,&$menu_str,&$lanDau,$url,$alias,$menu_id,$menu_class,$menu_li_actived,$menu_item_has_children,$link_before,$link_after){
     if(count($source) > 0){          
             $menu_str .='<ul>';
             if($lanDau == 0){
@@ -66,10 +66,16 @@ function mooMenuRecursive($source,$parent,&$menu_str,&$lanDau,$url,$alias,$menu_
                               $class_activated=1;                              
                           }
                           $menuName='';
-                          if($class_activated==1){
-                              $menuName = '<a href="'.$link.'" class="active" >' . $value["fullname"] . '</a>';
+                          $fullname='';
+                          if(!empty($link_before) && !empty($link_after)){
+                              $fullname=$link_before . $value['fullname'] . $link_after;
                           }else{
-                              $menuName = '<a href="'.$link.'"  >' . $value["fullname"] . '</a>';
+                              $fullname=$value['fullname'];
+                          }
+                          if($class_activated==1){
+                              $menuName = '<a href="'.$link.'" class="active" >' . $fullname . '</a>';
+                          }else{
+                              $menuName = '<a href="'.$link.'"  >' . $fullname . '</a>';
                           }                                                    
                           if((int)$value["havechild"]==1){
                               $li='';
@@ -92,7 +98,7 @@ function mooMenuRecursive($source,$parent,&$menu_str,&$lanDau,$url,$alias,$menu_
                           unset($source[$key]);
                           $newParent=$value["id"];
                           $lanDau =$lanDau+1;
-                          mooMenuRecursive($source,$newParent,$menu_str,$lanDau,$url,$alias,$menu_id,$menu_class,$menu_li_actived,$menu_item_has_children);
+                          mooMenuRecursive($source,$newParent,$menu_str,$lanDau,$url,$alias,$menu_id,$menu_class,$menu_li_actived,$menu_item_has_children,$link_before,$link_after);
                           $menu_str .='</li>';
                     }
             }

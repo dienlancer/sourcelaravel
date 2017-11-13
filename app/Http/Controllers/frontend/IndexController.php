@@ -17,6 +17,7 @@ use App\UserGroupModel;
 use App\CustomerModel;
 use App\InvoiceModel;
 use App\InvoiceDetailModel;
+use App\BannerModel;
 use Session;
 use DB;
 class IndexController extends Controller {
@@ -27,7 +28,8 @@ class IndexController extends Controller {
     $alias="trang-chu";
     $meta_keyword="";
     $meta_description="";  
-    return view("frontend.index",compact("component","meta_keyword","meta_description","alias"));
+    $data_banner=BannerModel::whereRaw('status=?',[1])->orderBy('sort_order','asc')->select('image')->get()->toArray();            
+    return view("frontend.index",compact("component","meta_keyword","meta_description","alias",'data_banner'));
   }
 	public function index($component,$alias)
       {                                 
