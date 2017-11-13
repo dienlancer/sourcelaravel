@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 13, 2017 lúc 07:03 AM
+-- Thời gian đã tạo: Th10 13, 2017 lúc 02:59 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -824,7 +824,7 @@ CREATE TABLE `menu` (
 --
 
 INSERT INTO `menu` (`id`, `fullname`, `alias`, `site_link`, `parent_id`, `menu_type_id`, `level`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Trang chủ', 'trang-chu', 'trang-chu', 0, 1, 0, 1, 1, '2017-11-13 04:31:34', '2017-11-13 04:31:45'),
+(1, 'Trang chủ', 'trang-chu', '/trang-chu', 0, 1, 0, 1, 1, '2017-11-13 04:31:34', '2017-11-13 13:38:06'),
 (5, 'Liên hệ', 'lien-he', '/lien-he', 0, 1, 0, 5, 1, '2017-11-13 04:34:54', '2017-11-13 04:34:54'),
 (6, 'Giới thiệu', 'gioi-thieu', '/bai-viet/gioi-thieu', 0, 1, 0, 2, 1, '2017-11-13 04:36:20', '2017-11-13 04:36:20'),
 (7, 'Tin tức', 'tin-tuc', '/chu-de/tin-tuc', 0, 1, 0, 3, 1, '2017-11-13 04:36:41', '2017-11-13 04:36:41'),
@@ -1052,7 +1052,8 @@ INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`)
 (113, 4, '2iWGSejY4rkJdkY2iK65Na0UV05uJEZ3', '2017-11-12 19:34:34', '2017-11-12 19:34:34'),
 (115, 1, 'WQkHX9pd7HnW6Fwd58b6FNwURcoRYyK6', '2017-11-12 19:36:57', '2017-11-12 19:36:57'),
 (119, 4, 'FGLu6nkqZkVigimI5Chx4mNmXgdi22qe', '2017-11-12 19:44:50', '2017-11-12 19:44:50'),
-(124, 1, '1kZXCQqSfCEwmILvBACrUaHl5MpzQWXX', '2017-11-12 20:47:34', '2017-11-12 20:47:34');
+(124, 1, '1kZXCQqSfCEwmILvBACrUaHl5MpzQWXX', '2017-11-12 20:47:34', '2017-11-12 20:47:34'),
+(125, 1, 'RMVSsrsld3Bt2yiDuw8k5VhfohZMSTnH', '2017-11-13 06:37:54', '2017-11-13 06:37:54');
 
 -- --------------------------------------------------------
 
@@ -1717,7 +1718,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `group_member_id`, `password`, `permissions`, `last_login`, `fullname`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'diennk@dienkim.com', 1, '$2y$10$rpZe6oM3GUJmwL/ZMTKm/OSe24l9TJKFU9lwd8VmohkqH0Oax6rVK', NULL, '2017-11-12 20:47:34', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-12 20:47:34'),
+(1, 'admin', 'diennk@dienkim.com', 1, '$2y$10$rpZe6oM3GUJmwL/ZMTKm/OSe24l9TJKFU9lwd8VmohkqH0Oax6rVK', NULL, '2017-11-13 06:37:54', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-13 06:37:54'),
 (4, 'trietnk', 'trietnk@dienkim.com', 1, '$2y$10$0zm9JjK..Cr6zZSzlhxrbuCQAHSy1HjptXb5.02PIzDNubHYD0dje', NULL, '2017-11-12 20:47:22', 'Nguyễn Kim Triết', 2, 0, '2017-11-12 10:59:09', '2017-11-12 20:47:40');
 
 --
@@ -2013,7 +2014,7 @@ ALTER TABLE `module_menu`
 -- AUTO_INCREMENT cho bảng `mod_menu_type`
 --
 ALTER TABLE `mod_menu_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT cho bảng `payment_method`
 --
@@ -2023,7 +2024,7 @@ ALTER TABLE `payment_method`
 -- AUTO_INCREMENT cho bảng `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
 --
 -- AUTO_INCREMENT cho bảng `photo`
 --

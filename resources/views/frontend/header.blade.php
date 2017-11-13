@@ -74,6 +74,14 @@ $register_member_link=route("frontend.index.register");
   <link rel="stylesheet" href="{{ asset('public/frontend/css/menu-horizontal-right.css') }}" />
   <link rel="stylesheet" href="{{ asset('public/frontend/css/template.css') }}" />
   <link rel="stylesheet" href="{{ asset('public/frontend/css/custom.css') }}" />
+  <script type="text/javascript" language="javascript">
+    ddsmoothmenu.init({
+      mainmenuid: "smoothmainmenu", 
+      orientation: "h", 
+      classname: "ddsmoothmenu",
+      contentsource: "markup" 
+    });       
+  </script>
 </head>
 <body>
   <header>
@@ -121,25 +129,23 @@ $register_member_link=route("frontend.index.register");
                     <img src="<?php echo asset('resources/upload/logo-megashop.png');?>" />
                 </a></center>
             </div>
-            <div class="col-lg-6 no-padding">                          
-                <div id="smoothmainmenu" class="ddsmoothmenu">
-                  <?php     
+            <div class="col-lg-6 no-padding">                                
+                <div id="smoothmainmenu" class="ddsmoothmenu" >
+                     <?php     
                     $args = array(                         
                         'menu_class'            => 'mainmenu', 
                         'menu_id'               => 'main-menu',                         
                         'before'                => '', 
                         'after'                 => '', 
                         'link_before'           => '', 
-                        'link_after'            => '',                        
-                        'depth'                 => 3, 
-                        'walker'                => '', 
+                        'link_after'            => '',                                                                    
                         'theme_location'        => 'main-menu' ,
-                        'menu_li_actived'       =>'current-menu-item',
-                        'menu_item_has_children'=>'menu-item-has-children',
-                        'alias'                 =>$alias
+                        'menu_li_actived'       => 'current-menu-item',
+                        'menu_item_has_children'=> 'menu-item-has-children',
+                        'alias'                 => $alias
                     );                    
                     wp_nav_menu($args);
-                    ?>                    
+                    ?>                      
                 </div>                
             </div>
             <div class="col-lg-3 no-padding">

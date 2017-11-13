@@ -22,9 +22,9 @@ function getSettingSystem(){
   return $dataSettingSystem[0];     
 }
 function wp_nav_menu($args){
-    $alias_menu_type=$args['menu_id'];
-    $data_menu_type=MenuTypeModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias_menu_type))])->select('id')->get()->toArray()[0];
-    $data_menu=MenuModel::whereRaw('menu_type_id = ?',[(int)@$data_menu_type['id']])->orderBy('sort_order','asc')->get()->toArray();
+    $menu_type_alias=$args['theme_location'];
+    $data_menu_type=MenuTypeModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($menu_type_alias))])->select('id')->get()->toArray()[0];
+    $data_menu=MenuModel::whereRaw('menu_type_id = ?',[(int)@$data_menu_type['id']])->orderBy('sort_order','asc')->get()->toArray();    
     $arr_menu=array();  
     if(count($data_menu) > 0){
         for ($i=0;$i<count($data_menu);$i++) {
@@ -45,14 +45,8 @@ function wp_nav_menu($args){
         }
     }
     $menu_str              =  "";      
-    $lanDau                 =  0;
-    $menu_class             = $args['menu_class']; 
-    $menu_id                = $args['menu_id']; 
-    $theme_location         = $alias_menu_type ;
-    $menu_li_actived        = $args['menu_li_actived'];
-    $menu_item_has_children = $args['menu_item_has_children'];
-    $url=url('/');
-    mooMenuRecursive($arr_menu,0,$menu_str,$lanDau,$url,$args['alias'],$menu_id,$menu_class,$menu_li_actived,$menu_item_has_children);
+    $lanDau                =  0;    
+    mooMenuRecursive($arr_menu,0,$menu_str,$lanDau,url('/'),$args['alias'],$args['menu_id'],$args['menu_class'],$args['menu_li_actived'],$args['menu_item_has_children']);
     $menu_str = str_replace('<ul></ul>', '', $menu_str);
     echo $menu_str;
 }
@@ -60,7 +54,7 @@ function mooMenuRecursive($source,$parent,&$menu_str,&$lanDau,$url,$alias,$menu_
     if(count($source) > 0){          
             $menu_str .='<ul>';
             if($lanDau == 0){
-                  $menu_str ='<ul id="'.$menu_id.'" class="'.$menu_class.'">';
+                  $menu_str ='<ul id="'.$menu_id.'" class="'.$menu_class.'"  >';
             }                          
             foreach ($source as $key => $value) 
             {                  
