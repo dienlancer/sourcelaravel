@@ -17,9 +17,9 @@ function uploadImage($fileObj,$width,$height){
   }   
 }
 function getSettingSystem(){        
-  $alias='setting-system';
-  $dataSettingSystem                   =   SettingSystemModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower(@$alias))])->get()->toArray(); 
-  return $dataSettingSystem[0];     
+    $alias='setting-system';
+    $dataSettingSystem                   =   SettingSystemModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower(@$alias))])->get()->toArray(); 
+    return $dataSettingSystem[0];     
 }
 function wp_nav_menu($args){
     $menu_type_alias=$args['theme_location'];
