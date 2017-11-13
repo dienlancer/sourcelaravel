@@ -1,7 +1,6 @@
 <?php 
 use App\SettingSystemModel;
-$alias_setting_system='setting-system';
-$data_setting_system=SettingSystemModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias_setting_system))])->get()->toArray()[0];
+$data_setting_system=getSettingSystem();
 
 $contacted_phone=$data_setting_system['contacted_phone'];
 $email_to=$data_setting_system['email_to'];
