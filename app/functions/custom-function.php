@@ -1,5 +1,7 @@
 <?php 
 use App\SettingSystemModel;
+use App\MenuModel;
+use App\MenuTypeModel;
 function uploadImage($fileObj,$width,$height){        
   require_once base_path() . DS ."app".DS."scripts".DS."PhpThumb".DS."ThumbLib.inc.php";    
   $uploadDir = base_path() . DS ."resources".DS."upload";                    
@@ -16,50 +18,91 @@ function uploadImage($fileObj,$width,$height){
 }
 function getSettingSystem(){        
   $alias='setting-system';
-      $dataSettingSystem                   =   SettingSystemModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower(@$alias))])->get()->toArray(); 
+  $dataSettingSystem                   =   SettingSystemModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower(@$alias))])->get()->toArray(); 
   return $dataSettingSystem[0];     
 }
-function wp_nav_menu($args=array()){
-
+function wp_nav_menu($args){
+    $alias_menu_type=$args['menu_id'];
+    $data_menu_type=MenuTypeModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias_menu_type))])->select('id')->get()->toArray()[0];
+    $data_menu=MenuModel::whereRaw('menu_type_id = ?',[(int)@$data_menu_type['id']])->orderBy('sort_order','asc')->get()->toArray();
+    $arr_menu=array();  
+    if(count($data_menu) > 0){
+        for ($i=0;$i<count($data_menu);$i++) {
+            $menu=array();
+            $menu=$data_menu[$i];
+            $site_link='';
+            if(!empty( $data_menu[$i]["site_link"] )){
+              $site_link=$data_menu[$i]["site_link"].".html";
+            }
+            $menu["site_link"] =$site_link;            
+            $data_child=MenuModel::whereRaw('parent_id = ?',[(int)$data_menu[$i]["id"]])->select('id')->get()->toArray();
+            if(count($data_child) > 0){
+              $menu["havechild"]=1;
+            }else{
+              $menu["havechild"]=0;
+            }
+            $arr_menu[]=$menu;
+        }
+    }
+    $menu_str              =  "";      
+    $lanDau                 =  0;
+    $menu_class             = $args['menu_class']; 
+    $menu_id                = $args['menu_id']; 
+    $theme_location         = $alias_menu_type ;
+    $menu_li_actived        = $args['menu_li_actived'];
+    $menu_item_has_children = $args['menu_item_has_children'];
+    $url=url('/');
+    mooMenuRecursive($arr_menu,0,$menu_str,$lanDau,$url,$args['alias'],$menu_id,$menu_class,$menu_li_actived,$menu_item_has_children);
+    $menu_str = str_replace('<ul></ul>', '', $menu_str);
+    echo $menu_str;
 }
-function mooMenuRecursive($source, $parent, &$newString, &$lanDau,$url,$alias,$menu_id,$menu_class){    
-    if(!count($source) > 0){
-          $newString .='<ul>';
-          if($lanDau == 0){
-                $newString ='<ul id="'.$menu_id.'" class="'.$menu_class.'">';
-          }                              
-          foreach ($source as $key => $value) 
-          {
-                  if((int)$value["parent_id"]==(int)$parent)
-                  {
-                        $link=$url.$value["site_link"];
-                        $class_active=0;
-                        if(trim(mb_strtolower($value["alias"]))  == trim(mb_strtolower($alias))  ){
-                            $class_active=1;
-                        }
-                        $menuName = '<a href="'.$link.'"   ><span>' . $value["name"] . '</span></a>';              
-                        if((int)$value["havechild"]==1){
-                            $level=(int)$value["level"];
-                            switch ($level) {
-                              case 0:  
-                                  $newString .='<li class="havechild">'.$menuName;                
-                                  break;
-                              default:
-                                  $newString .='<li class="havesubchild">'.$menuName;                    
-                                  break;
-                            }  
-                        }
-                        else{
-                              $newString .='<li>'.$menuName;                
-                        }              
-                        unset($source[$key]);
-                        $newParent=$value["id"];
-                        $lanDau =$lanDau+1;
-                        mooMenuRecursive($source, $newParent, $newString, $lanDau,$url,$alias);
-                        $newString .='</li>';
-                  }
-          }
-          $newString .='</ul>'; 
+function mooMenuRecursive($source,$parent,&$menu_str,&$lanDau,$url,$alias,$menu_id,$menu_class,$menu_li_actived,$menu_item_has_children){
+    if(count($source) > 0){          
+            $menu_str .='<ul>';
+            if($lanDau == 0){
+                  $menu_str ='<ul id="'.$menu_id.'" class="'.$menu_class.'">';
+            }                          
+            foreach ($source as $key => $value) 
+            {                  
+                    if((int)$value["parent_id"]==(int)$parent)
+                    {
+                          $link=$url.$value["site_link"];
+                          $class_activated=0;                          
+                          if( strcmp(trim(mb_strtolower($value["alias"])),trim(mb_strtolower($alias)))   ==  0 ){
+                              $class_activated=1;                              
+                          }
+                          $menuName='';
+                          if($class_activated==1){
+                              $menuName = '<a href="'.$link.'" class="active" >' . $value["fullname"] . '</a>';
+                          }else{
+                              $menuName = '<a href="'.$link.'"  >' . $value["fullname"] . '</a>';
+                          }                                                    
+                          if((int)$value["havechild"]==1){
+                              $li='';
+                              if($class_activated==1){
+                                  $li='<li class="'.$menu_item_has_children.' '.$menu_li_actived.'"  >'.$menuName;
+                              }else{
+                                  $li='<li class="'.$menu_item_has_children.'"  >'.$menuName;
+                              }
+                              $menu_str .=$li;                                
+                          }
+                          else{
+                              $li='';
+                              if($class_activated==1){
+                                  $li='<li class="'.$menu_li_actived.'"  >'.$menuName;
+                              }else{
+                                  $li='<li   >'.$menuName;
+                              }
+                              $menu_str .=$li;                                
+                          }              
+                          unset($source[$key]);
+                          $newParent=$value["id"];
+                          $lanDau =$lanDau+1;
+                          mooMenuRecursive($source,$newParent,$menu_str,$lanDau,$url,$alias,$menu_id,$menu_class,$menu_li_actived,$menu_item_has_children);
+                          $menu_str .='</li>';
+                    }
+            }
+            $menu_str .='</ul>'; 
     }
 }
 ?>

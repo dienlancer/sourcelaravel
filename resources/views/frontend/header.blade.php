@@ -1,7 +1,5 @@
 <?php 
 use App\SettingSystemModel;
-use App\MenuModel;
-use App\MenuTypeModel;
 $alias_setting_system='setting-system';
 $data_setting_system=SettingSystemModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias_setting_system))])->get()->toArray()[0];
 
@@ -21,7 +19,6 @@ $google_plus=$data_setting_system['google_plus'];
 $youtube_url=$data_setting_system['youtube_url'];
 $instagram_url=$data_setting_system['instagram_url'];
 $pinterest_url=$data_setting_system['pinterest_url'];     
-
 $ssName="vmuser";
 $arrUser=array();            
 if(Session::has($ssName)){
@@ -32,37 +29,6 @@ $logout_link=route("frontend.index.getLgout");
 $security_link=route("frontend.index.viewSecurity"); 
 $invoice_link=route("frontend.index.getInvoice");
 $register_member_link=route("frontend.index.register");
-
-$alias_menu_type='main-menu';
-$data_menu_type=MenuTypeModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias_menu_type))])->select('id')->get()->toArray()[0];
-$data_menu=MenuModel::whereRaw('menu_type_id = ?',[(int)@$data_menu_type['id']])->get()->toArray();
-$arr_menu=array();  
-if(count($data_menu) > 0){
-  for ($i=0;$i<count($data_menu);$i++) {
-    $menu=array();
-    $menu=$data_menu[$i];
-    $site_link='';
-    if(!empty( $data_menu[$i]["site_link"] )){
-      $site_link=$data_menu[$i]["site_link"].".html";
-    }
-    $menu["site_link"] =$site_link;            
-    $data_child=MenuModel::whereRaw('parent_id = ?',[(int)$data_menu[$i]["id"]])->select('id')->get()->toArray();
-    if(count($data_child) > 0){
-      $menu["havechild"]=1;
-    }else{
-      $menu["havechild"]=0;
-    }
-    $arr_menu[]=$menu;
-  }
-}
-
-$newString="";      
-$menu_class        = 'mainmenu'; 
-$menu_id           = 'main-menu';
-$theme_location    = $alias_menu_type ;
-
-mooMenuRecursive($arr_menu, 0, $newString,0,url("/"),$alias,$menu_id,$menu_class);
-echo "<pre>".print_r($newString,true)."</pre>";
 ?>
 <!DOCTYPE html>
 <html>
@@ -155,29 +121,25 @@ echo "<pre>".print_r($newString,true)."</pre>";
                     <img src="<?php echo asset('resources/upload/logo-megashop.png');?>" />
                 </a></center>
             </div>
-            <div class="col-lg-6 no-padding">                
+            <div class="col-lg-6 no-padding">                          
                 <div id="smoothmainmenu" class="ddsmoothmenu">
-                    <?php     
-                    $args = array( 
-                        'menu'              => '', 
-                        'container'         => '', 
-                        'container_class'   => '', 
-                        'container_id'      => '', 
-                        'menu_class'        => 'mainmenu', 
-                        'menu_id'           => 'main-menu', 
-                        'echo'              => true, 
-                        'fallback_cb'       => 'wp_page_menu', 
-                        'before'            => '', 
-                        'after'             => '', 
-                        'link_before'       => '', 
-                        'link_after'        => '', 
-                        'items_wrap'        => '<ul id="%1$s" class="%2$s">%3$s</ul>',  
-                        'depth'             => 3, 
-                        'walker'            => '', 
-                        'theme_location'    => 'main-menu' 
-                    );
-                    //wp_nav_menu($args);
-                    ?>                
+                  <?php     
+                    $args = array(                         
+                        'menu_class'            => 'mainmenu', 
+                        'menu_id'               => 'main-menu',                         
+                        'before'                => '', 
+                        'after'                 => '', 
+                        'link_before'           => '', 
+                        'link_after'            => '',                        
+                        'depth'                 => 3, 
+                        'walker'                => '', 
+                        'theme_location'        => 'main-menu' ,
+                        'menu_li_actived'       =>'current-menu-item',
+                        'menu_item_has_children'=>'menu-item-has-children',
+                        'alias'                 =>$alias
+                    );                    
+                    wp_nav_menu($args);
+                    ?>                    
                 </div>                
             </div>
             <div class="col-lg-3 no-padding">
