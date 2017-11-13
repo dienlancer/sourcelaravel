@@ -49,7 +49,8 @@ var basicTable = function () {
         vMenuTypeTable = $('#tbl-menu-type').DataTable({
             columns: [                
                 { data: "checked"            },
-                { data: "fullname"      },               
+                { data: "fullname"      },   
+                { data: "alias"      },               
                 { data: "sort_order"    },                                                
                 { data: "edited"    },         
                 { data: "deleted"    },                

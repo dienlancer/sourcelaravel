@@ -42,6 +42,7 @@ class MenuTypeController extends Controller {
     public function save(Request $request){
         $id 					       =	trim($request->id)	;        
         $fullname 				   =	trim($request->fullname)	;  
+        $alias            =  trim($request->alias)  ;  
         $sort_order 			   =	trim($request->sort_order);
         $data 		= array();
         $info 		= array();
@@ -65,6 +66,23 @@ class MenuTypeController extends Controller {
               $error["fullname"]["msg"] = "Fullname is existed in system";
             }      	
         }
+        if(empty($alias)){
+            $checked = 0;
+            $error["alias"]["type_msg"] = "has-error";
+            $error["alias"]["msg"] = "Alias is required";
+        }else{
+            $data=array();
+            if (empty($id)) {
+                $data=MenuTypeModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias,'UTF-8'))])->get()->toArray();            
+            }else{
+              $data=MenuTypeModel::whereRaw("trim(lower(alias)) = ? and id != ?",[trim(mb_strtolower($alias,'UTF-8')),(int)@$id])->get()->toArray();    
+            }  
+            if (count($data) > 0) {
+              $checked = 0;
+              $error["alias"]["type_msg"] = "has-error";
+              $error["alias"]["msg"] = "Alias is existed in system";
+            }       
+        }
         if(empty($sort_order)){
              $checked = 0;
              $error["sort_order"]["type_msg"] 	= "has-error";
@@ -81,6 +99,7 @@ class MenuTypeController extends Controller {
                     $item				    =	MenuTypeModel::find((int)@$id);     	  		 
               }  
               $item->fullname 		  =	$fullname;
+              $item->alias       = $alias;
               $item->sort_order 		=	(int)$sort_order;  
               $item->updated_at 		=	date("Y-m-d H:i:s",time());    	        	
               $item->save();  	

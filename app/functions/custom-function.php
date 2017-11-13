@@ -19,4 +19,47 @@ function getSettingSystem(){
       $dataSettingSystem                   =   SettingSystemModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower(@$alias))])->get()->toArray(); 
   return $dataSettingSystem[0];     
 }
+function wp_nav_menu($args=array()){
+
+}
+function mooMenuRecursive($source, $parent, &$newString, &$lanDau,$url,$alias,$menu_id,$menu_class){    
+    if(!count($source) > 0){
+          $newString .='<ul>';
+          if($lanDau == 0){
+                $newString ='<ul id="'.$menu_id.'" class="'.$menu_class.'">';
+          }                              
+          foreach ($source as $key => $value) 
+          {
+                  if((int)$value["parent_id"]==(int)$parent)
+                  {
+                        $link=$url.$value["site_link"];
+                        $classA="";
+                        if(trim(mb_strtolower($value["alias"]))  == trim(mb_strtolower($alias))  ){
+                            $classA='class="active"';
+                        }
+                        $menuName = '<a href="' .$link.'" '.$classA.' ><span>' . $value["name"] . '</span></a>';              
+                        if((int)$value["havechild"]==1){
+                            $level=(int)$value["level"];
+                            switch ($level) {
+                              case 0:  
+                                  $newString .='<li class="havechild">'.$menuName;                
+                                  break;
+                              default:
+                                  $newString .='<li class="havesubchild">'.$menuName;                    
+                                  break;
+                            }  
+                        }
+                        else{
+                              $newString .='<li>'.$menuName;                
+                        }              
+                        unset($source[$key]);
+                        $newParent=$value["id"];
+                        $lanDau =$lanDau+1;
+                        mooMenuRecursive($source, $newParent, $newString, $lanDau,$url,$alias);
+                        $newString .='</li>';
+                  }
+          }
+          $newString .='</ul>'; 
+    }
+}
 ?>

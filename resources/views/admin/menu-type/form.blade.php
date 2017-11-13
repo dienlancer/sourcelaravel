@@ -4,6 +4,7 @@
 $linkCancel             =   route('admin.'.$controller.'.getList');
 $linkSave               =   route('admin.'.$controller.'.save');
 $inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"       value="'.@$arrRowData['fullname'].'">'; 
+$inputAlias          =   '<input type="text" class="form-control" name="alias"   id="alias"       value="'.@$arrRowData['alias'].'">'; 
 $inputSortOrder         =   '<input type="text" class="form-control" name="sort_order" id="sort_order"     value="'.@$arrRowData['sort_order'].'">';
 $id                     =   (count($arrRowData) > 0) ? @$arrRowData['id'] : "" ;
 $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$id.'" />'; 
@@ -36,13 +37,23 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                         </div>
                     </div>   
                     <div class="form-group col-md-6">
+                        <label class="col-md-3 control-label"><b>Alias</b></label>
+                        <div class="col-md-9">
+                            <?php echo $inputAlias; ?>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>   
+                </div> 
+                <div class="row">
+                    <div class="form-group col-md-6">
                         <label class="col-md-3 control-label"><b>Sort</b></label>
                         <div class="col-md-9">
                             <?php echo $inputSortOrder; ?>
                             <span class="help-block"></span>
                         </div>
                     </div>   
-                </div>                                                                      
+                    <div class="form-group col-md-6"></div>
+                </div>                                                                     
             </div>  
             <div class="form-actions noborder">
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}" />                          
@@ -57,22 +68,26 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
         var fullname             =   $("#fullname");                
         var sort_order           =   $("#sort_order");        
         
-        $(fullname).closest('.form-group').removeClass("has-error");        
+        $(fullname).closest('.form-group').removeClass("has-error");   
+        $(alias).closest('.form-group').removeClass("has-error");        
         $(sort_order).closest('.form-group').removeClass("has-error");            
 
         $(fullname).closest('.form-group').find('span').empty().hide();        
+        $(alias).closest('.form-group').find('span').empty().hide();        
         $(sort_order).closest('.form-group').find('span').empty().hide();            
     }
 
     function save(){
         var id=$("#id").val();        
-        var fullname=$("#fullname").val();                
+        var fullname=$("#fullname").val(); 
+        var alias=$("#alias").val();                
         var sort_order=$("#sort_order").val();        
         var token = $('input[name="_token"]').val();   
         resetErrorStatus();
         var dataItem={
             "id":id,
-            "fullname":fullname,            
+            "fullname":fullname,   
+            "alias":alias,         
             "sort_order":sort_order,            
             "_token": token
         };
@@ -90,7 +105,12 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                         $("#fullname").closest('.form-group').addClass(data_error.fullname.type_msg);
                         $("#fullname").closest('.form-group').find('span').text(data_error.fullname.msg);
                         $("#fullname").closest('.form-group').find('span').show();                        
-                    }                    
+                    }          
+                    if(typeof data_error.alias               != "undefined"){
+                        $("#alias").closest('.form-group').addClass(data_error.alias.type_msg);
+                        $("#alias").closest('.form-group').find('span').text(data_error.alias.msg);
+                        $("#alias").closest('.form-group').find('span').show();                        
+                    }             
                     if(typeof data_error.sort_order               != "undefined"){
                         $("#sort_order").closest('.form-group').addClass(data_error.sort_order.type_msg);
                         $("#sort_order").closest('.form-group').find('span').text(data_error.sort_order.msg);
