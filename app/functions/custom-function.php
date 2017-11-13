@@ -33,11 +33,11 @@ function mooMenuRecursive($source, $parent, &$newString, &$lanDau,$url,$alias,$m
                   if((int)$value["parent_id"]==(int)$parent)
                   {
                         $link=$url.$value["site_link"];
-                        $classA="";
+                        $class_active=0;
                         if(trim(mb_strtolower($value["alias"]))  == trim(mb_strtolower($alias))  ){
-                            $classA='class="active"';
+                            $class_active=1;
                         }
-                        $menuName = '<a href="' .$link.'" '.$classA.' ><span>' . $value["name"] . '</span></a>';              
+                        $menuName = '<a href="'.$link.'"   ><span>' . $value["name"] . '</span></a>';              
                         if((int)$value["havechild"]==1){
                             $level=(int)$value["level"];
                             switch ($level) {

@@ -56,12 +56,13 @@ if(count($data_menu) > 0){
   }
 }
 
-$lanDau=0;
 $newString="";      
 $menu_class        = 'mainmenu'; 
 $menu_id           = 'main-menu';
 $theme_location    = $alias_menu_type ;
-mooMenuRecursive($arr_menu, 0, $newString,$lanDau,url("/"),$alias,$menu_id,$menu_class);
+
+mooMenuRecursive($arr_menu, 0, $newString,0,url("/"),$alias,$menu_id,$menu_class);
+echo "<pre>".print_r($newString,true)."</pre>";
 ?>
 <!DOCTYPE html>
 <html>
