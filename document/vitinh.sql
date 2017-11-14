@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 13, 2017 lúc 07:56 PM
+-- Thời gian đã tạo: Th10 14, 2017 lúc 10:57 AM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -549,13 +549,6 @@ CREATE TABLE `article` (
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Đang đổ dữ liệu cho bảng `article`
---
-
-INSERT INTO `article` (`id`, `fullname`, `title`, `alias`, `image`, `intro`, `content`, `description`, `meta_keyword`, `meta_description`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(3, 'Cuộc Cách Mạng Trong Điều Trị Nám Tàn Nhang Bằng Laser Toning', 'Trị nám tàn nhang bằng laser toning cam kết đạt hiệu quả 99%', 'cuoc-cach-mang-trong-dieu-tri-nam-tan-nhang-bang-laser-toning', '', 'Sở hữu một khuôn mặt đẹp khả ái là niềm khao khát của không ít các chị em phụ nữ nhưng giờ việc điều trị nám tàn nhang bằng công nghệ Laser Toning sẽ giúp bạn biến giấc mơ đó thành hiện thực', '<p style=\"text-align:justify\">Kh&ocirc;ng Gordon Hayward, kh&ocirc;ng Al Horford, chủ nh&agrave; nhập cuộc tồi tệ với chỉ một lần th&agrave;nh c&ocirc;ng trong 11 t&igrave;nh huống b&oacute;ng sống đầu trận. Hy vọng tắt dần khi ng&ocirc;i sao Kyrie Irving chấn thương v&ugrave;ng mặt ngay trong hiệp một, rời s&acirc;n v&agrave; kh&ocirc;ng quay trở lại.</p>\n\n<p style=\"text-align:justify\">Celtics chỉ n&eacute;m th&agrave;nh c&ocirc;ng 33% trong nửa đầu trận, v&agrave; để đối thủ ghi 57 điểm trong hai hiệp đầu (cao thứ hai từ đầu giải).</p>', 'http://thammyvienngocdung.com/dich-vu/giam-mo-cong-nghe-lipo-hifu.html', 'trị nám tàn nhang', 'Cuộc cách mạng trong điều trị nám tàn nhang bằng laser toning luôn cho kết quả như mong muốn', 1, 1, '2017-10-02 16:12:20', '2017-11-13 01:47:08');
-
 -- --------------------------------------------------------
 
 --
@@ -570,14 +563,6 @@ CREATE TABLE `article_category` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `article_category`
---
-
-INSERT INTO `article_category` (`id`, `article_id`, `category_article_id`, `created_at`, `updated_at`) VALUES
-(42, 3, 58, '2017-10-05 17:26:11', '2017-10-05 17:26:11'),
-(43, 3, 59, '2017-10-05 17:26:11', '2017-10-05 17:26:11');
 
 -- --------------------------------------------------------
 
@@ -662,7 +647,7 @@ CREATE TABLE `category_product` (
 --
 
 INSERT INTO `category_product` (`id`, `fullname`, `alias`, `image`, `status`, `parent_id`, `sort_order`, `created_at`, `updated_at`) VALUES
-(10, 'Phòng khách', 'phong-khach', 'category-product-4.png', 1, 0, 1, '2017-10-05 15:08:13', '2017-11-13 18:00:23'),
+(10, 'Phòng khách', 'phong-khach', NULL, 1, 0, 1, '2017-10-05 15:08:13', '2017-11-14 06:57:51'),
 (11, 'Phòng ngủ', 'phong-ngu', 'category-product-7.png', 1, 0, 2, '2017-10-05 15:08:25', '2017-11-13 18:00:34'),
 (12, 'Sofa', 'sofa', 'category-product-1.png', 1, 0, 3, '2017-10-05 15:08:38', '2017-11-13 18:00:40'),
 (13, 'Phòng bếp', 'phong-bep', 'category-product-5.png', 1, 0, 4, '2017-10-05 15:08:57', '2017-11-13 18:02:41'),
@@ -972,7 +957,10 @@ CREATE TABLE `module_item` (
 --
 
 INSERT INTO `module_item` (`id`, `fullname`, `item_id`, `position`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 'ModuleItem1', '1', 'position-1', 1, 1, '2017-11-10 11:24:02', '2017-11-10 11:28:09');
+(1, 'Featured product', '7,8,9,10,11,12,13,14', 'featured-product', 1, 1, '2017-11-10 11:24:02', '2017-11-14 08:11:12'),
+(2, 'Toilet equipment', '7,8,9,10,11,12,13,14', 'toilet-equipment', 1, 2, '2017-11-14 08:51:21', '2017-11-14 09:36:06'),
+(3, 'Chicken equipment', '7,8,9,10,11,12,13,14', 'chicken-equipment', 1, 3, '2017-11-14 08:51:53', '2017-11-14 09:45:35'),
+(4, 'Clever house', '7,8,9,10,11,12,13,14', 'clever-house', 1, 4, '2017-11-14 08:52:39', '2017-11-14 08:52:39');
 
 -- --------------------------------------------------------
 
@@ -1014,6 +1002,16 @@ CREATE TABLE `mod_menu_type` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `mod_menu_type`
+--
+
+INSERT INTO `mod_menu_type` (`id`, `menu_id`, `module_id`, `module_type`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 'module-item', '2017-11-14 08:11:12', '2017-11-14 08:11:12'),
+(4, 1, 4, 'module-item', '2017-11-14 08:52:39', '2017-11-14 08:52:39'),
+(7, 1, 2, 'module-item', '2017-11-14 09:36:06', '2017-11-14 09:36:06'),
+(8, 1, 3, 'module-item', '2017-11-14 09:45:36', '2017-11-14 09:45:36');
 
 -- --------------------------------------------------------
 
@@ -1098,7 +1096,8 @@ INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`)
 (115, 1, 'WQkHX9pd7HnW6Fwd58b6FNwURcoRYyK6', '2017-11-12 19:36:57', '2017-11-12 19:36:57'),
 (119, 4, 'FGLu6nkqZkVigimI5Chx4mNmXgdi22qe', '2017-11-12 19:44:50', '2017-11-12 19:44:50'),
 (124, 1, '1kZXCQqSfCEwmILvBACrUaHl5MpzQWXX', '2017-11-12 20:47:34', '2017-11-12 20:47:34'),
-(128, 1, 'fprEz7BqstCwooNygjHWJ3DMMRK4L5WK', '2017-11-13 11:49:28', '2017-11-13 11:49:28');
+(125, 1, 'XJfqJ7pZakt8xtLNkULZUElD7jHOCtKt', '2017-11-13 17:44:28', '2017-11-13 17:44:28'),
+(129, 1, 'JtMzzU4e61U2GRbOedwzutyNWAHHRHKp', '2017-11-13 23:43:59', '2017-11-13 23:43:59');
 
 -- --------------------------------------------------------
 
@@ -1283,7 +1282,18 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `code`, `fullname`, `alias`, `image`, `status`, `child_image`, `price`, `sale_price`, `intro`, `detail`, `sort_order`, `created_at`, `updated_at`) VALUES
-(7, '123456789', 'Sofa 1', 'sofa-1', 'sofa-1.png', 1, NULL, '5000000.00', '4000000.00', 'Đang cập nhật', '<p>đang cập nhật</p>', 1, '2017-11-13 18:51:54', '2017-11-13 18:55:46');
+(7, '123456789', 'Sofa 1', 'sofa-1', 'sofa-1.png', 1, NULL, '5000000.00', '4000000.00', 'Đang cập nhật', '<p>đang cập nhật</p>', 1, '2017-11-13 18:51:54', '2017-11-13 18:55:46'),
+(8, '123456781', 'Sofa 2', 'sofa-2', 'sofa-2.png', 1, NULL, '5000000.00', '4000000.00', 'đang cập nhật...', '<p>đang cập nhật...</p>', 2, '2017-11-14 07:41:35', '2017-11-14 07:41:35'),
+(9, '123456782', 'Sofa 3', 'sofa-3', 'sofa-3.png', 1, NULL, '5000000.00', '4000000.00', 'đang cập nhật...', '<p>đang cập nhật...</p>', 3, '2017-11-14 07:42:26', '2017-11-14 07:42:26'),
+(10, '1234567894', 'Sofa 4', 'sofa-4', 'sofa-4.png', 1, NULL, '5000000.00', '4000000.00', 'đang cập nhật', '<p>đang cập nhật...</p>', 4, '2017-11-14 07:43:14', '2017-11-14 07:43:31'),
+(11, '123456785', 'Sofa 5', 'sofa-5', 'sofa-5.png', 1, NULL, '5000000.00', '4000000.00', 'đang cập nhật', '<p>đang cập nhật</p>', 5, '2017-11-14 07:46:55', '2017-11-14 07:46:55'),
+(12, '123456786', 'Sofa 6', 'sofa-6', 'sofa-6.png', 1, NULL, '5000000.00', '4000000.00', 'đang cập nhật...', '<p>đang cập nhật...</p>', 6, '2017-11-14 07:47:40', '2017-11-14 07:47:40'),
+(13, '123456787', 'Sofa 7', 'sofa-7', 'sofa-7.png', 1, NULL, '5000000.00', '4000000.00', 'đang cập nhật', '<p>đang cập nhật</p>', 7, '2017-11-14 07:48:50', '2017-11-14 07:48:50'),
+(14, '123456788', 'Sofa 8', 'sofa-8', 'sofa-8.png', 1, NULL, '5000000.00', '4000000.00', 'đang cập nhật', '<p>đang cập nhật</p>', 8, '2017-11-14 07:49:33', '2017-11-14 07:49:33'),
+(15, '123456783', 'Sofa 9', 'sofa-9', 'sofa-9.png', 1, NULL, '5000000.00', '4000000.00', 'đang cập nhật', '<p>đang cập nhật</p>', 9, '2017-11-14 07:50:30', '2017-11-14 07:50:30'),
+(16, '223456784', 'Sofa 10', 'sofa-10', 'sofa-10.png', 1, NULL, '5000000.00', '4000000.00', 'đang cập nhật', '<p>đang cập nhật</p>', 10, '2017-11-14 07:51:26', '2017-11-14 07:51:26'),
+(17, '123456799', 'Sofa 11', 'sofa-11', 'sofa-11.png', 1, NULL, '5000000.00', '4000000.00', 'đang cập nhật', '<p>đang cập nhật</p>', 11, '2017-11-14 07:52:14', '2017-11-14 07:52:14'),
+(18, '123321456', 'Sofa 12', 'sofa-12', 'sofa-12.png', 1, NULL, '5000000.00', '4000000.00', 'đang cập nhật', '<p>đang cập nhật</p>', 12, '2017-11-14 07:52:58', '2017-11-14 07:53:14');
 
 -- --------------------------------------------------------
 
@@ -1305,7 +1315,18 @@ CREATE TABLE `product_category` (
 --
 
 INSERT INTO `product_category` (`id`, `product_id`, `category_product_id`, `created_at`, `updated_at`) VALUES
-(22, 7, 32, '2017-11-13 18:54:33', '2017-11-13 18:54:33');
+(22, 7, 32, '2017-11-13 18:54:33', '2017-11-13 18:54:33'),
+(23, 8, 32, '2017-11-14 07:41:36', '2017-11-14 07:41:36'),
+(24, 9, 32, '2017-11-14 07:42:26', '2017-11-14 07:42:26'),
+(25, 10, 32, '2017-11-14 07:43:14', '2017-11-14 07:43:14'),
+(26, 11, 32, '2017-11-14 07:46:55', '2017-11-14 07:46:55'),
+(27, 12, 32, '2017-11-14 07:47:41', '2017-11-14 07:47:41'),
+(28, 13, 32, '2017-11-14 07:48:50', '2017-11-14 07:48:50'),
+(29, 14, 32, '2017-11-14 07:49:33', '2017-11-14 07:49:33'),
+(30, 15, 32, '2017-11-14 07:50:30', '2017-11-14 07:50:30'),
+(31, 16, 32, '2017-11-14 07:51:26', '2017-11-14 07:51:26'),
+(32, 17, 32, '2017-11-14 07:52:14', '2017-11-14 07:52:14'),
+(33, 18, 32, '2017-11-14 07:52:58', '2017-11-14 07:52:58');
 
 -- --------------------------------------------------------
 
@@ -1408,7 +1429,7 @@ CREATE TABLE `setting_system` (
 --
 
 INSERT INTO `setting_system` (`id`, `fullname`, `alias`, `article_perpage`, `article_width`, `article_height`, `product_perpage`, `product_width`, `product_height`, `currency_unit`, `smtp_host`, `smtp_port`, `encription`, `authentication`, `smtp_username`, `smtp_password`, `email_from`, `email_to`, `from_name`, `to_name`, `contacted_phone`, `address`, `website`, `telephone`, `opened_time`, `opened_date`, `contacted_name`, `facebook_url`, `twitter_url`, `google_plus`, `youtube_url`, `instagram_url`, `pinterest_url`, `slogan_about`, `map_url`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'settingsystem', 'setting-system', 6, 360, 230, 12, 400, 400, 'vi_VN', 'smtp.gmail.com', '465', 'ssl', 1, 'dien.toannang@gmail.com', 'lienhoancuoc', 'dienit02@gmail.com', 'tichtacso.com@gmail.com', 'Hệ thống', 'Công Ty TNHH VIDOCO', '096.302.7720', '35/6 Bùi Quang Là - P.12 - Q. Gò Vấp - HCM', 'noithatgialai.net', '096.302.7720', '8h - 20h', '(T2-T7). Chủ Nhật nghỉ', 'Mr. Vinh', 'https://www.facebook.com/nguyenvan.laptrinh', 'https://twitter.com/', 'https://plus.google.com/u/0/?hl=vi', 'https://www.youtube.com/watch?v=kAcV7S3sySU', 'http://flickr.com', 'http://daidung.vn/', 'Mipec cung cấp thực phẩm sạch, an toàn, đảm bảo chất lượng hàng đầu. Xóa đi nỗi lo về an toàn thực phẩm', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3871.605543764119!2d108.07355431421081!3d13.982069195684272!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDU4JzU1LjQiTiAxMDjCsDA0JzMyLjciRQ!5e0!3m2!1svi!2s!4v1508913801584', 1, 1, '2017-11-10 19:46:32', '2017-11-13 17:52:55');
+(1, 'settingsystem', 'setting-system', 6, 360, 230, 12, 400, 400, 'vi_VN', 'smtp.gmail.com', '465', 'ssl', 1, 'dien.toannang@gmail.com', 'lienhoancuoc', 'dienit02@gmail.com', 'tichtacso.com@gmail.com', 'Hệ thống', 'Công Ty TNHH VIDOCO', '096.302.7720', '35/6 Bùi Quang Là - P.12 - Q. Gò Vấp - HCM', 'noithatgialai.net', '096.302.7720', '8h - 20h', '(T2-T7). Chủ Nhật nghỉ', 'Mr. Vinh', 'https://www.facebook.com/nguyenvan.laptrinh', 'https://twitter.com/', 'https://plus.google.com/u/0/?hl=vi', 'https://www.youtube.com/watch?v=kAcV7S3sySU', 'http://flickr.com', 'http://daidung.vn/', 'Mipec cung cấp thực phẩm sạch, an toàn, đảm bảo chất lượng hàng đầu. Xóa đi nỗi lo về an toàn thực phẩm', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3871.605543764119!2d108.07355431421081!3d13.982069195684272!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDU4JzU1LjQiTiAxMDjCsDA0JzMyLjciRQ!5e0!3m2!1svi!2s!4v1508913801584', 1, 1, '2017-11-10 19:46:32', '2017-11-14 00:47:31');
 
 -- --------------------------------------------------------
 
@@ -1733,7 +1754,10 @@ INSERT INTO `throttle` (`id`, `user_id`, `type`, `ip`, `created_at`, `updated_at
 (300, 4, 'user', NULL, '2017-11-12 19:36:41', '2017-11-12 19:36:41'),
 (301, NULL, 'global', NULL, '2017-11-12 19:44:35', '2017-11-12 19:44:35'),
 (302, NULL, 'ip', '127.0.0.1', '2017-11-12 19:44:35', '2017-11-12 19:44:35'),
-(303, 1, 'user', NULL, '2017-11-12 19:44:35', '2017-11-12 19:44:35');
+(303, 1, 'user', NULL, '2017-11-12 19:44:35', '2017-11-12 19:44:35'),
+(304, NULL, 'global', NULL, '2017-11-13 12:12:10', '2017-11-13 12:12:10'),
+(305, NULL, 'ip', '127.0.0.1', '2017-11-13 12:12:10', '2017-11-13 12:12:10'),
+(306, 1, 'user', NULL, '2017-11-13 12:12:10', '2017-11-13 12:12:10');
 
 -- --------------------------------------------------------
 
@@ -1762,7 +1786,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `group_member_id`, `password`, `permissions`, `last_login`, `fullname`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'diennk@dienkim.com', 1, '$2y$10$rpZe6oM3GUJmwL/ZMTKm/OSe24l9TJKFU9lwd8VmohkqH0Oax6rVK', NULL, '2017-11-13 11:49:28', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-13 11:49:28'),
+(1, 'admin', 'diennk@dienkim.com', 1, '$2y$10$rpZe6oM3GUJmwL/ZMTKm/OSe24l9TJKFU9lwd8VmohkqH0Oax6rVK', NULL, '2017-11-13 23:43:59', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-13 23:43:59'),
 (4, 'trietnk', 'trietnk@dienkim.com', 1, '$2y$10$0zm9JjK..Cr6zZSzlhxrbuCQAHSy1HjptXb5.02PIzDNubHYD0dje', NULL, '2017-11-12 20:47:22', 'Nguyễn Kim Triết', 2, 0, '2017-11-12 10:59:09', '2017-11-12 20:47:40');
 
 --
@@ -2048,7 +2072,7 @@ ALTER TABLE `module_article`
 -- AUTO_INCREMENT cho bảng `module_item`
 --
 ALTER TABLE `module_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT cho bảng `module_menu`
 --
@@ -2058,7 +2082,7 @@ ALTER TABLE `module_menu`
 -- AUTO_INCREMENT cho bảng `mod_menu_type`
 --
 ALTER TABLE `mod_menu_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT cho bảng `payment_method`
 --
@@ -2068,7 +2092,7 @@ ALTER TABLE `payment_method`
 -- AUTO_INCREMENT cho bảng `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
 --
 -- AUTO_INCREMENT cho bảng `photo`
 --
@@ -2083,12 +2107,12 @@ ALTER TABLE `privilege`
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT cho bảng `product_category`
 --
 ALTER TABLE `product_category`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 --
 -- AUTO_INCREMENT cho bảng `reminders`
 --
@@ -2108,7 +2132,7 @@ ALTER TABLE `setting_system`
 -- AUTO_INCREMENT cho bảng `throttle`
 --
 ALTER TABLE `throttle`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=304;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=307;
 --
 -- AUTO_INCREMENT cho bảng `users`
 --

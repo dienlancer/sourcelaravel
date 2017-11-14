@@ -29,27 +29,36 @@ class IndexController extends Controller {
     $alias="trang-chu";
     $meta_keyword="";
     $meta_description="";  
-    // load banner
-    $data_banner=BannerModel::whereRaw('status = ?',[1])->orderBy('sort_order','asc')->select('image')->get()->toArray();
+    // lấy banner    
+    $data_banner=BannerModel::whereRaw('status = ?',[1])->orderBy('sort_order','asc')->select('image')->get()->toArray();    
     // lấy sản phẩm nổi bật
-    $position='featured-product';
-    $data_featured_product=$this->getModuleByPosition('product',$position);
-    return view("frontend.index",compact("component","meta_keyword","meta_description","alias",'data_banner','data_featured_product'));
+    $data_featured_product=$this->getModuleByPosition('product','featured-product');    
+    // thiết bị vệ sinh
+    $data_toilet_equipment=$this->getModuleByPosition('product','toilet-equipment');
+    // thiết bị bếp
+    $data_chicken_equipment=$this->getModuleByPosition('product','chicken-equipment');
+    // nhà thông minh
+    $data_clever_house=$this->getModuleByPosition('product','clever-house');
+    return view("frontend.index",compact("component","meta_keyword","meta_description","alias",'data_banner','data_featured_product','data_toilet_equipment','data_chicken_equipment','data_clever_house'));
   }
   function getModuleByPosition($component,$position){
       $module=ModuleItemModel::whereRaw('trim(lower(position)) = ?',[mb_strtolower(trim(@$position))])->select('item_id')->get()->toArray()[0];    
       $item_id=$module['item_id'];
-      $sql='';
-      switch ($component) {
-        case 'product':
-          $sql='select * from product where id in ('.$item_id.')';   
-        break;
-        case 'article':
-          $sql='select * from article where id in ('.$item_id.')';
-        break;      
-      }    
-      $data=DB::select($sql);  
-      $data=convertToArray($data);   
+      $arr_id=explode(',', $item_id);
+      $data=array();
+      for($i=0;$i<count($arr_id);$i++){
+          $id=(int)$arr_id[$i];
+          $item=array();
+          switch ($component) {
+            case 'product':
+                $item=ProductModel::whereRaw('id = ?',[$id])->get()->toArray()[0];
+                break;
+            case 'article':
+                $item=ArticleModel::whereRaw('id = ?',[$id])->get()->toArray()[0];
+                break;            
+          }          
+          $data[]=$item;
+      }      
       return $data;
   }
 	public function index($component,$alias)
