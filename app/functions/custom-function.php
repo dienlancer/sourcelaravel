@@ -23,7 +23,7 @@ function getSettingSystem(){
 }
 function wp_nav_menu($args){
     $menu_type_alias=$args['theme_location'];
-    $data_menu_type=MenuTypeModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($menu_type_alias))])->select('id')->get()->toArray()[0];
+    $data_menu_type=MenuTypeModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($menu_type_alias))])->select('id','fullname')->get()->toArray()[0];
     $data_menu=MenuModel::whereRaw('menu_type_id = ?',[(int)@$data_menu_type['id']])->orderBy('sort_order','asc')->get()->toArray();    
     $arr_menu=array();  
     if(count($data_menu) > 0){
@@ -48,7 +48,18 @@ function wp_nav_menu($args){
     $lanDau                =  0;    
     mooMenuRecursive($arr_menu,0,$menu_str,$lanDau,url('/'),$args['alias'],$args['menu_id'],$args['menu_class'],$args['menu_li_actived'],$args['menu_item_has_children'],$args['link_before'],$args['link_after']);
     $menu_str = str_replace('<ul></ul>', '', $menu_str);
-    echo $menu_str;
+    $wrapper='';
+    if(!empty($args['before_wrapper'])){
+      if(!empty($args['before_title'])){
+        $wrapper=$args['before_wrapper'].$args['before_title'].$data_menu_type['fullname'].$args['after_title'].$args['before_wrapper_ul'].$menu_str.$args['after_wrapper_ul'].$args['after_wrapper'];
+      }else{
+        $wrapper=$args['before_wrapper'].$args['before_wrapper_ul'].$menu_str.$args['after_wrapper_ul'].$args['after_wrapper'];
+      }
+    }    
+    else{
+      $wrapper=$menu_str;
+    }
+    echo $wrapper;
 }
 function mooMenuRecursive($source,$parent,&$menu_str,&$lanDau,$url,$alias,$menu_id,$menu_class,$menu_li_actived,$menu_item_has_children,$link_before,$link_after){
     if(count($source) > 0){          

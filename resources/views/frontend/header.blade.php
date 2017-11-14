@@ -126,14 +126,17 @@ $register_member_link=route("frontend.index.register");
                     <img src="<?php echo asset('resources/upload/logo-megashop.png');?>" />
                 </a></center>
             </div>
-            <div class="col-lg-6 no-padding">                                
-                <div id="smoothmainmenu" class="ddsmoothmenu" >
+            <div class="col-lg-6 no-padding">                                                
                      <?php     
                     $args = array(                         
                         'menu_class'            => 'mainmenu', 
                         'menu_id'               => 'main-menu',                         
-                        'before'                => '', 
-                        'after'                 => '', 
+                        'before_wrapper'        => '<div id="smoothmainmenu" class="ddsmoothmenu">',
+                        'before_title'          => '',
+                        'after_title'           => '',
+                        'before_wrapper_ul'     =>  '<div>',
+                        'after_wrapper_ul'      =>  '</div>',
+                        'after_wrapper'         => '</div>'     ,
                         'link_before'           => '', 
                         'link_after'            => '',                                                                    
                         'theme_location'        => 'main-menu' ,
@@ -142,8 +145,7 @@ $register_member_link=route("frontend.index.register");
                         'alias'                 => $alias
                     );                    
                     wp_nav_menu($args);
-                    ?>                      
-                </div>                
+                    ?>                                      
             </div>
             <div class="col-lg-3 no-padding">
                 <div class="desktop-box-search">                    
