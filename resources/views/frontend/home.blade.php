@@ -432,4 +432,65 @@
 		</div>
 	</div>
 </div>    
+<div class="twitter">
+	<div class="container">
+		<script type="text/javascript" language="javascript">
+			jQuery(document).ready(function(){
+				jQuery(".owl-carousel-customer").owlCarousel({
+					autoplay:false,                    
+					loop:true,
+					margin:10,                        
+					nav:true,                                            
+					responsiveClass:true,
+					responsive:{
+						0:{
+							items:1,
+							nav:true
+						},
+						600:{
+							items:1,
+							nav:false
+						},
+						1000:{
+							items:1,
+							nav:true,
+							loop:false
+						}
+					}
+				})
+			});                
+		</script>
+		<div class="owl-carousel owl-carousel-customer owl-theme">
+			<?php 
+			if(count($data_customer) > 0){
+				for($i=0;$i<count($data_customer);$i++){
+					$id=$data_customer[$i]['id'];			
+					$permalink=url('/san-pham/'.$data_customer[$i]['alias'].'.html');
+					$featureImg=asset('/resources/upload/'.$data_customer[$i]['image']);
+					$fullname=$data_customer[$i]['fullname'];
+					$intro=$data_customer[$i]['intro'];
+					$content=$data_customer[$i]['content'];
+					?>
+					<div class="user-info-blog-comment">
+						<div class="user-comment-info">
+							<div class="col-xs-4 no-padding"><img src="<?php echo $featureImg; ?>" /></div>
+							<div class="col-xs-8 no-padding-right">
+								<div><?php echo $fullname; ?></div>
+								<div><?php echo $intro; ?></div>
+							</div>
+							<div class="clr"></div>
+						</div>
+						<div class="comment margin-top-15">
+
+							<?php echo $content; ?>
+
+						</div>
+					</div> 		
+					<?php
+				}
+			}
+			?>			
+		</div>
+	</div>
+</div>
 @endsection()               

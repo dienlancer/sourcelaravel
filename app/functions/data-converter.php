@@ -61,11 +61,12 @@ function articleConverter($data=array(),$controller){
             if(!empty($data[$i]["image"])){
                 $link_image=url("/resources/upload/".$data[$i]["image"]);            
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
-            }            
+            }       
+            $id='<center>'.$data[$i]["id"].'</center>';       
             $result[$i] = array(
                 'checked'                  =>   '<input type="checkbox" onclick="checkWithList(this)" name="cid" value="'.$data[$i]["is_checked"].'" />',
                 'is_checked'               =>   0,
-                "id"                       =>   $data[$i]["id"],
+                "id"                       =>   $id,
                 "fullname"                 =>   $data[$i]["fullname"],                
                 "alias"                    =>   $data[$i]["alias"],                
                 "image"                    =>   $image,

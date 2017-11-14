@@ -35,6 +35,7 @@ var basicTable = function () {
         vArticleTable = $('#tbl-article').DataTable({
             columns: [                
                 { data: "checked"            },
+                { data: "id"      },
                 { data: "fullname"      },
                 { data: "alias"      },
                 { data: "image"         },

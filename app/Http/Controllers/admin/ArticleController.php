@@ -103,24 +103,7 @@ class ArticleController extends Controller {
                   $error["fullname"]["type_msg"] = "has-error";
                   $error["fullname"]["msg"] = "Fullname is existed in system";
               }      	
-          }
-          if(empty($title)){
-                 $checked = 0;
-                 $error["title"]["type_msg"] = "has-error";
-                 $error["title"]["msg"] = "Title is required";
-          }else{
-              $data=array();
-              if (empty($id)) {
-                $data=ArticleModel::whereRaw("trim(lower(title)) = ?",[trim(mb_strtolower($title,'UTF-8'))])->get()->toArray();           
-              }else{
-                $data=ArticleModel::whereRaw("trim(lower(title)) = ? and id != ?",[trim(mb_strtolower($title,'UTF-8')),(int)@$id])->get()->toArray();   
-              }  
-              if (count($data) > 0) {
-                  $checked = 0;
-                  $error["title"]["type_msg"] = "has-error";
-                  $error["title"]["msg"] = "Title is existed in system";
-              }       
-          }
+          }          
           if(empty($alias)){
                 $checked = 0;
                 $error["alias"]["type_msg"] = "has-error";

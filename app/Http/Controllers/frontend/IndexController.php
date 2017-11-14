@@ -30,7 +30,7 @@ class IndexController extends Controller {
     $meta_keyword="";
     $meta_description="";  
     // lấy banner    
-    $data_banner=BannerModel::whereRaw('status = ?',[1])->orderBy('sort_order','asc')->select('image')->get()->toArray();    
+    $data_banner=BannerModel::whereRaw('status = ?',[1])->orderBy('sort_order','asc')->select('image')->get()->toArray()    ;
     // lấy sản phẩm nổi bật
     $data_featured_product=$this->getModuleByPosition('product','featured-product');    
     // thiết bị vệ sinh
@@ -39,7 +39,9 @@ class IndexController extends Controller {
     $data_chicken_equipment=$this->getModuleByPosition('product','chicken-equipment');
     // nhà thông minh
     $data_clever_house=$this->getModuleByPosition('product','clever-house');
-    return view("frontend.index",compact("component","meta_keyword","meta_description","alias",'data_banner','data_featured_product','data_toilet_equipment','data_chicken_equipment','data_clever_house'));
+    // lấy danh sách khách hàng
+    $data_customer=$this->getModuleByPosition('article','customer');    
+    return view("frontend.index",compact("component","meta_keyword","meta_description","alias",'data_banner','data_featured_product','data_toilet_equipment','data_chicken_equipment','data_clever_house','data_customer'));
   }
   function getModuleByPosition($component,$position){
       $module=ModuleItemModel::whereRaw('trim(lower(position)) = ?',[mb_strtolower(trim(@$position))])->select('item_id')->get()->toArray()[0];    
