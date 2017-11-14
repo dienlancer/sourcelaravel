@@ -1,7 +1,6 @@
 <?php 
 function categoryArticleConverter($data=array(),$controller){        
-    $result = array();
-    $dataSettingSystem= getSettingSystem();
+    $result = array();    
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.asset("/public/admin/images/edit-icon.png").'" /></a></center>';
@@ -18,7 +17,7 @@ function categoryArticleConverter($data=array(),$controller){
             $link_image="";
             $image="";
             if(!empty($data[$i]["image"])){
-                $link_image=url("/resources/upload/" . $dataSettingSystem["article_width"] . "x" . $dataSettingSystem["article_height"] . "-".$data[$i]["image"]);            
+                $link_image=url("/resources/upload/".$data[$i]["image"]);            
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }            
             $result[$i] = array(
@@ -60,7 +59,7 @@ function articleConverter($data=array(),$controller){
             $link_image="";
             $image="";
             if(!empty($data[$i]["image"])){
-                $link_image=url("/resources/upload/" . $dataSettingSystem["article_width"] . "x" . $dataSettingSystem["article_height"] . "-".$data[$i]["image"]);            
+                $link_image=url("/resources/upload/".$data[$i]["image"]);            
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }            
             $result[$i] = array(
