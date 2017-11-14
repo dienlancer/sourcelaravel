@@ -89,6 +89,7 @@ var basicTable = function () {
         vProductTable = $('#tbl-product').DataTable({
             columns: [                
                 { data: "checked"       },
+                { data: "id"      },
                 { data: "fullname"      },
                 { data: "alias"         },
                 { data: "image"         },

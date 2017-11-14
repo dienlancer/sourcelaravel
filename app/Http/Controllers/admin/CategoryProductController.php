@@ -22,8 +22,8 @@ class CategoryProductController extends Controller {
       		$data=DB::select('call pro_getCategoryProduct(?)',array( mb_strtolower($filter_search) ));      		
       		$categoryProductRecursiveData=array();      		
       		$data=convertToArray($data);    
-          $data=categoryProductConverter($data,$this->_controller);             
-      		categoryProductRecursive($data,0,"",$categoryProductRecursiveData);            
+          $data=categoryProductConverter($data,$this->_controller);                       
+      		categoryProductRecursive($data,0,"",$categoryProductRecursiveData);                      
           $data=      	convertToArray($categoryProductRecursiveData)	;                             
           return $data;
     	}    	
@@ -120,7 +120,7 @@ class CategoryProductController extends Controller {
               if(!empty($image))  {
                 $file_image=$image;                                                
               }
-              $item->image=trim($file_image) ;                 
+              $item->image=$file_image ;                 
         }  
         $item->fullname 		=	$fullname;
         $item->alias 			  =	$alias;

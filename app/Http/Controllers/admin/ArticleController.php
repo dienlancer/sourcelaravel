@@ -164,7 +164,7 @@ class ArticleController extends Controller {
                     if(!empty($image))  {
                       $file_image=$image;                                                
                     }
-                    $item->image=trim($file_image) ;            		  		 	
+                    $item->image = $file_image ;            		  		 	
                 }  
                 $item->fullname 		    =	$fullname;
                 $item->title            = $title;

@@ -18,6 +18,7 @@ use App\CustomerModel;
 use App\InvoiceModel;
 use App\InvoiceDetailModel;
 use App\BannerModel;
+use App\ModuleItemModel;
 use Session;
 use DB;
 class IndexController extends Controller {
@@ -28,8 +29,28 @@ class IndexController extends Controller {
     $alias="trang-chu";
     $meta_keyword="";
     $meta_description="";  
-    $data_banner=BannerModel::whereRaw('status=?',[1])->orderBy('sort_order','asc')->select('image')->get()->toArray();            
-    return view("frontend.index",compact("component","meta_keyword","meta_description","alias",'data_banner'));
+    // load banner
+    $data_banner=BannerModel::whereRaw('status = ?',[1])->orderBy('sort_order','asc')->select('image')->get()->toArray();
+    // lấy sản phẩm nổi bật
+    $position='featured-product';
+    $data_featured_product=$this->getModuleByPosition('product',$position);
+    return view("frontend.index",compact("component","meta_keyword","meta_description","alias",'data_banner','data_featured_product'));
+  }
+  function getModuleByPosition($component,$position){
+      $module=ModuleItemModel::whereRaw('trim(lower(position)) = ?',[mb_strtolower(trim(@$position))])->select('item_id')->get()->toArray()[0];    
+      $item_id=$module['item_id'];
+      $sql='';
+      switch ($component) {
+        case 'product':
+          $sql='select * from product where id in ('.$item_id.')';   
+        break;
+        case 'article':
+          $sql='select * from article where id in ('.$item_id.')';
+        break;      
+      }    
+      $data=DB::select($sql);  
+      $data=convertToArray($data);   
+      return $data;
   }
 	public function index($component,$alias)
       {                                 

@@ -105,4 +105,18 @@ function mooMenuRecursive($source,$parent,&$menu_str,&$lanDau,$url,$alias,$menu_
             $menu_str .='</ul>'; 
     }
 }
+function fnPrice($value){
+    $data = getSettingSystem();
+    $language = $data["currency_unit"] ;
+    $strCurrency="";
+    switch ($language) {
+      case "vi_VN":
+        $strCurrency= number_format($value,0,",",".");
+        break;
+      case "en_US":
+        $strCurrency= number_format($value,0,".",",");
+        break;
+    }
+    return $strCurrency;
+  }
 ?>

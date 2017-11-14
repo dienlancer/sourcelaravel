@@ -41,6 +41,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 				<thead>
 					<tr>
 						<th width="1%"><input type="checkbox" onclick="checkAllAgent(this)"  name="checkall-toggle"></th>                
+						<th width="1%">ID</th>
 						<th>Fullname</th>
 						<th>Alias</th>
 						<th width="1%">Image</th>

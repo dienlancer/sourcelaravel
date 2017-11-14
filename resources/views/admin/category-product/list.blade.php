@@ -67,9 +67,11 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		$.ajax({
 			url: '<?php echo $linkLoadData; ?>',
 			type: 'POST', 		     
-			data: dataItem,			
-			success: function (data, status, jqXHR) { 				 				
-	            var data = $.map(data, function(el) { return el });	            
+			data: dataItem,		
+			async:false,
+			dataType:'json',	
+			success: function (data, status, jqXHR) { 								 			
+	            var data = $.map(data, function(el) { return el });
 				basicTable.init();
 				vCategoryProductTable.clear().draw();
 				vCategoryProductTable.rows.add(data).draw();

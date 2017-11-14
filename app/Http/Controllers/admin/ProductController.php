@@ -158,14 +158,14 @@ class ProductController extends Controller {
                 }				
           } else{
                 $item				=	ProductModel::find((int)@$id);   
-                $file_image="";                       
+                $file_image=null;                       
                 if(!empty($image_hidden)){
                   $file_image =$image_hidden;          
                 }
                 if(!empty($image))  {
                   $file_image=$image;                                                
                 }
-                $item->image=trim($file_image) ;            		  		 	
+                $item->image = $file_image ;            		  		 	
           }  
           $item->code         = $code;
           $item->fullname 		=	$fullname;                

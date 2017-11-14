@@ -133,7 +133,7 @@ function categoryProductRecursive($data ,$parent=0,$str="--",&$arrRecursiveMenu)
     }
   }  
 }
-function categoryProductRecursiveForm($data ,$parent=null,$str="--",&$arrRecursiveMenu){
+function categoryProductRecursiveForm($data ,$parent=0,$str="--",&$arrRecursiveMenu){
   foreach ($data as $key => $val) {    
     $id=$val["id"];
     $fullname=$val["fullname"];  

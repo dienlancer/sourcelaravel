@@ -73,14 +73,14 @@ class BannerController extends Controller {
                     }       
                 } else{
                     $item       = BannerModel::find((int)@$id);   
-                    $file_image="";                       
+                    $file_image=null;                       
                     if(!empty($image_hidden)){
                       $file_image =$image_hidden;          
                     }
                     if(!empty($image))  {
                       $file_image=$image;                                                
                     }
-                    $item->image=trim($file_image) ;                        
+                    $item->image = $file_image ;                        
                 }       
                 $item->fullname  =  $fullname;
                 $item->alias = $alias;                      
