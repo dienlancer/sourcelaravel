@@ -85,5 +85,8 @@
                     ?>          
 		</div>
 		<div class="clr"></div>
+		<div class="container copyright margin-top-15">
+			<center>© Bản quyền thuộc về <b>DienKim Team</b> <span class="copy-right-mobile-hidden">| Cung cấp bởi DienKim</span></center>
+		</div>
 	</div>
 </footer>
