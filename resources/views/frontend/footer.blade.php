@@ -85,8 +85,10 @@
                     ?>          
 		</div>
 		<div class="clr"></div>
-		<div class="container copyright margin-top-15">
-			<center>© Bản quyền thuộc về <b>DienKim Team</b> <span class="copy-right-mobile-hidden">| Cung cấp bởi DienKim</span></center>
+		<div class="container copyright">
+			<?php 			
+			echo $data_copyright[0]['content'];
+			?>			
 		</div>
 	</div>
 </footer>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 14, 2017 lúc 08:19 PM
+-- Thời gian đã tạo: Th10 14, 2017 lúc 08:56 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -49,8 +49,8 @@ SELECT
     LEFT JOIN `article_category` ac ON n.id = ac.article_id
     LEFT JOIN `category_article` cate ON ac.category_article_id = cate.id
     WHERE
-    (keyword ='' OR LOWER(n.fullname) LIKE CONCAT('%',LOWER(keyword),'%'))
-    AND (strCategoryArticleID = '#0#' OR INSTR(strCategoryArticleID,'#'+ac.category_article_id+'#') > 0)
+    (keyword ='' OR trim(lower(n.fullname)) LIKE CONCAT('%',keyword,'%'))
+    /*AND (strCategoryArticleID = '#0#' OR INSTR(strCategoryArticleID,'#'+ac.category_article_id+'#') > 0)*/
      GROUP BY 
     n.id
     ,n.fullname
@@ -398,7 +398,7 @@ SELECT
     LEFT JOIN `product_category` ac ON n.id = ac.product_id
     LEFT JOIN `category_product` cate ON ac.category_product_id = cate.id
     WHERE
-    (keyword ='' OR LOWER(n.fullname) LIKE CONCAT('%',LOWER(keyword),'%'))
+    (keyword ='' OR trim(lower(n.fullname))  LIKE CONCAT('%',keyword,'%'))
     AND (strCategoryProductID = '#0#' OR INSTR(strCategoryProductID,'#'+ac.category_product_id+'#') > 0)
      GROUP BY 
     n.id
@@ -571,7 +571,8 @@ INSERT INTO `article` (`id`, `fullname`, `title`, `alias`, `image`, `intro`, `co
 (17, 'Cedixis', '', 'cedixis', 'cedexis.png', '', '', '', '', '', 1, 1, '2017-11-14 11:08:22', '2017-11-14 11:08:22'),
 (18, 'Vivaki', '', 'vivaki', 'vivaki-2.png', '', '', '', '', '', 1, 1, '2017-11-14 11:08:48', '2017-11-14 11:08:48'),
 (19, 'Figaro', '', 'figaro', 'groupm.png', '', '', '', '', '', 1, 1, '2017-11-14 11:10:11', '2017-11-14 11:10:11'),
-(20, 'Alas', '', 'alas', 'atlas.png', '', '', '', '', '', 1, 1, '2017-11-14 11:10:29', '2017-11-14 11:10:29');
+(20, 'Alas', '', 'alas', 'atlas.png', '', '', '', '', '', 1, 1, '2017-11-14 11:10:29', '2017-11-14 11:10:29'),
+(21, 'Bản quyền', '', 'ban-quyen', NULL, '', '<p style=\"text-align:center\">&copy; Bản quyền thuộc về <strong>DienKim</strong> Team | Cung cấp bởi DienKim</p>', '', '', '', 1, 1, '2017-11-14 19:22:03', '2017-11-14 19:22:03');
 
 -- --------------------------------------------------------
 
@@ -1034,7 +1035,8 @@ INSERT INTO `module_item` (`id`, `fullname`, `item_id`, `position`, `status`, `s
 (4, 'Clever house', '7,8,9,10,11,12,13,14', 'clever-house', 1, 4, '2017-11-14 08:52:39', '2017-11-14 10:26:09'),
 (5, 'Customer', '1,5,6,4', 'customer', 1, 5, '2017-11-14 10:25:39', '2017-11-14 10:25:43'),
 (6, 'Tin mới', '7,10,8,9', 'hot-article', 1, 6, '2017-11-14 17:18:39', '2017-11-14 17:18:53'),
-(7, 'Partner', '15,16,17,18,19,20', 'partner', 1, 7, '2017-11-14 17:26:58', '2017-11-14 17:27:07');
+(7, 'Partner', '15,16,17,18,19,20', 'partner', 1, 7, '2017-11-14 17:26:58', '2017-11-14 17:27:07'),
+(8, 'Bản quyền', '21', 'copyright', 1, 8, '2017-11-14 19:26:42', '2017-11-14 19:26:48');
 
 -- --------------------------------------------------------
 
@@ -1088,7 +1090,8 @@ INSERT INTO `mod_menu_type` (`id`, `menu_id`, `module_id`, `module_type`, `creat
 (8, 1, 3, 'module-item', '2017-11-14 09:45:36', '2017-11-14 09:45:36'),
 (9, 1, 5, 'module-item', '2017-11-14 10:25:39', '2017-11-14 10:25:39'),
 (11, 1, 6, 'module-item', '2017-11-14 17:18:54', '2017-11-14 17:18:54'),
-(12, 1, 7, 'module-item', '2017-11-14 17:26:58', '2017-11-14 17:26:58');
+(12, 1, 7, 'module-item', '2017-11-14 17:26:58', '2017-11-14 17:26:58'),
+(13, 1, 8, 'module-item', '2017-11-14 19:26:42', '2017-11-14 19:26:42');
 
 -- --------------------------------------------------------
 
@@ -2081,7 +2084,7 @@ ALTER TABLE `album`
 -- AUTO_INCREMENT cho bảng `article`
 --
 ALTER TABLE `article`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT cho bảng `article_category`
 --
@@ -2151,7 +2154,7 @@ ALTER TABLE `module_article`
 -- AUTO_INCREMENT cho bảng `module_item`
 --
 ALTER TABLE `module_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT cho bảng `module_menu`
 --
@@ -2161,7 +2164,7 @@ ALTER TABLE `module_menu`
 -- AUTO_INCREMENT cho bảng `mod_menu_type`
 --
 ALTER TABLE `mod_menu_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT cho bảng `payment_method`
 --
