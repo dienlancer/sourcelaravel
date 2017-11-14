@@ -41,7 +41,11 @@ class IndexController extends Controller {
     $data_clever_house=$this->getModuleByPosition('product','clever-house');
     // lấy danh sách khách hàng
     $data_customer=$this->getModuleByPosition('article','customer');    
-    return view("frontend.index",compact("component","meta_keyword","meta_description","alias",'data_banner','data_featured_product','data_toilet_equipment','data_chicken_equipment','data_clever_house','data_customer'));
+    // tin mới
+    $data_hot_article=$this->getModuleByPosition('article','hot-article');    
+    // đối tác
+    $data_partner=$this->getModuleByPosition('article','partner');    
+    return view("frontend.index",compact("component","meta_keyword","meta_description","alias",'data_banner','data_featured_product','data_toilet_equipment','data_chicken_equipment','data_clever_house','data_customer','data_hot_article','data_partner'));
   }
   function getModuleByPosition($component,$position){
       $module=ModuleItemModel::whereRaw('trim(lower(position)) = ?',[mb_strtolower(trim(@$position))])->select('item_id')->get()->toArray()[0];    

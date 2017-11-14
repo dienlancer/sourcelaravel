@@ -67,7 +67,7 @@ class MenuController extends Controller {
             $error 		           =    array();
             $item		             =    null;
             $checked 	           =    1;              
-            if(empty($fullname)){
+            /*if(empty($fullname)){
                 $checked = 0;
                 $error["fullname"]["type_msg"] = "has-error";
                 $error["fullname"]["msg"] = "Fullname is required";
@@ -117,7 +117,7 @@ class MenuController extends Controller {
                   $error["site_link"]["type_msg"] = "has-error";
                   $error["site_link"]["msg"] = "Sitelink is existed in system";
                 }       
-            }
+            }*/
             if(empty($sort_order)){
                  $checked = 0;
                  $error["sort_order"]["type_msg"] 	= "has-error";

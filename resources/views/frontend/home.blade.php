@@ -1,5 +1,25 @@
 @extends("frontend.master")
 @section("content")
+<?php 
+$data_setting_system=getSettingSystem();
+$contacted_phone=$data_setting_system['contacted_phone'];
+$email_to=$data_setting_system['email_to'];
+$address=$data_setting_system['address'];
+$to_name=$data_setting_system['to_name'];
+$telephone=$data_setting_system['telephone'];
+$website=$data_setting_system['website'];
+$slogan_about=$data_setting_system['slogan_about'];
+$opened_time=$data_setting_system['opened_time'];
+$opened_date=$data_setting_system['opened_date'];
+$contaced_name=$data_setting_system['contacted_name'];
+$facebook_url=$data_setting_system['facebook_url'];
+$twitter_url=$data_setting_system['twitter_url'];
+$google_plus=$data_setting_system['google_plus'];
+$youtube_url=$data_setting_system['youtube_url'];
+$instagram_url=$data_setting_system['instagram_url'];
+$pinterest_url=$data_setting_system['pinterest_url']; 
+$map_url=$data_setting_system['map_url'];
+?>
 <div class="container">
 	<div id="wrapper">
 			<div class="slider-wrapper theme-default">
@@ -481,9 +501,7 @@
 							<div class="clr"></div>
 						</div>
 						<div class="comment margin-top-15">
-
 							<?php echo $content; ?>
-
 						</div>
 					</div> 		
 					<?php
@@ -493,4 +511,150 @@
 		</div>
 	</div>
 </div>
+<div class="cleverhouse padding-bottom-15">
+	<div class="container">
+		<div class="header-title">
+			<h4><span><font color="#3AB54A">Tin</font></span>&nbsp;mới</h4>                          
+		</div>
+		<div class="margin-top-15">
+			<?php 
+			for($i=0;$i<count($data_hot_article);$i++){
+				$id=$data_hot_article[$i]['id'];			
+				$permalink=url('/san-pham/'.$data_hot_article[$i]['alias'].'.html');
+				$featureImg=asset('/resources/upload/'.$data_hot_article[$i]['image']);
+				$fullname=$data_hot_article[$i]['fullname'];
+				$intro=$data_hot_article[$i]['intro'];
+				$content=$data_hot_article[$i]['content'];
+				?>
+				<div class="col-lg-3">
+					<div class="relative">
+						<a href="<?php echo $permalink; ?>"><img src="<?php echo $featureImg; ?>"></a>
+						<div class="hot-news-title">
+
+						</div>
+					</div>
+				</div>
+				<?php
+			}
+			?>
+			<div class="clr"></div>
+		</div>
+		<div class="header-title">
+			<h4><span><font color="#3AB54A">Đối</font></span>&nbsp;tác</h4>                          
+		</div>
+		<div class="margin-top-15">
+			<script type="text/javascript" language="javascript">
+				jQuery(document).ready(function(){
+					jQuery(".owl-carousel-partner").owlCarousel({
+						autoplay:false,                    
+						loop:true,
+						margin:10,                        
+						nav:true,                                            
+						responsiveClass:true,
+						responsive:{
+							0:{
+								items:1,
+								nav:true
+							},
+							600:{
+								items:1,
+								nav:false
+							},
+							1000:{
+								items:6,
+								nav:true,
+								loop:false
+							}
+						}
+					})
+				});                
+			</script>
+			<div class="owl-carousel owl-carousel-partner owl-theme">
+				<?php 
+				for($i=0;$i<count($data_partner);$i++){
+					$id=$data_partner[$i]['id'];			
+					$permalink=url('/san-pham/'.$data_partner[$i]['alias'].'.html');
+					$featureImg=asset('/resources/upload/'.$data_partner[$i]['image']);
+					$fullname=$data_partner[$i]['fullname'];
+					$intro=$data_partner[$i]['intro'];
+					$content=$data_partner[$i]['content'];
+					?>					
+						<div>
+							<img src="<?php echo $featureImg; ?>">							
+						</div>				
+					<?php
+				}
+				?>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="relative megashop-map">
+	<iframe src="<?php echo $map_url; ?>" width="100%" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
+	<div class="map">
+		<div>
+			<div class="col-xs-2 no-padding"><center><img src="<?php echo asset('/resources/upload/icon_shop.png'); ?>" /></center></div>
+			<div class="col-xs-10 no-padding-right">
+				<div class="shop-name">MEGASHOP</div>
+				<div class="slogan-title">Nội thất hiện đại</div>
+			</div>
+			<div class="clr"></div>
+		</div>
+		<div class="address-phone-email">
+			<div class="col-xs-2 no-padding"><div class="icon"><center><i class="fa fa-map-marker"></i></center></div></div>
+			<div class="col-xs-10 no-padding-right"><?php echo $address; ?></div>
+			<div class="clr"></div>
+		</div>
+		<div class="address-phone-email">
+			<div class="col-xs-2 no-padding"><div class="icon"><center><i class="fa fa-envelope-o"></i></center></div></div>
+			<div class="col-xs-10 no-padding-right phone-email-padding">Phone:
+				<?php echo $contacted_phone; ?></div>
+				<div class="clr"></div>
+			</div>
+			<div class="address-phone-email">
+				<div class="col-xs-2 no-padding"><div class="icon"><center><i class="fa fa-phone"></i></center></div></div>
+				<div class="col-xs-10 no-padding-right phone-email-padding">Email:
+					<?php echo $email_to; ?></div>
+					<div class="clr"></div>
+				</div>
+			</div>
+		</div>  
+		<div class="cleverhouse padding-bottom-15 padding-top-15">
+			<div class="container">
+				<div class="col-lg-4 no-padding">
+					<div>
+						<div class="col-lg-3 no-padding"><center><span class="follow-us">Follow us</span></center></div>
+						<div class="col-lg-9 no-padding">
+							<div class="warasocial"><ul class="social-block ">
+								<li class="facebook"><a class="_blank" href="<?php echo $facebook_url; ?>" target="_blank"><i class="fa fa-facebook"></i></a></li>
+								<li class="twitter"><a class="_blank" href="<?php echo $twitter_url; ?>" target="_blank"><i class="fa fa-twitter"></i></a></li>
+								<li class="rss"><a class="_blank" href="#" target="_blank"><i class="fa fa-rss"></i></a></li>
+								<li class="google_plus"><a class="_blank" href="<?php echo $google_plus; ?>" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+								<li class="pinterest"><a class="_blank" href="<?php echo $pinterest_url; ?>" target="_blank"><i class="fa fa-pinterest"></i></a></li>
+							</ul></div>                        
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-8 no-padding-right">
+					<div class="menu-bottom">
+						<?php     
+						$args = array(                         
+							'menu_class'            => 'bottommenu', 
+							'menu_id'               => 'bottom-menu',                         
+							'before'                => '', 
+							'after'                 => '', 
+							'link_before'       	=> '', 
+							'link_after'        	=> '',                                                        
+							'theme_location'        => 'menu-bottom-content' ,
+							'menu_li_actived'       => 'current-menu-item',
+							'menu_item_has_children'=> 'menu-item-has-children',
+							'alias'                 => $alias
+						);                    
+						wp_nav_menu($args);
+						?>                 
+						<div class="clr"></div>
+					</div>
+				</div>
+			</div>
+		</div>		 
 @endsection()               
