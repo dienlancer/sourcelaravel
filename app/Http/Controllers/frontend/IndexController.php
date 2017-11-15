@@ -21,9 +21,8 @@ use App\BannerModel;
 use App\ModuleItemModel;
 use Session;
 use DB;
-class IndexController extends Controller {
-  var $_totalItemsPerPage=9;         
-  var $_pageRange=10;
+class IndexController extends Controller {  
+  var $_pageRange=4;
   public function getHome(){
     $component="trang-chu";               
     $alias="trang-chu";
@@ -36,37 +35,71 @@ class IndexController extends Controller {
   
 	public function index($component,$alias)
       {                                 
-            $component=$component;               
-            $alias=$alias;
+            $title="";
             $meta_keyword="";
             $meta_description="";            
             $filter_search="";            
-            $pagination="";
+            $str_pagination="";
             $currentPage=1;                                          
             $totalItems=0;
             $totalItemsPerPage=0;
-            $pageRange=0;
-            $currentPage=1;            
+            $pageRange=0;      
+            $currentPage=1;    
             $action="";
             $item=array();
+            $items=array();
+            $dataSettingSystem= getSettingSystem();     
+            $category=array();       
             switch ($component) {
-                case 'bai-viet':
-                  $std_row=ArticleModel::whereRaw("trim(lower(alias)) = ? and status = ?",[trim(mb_strtolower($alias,'UTF-8')),1])->get()->toArray();
-                  if(count($std_row) > 0){
-                      $item=$std_row[0];
-                  }         
-                break;         
-            }                        
-            /* begin com_product */
+              case 'chu-de':
+              $category_id=0;
+              $arr_category=CategoryArticleModel::whereRaw("trim(lower(alias)) = ? and status = ?",[trim(mb_strtolower($alias,'UTF-8')),1])->get()->toArray();
+              if(count($arr_category) > 0){
+                  $category_id=$arr_category[0]['id'];
+                  $category=$arr_category[0];
+                  if(!empty(@$_POST["filter_search"])){
+                      $filter_search=@$_POST["filter_search"];
+                  }                                
+                  $data=DB::select('call pro_getArticleFrontend(?,?)',array(mb_strtolower($filter_search),$category_id));
+                  $data=convertToArray($data);
+                  $totalItems=count($data);
+                  $totalItemsPerPage=(int)$dataSettingSystem['article_perpage']; 
+                  $pageRange=$this->_pageRange;
+                  if(!empty(@$_POST["filter_page"])){
+                    $currentPage=@$_POST["filter_page"];
+                  }       
+                  $arrPagination=array(
+                    "totalItems"=>$totalItems,
+                    "totalItemsPerPage"=>$totalItemsPerPage,
+                    "pageRange"=>$pageRange,
+                    "currentPage"=>$currentPage   
+                  );           
+                  $pagination=new PaginationModel($arrPagination);
+                  $str_pagination=$pagination->showPagination();
+                  $position   = (@$arrPagination['currentPage']-1)*$totalItemsPerPage;
+                  $data=DB::select('call pro_getArticleFrontendLimit(?,?,?,?)',array($filter_search,$category_id,$position,$totalItemsPerPage));      
+                  $items=convertToArray($data);                  
+              }              
+              break;
+              case 'bai-viet':
+              $row=ArticleModel::whereRaw("trim(lower(alias)) = ? and status = ?",[trim(mb_strtolower($alias,'UTF-8')),1])->get()->toArray();              
+              if(count($row) > 0){
+                $item=$row[0];
+              }         
+              break;         
+            }         
+            if(count($item) > 0){
+                $title=$item['title'];
+                $meta_keyword=$item['meta_keyword'];
+                $meta_description=$item['meta_description'];
+            }           
             if(isset($_POST["action"])){
               $action=$_POST["action"];
               switch ($action) {
                 case "add-cart"     :   $this->addCart();return redirect()->route('frontend.index.viewCart'); break;                  
               }
-            }
-            /* end com_product */                   
-             return view("frontend.index",compact("component","meta_keyword","meta_description","alias","item"));
-
+            }           
+            return view("frontend.index",compact("component","meta_keyword","meta_description",'title',"alias","item","items","category","str_pagination"));
       }
       
       public function viewCart(){        

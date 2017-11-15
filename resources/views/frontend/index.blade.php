@@ -4,7 +4,10 @@
   <div class="col-lg-3 no-padding page-left">@include("frontend.left-sidebar")</div>
   <div class="col-lg-9 no-padding-right col-right">
     <?php
-            switch ($component) {                  
+            switch ($component) {      
+                  case "chu-de":                                                
+                        ?>@include("frontend.category-article")<?php
+                        break;             
                   case "bai-viet":                                                
                         ?>@include("frontend.article")<?php
                         break; 

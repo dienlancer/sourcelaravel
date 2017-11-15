@@ -32,7 +32,7 @@ $register_member_link=route("frontend.index.register");
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">  
-  <title><?php echo $slogan_about; ?></title>
+  <title><?php echo (!empty($title)) ? $title : $slogan_about; ?></title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <meta name="keywords" content="<?php echo @$meta_keyword; ?>" />
   <meta name="description" content="<?php echo @$meta_description; ?>"/>
@@ -48,6 +48,8 @@ $register_member_link=route("frontend.index.register");
   <script src="{{ asset('public/frontend/js/jquery.simplyscroll.min.js') }}"></script>
   <script src="{{ asset('public/frontend/js/jquery.bxslider.min.js') }}"></script>
   <script src="{{ asset('public/frontend/js/jquery.elevatezoom-3.0.8.min.js') }}"></script>
+  <script src="{{ asset('public/frontend/js/accounting.min.js') }}"></script>
+  <script src="{{ asset('public/frontend/js/product.js') }}"></script>  
   <script src="{{ asset('public/frontend/js/custom.js') }}"></script>
   <link rel="stylesheet" href="{{ asset('public/frontend/css/font-awesome.css') }}" />
   <link rel="stylesheet" href="{{ asset('public/frontend/css/bootstrap.css') }}" />

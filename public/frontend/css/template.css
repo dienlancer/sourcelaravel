@@ -1049,6 +1049,9 @@ div.warasocial{
     width: 166px;
     margin: auto;    
 }
+ul.categoryarticlemenu > li.current-menu-item > a{
+    color:#3AB54A;
+}
 @media (max-width: 1199px){
     div.phone-number > div{
         display: none;
