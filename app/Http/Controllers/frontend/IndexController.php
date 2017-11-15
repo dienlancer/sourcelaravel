@@ -32,8 +32,7 @@ class IndexController extends Controller {
     // lấy banner    
     $data_banner=BannerModel::whereRaw('status = ?',[1])->orderBy('sort_order','asc')->select('image')->get()->toArray()    ;
     return view("frontend.home",compact("component","meta_keyword","meta_description","alias",'data_banner'));
-  }
-  
+  }  
 	public function index($component,$alias)
       {                                 
             $title="";
@@ -137,6 +136,15 @@ class IndexController extends Controller {
               }
             }           
             return view("frontend.index",compact("component","title","meta_keyword","meta_description","alias","item","items","category","str_pagination"));
+      }
+      function getStringCategoryProductID($category_id,&$arrCategoryProductID){    
+        $arrCategoryProduct=CategoryProductModel::select("id")->where("parent_id","=",(int)@$category_id)->get()->toArray();
+        if(count($arrCategoryProduct) > 0){
+          foreach ($arrCategoryProduct as $key => $value) {
+            $arrCategoryProductID[]=$value["id"];
+            $this->getStringCategoryProductID((int)$value["id"],$arrCategoryProductID);
+          }
+        }          
       }
       public function contact(){      
         $alias="lien-he"; 

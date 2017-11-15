@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 15, 2017 lúc 12:46 PM
+-- Thời gian đã tạo: Th10 15, 2017 lúc 08:06 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -27,7 +27,7 @@ DELIMITER $$
 -- Thủ tục
 --
 DROP PROCEDURE IF EXISTS `pro_getArticle`$$
-CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getArticle` (IN `keyword` VARCHAR(255), IN `strCategoryArticleID` VARCHAR(255))  begin
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getArticle` (IN `keyword` VARCHAR(255), IN `strCategoryArticleID` VARCHAR(255))  begin
 SELECT
     0 AS is_checked
     ,n.id
@@ -70,7 +70,7 @@ SELECT
 end$$
 
 DROP PROCEDURE IF EXISTS `pro_getArticleFrontend`$$
-CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getArticleFrontend` (IN `keyword` VARCHAR(255), IN `category_id` INT(11))  SELECT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getArticleFrontend` (IN `keyword` VARCHAR(255), IN `category_id` INT(11))  SELECT
     0 AS is_checked
     ,n.id
     ,n.fullname
@@ -87,7 +87,7 @@ CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getArticleFrontend` (IN `keyw
     ORDER BY n.sort_order ASC$$
 
 DROP PROCEDURE IF EXISTS `pro_getArticleFrontendLimit`$$
-CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getArticleFrontendLimit` (IN `keyword` VARCHAR(255), IN `category_id` INT(11), IN `position` INT(11), IN `totalItemsPerPage` INT(11))  SELECT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getArticleFrontendLimit` (IN `keyword` VARCHAR(255), IN `category_id` INT(11), IN `position` INT(11), IN `totalItemsPerPage` INT(11))  SELECT
     0 AS is_checked
     ,n.id
     ,n.fullname
@@ -130,7 +130,7 @@ CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getArticleFrontendLimit` (IN 
     LIMIT `position` , `totalItemsPerPage`$$
 
 DROP PROCEDURE IF EXISTS `pro_getBanner`$$
-CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getBanner` (IN `keyword` VARCHAR(255) charset utf8)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getBanner` (IN `keyword` VARCHAR(255) charset utf8)  BEGIN
 SELECT 
 	0 AS  is_checked
 	,n.id
@@ -156,7 +156,7 @@ SELECT
     END$$
 
 DROP PROCEDURE IF EXISTS `pro_getCategoryArticle`$$
-CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getCategoryArticle` (IN `keyword` VARCHAR(255))  BEGIN	
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getCategoryArticle` (IN `keyword` VARCHAR(255))  BEGIN	
     SELECT
     0 AS is_checked,
 	n.id,
@@ -179,7 +179,7 @@ CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getCategoryArticle` (IN `keyw
 END$$
 
 DROP PROCEDURE IF EXISTS `pro_getCategoryProduct`$$
-CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getCategoryProduct` (IN `keyword` VARCHAR(255) CHARSET utf8)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getCategoryProduct` (IN `keyword` VARCHAR(255) CHARSET utf8)  BEGIN
 SELECT
     0 AS is_checked,
 	n.id,
@@ -201,7 +201,7 @@ SELECT
 END$$
 
 DROP PROCEDURE IF EXISTS `pro_getCustomer`$$
-CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getCustomer` (IN `keyword` VARCHAR(255) CHARSET utf8)  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getCustomer` (IN `keyword` VARCHAR(255) CHARSET utf8)  NO SQL
 SELECT
     0 AS is_checked,
 	n.id,
@@ -224,7 +224,7 @@ SELECT
     ORDER BY n.sort_order ASC$$
 
 DROP PROCEDURE IF EXISTS `pro_getGroupMember`$$
-CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getGroupMember` (IN `keyword` VARCHAR(255))  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getGroupMember` (IN `keyword` VARCHAR(255))  NO SQL
 SELECT
 	0 as is_checked
 	,n.id
@@ -245,7 +245,7 @@ SELECT
     ORDER BY n.sort_order ASC$$
 
 DROP PROCEDURE IF EXISTS `pro_getInvoice`$$
-CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getInvoice` (IN `keyword` VARCHAR(255) CHARSET utf8)  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getInvoice` (IN `keyword` VARCHAR(255) CHARSET utf8)  NO SQL
 SELECT
     0 AS is_checked,
 	n.id,
@@ -270,7 +270,7 @@ SELECT
     ORDER BY n.sort_order ASC$$
 
 DROP PROCEDURE IF EXISTS `pro_getMenu`$$
-CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getMenu` (IN `keyword` VARCHAR(255), IN `menu_type_id` INT(11))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getMenu` (IN `keyword` VARCHAR(255), IN `menu_type_id` INT(11))  BEGIN
 SELECT 
 0 AS is_checked
 	,n.id
@@ -295,7 +295,7 @@ SELECT
     END$$
 
 DROP PROCEDURE IF EXISTS `pro_getMenuType`$$
-CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getMenuType` (IN `keyword` VARCHAR(255))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getMenuType` (IN `keyword` VARCHAR(255))  BEGIN
 	SELECT 
 	0 AS is_checked
 	,n.id
@@ -313,7 +313,7 @@ CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getMenuType` (IN `keyword` VA
 END$$
 
 DROP PROCEDURE IF EXISTS `pro_getModuleArticle`$$
-CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getModuleArticle` (IN `keyword` VARCHAR(255))  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getModuleArticle` (IN `keyword` VARCHAR(255))  NO SQL
 SELECT 
 	0 AS  is_checked
 	,n.id
@@ -340,7 +340,7 @@ SELECT
     ORDER BY n.sort_order ASC$$
 
 DROP PROCEDURE IF EXISTS `pro_getModuleItem`$$
-CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getModuleItem` (IN `keyword` VARCHAR(255))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getModuleItem` (IN `keyword` VARCHAR(255))  BEGIN
 SELECT 
 	0 AS  is_checked
 	,n.id
@@ -368,7 +368,7 @@ SELECT
     END$$
 
 DROP PROCEDURE IF EXISTS `pro_getModuleMenu`$$
-CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getModuleMenu` (IN `keyword` VARCHAR(255))  SELECT 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getModuleMenu` (IN `keyword` VARCHAR(255))  SELECT 
 	0 as  is_checked
 	,n.id
 	,n.fullname
@@ -394,7 +394,7 @@ CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getModuleMenu` (IN `keyword` 
     ORDER BY n.sort_order ASC$$
 
 DROP PROCEDURE IF EXISTS `pro_getPaymentMethod`$$
-CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getPaymentMethod` (IN `keyword` VARCHAR(255) charset utf8)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getPaymentMethod` (IN `keyword` VARCHAR(255) charset utf8)  BEGIN
 SELECT 
 	0 AS  is_checked
 	,n.id
@@ -420,7 +420,7 @@ SELECT
     END$$
 
 DROP PROCEDURE IF EXISTS `pro_getPrivilege`$$
-CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getPrivilege` (IN `keyword` VARCHAR(255) CHARSET utf8)  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getPrivilege` (IN `keyword` VARCHAR(255) CHARSET utf8)  NO SQL
 SELECT
     0 AS is_checked,
 	n.id,
@@ -438,7 +438,7 @@ SELECT
     ORDER BY n.controller ASC , n.sort_order ASC$$
 
 DROP PROCEDURE IF EXISTS `pro_getProduct`$$
-CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getProduct` (IN `keyword` VARCHAR(255), IN `strCategoryProductID` VARCHAR(255))  begin
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getProduct` (IN `keyword` VARCHAR(255), IN `strCategoryProductID` VARCHAR(255))  begin
 SELECT
     0 AS is_checked
     ,n.id
@@ -476,8 +476,64 @@ SELECT
     ORDER BY n.sort_order ASC;
 end$$
 
+DROP PROCEDURE IF EXISTS `pro_getProductFrontend`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getProductFrontend` (IN `keyword` VARCHAR(255), IN `category_id` INT(11))  SELECT
+    0 AS is_checked
+    ,n.id
+    ,n.fullname
+	 FROM 
+    `product` n
+    LEFT JOIN `product_category` ac ON n.id = ac.product_id
+    WHERE
+    (keyword ='' OR TRIM(LOWER(n.fullname)) LIKE CONCAT('%',keyword,'%'))
+    AND ac.category_product_id = category_id
+    and n.status=1
+     GROUP BY 
+    n.id
+    ,n.fullname
+    ORDER BY n.sort_order ASC$$
+
+DROP PROCEDURE IF EXISTS `pro_getProductFrontendLimit`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getProductFrontendLimit` (IN `keyword` VARCHAR(255), IN `category_id` INT(11), IN `position` INT(11), IN `totalItemsPerPage` INT(11))  SELECT
+    0 AS is_checked
+    ,n.id
+    ,n.code
+    ,n.fullname
+    ,n.alias   
+    ,n.image
+    ,n.status
+    ,n.child_image
+    ,n.price
+    ,n.detail
+    ,n.sort_order
+    ,n.created_at    
+    ,n.updated_at
+	 FROM 
+    `product` n
+    LEFT JOIN `product_category` ac ON n.id = ac.product_id
+    LEFT JOIN `category_product` cate ON ac.category_product_id = cate.id
+    WHERE
+    (keyword ='' OR TRIM(LOWER(n.fullname)) LIKE CONCAT('%',keyword,'%'))
+    AND ac.category_product_id = category_id
+    AND n.status=1
+     GROUP BY 
+    n.id
+    ,n.code
+    ,n.fullname
+    ,n.alias   
+    ,n.image
+    ,n.status
+    ,n.child_image
+    ,n.price
+    ,n.detail
+    ,n.sort_order
+    ,n.created_at    
+    ,n.updated_at
+    ORDER BY n.sort_order ASC
+    LIMIT `position` , `totalItemsPerPage`$$
+
 DROP PROCEDURE IF EXISTS `pro_getSettingSystem`$$
-CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getSettingSystem` (IN `keyword` VARCHAR(255) charset utf8)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getSettingSystem` (IN `keyword` VARCHAR(255) charset utf8)  BEGIN
 SELECT 
 	0 AS  is_checked
 	,n.id
@@ -503,7 +559,7 @@ SELECT
     END$$
 
 DROP PROCEDURE IF EXISTS `pro_getUser`$$
-CREATE DEFINER=`depnua`@`localhost` PROCEDURE `pro_getUser` (IN `keyword` VARCHAR(255), IN `group_member_id` INT)  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getUser` (IN `keyword` VARCHAR(255), IN `group_member_id` INT)  NO SQL
 SELECT 
     0 as is_checked
     ,n.id
@@ -555,8 +611,7 @@ INSERT INTO `activations` (`id`, `user_id`, `code`, `completed`, `completed_at`,
 (4, 1, 'JqmoT6nwuNXt0D5jape2qCQsEVQgWEqA', 1, '2017-11-12 06:26:26', '2017-11-12 06:26:26', '2017-11-12 06:26:26'),
 (5, 1, '1TnyfEnFLs7gdNZXKP2r35tc1hBvcnPg', 1, '2017-11-12 07:22:52', '2017-11-12 07:22:52', '2017-11-12 07:22:52'),
 (6, 1, 'QlzbRQWzVJgg01NkGUVewoQhT4qPKTMZ', 1, '2017-11-12 07:23:56', '2017-11-12 07:23:56', '2017-11-12 07:23:56'),
-(8, 4, '3DIqppaoRZI0iaNdlvDo6id9OOnpOE45', 1, '2017-11-12 10:59:09', '2017-11-12 10:59:09', '2017-11-12 10:59:09'),
-(9, 5, '3ryRl1sVaRhnTWtugU7YIVfzCPmFMm7V', 1, '2017-11-15 04:16:18', '2017-11-15 04:16:18', '2017-11-15 04:16:18');
+(10, 6, 'kMUYlsNzxftRUN0Rzfx2a41fvT61Eezp', 1, '2017-11-15 09:45:46', '2017-11-15 09:45:46', '2017-11-15 09:45:46');
 
 -- --------------------------------------------------------
 
@@ -995,7 +1050,12 @@ INSERT INTO `menu` (`id`, `fullname`, `alias`, `site_link`, `parent_id`, `menu_t
 (61, 'Đảm bảo tiến độ', 'dam-bao-tien-do', '/bai-viet/dam-bao-tien-do', 0, 7, 0, 4, 1, '2017-11-14 18:20:34', '2017-11-14 18:20:42'),
 (62, 'Mẹo hay nhà bếp', 'meo-hay-nha-bep', '/chu-de/meo-hay-nha-bep', 0, 8, 0, 1, 1, '2017-11-15 04:29:10', '2017-11-15 04:29:10'),
 (63, 'Sống khỏe', 'song-khoe', '/chu-de/song-khoe', 0, 8, 0, 2, 1, '2017-11-15 04:29:53', '2017-11-15 04:29:53'),
-(64, 'Thực phẩm sạch', 'thuc-pham-sach', '/chu-de/thuc-pham-sach', 0, 8, 0, 3, 1, '2017-11-15 04:30:23', '2017-11-15 04:30:23');
+(64, 'Thực phẩm sạch', 'thuc-pham-sach', '/chu-de/thuc-pham-sach', 0, 8, 0, 3, 1, '2017-11-15 04:30:23', '2017-11-15 04:30:23'),
+(65, 'Phòng khách', 'phong-khach', '/loai-san-pham/phong-khach', 0, 9, 0, 1, 1, '2017-11-15 17:56:21', '2017-11-15 17:56:21'),
+(66, 'Phòng ngủ', 'phong-ngu', '/loai-san-pham/phong-ngu', 0, 9, 0, 2, 1, '2017-11-15 17:56:45', '2017-11-15 17:56:45'),
+(67, 'Sofa', 'sofa', '/loai-san-pham/sofa', 0, 9, 0, 3, 1, '2017-11-15 17:57:02', '2017-11-15 17:57:02'),
+(68, 'Phòng bếp', 'phong-bep', '/loai-san-pham/phong-bep', 0, 9, 0, 4, 1, '2017-11-15 17:57:21', '2017-11-15 17:57:21'),
+(69, 'Phòng trẻ em', 'phong-tre-em', '/loai-san-pham/phong-tre-em', 0, 9, 0, 5, 1, '2017-11-15 17:57:44', '2017-11-15 17:57:44');
 
 -- --------------------------------------------------------
 
@@ -1025,7 +1085,8 @@ INSERT INTO `menu_type` (`id`, `fullname`, `alias`, `sort_order`, `created_at`, 
 (5, 'Hướng dẫn mua hàng', 'direction', 5, '2017-11-14 18:14:44', '2017-11-14 18:21:19'),
 (6, 'Chính sách thanh toán', 'policy', 6, '2017-11-14 18:16:57', '2017-11-14 18:21:19'),
 (7, 'Tại sao chọn chúng tôi', 'about-us', 7, '2017-11-14 18:18:49', '2017-11-14 18:21:19'),
-(8, 'Danh mục bài viết', 'category-article', 8, '2017-11-15 04:13:57', '2017-11-15 04:28:27');
+(8, 'Danh mục bài viết', 'category-article', 8, '2017-11-15 04:13:57', '2017-11-15 04:28:27'),
+(9, 'Danh mục sản phẩm', 'category-product', 9, '2017-11-15 17:55:23', '2017-11-15 18:16:43');
 
 -- --------------------------------------------------------
 
@@ -1104,7 +1165,8 @@ INSERT INTO `module_item` (`id`, `fullname`, `item_id`, `position`, `status`, `s
 (6, 'Tin mới', '7,10,8,9', 'hot-article', 1, 6, '2017-11-14 17:18:39', '2017-11-14 17:18:53'),
 (7, 'Partner', '15,16,17,18,19,20', 'partner', 1, 7, '2017-11-14 17:26:58', '2017-11-14 17:27:07'),
 (8, 'Bản quyền', '21', 'copyright', 1, 8, '2017-11-14 19:26:42', '2017-11-14 19:26:48'),
-(9, 'Bài viết nổi bật', '7,11,12,13,14', 'featured-article-leftside', 1, 1, '2017-11-15 04:41:06', '2017-11-15 04:41:06');
+(9, 'Bài viết nổi bật', '7,11,12,13,14', 'featured-article-leftside', 1, 9, '2017-11-15 04:41:06', '2017-11-15 18:20:31'),
+(10, 'Sản phẩm nổi bật', '7,8,9,10,11,12', 'featured-product-leftside', 1, 10, '2017-11-15 18:20:20', '2017-11-15 18:21:00');
 
 -- --------------------------------------------------------
 
@@ -1250,7 +1312,9 @@ INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`)
 (134, 1, 'zTVEKL7zcc4kvYk80AuKHQkn17d1TX0d', '2017-11-14 07:10:53', '2017-11-14 07:10:53'),
 (135, 1, 'ZxzpfDpxrMTx7dRhvd1IQs0KoAyp8beZ', '2017-11-14 10:00:40', '2017-11-14 10:00:40'),
 (138, 1, 'M9zXqXyMOTprNqZQI4LEpKqNogmDZiCE', '2017-11-14 20:35:29', '2017-11-14 20:35:29'),
-(139, 1, 'CDF73h1lqr864dh5T5BQdTRf0hcrS45y', '2017-11-15 01:20:36', '2017-11-15 01:20:36');
+(139, 1, 'CDF73h1lqr864dh5T5BQdTRf0hcrS45y', '2017-11-15 01:20:36', '2017-11-15 01:20:36'),
+(143, 1, '50Hrxr02Q6CqKUF4p0G0bpP6PhcrLaNG', '2017-11-15 10:34:05', '2017-11-15 10:34:05'),
+(145, 1, 'LRlBDrPFH3sF0WLHAUBGdJuLn5beDkqb', '2017-11-15 10:45:25', '2017-11-15 10:45:25');
 
 -- --------------------------------------------------------
 
@@ -1941,9 +2005,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `group_member_id`, `password`, `permissions`, `last_login`, `fullname`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'diennk@dienkim.com', 1, '$2y$10$rpZe6oM3GUJmwL/ZMTKm/OSe24l9TJKFU9lwd8VmohkqH0Oax6rVK', NULL, '2017-11-15 04:15:18', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-15 04:15:18'),
-(4, 'trietnk', 'trietnk@dienkim.com', 1, '$2y$10$0zm9JjK..Cr6zZSzlhxrbuCQAHSy1HjptXb5.02PIzDNubHYD0dje', NULL, '2017-11-12 20:47:22', 'Nguyễn Kim Triết', 2, 0, '2017-11-12 10:59:09', '2017-11-12 20:47:40'),
-(5, 'user1', 'user1@dienkim.com', 1, '$2y$10$hFDgrii691JFGEmxrk4noegDBrLgZDxMZ/efRQQxmZQFL5EEUDVCG', NULL, '2017-11-15 04:17:08', 'Người dùng 1', 1, 1, '2017-11-15 04:16:18', '2017-11-15 04:17:08');
+(1, 'admin', 'diennk@dienkim.com', 1, '$2y$10$rpZe6oM3GUJmwL/ZMTKm/OSe24l9TJKFU9lwd8VmohkqH0Oax6rVK', NULL, '2017-11-15 10:45:26', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-15 10:45:26'),
+(6, 'nhatanh', 'nhatanh@gmail.com', 1, '$2y$10$X.wWyaR4gqC8BAvcVtlH0u8FG1DC2a0dXPzPL.Qs96Ds/cJZqxviO', NULL, '2017-11-15 09:46:30', 'Nhật Anh', 3, 1, '2017-11-15 09:45:46', '2017-11-15 09:46:30');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -2148,7 +2211,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `activations`
 --
 ALTER TABLE `activations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT cho bảng `album`
 --
@@ -2208,12 +2271,12 @@ ALTER TABLE `invoice_detail`
 -- AUTO_INCREMENT cho bảng `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 --
 -- AUTO_INCREMENT cho bảng `menu_type`
 --
 ALTER TABLE `menu_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT cho bảng `migrations`
 --
@@ -2228,7 +2291,7 @@ ALTER TABLE `module_article`
 -- AUTO_INCREMENT cho bảng `module_item`
 --
 ALTER TABLE `module_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT cho bảng `module_menu`
 --
@@ -2248,7 +2311,7 @@ ALTER TABLE `payment_method`
 -- AUTO_INCREMENT cho bảng `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=146;
 --
 -- AUTO_INCREMENT cho bảng `photo`
 --
@@ -2263,12 +2326,12 @@ ALTER TABLE `privilege`
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT cho bảng `product_category`
 --
 ALTER TABLE `product_category`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 --
 -- AUTO_INCREMENT cho bảng `reminders`
 --
@@ -2293,7 +2356,7 @@ ALTER TABLE `throttle`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;COMMIT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
