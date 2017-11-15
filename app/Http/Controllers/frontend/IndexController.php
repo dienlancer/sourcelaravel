@@ -3,6 +3,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\CategoryModel;
 use App\CategoryArticleModel;
+use App\CategoryProductModel;
 use App\GroupModel;
 use App\MenuModel;
 use App\ArticleModel;
@@ -86,7 +87,43 @@ class IndexController extends Controller {
               if(count($row) > 0){
                 $item=$row[0];
               }         
-              break;         
+              break;  
+              case 'loai-san-pham':
+              $category_id=0;
+              $arr_category=CategoryProductModel::whereRaw("trim(lower(alias)) = ? and status = ?",[trim(mb_strtolower($alias,'UTF-8')),1])->get()->toArray();
+              if(count($arr_category) > 0){
+                  $category_id=$arr_category[0]['id'];
+                  $category=$arr_category[0];
+                  if(!empty(@$_POST["filter_search"])){
+                      $filter_search=@$_POST["filter_search"];
+                  }                                
+                  $data=DB::select('call pro_getProductFrontend(?,?)',array(mb_strtolower($filter_search),$category_id));
+                  $data=convertToArray($data);
+                  $totalItems=count($data);
+                  $totalItemsPerPage=(int)$dataSettingSystem['product_perpage']; 
+                  $pageRange=$this->_pageRange;
+                  if(!empty(@$_POST["filter_page"])){
+                    $currentPage=@$_POST["filter_page"];
+                  }       
+                  $arrPagination=array(
+                    "totalItems"=>$totalItems,
+                    "totalItemsPerPage"=>$totalItemsPerPage,
+                    "pageRange"=>$pageRange,
+                    "currentPage"=>$currentPage   
+                  );           
+                  $pagination=new PaginationModel($arrPagination);
+                  $str_pagination=$pagination->showPagination();
+                  $position   = (@$arrPagination['currentPage']-1)*$totalItemsPerPage;
+                  $data=DB::select('call pro_getProductFrontendLimit(?,?,?,?)',array($filter_search,$category_id,$position,$totalItemsPerPage));      
+                  $items=convertToArray($data);                  
+              }              
+              break; 
+              case 'san-pham':
+              $row=ProductModel::whereRaw("trim(lower(alias)) = ? and status = ?",[trim(mb_strtolower($alias,'UTF-8')),1])->get()->toArray();              
+              if(count($row) > 0){
+                $item=$row[0];
+              }         
+              break;        
             }         
             if(count($item) > 0){
                 $title=$item['title'];
@@ -99,7 +136,7 @@ class IndexController extends Controller {
                 case "add-cart"     :   $this->addCart();return redirect()->route('frontend.index.viewCart'); break;                  
               }
             }           
-            return view("frontend.index",compact("component",'title',"meta_keyword","meta_description","alias","item","items","category","str_pagination"));
+            return view("frontend.index",compact("component","title","meta_keyword","meta_description","alias","item","items","category","str_pagination"));
       }
       public function contact(){      
         $alias="lien-he"; 
