@@ -1,13 +1,15 @@
 @extends("frontend.master")
-
 @section("content")
-
-
-  <div class="col-md-9">
+<div class="container margin-top-15 margin-bottom-15">
+  <div class="col-lg-3 no-padding page-left">@include("frontend.left-sidebar")</div>
+  <div class="col-lg-9 no-padding-right col-right">
     <?php
             switch ($component) {
                   case "trang-chu":                                                
                         ?>@include("frontend.home")<?php
+                        break; 
+                  case "bai-viet":                                                
+                        ?>@include("frontend.article")<?php
                         break; 
                   case "danh-muc":                                                
                         ?>@include("frontend.category")<?php
@@ -43,11 +45,7 @@
                         ?>@include("frontend.invoice")<?php
                         break;                                                                        
             }
-
     ?>
   </div>
-  <div class="col-md-3">
-   
-  </div>
-
+</div>  
 @endsection()               

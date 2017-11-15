@@ -19,6 +19,21 @@ $youtube_url=$data_setting_system['youtube_url'];
 $instagram_url=$data_setting_system['instagram_url'];
 $pinterest_url=$data_setting_system['pinterest_url']; 
 $map_url=$data_setting_system['map_url'];
+// lấy sản phẩm nổi bật
+$data_featured_product=getModuleByPosition('product','featured-product');    
+// thiết bị vệ sinh
+$data_toilet_equipment=getModuleByPosition('product','toilet-equipment');
+// thiết bị bếp
+$data_chicken_equipment=getModuleByPosition('product','chicken-equipment');
+// nhà thông minh
+$data_clever_house=getModuleByPosition('product','clever-house');
+// lấy danh sách khách hàng
+$data_customer=getModuleByPosition('article','customer');    
+// tin mới
+$data_hot_article=getModuleByPosition('article','hot-article');    
+// đối tác
+$data_partner=getModuleByPosition('article','partner');    
+
 ?>
 <div class="container">
 	<div id="wrapper">
@@ -524,7 +539,7 @@ $map_url=$data_setting_system['map_url'];
 			<?php 
 			for($i=0;$i<count($data_hot_article);$i++){
 				$id=$data_hot_article[$i]['id'];			
-				$permalink=url('/san-pham/'.$data_hot_article[$i]['alias'].'.html');
+				$permalink=url('/bai-viet/'.$data_hot_article[$i]['alias'].'.html');
 				$featureImg=asset('/resources/upload/'.$data_hot_article[$i]['image']);
 				$fullname=$data_hot_article[$i]['fullname'];
 				$intro=$data_hot_article[$i]['intro'];

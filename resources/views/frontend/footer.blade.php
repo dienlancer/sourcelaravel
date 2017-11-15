@@ -1,3 +1,7 @@
+<?php 
+// bản quyền
+$data_copyright=getModuleByPosition('article','copyright');   
+?>
 <footer class="footer padding-top-15">
 	<div class="container margin-top-15 box-footer">
 		<div class="col-lg-3">

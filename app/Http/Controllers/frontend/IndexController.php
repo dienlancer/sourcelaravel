@@ -31,116 +31,32 @@ class IndexController extends Controller {
     $meta_description="";  
     // lấy banner    
     $data_banner=BannerModel::whereRaw('status = ?',[1])->orderBy('sort_order','asc')->select('image')->get()->toArray()    ;
-    // lấy sản phẩm nổi bật
-    $data_featured_product=$this->getModuleByPosition('product','featured-product');    
-    // thiết bị vệ sinh
-    $data_toilet_equipment=$this->getModuleByPosition('product','toilet-equipment');
-    // thiết bị bếp
-    $data_chicken_equipment=$this->getModuleByPosition('product','chicken-equipment');
-    // nhà thông minh
-    $data_clever_house=$this->getModuleByPosition('product','clever-house');
-    // lấy danh sách khách hàng
-    $data_customer=$this->getModuleByPosition('article','customer');    
-    // tin mới
-    $data_hot_article=$this->getModuleByPosition('article','hot-article');    
-    // đối tác
-    $data_partner=$this->getModuleByPosition('article','partner');    
-    // bản quyền
-    $data_copyright=$this->getModuleByPosition('article','copyright');    
-    return view("frontend.index",compact("component","meta_keyword","meta_description","alias",'data_banner','data_featured_product','data_toilet_equipment','data_chicken_equipment','data_clever_house','data_customer','data_hot_article','data_partner','data_copyright'));
+    return view("frontend.home",compact("component","meta_keyword","meta_description","alias",'data_banner'));
   }
-  function getModuleByPosition($component,$position){
-      $module=ModuleItemModel::whereRaw('trim(lower(position)) = ?',[mb_strtolower(trim(@$position))])->select('item_id')->get()->toArray()[0];    
-      $item_id=$module['item_id'];
-      $arr_id=explode(',', $item_id);
-      $data=array();
-      for($i=0;$i<count($arr_id);$i++){
-          $id=(int)$arr_id[$i];
-          $item=array();
-          switch ($component) {
-            case 'product':
-                $item=ProductModel::whereRaw('id = ?',[$id])->get()->toArray()[0];
-                break;
-            case 'article':
-                $item=ArticleModel::whereRaw('id = ?',[$id])->get()->toArray()[0];
-                break;            
-          }          
-          $data[]=$item;
-      }      
-      return $data;
-  }
+  
 	public function index($component,$alias)
       {                                 
             $component=$component;               
             $alias=$alias;
             $meta_keyword="";
-            $meta_description="";
-            $menu_id=0;
-            $arrMainMenu=array();
-            $arrLstProduct=array();
-            $filter_search="";
-            $category_id=0;
+            $meta_description="";            
+            $filter_search="";            
             $pagination="";
-            $currentPage=1;                  
-            $name="";                  
-            $arrRowProduct=array();     
-            $arrRowCategory=array();
+            $currentPage=1;                                          
             $totalItems=0;
             $totalItemsPerPage=0;
             $pageRange=0;
-            $currentPage=1;
-            $position=0;
-            $arrCountLst=array();
+            $currentPage=1;            
             $action="";
+            $item=array();
             switch ($component) {
-              case "danh-muc":              
-                  $arrRowCategory=CategoryModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias,'UTF-8'))])->get()->toArray()[0];
-                  if(!empty($arrRowCategory)){
-                            $category_id=$arrRowCategory["id"];
-                            $name=$arrRowCategory["name"];
-                          }                  
-                  if(!empty(@$_POST["filter_search"]))
-                                $filter_search=@$_POST["filter_search"];                                 
-                  $stdCountLst=DB::select('call pro_getCountProductLst_fe(?,?)',array($filter_search,$category_id)); 
-                  if(!empty($stdCountLst)){
-                    $arrCountLst=convertToArray(@$stdCountLst);
-                    $totalItems=(int)$arrCountLst[0]["countLst"];    
-                    $totalItemsPerPage=$this->_totalItemsPerPage;                     
-                    $pageRange=$this->_pageRange;
-                    if(!empty(@$_POST["filter_page"]))
-                      $currentPage=@$_POST["filter_page"];         
-                    $arrPagination=array(
-                      "totalItems"=>$totalItems,
-                      "totalItemsPerPage"=>$totalItemsPerPage,
-                      "pageRange"=>$pageRange,
-                      "currentPage"=>$currentPage   
-                    );                    
-                    $pagination=new PaginationModel($arrPagination);
-                    $position   = (@$arrPagination['currentPage']-1)*$totalItemsPerPage;
-                    $stdLst=array();
-                    if($totalItemsPerPage > 0)            
-                      $stdLst=DB::select('call pro_getProductLstLimit_fe(?,?,?,?)',array($filter_search,$category_id,$position,$totalItemsPerPage));                   
-                    if(!empty(@$stdLst))                       
-                      $arrLstProduct=convertToArray(@$stdLst);                              
-                  }     
-                  break;   
-              case "san-pham":  
-                  $stdRowProduct=ProductModel::whereRaw("trim(lower(alias)) = ? and status = ?",[trim(mb_strtolower($alias,'UTF-8')),1])->get();                       
-                  if(!empty($stdRowProduct)){
-                      $arrRowProduct=$stdRowProduct->toArray()[0];                        
-                  }
-                  if(!empty($arrRowProduct)){
-                      $name=$arrRowProduct["name"];                        
-                      $category_id=$arrRowProduct["category_id"];                          
-                  }                        
-                  $arrRowCategory=CategoryModel::findOrFail($category_id)->toArray();
-                  if(!empty($arrRowCategory))
-                    $alias=$arrRowCategory["alias"];                   
-                  break;                        
-            }            
-            /* begin load module */      
-            $arrMainMenuModule=$this->loadMenuModuleByAlias($alias,"main-menu");                    
-            /* end load module */
+                case 'bai-viet':
+                  $std_row=ArticleModel::whereRaw("trim(lower(alias)) = ? and status = ?",[trim(mb_strtolower($alias,'UTF-8')),1])->get()->toArray();
+                  if(count($std_row) > 0){
+                      $item=$std_row[0];
+                  }         
+                break;         
+            }                        
             /* begin com_product */
             if(isset($_POST["action"])){
               $action=$_POST["action"];
@@ -149,7 +65,8 @@ class IndexController extends Controller {
               }
             }
             /* end com_product */                   
-            return view("frontend.index",compact("component","meta_keyword","meta_description","pagination","name","arrMainMenuModule","arrLstProduct","arrRowProduct","alias"));
+             return view("frontend.index",compact("component","meta_keyword","meta_description","alias","item"));
+
       }
       
       public function viewCart(){        

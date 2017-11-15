@@ -2,6 +2,9 @@
 use App\SettingSystemModel;
 use App\MenuModel;
 use App\MenuTypeModel;
+use App\ModuleItemModel;
+use App\ProductModel;
+use App\ArticleModel;
 function uploadImage($fileObj,$width,$height){        
   require_once base_path() . DS ."app".DS."scripts".DS."PhpThumb".DS."ThumbLib.inc.php";    
   $uploadDir = base_path() . DS ."resources".DS."upload";                    
@@ -76,13 +79,8 @@ function mooMenuRecursive($source,$parent,&$menu_str,&$lanDau,$url,$alias,$menu_
                           if( strcmp(trim(mb_strtolower($value["alias"])),trim(mb_strtolower($alias)))   ==  0 ){
                               $class_activated=1;                              
                           }
-                          $menuName='';
-                          $fullname='';
-                          if(!empty($link_before) && !empty($link_after)){
-                              $fullname=$link_before . $value['fullname'] . $link_after;
-                          }else{
-                              $fullname=$value['fullname'];
-                          }
+                          $menuName='';                          
+                          $fullname=$link_before . $value['fullname'] . $link_after;
                           if($class_activated==1){
                               $menuName = '<a href="'.$link.'" class="active" >' . $fullname . '</a>';
                           }else{
@@ -130,4 +128,27 @@ function fnPrice($value){
     }
     return $strCurrency;
   }
+function getModuleByPosition($component,$position){
+    $module=ModuleItemModel::whereRaw('trim(lower(position)) = ?',[mb_strtolower(trim(@$position))])->select('item_id')->get()->toArray()[0];    
+    $item_id=$module['item_id'];
+    $arr_id=explode(',', $item_id);
+    $data=array();
+    $status=1;
+    for($i=0;$i<count($arr_id);$i++){
+          $id=(int)$arr_id[$i];
+          $item=array();
+          switch ($component) {
+            case 'product':
+                $item=ProductModel::where('id','=',(int)$id)->where('status','=',(int)$status)->get()->toArray();
+                break;
+            case 'article':
+                $item=ArticleModel::where('id','=',(int)$id)->where('status','=',(int)$status)->get()->toArray();
+                break;            
+          }       
+          if(count($item) > 0){
+            $data[]=$item[0];
+          }                    
+    }   
+    return $data;
+}
 ?>
