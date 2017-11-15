@@ -237,6 +237,7 @@ Route::match(["get","post"],"dang-ky.html",["as"=>"frontend.index.register","use
 Route::match(["get","post"],"tai-khoan.html",["as"=>"frontend.index.viewAccount","uses"=>"frontend\IndexController@viewAccount"]);
 Route::match(["get","post"],"dang-nhap.html",["as"=>"frontend.index.login","uses"=>"frontend\IndexController@login"]);
 Route::match(["get","post"],"bao-mat.html",["as"=>"frontend.index.viewSecurity","uses"=>"frontend\IndexController@viewSecurity"]);
+Route::match(["get","post"],"lien-he.html",["as"=>"frontend.index.contact","uses"=>"frontend\IndexController@contact"]);
 Route::get("thanh-toan",["as"=>"frontend.index.checkout","uses"=>"frontend\IndexController@checkout"]);
 Route::match(["get","post"],"xac-nhan-thanh-toan.html",["as"=>"frontend.index.confirmCheckout","uses"=>"frontend\IndexController@confirmCheckout"]);
 Route::match(["get","post"],"dang-nhap-thanh-toan.html",["as"=>"frontend.index.loginCheckout","uses"=>"frontend\IndexController@loginCheckout"]);

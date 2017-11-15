@@ -99,9 +99,58 @@ class IndexController extends Controller {
                 case "add-cart"     :   $this->addCart();return redirect()->route('frontend.index.viewCart'); break;                  
               }
             }           
-            return view("frontend.index",compact("component","meta_keyword","meta_description",'title',"alias","item","items","category","str_pagination"));
+            return view("frontend.index",compact("component",'title',"meta_keyword","meta_description","alias","item","items","category","str_pagination"));
       }
-      
+      public function contact(){      
+        $alias="lien-he"; 
+        if(isset($_POST['btnSend']))     {
+          $data_setting_system=getSettingSystem();    
+          $fullname   = @$_POST["fullname"];
+          $email    = @$_POST['email'];   
+          $phone    = @$_POST['phone'];
+          $title    = @$_POST['title'];
+          $address  = @$_POST['address'];
+          $content  = @$_POST["content"];
+          /* begin load config contact */
+          $smtp_host      = @$data_setting_system['smtp_host'];
+          $smtp_port      = @$data_setting_system['smtp_port'];
+          $smtp_auth      = @$data_setting_system['smtp_auth'];
+          $encription     = @$data_setting_system['encription'];
+          $smtp_username  = @$data_setting_system['smtp_username'];
+          $smtp_password  = @$data_setting_system['smtp_password'];
+          $email_from     = @$data_setting_system['email_from'];
+          $email_to       = @$data_setting_system['email_to'];
+          $to_name        = @$data_setting_system['to_name'];
+          /* end load config contact */
+          $filePhpMailer=base_path() . DS ."app".DS."scripts".DS."phpmailer".DS."PHPMailerAutoload.php"  ;
+
+          require_once $filePhpMailer;    
+          $strMsg="";
+          $mail = new PHPMailer;        
+          $mail->CharSet = "UTF-8";   
+          $mail->isSMTP();             
+          $mail->SMTPDebug = 2;
+          $mail->Debugoutput = 'html';
+          $mail->Host = @$smtp_host;
+          $mail->Port = @$smtp_port;
+          $mail->SMTPSecure = @$encription;
+          $mail->SMTPAuth = true;
+          $mail->Username = @$smtp_username;
+          $mail->Password = @$smtp_password;
+          $mail->setFrom(@$email_from, $fullname);
+          $mail->addAddress(@$email_to, @$to_name);
+          $mail->Subject = 'Khách hàng '. @$fullname . " - Số điện thoại : " . @$phone ;       
+          $strContent=@$content . "\n\n" . " Điện thoại : " . @$phone; 
+          $mail->Body=$strContent;   
+          if ($mail->send()) {                
+            echo '<script language="javascript" type="text/javascript">alert("Mail gửi thành công");</script>'; 
+          }
+          else{
+            echo '<script language="javascript" type="text/javascript">alert("Mail gửi không thành công");</script>'; 
+          }          
+        }
+        return view("frontend.contact",compact("alias"));          
+      }
       public function viewCart(){        
             $component="gio-hang";
             $alias="dang-nhap";

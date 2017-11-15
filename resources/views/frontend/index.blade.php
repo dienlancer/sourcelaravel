@@ -11,6 +11,9 @@
                   case "bai-viet":                                                
                         ?>@include("frontend.article")<?php
                         break; 
+                  case "lien-he":                                                
+                        ?>@include("frontend.contact")<?php
+                        break; 
                   case "danh-muc":                                                
                         ?>@include("frontend.category")<?php
                         break; 
