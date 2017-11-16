@@ -441,6 +441,7 @@ div.product-index-status{
 }
 div.box-product-thumbnail{
     border:1px solid #dddddd;
+        padding: 5px;
 }
 div.product-index{
     border-top: 1px solid #dddddd;    

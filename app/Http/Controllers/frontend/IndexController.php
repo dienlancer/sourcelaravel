@@ -58,7 +58,7 @@ class IndexController extends Controller {
                   $category_id=$arr_category[0]['id'];
                   $str_category_id="";
                   $arr_category_id[]=$category_id;
-                  getStringCategoryID($category_id,$arr_category_id,'category_product');                  
+                  getStringCategoryID($category_id,$arr_category_id,'category_article');                  
                   $str_category_id=implode("#;#", $arr_category_id);                  
                   $str_category_id="#".$str_category_id."#";                  
                   $category=$arr_category[0];
@@ -136,9 +136,15 @@ class IndexController extends Controller {
               break;        
             }         
             if(count($item) > 0){
-                $title=$item['title'];
-                $meta_keyword=$item['meta_keyword'];
-                $meta_description=$item['meta_description'];
+                if(!empty($item['title'])){
+                  $title=$item['title'];
+                }                
+                if(!empty($item['meta_keyword'])){
+                  $meta_keyword=$item['meta_keyword'];
+                }                
+                if(!empty($item['meta_description'])){
+                  $meta_description=$item['meta_description'];
+                }                
             }           
             if(isset($_POST["action"])){
               $action=$_POST["action"];
