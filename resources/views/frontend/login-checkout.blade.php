@@ -1,4 +1,4 @@
-<div class="page-right padding-bottom-15">
+
     <?php
 $data_setting_system=getSettingSystem();
 $product_width=$data_setting_system['product_width'];
@@ -149,5 +149,4 @@ if(count($arrError)>0){
         </form>
     </div>
     <div class="clr"></div>
-</div>
 </div>

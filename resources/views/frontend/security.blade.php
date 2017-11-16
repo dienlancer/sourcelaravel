@@ -1,4 +1,4 @@
-<div class="page-right padding-bottom-15">
+
     <h3 class="page-title h-title">Đổi mật khẩu</h3>
     <?php
 $msg="";
@@ -40,4 +40,3 @@ if(count($arrError)>0){
         </tbody>    
     </table>
 </form>
-</div>

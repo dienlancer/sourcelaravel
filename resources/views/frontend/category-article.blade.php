@@ -1,7 +1,6 @@
 <form method="post" class="frm">
 	<input type="hidden" name="filter_page" value="1">         
     {{ csrf_field() }}
-	<div class="page-right padding-bottom-15">	
 		<h3 class="page-title h-title"><?php echo $category['fullname']; ?></h3>
 		<div class="box-post">
 			<?php 		
@@ -36,5 +35,4 @@
 			echo $str_pagination;
 		}  
 		?>
-	</div>
 </form>

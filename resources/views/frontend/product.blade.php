@@ -22,7 +22,7 @@ if(count($item) > 0){
         $cart_price=$item['sale_price'];
     }
     ?>
-    <div class="page-right padding-bottom-15">
+
             <h3 class="page-title h-title"><?php echo $fullname; ?></h3>
             <div class="box-product-detail">                
                 <div>
@@ -109,7 +109,6 @@ if(count($item) > 0){
                     </div>
                 </div>                
             </div>              
-</div>
 <script type="text/javascript" language="javascript">
        function changeImage(small_thumbnail,large_thumbnail){    
         var image_detail=jQuery("#image-detail");

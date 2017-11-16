@@ -1,4 +1,4 @@
-<div class="page-right padding-bottom-15">
+
     <h3 class="page-title h-title">Đăng nhập</h3>
     <?php
     $msg="";
@@ -33,4 +33,4 @@
             </tbody>    
         </table>
     </form>
-</div>
+
