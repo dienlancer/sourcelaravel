@@ -31,6 +31,10 @@
 			}			
 			?>			
 		</div>
-		<?php echo $str_pagination; ?>
+		<?php 
+		if(count($items) > 0){
+			echo $str_pagination;
+		}  
+		?>
 	</div>
 </form>

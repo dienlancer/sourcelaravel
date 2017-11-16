@@ -6,8 +6,7 @@
 		<h3 class="page-title h-title"><?php echo $category['fullname']; ?></h3>
 		<div>
 			<?php 		
-
-			if(count($items) > 0){
+			if(count($items) > 0){			
 					$k=1;									
 					for($i=0;$i<count($items);$i++){							
 						$id=$items[$i]['id'];			
@@ -56,10 +55,14 @@
 							echo '<div class="clr"></div>';
 						}
 						$k++;
-					}
+					}					
 				}	
 			?>			
 		</div>
-		<?php echo $str_pagination; ?>
+		<?php 
+		if(count($items) > 0){
+			echo $str_pagination;
+		}  
+		?>
 	</div>
 </form>
