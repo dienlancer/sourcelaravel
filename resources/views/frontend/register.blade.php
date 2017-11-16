@@ -2,15 +2,14 @@
     <h3 class="page-title h-title">Đăng ký</h3>
     <?php
     $msg="";
-    if(!empty($arrError)){
+    if(count($arrError) > 0){
         $msg .= '<ul class="comproduct33">';        
         foreach ($arrError as $key => $val){
             $msg .= '<li>' . $val . '</li>';
         }
         $msg .= '</ul>';
-    }    
-    if(!empty($arrError))
-        echo $msg;   
+        echo $msg;
+    }        
     ?>
     <form method="post" name="frm">    
         <table id="com_product30" class="com_product30" border="0" width="90%" cellpadding="0" cellspacing="0">                   
@@ -33,7 +32,7 @@
                 </tr>                     
                 <tr>
                     <td align="right">Tên</td>
-                    <td><input type="text" name="name" value="<?php echo @$arrData["name"]; ?>" /></td>            
+                    <td><input type="text" name="fullname" value="<?php echo @$arrData["fullname"]; ?>" /></td>            
                 </tr>
                 <tr>
                     <td align="right">Địa chỉ</td>
@@ -56,7 +55,7 @@
                     <td class="com_product31" align="right">
                         <input name="btnRegisterMember" type="submit" class="com_product32" />
                         <input type="hidden" name="action" value="register-member" />
-                        <input type="hidden" name="_token" value="{!! csrf_token() !!}" />                     
+                        {{ csrf_field() }}
                     </td>                      
                 </tr> 
             </tbody>    

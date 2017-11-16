@@ -1,14 +1,16 @@
-<?php
+<div class="page-right padding-bottom-15">
+    <h3 class="page-title h-title">Đổi mật khẩu</h3>
+    <?php
 $msg="";
-if(!empty($arrError)){
+if(count($arrError)>0){
         $msg .= '<ul class="comproduct33">';        
         foreach ($arrError as $key => $val){
             $msg .= '<li>' . $val . '</li>';
         }
         $msg .= '</ul>';
-    }    
-    if(!empty($arrError))
         echo $msg;   
+    }        
+        
 ?>
 <form method="post" name="frm">    
     <table id="com_product30" class="com_product30" border="0" width="40%" cellpadding="0" cellspacing="0">                   
@@ -32,9 +34,10 @@ if(!empty($arrError)){
                     <input type="hidden" name="id" value="<?php echo @$arrData["id"]; ?>" />
                     <input type="hidden" name="username" value="<?php echo @$arrData["username"]; ?>" />
                     <input type="hidden" name="action" value="change-password" />                    
-                    <input type="hidden" name="_token" value="{!! csrf_token() !!}" />                              
+                    {{ csrf_field() }}                           
                 </td>                       
             </tr> 
         </tbody>    
     </table>
 </form>
+</div>

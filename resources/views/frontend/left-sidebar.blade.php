@@ -55,6 +55,9 @@ switch ($component) {
     case 'gio-hang':      
     case 'dang-nhap-thanh-toan':
     case 'dang-ky':
+    case 'tai-khoan':
+    case 'dang-nhap':
+    case 'bao-mat':
         $args = array(                         
             'menu_class'            => 'categoryproductmenu', 
             'menu_id'               => 'category-product-menu',                         
