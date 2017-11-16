@@ -3,7 +3,7 @@ $data_setting_system=getSettingSystem();
 switch ($component) {
     case 'chu-de':
     case 'bai-viet':
-          
+    
         $args = array(                         
             'menu_class'            => 'categoryarticlemenu', 
             'menu_id'               => 'category-article-menu',                         
@@ -52,6 +52,9 @@ switch ($component) {
         break;
     case 'loai-san-pham':
     case 'san-pham':    
+    case 'gio-hang':      
+    case 'dang-nhap-thanh-toan':
+    case 'dang-ky':
         $args = array(                         
             'menu_class'            => 'categoryproductmenu', 
             'menu_id'               => 'category-product-menu',                         

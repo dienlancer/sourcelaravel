@@ -26,6 +26,7 @@ $logout_link=route("frontend.index.getLgout");
 $security_link=route("frontend.index.viewSecurity"); 
 $invoice_link=route("frontend.index.getInvoice");
 $register_member_link=route("frontend.index.register");
+$cart_link=route('frontend.index.viewCart');
 ?>
 <!DOCTYPE html>
 <html>
@@ -71,6 +72,7 @@ $register_member_link=route("frontend.index.register");
   <link rel="stylesheet" href="{{ asset('public/frontend/css/dropdownmenu.css') }}" />
   <link rel="stylesheet" href="{{ asset('public/frontend/css/tab.css') }}" />
   <link rel="stylesheet" href="{{ asset('public/frontend/css/menu-horizontal-right.css') }}" />
+  <link rel="stylesheet" href="{{ asset('public/frontend/css/product.css') }}" />
   <link rel="stylesheet" href="{{ asset('public/frontend/css/template.css') }}" />
   <link rel="stylesheet" href="{{ asset('public/frontend/css/custom.css') }}" />
   <script type="text/javascript" language="javascript">
@@ -110,7 +112,7 @@ $register_member_link=route("frontend.index.register");
           </div>                    
           <div class="col-lg-3 no-padding">
             <div class="mini-cart dropdown box-cart cart hidden-xs">
-              <a href="#" >
+              <a href="<?php echo $cart_link; ?>" >
                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;Giỏ hàng
                 <span class="cart-total"></span>
               </a>                            

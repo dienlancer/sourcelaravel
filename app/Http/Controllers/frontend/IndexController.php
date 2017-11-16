@@ -149,17 +149,68 @@ class IndexController extends Controller {
             if(isset($_POST["action"])){
               $action=$_POST["action"];
               switch ($action) {
-                case "add-cart"     :   $this->addCart();return redirect()->route('frontend.index.viewCart'); break;                  
+                case "add-cart"     :   $this->addCart();return redirect()->route('frontend.index.viewCart');            break;                  
               }
             }           
             return view("frontend.index",compact("component","title","meta_keyword","meta_description","alias","item","items","category","str_pagination"));
       }
-      
+      function addCart(){          
+          $product_id=(int)($_POST["product_id"]);
+          $product_code=$_POST["product_code"];
+          $product_name=$_POST["product_name"];
+          $product_alias=$_POST["product_alias"];
+          $product_image=$_POST["product_image"];
+          $product_price=(float)($_POST["product_price"]);
+          $product_quantity=(int)($_POST["product_quantity"]);
+          $ssName="vmart";          
+          $ssCart=array();
+          $arrCart=array();
+          if(Session::has($ssName)){
+            $ssCart=Session::get($ssName);
+          }         
+          $arrCart = @$ssCart["cart"];                   
+          if($product_id > 0){            
+              if(count($arrCart) == 0){
+                $arrCart[$product_id]["product_quantity"] = $product_quantity;
+              }
+              else{
+                    if(!isset($arrCart[$product_id])){
+                      $arrCart[$product_id]["product_quantity"] = $product_quantity;                 
+                    }                        
+                    else{
+                      $arrCart[$product_id]["product_quantity"] = $arrCart[$product_id]["product_quantity"] + $product_quantity;                  
+                    }                               
+              }
+              $arrCart[$product_id]["product_id"]=$product_id;  
+              $arrCart[$product_id]["product_code"]=$product_code;
+              $arrCart[$product_id]["product_name"]=$product_name;
+              $arrCart[$product_id]["product_alias"]=$product_alias;      
+              $arrCart[$product_id]["product_image"]=$product_image;          
+              $arrCart[$product_id]["product_price"]=$product_price;                      
+              $product_quantity=(int)$arrCart[$product_id]["product_quantity"];
+              $product_total_price=$product_price * $product_quantity;
+              $arrCart[$product_id]["product_total_price"]=($product_total_price);
+              $cart["cart"]=$arrCart;                    
+              Session::put($ssName,$cart);                                        
+          }    
+      }
+      public function viewCart(){   
+        $component='gio-hang';
+        $alias='sofa';                             
+        if(isset($_POST["action"])){
+            $action=$_POST["action"];
+            switch ($action) {
+              case "update-cart"     :  $this->updateCart();
+              break;                  
+            }
+        }            
+        return view("frontend.index",compact("component","alias"));
+      }
       public function contact(){      
         $alias="lien-he"; 
         if(isset($_POST['btnSend']))     {
           $data_setting_system=getSettingSystem();    
-          $fullname   = @$_POST["fullname"];
+          $fullname = @$_POST["fullname"];
           $email    = @$_POST['email'];   
           $phone    = @$_POST['phone'];
           $title    = @$_POST['title'];
@@ -205,41 +256,7 @@ class IndexController extends Controller {
         }
         return view("frontend.contact",compact("alias"));          
       }
-      public function viewCart(){        
-            $component="gio-hang";
-            $alias="dang-nhap";
-            $meta_keyword="";
-            $meta_description="";
-            $menu_id=0;
-            $arrMainMenu=array();
-            $arrLstProduct=array();
-            $filter_search="";
-            $category_id=0;
-            $pagination="";
-            $currentPage=1;                  
-            $name="Giỏ hàng";                  
-            $arrRowProduct=array();     
-            $arrRowCategory=array();
-            $totalItems=0;
-            $totalItemsPerPage=0;
-            $pageRange=0;
-            $currentPage=1;
-            $position=0;
-            $arrCountLst=array();
-            $action="";
-            /* begin load module */      
-            $arrMainMenuModule=$this->loadMenuModuleByAlias($alias,"main-menu");              
-            /* end load module */
-            if(isset($_POST["action"])){
-              $action=$_POST["action"];
-              switch ($action) {
-                case "update-cart"     :  $this->updateCart();
-                                          break;                  
-              }
-            }
-            
-            return view("frontend.index",compact("component","meta_keyword","meta_description","pagination","name","arrMainMenuModule","alias"));
-      }
+      
       public function deleteAll(){
           $ssName="vmart";                   
           if(Session::has($ssName)){
@@ -262,93 +279,72 @@ class IndexController extends Controller {
       }
       public function register(){
             $component="dang-ky";
-            $alias="dang-nhap";
-            $meta_keyword="";
-            $meta_description="";
-            $menu_id=0;
-            $arrMainMenu=array();
-            $arrLstProduct=array();
-            $filter_search="";
-            $category_id=0;
-            $pagination="";
-            $currentPage=1;                  
-            $name="Giỏ hàng";                  
-            $arrRowProduct=array();     
-            $arrRowCategory=array();
-            $totalItems=0;
-            $totalItemsPerPage=0;
-            $pageRange=0;
-            $currentPage=1;
-            $position=0;
-            $arrCountLst=array();
+            $alias="dang-nhap";            
             $action="";
             $arrError=array();
             $arrData =array();   
-            $flag = true;   
-            /* begin load module */      
-            $arrMainMenuModule=$this->loadMenuModuleByAlias($alias,"main-menu");                        
-            /* end load module */            
+            $flag = 1;               
             if(isset($_POST["action"])){                          
               $arrData =$_POST;                    
-              $email=strtolower(trim($_POST["email"])) ;
-              $username=strtolower(trim($_POST["username"])) ;
-              $password=strtolower(trim($_POST["password"])) ;
-              $password_confirm=strtolower(trim($_POST["password_confirm"])) ;
-              if(!preg_match("#^[a-z][a-z0-9_\.]{4,31}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$#",$email )){
+              $email=(trim($_POST["email"])) ;
+              $username=(trim($_POST["username"])) ;
+              $password=(trim($_POST["password"])) ;
+              $password_confirm=(trim($_POST["password_confirm"])) ;
+              if(!preg_match("#^[a-z][a-z0-9_\.]{4,31}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$#", mb_strtolower($email,'UTF-8')   )){
                 $arrError["email"] = 'Email is invalid';
                 $arrData["email"] = '';
-                $flag=false;
+                $flag = 0;
               }
-              if(!preg_match("#^[a-z_][a-z0-9_\.\s]{4,31}$#", $username)){
+              if(!preg_match("#^[a-z_][a-z0-9_\.\s]{4,31}$#",mb_strtolower($username,'UTF-8') )){
                 $arrError["username"] = 'Username is invalid';
                 $arrData["username"] = ""; 
-                $flag=false;
+                $flag = 0;
               }
               if(mb_strlen($password) < 6){
                 $arrError["password"] = 'Password is invalid';
                 $arrData["password"] = "";
                 $arrData["password_confirm"] = ""; 
-                $flag=false;
+                $flag = 0;
               }
-              if(strcmp($password, $password_confirm)!=0){
+              if(strcmp(mb_strtolower($password,'UTF-8') , mb_strtolower($password_confirm,'UTF-8')) != 0 ){
                 $arrError["password_confirm"] = 'PasswordConfirm is not matched Password';
                 $arrData["password_confirm"] = "";   
-                $flag=false;
+                $flag = 0;
               }    
               $arrCustomer=CustomerModel::whereRaw("trim(lower(username)) = ?",[trim(mb_strtolower($username,'UTF-8'))])->get()->toArray();
-              if(!empty($arrCustomer)){
+              if(count($arrCustomer) > 0){
                 $arrError["username"] = 'Username đã tồn tại';
                 $arrData["username"] = ""; 
-                $flag=false;
+                $flag = 0;
               }  
               $arrCustomer=CustomerModel::whereRaw("trim(lower(email)) = ?",[trim(mb_strtolower($email,'UTF-8'))])->get()->toArray();
-              if(!empty($arrCustomer)){
+              if(count($arrCustomer) > 0){
                 $arrError["email"] = 'Email đã tồn tại';
                 $arrData["email"] = ""; 
-                $flag=false;
+                $flag = 0;
               }  
               if($flag){
                   $item = new CustomerModel;
-                  $item->username=$_POST["username"];
-                  $item->password=md5($_POST["password"]) ;
-                  $item->email=$_POST["email"];
-                  $item->name=$_POST["name"];
-                  $item->address=$_POST["address"];
-                  $item->phone=$_POST["phone"];
-                  $item->mobilephone=$_POST["mobilephone"];
-                  $item->fax=$_POST["fax"]; 
-                  $item->status=1;  
-                  $item->created_at=date("Y-m-d H:i:s",time());
-                  $item->updated_at=date("Y-m-d H:i:s",time());
+                  $item->username     =   trim($_POST["username"]);
+                  $item->password     =   md5(trim($_POST["password"])) ;
+                  $item->email        =   trim($_POST["email"]);
+                  $item->fullname     =   trim($_POST["fullname"]);
+                  $item->address      =   trim($_POST["address"]);
+                  $item->phone        =   trim($_POST["phone"]);
+                  $item->mobilephone  =   trim($_POST["mobilephone"]);
+                  $item->fax          =   trim($_POST["fax"]); 
+                  $item->status       =   1;  
+                  $item->created_at   =   date("Y-m-d H:i:s",time());
+                  $item->updated_at   =   date("Y-m-d H:i:s",time());
                   $item->save(); 
-                  $arrCustomer=CustomerModel::whereRaw("trim(lower(username)) = ?",[trim(mb_strtolower($username,'UTF-8'))])->get()->toArray()[0];
+                  $arrCustomer        =   CustomerModel::whereRaw("trim(lower(username)) = ?",[trim(mb_strtolower($username,'UTF-8'))])->get()->toArray()[0];
                   $arrUser["userInfo"]=array("username" => $arrCustomer["username"],"id"=>$arrCustomer["id"]);
                   $ssName="vmuser";                                             
                   Session::put($ssName,$arrUser);    
                   return redirect()->route('frontend.index.viewAccount');                                  
               }              
             }
-            return view("frontend.index",compact("component","meta_keyword","meta_description","pagination","name","arrMainMenuModule","alias","arrError","arrData","alias"));
+            return view("frontend.index",compact("component","alias","arrError","arrData"));
       }
       public function login(){   
 
@@ -375,14 +371,11 @@ class IndexController extends Controller {
             $action="";
             $arrError=array();
             $arrData =array();   
-            $flag = true;   
+            $flag = 1;   
             $ssName="vmuser";
             $arrUser=array();
             $arrCustomer=array();
-            $id=0;    
-            /* begin load module */      
-            $arrMainMenuModule=$this->loadMenuModuleByAlias($alias,"main-menu");                        
-            /* end load module */ 
+            $id=0;                
             if(isset($_POST["action"])){              
               $username=trim(@$_POST["username"]);   
               $password=md5(@$_POST["password"]);
@@ -433,14 +426,12 @@ class IndexController extends Controller {
             $action="";
             $arrError=array();
             $arrData =array();   
-            $flag = true;   
+            $flag = 1;   
             $ssName="vmuser";
             $arrUser=array();
             $arrData=array();
             $id=0;
-            /* begin load module */      
-              $arrMainMenuModule=$this->loadMenuModuleByAlias($alias,"main-menu");                        
-              /* end load module */  
+            
             $ssName="vmuser";   
             if(Session::has($ssName)){                
                 $arrUser = Session::get($ssName)["userInfo"];    
@@ -458,12 +449,12 @@ class IndexController extends Controller {
                   $arrError["password"] = 'Password is invalid';
                   $arrData["password"] = "";
                   $arrData["password_confirm"] = ""; 
-                  $flag=false;
+                  $flag = 0;
                 }
                 if(strcmp($password, $password_confirm)!=0){
                   $arrError["password_confirm"] = 'PasswordConfirm is not matched Password';
                   $arrData["password_confirm"] = "";   
-                  $flag=false;
+                  $flag = 0;
                 }    
                 if($flag){
                     $item=CustomerModel::find($id);                         
@@ -506,19 +497,16 @@ class IndexController extends Controller {
             $action="";
             $arrError=array();
             $arrData =array();   
-            $flag = true;   
+            $flag = 1;   
             $ssName="vmuser";
             $arrUser=array();
             $arrData=array();
-            $id=0;
-            /* begin load module */      
-                $arrMainMenuModule=$this->loadMenuModuleByAlias($alias,"main-menu");                        
-                /* end load module */
+            $id=0;            
             $ssName="vmuser";    
             if(Session::has($ssName)){                
                 $arrUser = Session::get($ssName)["userInfo"];    
             }   
-            if(empty($arrUser)){
+            if(count($arrUser)==0){
                 return redirect()->route("frontend.index.login"); 
             }
             $arrData=CustomerModel::find((int)$arrUser["id"])->toArray();    
@@ -529,13 +517,13 @@ class IndexController extends Controller {
               if(!preg_match("#^[a-z][a-z0-9_\.]{4,31}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$#",$email )){
                 $arrError["email"] = 'Email is invalid';
                 $arrData["email"] = '';
-                $flag=false;
+                $flag = 0;
               }              
               $arrRow=CustomerModel::whereRaw("trim(lower(email)) = ? and id != ? ",[trim(mb_strtolower($email,'UTF-8')),(int)$id])->get()->toArray();
               if(!empty($arrRow)){
                 $arrError["email"] = 'Email đã tồn tại';
                 $arrData["email"] = ""; 
-                $flag=false;
+                $flag = 0;
               }  
               if($flag){
                 $item=CustomerModel::find($id);                         
@@ -552,18 +540,18 @@ class IndexController extends Controller {
             return view("frontend.index",compact("component","meta_keyword","meta_description","pagination","name","arrMainMenuModule","alias","arrError","arrData","alias"));                                    
       }
       public function checkout(){
-        $ssName="vmuser";
-        $arrUser=array(); 
-        $link="";       
-        if(Session::has($ssName)){                
-          $arrUser = Session::get($ssName)["userInfo"];    
-        }   
-        if(!empty($arrUser)){
-          $link="frontend.index.confirmCheckout";
-        }else{
-          $link="frontend.index.loginCheckout";
-        }
-        return redirect()->route($link); 
+          $ssName="vmuser";
+          $arrUser=array(); 
+          $link="";       
+          if(Session::has($ssName)){                
+              $arrUser = Session::get($ssName)["userInfo"];    
+          }   
+          if(count($arrUser)==0){
+              $link="frontend.index.confirmCheckout";
+          }else{
+              $link="frontend.index.loginCheckout";
+          }
+          return redirect()->route($link); 
       }
       public function confirmCheckout(){
         $component="xac-nhan-thanh-toan";
@@ -589,14 +577,12 @@ class IndexController extends Controller {
             $action="";
             $arrError=array();
             $arrData =array();   
-            $flag = true;   
+            $flag = 1;   
             $ssName="vmuser";
             $arrUser=array();
             $arrData=array();
             $id=0;
-            /* begin load module */      
-              $arrMainMenuModule=$this->loadMenuModuleByAlias($alias,"main-menu");                        
-              /* end load module */  
+            
             $ssName="vmuser";  
             if(Session::has($ssName)){                
                 $arrUser = Session::get($ssName)["userInfo"];    
@@ -620,13 +606,13 @@ class IndexController extends Controller {
                   if(!preg_match("#^[a-z][a-z0-9_\.]{4,31}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$#",$email )){
                     $arrError["email"] = 'Email is invalid';
                     $arrData["email"] = '';
-                    $flag=false;
+                    $flag = 0;
                   }                  
                   $arrRowData=CustomerModel::whereRaw("trim(lower(email)) = ? and id != ? ",[trim(mb_strtolower($email,'UTF-8')),(int)$id])->get()->toArray();
                   if(!empty($arrRowData)){
                     $arrError["email"] = 'Email đã tồn tại';
                     $arrData["email"] = ""; 
-                    $flag=false;
+                    $flag = 0;
                   }  
                   if($flag){                    
                       $item = new InvoiceModel;
@@ -679,51 +665,27 @@ class IndexController extends Controller {
                         Session::forget($ssName);
                       }                   
                       $component="hoan-tat-thanh-toan";
-                      /* begin load module */      
-                      $arrMainMenuModule=$this->loadMenuModuleByAlias($alias,"main-menu");                        
-                      /* end load module */                                                                      
+                      
                   }                         
               }
               return view("frontend.index",compact("component","meta_keyword","meta_description","pagination","name","arrMainMenuModule","alias","arrError","arrData","alias"));                 
       }      
       public function loginCheckout(){
-        $component="dang-nhap-thanh-toan";
-            $alias="dang-nhap";
-            $meta_keyword="";
-            $meta_description="";
-            $menu_id=0;
-            $arrMainMenu=array();
-            $arrLstProduct=array();
-            $filter_search="";
-            $category_id=0;
-            $pagination="";
-            $currentPage=1;                  
-            $name="Giỏ hàng";                  
-            $arrRowProduct=array();     
-            $arrRowCategory=array();
-            $totalItems=0;
-            $totalItemsPerPage=0;
-            $pageRange=0;
-            $currentPage=1;
-            $position=0;
-            $arrCountLst=array();
+            $component="dang-nhap-thanh-toan";
+            $alias="dang-nhap";            
             $action="";
             $arrError=array();
             $arrData =array();   
-            $flag = true;   
+            $flag = 1;   
             $ssName="vmuser";
             $arrUser=array();
-            $arrCustomer=array();
-            $id=0;
-            /* begin load module */      
-            $arrMainMenuModule=$this->loadMenuModuleByAlias($alias,"main-menu");                        
-            /* end load module */   
+            $arrCustomer=array();            
             $ssName="vmart";                                
             $arrCart=array();
             if(Session::has($ssName)){
               $arrCart=Session::get($ssName)["cart"];
             } 
-            if(empty($arrCart)){
+            if(count($arrCart)==0){
               return redirect()->route("frontend.index.viewCart");   
             }       
             if(isset($_POST["action"])){
@@ -738,35 +700,35 @@ class IndexController extends Controller {
                   if(!preg_match("#^[a-z][a-z0-9_\.]{4,31}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$#",$email )){
                     $arrError["email"] = 'Email is invalid';
                     $arrData["email"] = '';
-                    $flag=false;
+                    $flag = 0;
                   }
                   if(!preg_match("#^[a-z_][a-z0-9_\.\s]{4,31}$#", $username)){
                     $arrError["username"] = 'Username is invalid';
                     $arrData["username"] = ""; 
-                    $flag=false;
+                    $flag = 0;
                   }
                   if(mb_strlen($password) < 6){
                     $arrError["password"] = 'Password is invalid';
                     $arrData["password"] = "";
                     $arrData["password_confirm"] = ""; 
-                    $flag=false;
+                    $flag = 0;
                   }
                   if(strcmp($password, $password_confirm)!=0){
                     $arrError["password_confirm"] = 'PasswordConfirm is not matched Password';
                     $arrData["password_confirm"] = "";   
-                    $flag=false;
+                    $flag = 0;
                   }    
                   $arrCustomer=CustomerModel::whereRaw("trim(lower(username)) = ?",[trim(mb_strtolower($username,'UTF-8'))])->get()->toArray();
                   if(!empty($arrCustomer)){
                     $arrError["username"] = 'Username đã tồn tại';
                     $arrData["username"] = ""; 
-                    $flag=false;
+                    $flag = 0;
                   }  
                   $arrCustomer=CustomerModel::whereRaw("trim(lower(email)) = ?",[trim(mb_strtolower($email,'UTF-8'))])->get()->toArray();
                   if(!empty($arrCustomer)){
                     $arrError["email"] = 'Email đã tồn tại';
                     $arrData["email"] = ""; 
-                    $flag=false;
+                    $flag = 0;
                   }  
                   if($flag){
                       $item = new CustomerModel;
@@ -804,7 +766,7 @@ class IndexController extends Controller {
               }
             }
             
-            return view("frontend.index",compact("component","meta_keyword","meta_description","pagination","name","arrMainMenuModule","alias","arrError","arrData","alias"));  
+            return view("frontend.index",compact("component","alias","arrError","arrData","alias"));  
       }
       public function getInvoice(){
         $component="hoa-don";
@@ -830,14 +792,12 @@ class IndexController extends Controller {
         $action="";
         $arrError=array();
         $arrData =array();   
-        $flag = true;   
+        $flag = 1;   
         $ssName="vmuser";
         $arrUser=array();
         $arrCustomer=array();
         $id=0;
-        /* begin load module */      
-        $arrMainMenuModule=$this->loadMenuModuleByAlias($alias,"main-menu");                        
-        /* end load module */ 
+        
         $ssName="vmuser";  
         if(Session::has($ssName)){                
                 $arrUser = Session::get($ssName)["userInfo"];    
@@ -875,67 +835,10 @@ class IndexController extends Controller {
               }              
               $cart["cart"]=$arrCart;                    
               Session::put($ssName,$cart);                   
-              if(empty($arrCart))
-                  Session::forget($ssName);              
+              if(empty($arrCart)){
+                Session::forget($ssName);              
+              }                  
       } 
-      function addCart(){          
-          $product_id=(int)($_POST["product_id"]);
-          $product_code=$_POST["product_code"];
-          $product_name=$_POST["product_name"];
-          $product_alias=$_POST["product_alias"];
-          $product_image=$_POST["product_image"];
-          $product_price=(float)($_POST["product_price"]);
-          $product_quantity=(int)($_POST["product_quantity"]);
-          $ssName="vmart";          
-          $ssCart=array();
-          $arrCart=array();
-          if(Session::has($ssName)){
-            $ssCart=Session::get($ssName);
-          }         
-          $arrCart = @$ssCart["cart"];                   
-          if($product_id > 0){            
-              if(count($arrCart) == 0){
-                $arrCart[$product_id]["product_quantity"] = $product_quantity;
-              }
-              else{
-                    if(!isset($arrCart[$product_id]))
-                        $arrCart[$product_id]["product_quantity"] = $product_quantity;                 
-                    else         
-                      $arrCart[$product_id]["product_quantity"] = $arrCart[$product_id]["product_quantity"] + $product_quantity;                  
-              }
-              $arrCart[$product_id]["product_id"]=$product_id;  
-              $arrCart[$product_id]["product_code"]=$product_code;
-              $arrCart[$product_id]["product_name"]=$product_name;
-              $arrCart[$product_id]["product_alias"]=$product_alias;      
-              $arrCart[$product_id]["product_image"]=$product_image;          
-              $arrCart[$product_id]["product_price"]=$product_price;                      
-              $product_quantity=(float)$arrCart[$product_id]["product_quantity"];
-              $product_total_price=$product_price * $product_quantity;
-              $arrCart[$product_id]["product_total_price"]=($product_total_price);
-              $cart["cart"]=$arrCart;                    
-              Session::put($ssName,$cart);                                     
-          }    
-
-      }
-      function loadMenuModuleByAlias($alias,$position){          
-            $menu_id=0;  
-            $arrModule=array();   
-            $arrRowMenu=MenuModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($alias,'UTF-8'))])->get()->toArray();
-            if(!empty($arrRowMenu))
-                          $menu_id=$arrRowMenu[0]["id"];     
-            $stdModule=DB::table("module_menu")
-                                  ->join("mod_menu_type","module_menu.id","=","mod_menu_type.module_id")
-                                  ->join("menu","mod_menu_type.menu_id","=","menu.id")
-                                  ->where("menu.id",(int)$menu_id)
-                                  ->where("mod_menu_type.module_type","module-menu")
-                                  ->where("module_menu.position",trim(mb_strtolower($position)))
-                                  ->select("module_menu.id","module_menu.name","module_menu.menu_type_id")
-                                  ->get();   
-            if(!empty($stdModule)){
-                    $arrModule=convertToArray(@$stdModule);                                                
-            }    
-            return $arrModule;
-      }
 }
 
 

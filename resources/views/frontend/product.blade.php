@@ -14,6 +14,13 @@ if(count($item) > 0){
     $arrPicture=json_decode($item['child_image']);
     $arrPicture[]=$item['image'];    
     $intro=$item['intro'];
+    $cart_price=0;
+    if(!empty($item['price'])){
+        $cart_price=$item['price'];
+    }
+    if(!empty($item['sale_price'])){
+        $cart_price=$item['sale_price'];
+    }
     ?>
     <div class="page-right padding-bottom-15">
             <h3 class="page-title h-title"><?php echo $fullname; ?></h3>
@@ -81,11 +88,13 @@ if(count($item) > 0){
                                     </div>                                    
                                 </div>
                             </div>
-                            <input type="hidden" name="product_id" value="<?php echo $id; ?>">
-                            <input type="hidden" name="product_code" value="<?php echo $item['code']; ?>">
-                            <input type="hidden" name="product_name" value="<?php echo $item['fullname']; ?>">
-                            <input type="hidden" name="product_image" value="<?php echo $item['image']; ?>">
-                            <input type="hidden" name="product_price" value="<?php echo $sale_price; ?>">                                                                       
+                            <input type="hidden" name="product_id"      value="<?php echo $id; ?>">
+                            <input type="hidden" name="product_code"    value="<?php echo $item['code']; ?>">
+                            <input type="hidden" name="product_name"    value="<?php echo $fullname; ?>">
+                            <input type="hidden" name="product_alias"   value="<?php echo $item['alias']; ?>">
+                            <input type="hidden" name="product_image"   value="<?php echo $item['image']; ?>">
+                            <input type="hidden" name="product_price"   value="<?php echo $cart_price; ?>">
+                            <input type="hidden" name="action"          value="add-cart" /> 
                             </form>                        
                     </div>
                     <div class="clr"></div>
@@ -99,8 +108,7 @@ if(count($item) > 0){
                       <?php echo $item['detail']; ?>
                     </div>
                 </div>                
-            </div>
-              
+            </div>              
 </div>
 <script type="text/javascript" language="javascript">
        function changeImage(small_thumbnail,large_thumbnail){    
