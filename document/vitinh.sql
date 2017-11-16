@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 16, 2017 lúc 01:43 PM
+-- Thời gian đã tạo: Th10 16, 2017 lúc 05:31 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -879,7 +879,8 @@ INSERT INTO `customer` (`id`, `username`, `password`, `email`, `fullname`, `addr
 (8, 'chauvn', 'e10adc3949ba59abbe56e057f20f883e', 'chauvn@ttcgroup.vn', 'Võ Ngọc Châu', '70 Trương Quốc Dung', '88113322', '0988111222', '99887711', 1, 3, '2017-05-13 09:28:01', '2017-05-20 10:51:48'),
 (9, 'thangnc', 'c33367701511b4f6020ec61ded352059', 'thangnc@ttcgroup.vn', 'Nguyễn Chí Thăng', '83 Nguyễn Trọng Tuyển', '3322116677', '0988666222', '4888221111', 1, 2, '2017-05-13 09:29:29', '2017-11-11 19:22:12'),
 (10, 'thaihst', 'e10adc3949ba59abbe56e057f20f883e', 'thaihst@ttcgroup.vn', 'Hồ Sỹ Thiên Thai', '16 Nguyễn Văn Trỗi', '0811111111', '0911111111', '1111111111', 1, 1, '2017-05-14 10:05:55', '2017-11-11 19:20:26'),
-(11, 'lantv_123', '25f9e794323b453885f5181f1b624d0b', 'lantv@gmail.com', 'Trần Văn Lân', '11 Nguyễn Bỉnh Khiêm , P.1 , Q. Tân Bình , TP. Hồ Chí Minh', '0828671243', '0988152783', '8825995434', 1, 11, '2017-11-16 11:55:57', '2017-11-16 12:41:26');
+(11, 'lantv_123', '25f9e794323b453885f5181f1b624d0b', 'lantv@gmail.com', 'Trần Văn Lân', '11 Nguyễn Bỉnh Khiêm , P.1 , Q. Tân Bình , TP. Hồ Chí Minh', '0828671243', '0988152783', '8825995434', 1, 11, '2017-11-16 11:55:57', '2017-11-16 14:44:32'),
+(12, 'datnv_123', '25f9e794323b453885f5181f1b624d0b', 'datnv@gmail.com', 'Nguyễn Văn Đạt', '12 Nguyễn Bỉnh Khiêm , P.1 , Q. Tân Bình , TP. Hồ Chí Minh', '0832489985', '0982398892', '8894838953', 1, 1, '2017-11-16 15:22:44', '2017-11-16 15:22:44');
 
 -- --------------------------------------------------------
 
@@ -946,6 +947,13 @@ CREATE TABLE `invoice` (
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
+--
+-- Đang đổ dữ liệu cho bảng `invoice`
+--
+
+INSERT INTO `invoice` (`id`, `code`, `customer_id`, `username`, `email`, `fullname`, `address`, `phone`, `mobilephone`, `fax`, `quantity`, `total_price`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, '4jlre0ci1uokmhsgdqz5', 12, 'datnv_123', 'datnv@gmail.com', 'Nguyễn Văn Đạt', '12 Nguyễn Bỉnh Khiêm , P.1 , Q. Tân Bình , TP. Hồ Chí Minh', '0832489985', '0982398892', '8894838953', 8, '32000000.00', 0, 1, '2017-11-16 16:29:42', '2017-11-16 16:29:42');
+
 -- --------------------------------------------------------
 
 --
@@ -958,7 +966,7 @@ CREATE TABLE `invoice_detail` (
   `invoice_id` int(11) DEFAULT NULL,
   `product_id` int(11) DEFAULT NULL,
   `product_code` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `product_fullname` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `product_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `product_image` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `product_price` decimal(10,2) DEFAULT NULL,
   `product_quantity` int(11) DEFAULT NULL,
@@ -966,6 +974,14 @@ CREATE TABLE `invoice_detail` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
+
+--
+-- Đang đổ dữ liệu cho bảng `invoice_detail`
+--
+
+INSERT INTO `invoice_detail` (`id`, `invoice_id`, `product_id`, `product_code`, `product_name`, `product_image`, `product_price`, `product_quantity`, `product_total_price`, `created_at`, `updated_at`) VALUES
+(1, 1, 7, '123456789', 'Sofa 1', 'sofa-1.png', '4000000.00', 3, '12000000.00', '2017-11-16 16:29:43', '2017-11-16 16:29:43'),
+(2, 1, 8, '123456781', 'Sofa 2', 'sofa-2.png', '4000000.00', 5, '20000000.00', '2017-11-16 16:29:43', '2017-11-16 16:29:43');
 
 -- --------------------------------------------------------
 
@@ -2250,7 +2266,7 @@ ALTER TABLE `category_product`
 -- AUTO_INCREMENT cho bảng `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT cho bảng `group_member`
 --
@@ -2265,12 +2281,12 @@ ALTER TABLE `group_privilege`
 -- AUTO_INCREMENT cho bảng `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT cho bảng `invoice_detail`
 --
 ALTER TABLE `invoice_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT cho bảng `menu`
 --
@@ -2330,12 +2346,12 @@ ALTER TABLE `privilege`
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT cho bảng `product_category`
 --
 ALTER TABLE `product_category`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 --
 -- AUTO_INCREMENT cho bảng `reminders`
 --

@@ -1,4 +1,4 @@
-
+<h3 class="page-title h-title">Thanh toán</h3>
     <?php
 $data_setting_system=getSettingSystem();
 $product_width=$data_setting_system['product_width'];
@@ -8,23 +8,15 @@ $arrCart=array();
 if(Session::has($ssName)){    
     $arrCart = @Session::get($ssName)["cart"];    
 }     
-$msg="";
-if(count($arrError)>0){
-        $msg .= '<ul class="comproduct33">';        
-        foreach ($arrError as $key => $val){
-            $msg .= '<li>' . $val . '</li>';
-        }
-        $msg .= '</ul>';
-    }
 if(count($arrCart)>0){
     ?>
     <table id="com_product16" class="com_product16" cellpadding="0" cellspacing="0" width="100%">
     <thead>
     <tr>    
-        <th>Sản phẩm</th>
-        <th>Giá</th>
-        <th>Số lượng</th>
-        <th>Tổng giá</th>        
+        <th align="center">Sản phẩm</th>
+        <th width="20%"><center>Giá</center></th>
+        <th  width="10%"><center>Số lượng</center></th>
+        <th width="20%"><center>Tổng giá</center></th>        
     </tr>
     </thead>
     <tbody>
@@ -46,9 +38,9 @@ if(count($arrCart)>0){
         ?>
         <tr>            
             <td class="com_product20"><a href="<?php echo $product_link ?>"><?php echo $product_name; ?></a></td>
-            <td class="com_product21"><?php echo $product_price; ?></td>
+            <td align="right" class="com_product21"><?php echo $product_price; ?></td>
             <td align="center" class="com_product22"><?php echo $product_quantity; ?></td>
-            <td class="com_product23"><?php echo ($product_total_price); ?></td>            
+            <td align="right" class="com_product23"><?php echo ($product_total_price); ?></td>            
         </tr>
         <?php
      } 
@@ -59,17 +51,23 @@ if(count($arrCart)>0){
             <td colspan="2">
                 Tổng cộng
             </td>
-            <td><?php echo $total_quantity; ?></td>
-            <td ><?php echo fnPrice($total_price); ?></td>
+            <td align="center"><?php echo $total_quantity; ?></td>
+            <td align="right"><?php echo fnPrice($total_price); ?></td>
             
         </tr>
     </tfoot>
 </table>
     <?php
 }   
+$msg="";
 if(count($arrError)>0){
-    echo $msg;    
-}
+        $msg .= '<ul class="comproduct33">';        
+        foreach ($arrError as $key => $val){
+            $msg .= '<li>' . $val . '</li>';
+        }
+        $msg .= '</ul>';
+        echo $msg;
+    }
 ?>
 <div class="row">
     <div class="col-md-8">
@@ -95,7 +93,7 @@ if(count($arrError)>0){
                     </tr>                     
                     <tr>
                         <td align="right">Tên</td>
-                        <td><input type="text" name="name" value="<?php echo @$arrData["name"]; ?>" /></td>            
+                        <td><input type="text" name="fullname" value="<?php echo @$arrData["fullname"]; ?>" /></td>            
                     </tr>
                     <tr>
                         <td align="right">Địa chỉ</td>
@@ -118,7 +116,7 @@ if(count($arrError)>0){
                         <td class="com_product31" align="right">
                             <input name="btnRegisterMember" type="submit" class="com_product32" />
                             <input type="hidden" name="action" value="register-checkout" />
-                            <input type="hidden" name="_token" value="{!! csrf_token() !!}" />                     
+                            {{ csrf_field() }}                   
                         </td>                      
                     </tr> 
                 </tbody>    

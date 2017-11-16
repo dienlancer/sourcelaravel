@@ -24,6 +24,8 @@ use Session;
 use DB;
 class IndexController extends Controller {  
   var $_pageRange=4;
+  var $_ssNameUser="vmuser";
+  var $_ssNameCart="vmart";      
   public function getHome(){
     $component="trang-chu";               
     $alias="trang-chu";
@@ -161,12 +163,11 @@ class IndexController extends Controller {
           $product_alias=$_POST["product_alias"];
           $product_image=$_POST["product_image"];
           $product_price=(float)($_POST["product_price"]);
-          $product_quantity=(int)($_POST["product_quantity"]);
-          $ssName="vmart";          
+          $product_quantity=(int)($_POST["product_quantity"]);          
           $ssCart=array();
           $arrCart=array();
-          if(Session::has($ssName)){
-            $ssCart=Session::get($ssName);
+          if(Session::has($this->_ssNameCart)){
+            $ssCart=Session::get($this->_ssNameCart);
           }         
           $arrCart = @$ssCart["cart"];                   
           if($product_id > 0){            
@@ -191,7 +192,7 @@ class IndexController extends Controller {
               $product_total_price=$product_price * $product_quantity;
               $arrCart[$product_id]["product_total_price"]=($product_total_price);
               $cart["cart"]=$arrCart;                    
-              Session::put($ssName,$cart);                                        
+              Session::put($this->_ssNameCart,$cart);                                        
           }    
       }
       public function viewCart(){   
@@ -257,24 +258,22 @@ class IndexController extends Controller {
         return view("frontend.contact",compact("alias"));          
       }
       
-      public function deleteAll(){
-          $ssName="vmart";                   
-          if(Session::has($ssName)){
-            Session::forget($ssName);
+      public function deleteAll(){          
+          if(Session::has($this->_ssNameCart)){
+            Session::forget($this->_ssNameCart);
           }                   
           return redirect()->route('frontend.index.viewCart'); 
       }
-      public function delete($id){
-          $ssName="vmart";          
+      public function delete($id){          
           $ssCart=array();
           $arrCart=array();
-          if(Session::has($ssName)){
-                $ssCart=Session::get($ssName);
+          if(Session::has($this->_ssNameCart)){
+                $ssCart=Session::get($this->_ssNameCart);
           }         
           $arrCart = @$ssCart["cart"];      
           unset($arrCart[$id]);    
           $cart["cart"]=$arrCart;                    
-          Session::put($ssName,$cart);             
+          Session::put($this->_ssNameCart,$cart);             
           return redirect()->route('frontend.index.viewCart'); 
       }
       public function register(){
@@ -346,9 +345,8 @@ class IndexController extends Controller {
             $item->updated_at   =   date("Y-m-d H:i:s",time());
             $item->save(); 
             $arrCustomer        =   CustomerModel::whereRaw("trim(lower(username)) = ?",[trim(mb_strtolower($username,'UTF-8'))])->get()->toArray()[0];
-            $arrUser["userInfo"]=array("username" => $arrCustomer["username"],"id"=>$arrCustomer["id"]);
-            $ssName="vmuser";                                             
-            Session::put($ssName,$arrUser);    
+            $arrUser["userInfo"]=array("username" => $arrCustomer["username"],"id"=>$arrCustomer["id"]);                                            
+            Session::put($this->_ssNameUser,$arrUser);    
             return redirect()->route('frontend.index.viewAccount');                                  
           }              
         }
@@ -361,8 +359,7 @@ class IndexController extends Controller {
         $arrError=array();
         $arrData =array();   
         $arrUser=array();        
-        $flag = 1;   
-        $ssName="vmuser";        
+        $flag = 1;           
         $id=0;                
         if(isset($_POST["action"])){              
           $username=trim(@$_POST["username"]);   
@@ -370,17 +367,15 @@ class IndexController extends Controller {
           $arrCustomer=CustomerModel::whereRaw("trim(lower(username)) = ? and trim(lower(password)) = ?",[mb_strtolower($username,'UTF-8'),trim(mb_strtolower($password))])->get()->toArray()  ;
 
           if(count($arrCustomer) > 0){
-            $arrUser["userInfo"]=array("username" => $arrCustomer[0]["username"],"id"=>$arrCustomer[0]["id"]);
-            $ssName="vmuser";                                             
-            Session::put($ssName,$arrUser);  
+            $arrUser["userInfo"]=array("username" => $arrCustomer[0]["username"],"id"=>$arrCustomer[0]["id"]);                                          
+            Session::put($this->_ssNameUser,$arrUser);  
             return redirect()->route('frontend.index.viewAccount'); 
           }else{
             $arrError["dang-nhap"]="Đăng nhập sai username và password";
           }
-        }
-        $ssName="vmuser";
-        if(Session::has($ssName)){                
-          $arrUser = Session::get($ssName)["userInfo"];    
+        }        
+        if(Session::has($this->_ssNameUser)){                
+          $arrUser = Session::get($this->_ssNameUser)["userInfo"];    
         }   
         if(count($arrUser) > 0){
           return redirect()->route("frontend.index.viewAccount"); 
@@ -394,11 +389,10 @@ class IndexController extends Controller {
             $arrError=array();
             $arrData =array();   
             $arrUser=array();
-            $flag = 1;   
-            $ssName="vmuser";            
+            $flag = 1;               
             $id=0;                        
-            if(Session::has($ssName)){                
-                $arrUser = Session::get($ssName)["userInfo"];    
+            if(Session::has($this->_ssNameUser)){                
+                $arrUser = Session::get($this->_ssNameUser)["userInfo"];    
             }   
             if(empty($arrUser)){
               return redirect()->route("frontend.index.login"); 
@@ -428,12 +422,11 @@ class IndexController extends Controller {
               }             
               return view("frontend.index",compact("component","alias","arrError","arrData"));                           
       }
-      public function getLgout(){
-        $ssName="vmuser";
+      public function getLgout(){        
         $arrUser=array();            
-        if(Session::has($ssName)){
-          $arrUser=Session::get($ssName)["userInfo"]; 
-          Session::forget($ssName);      
+        if(Session::has($this->_ssNameUser)){
+          $arrUser=Session::get($this->_ssNameUser)["userInfo"]; 
+          Session::forget($this->_ssNameUser);      
         }    
         return redirect()->route('frontend.index.login'); 
       }
@@ -445,10 +438,9 @@ class IndexController extends Controller {
         $arrUser=array();
         $arrData=array();
         $arrError=array();
-        $id=0;            
-        $ssName="vmuser";    
-        if(Session::has($ssName)){                
-          $arrUser = Session::get($ssName)["userInfo"];    
+        $id=0;                    
+        if(Session::has($this->_ssNameUser)){                
+          $arrUser = Session::get($this->_ssNameUser)["userInfo"];    
         }   
         if(count($arrUser)==0){
           return redirect()->route("frontend.index.login"); 
@@ -484,14 +476,13 @@ class IndexController extends Controller {
         }                
         return view("frontend.index",compact("component","alias","arrError","arrData"));                                    
       }
-      public function checkout(){
-          $ssName="vmuser";
+      public function checkout(){          
           $arrUser=array(); 
           $link="";       
-          if(Session::has($ssName)){                
-              $arrUser = Session::get($ssName)["userInfo"];    
+          if(Session::has($this->_ssNameUser)){                
+              $arrUser = Session::get($this->_ssNameUser)["userInfo"];    
           }   
-          if(count($arrUser)==0){
+          if(count($arrUser) > 0){
               $link="frontend.index.confirmCheckout";
           }else{
               $link="frontend.index.loginCheckout";
@@ -500,47 +491,24 @@ class IndexController extends Controller {
       }
       public function confirmCheckout(){
         $component="xac-nhan-thanh-toan";
-            $alias="dang-nhap";
-            $meta_keyword="";
-            $meta_description="";
-            $menu_id=0;
-            $arrMainMenu=array();
-            $arrLstProduct=array();
-            $filter_search="";
-            $category_id=0;
-            $pagination="";
-            $currentPage=1;                  
-            $name="Giỏ hàng";                  
-            $arrRowProduct=array();     
-            $arrRowCategory=array();
-            $totalItems=0;
-            $totalItemsPerPage=0;
-            $pageRange=0;
-            $currentPage=1;
-            $position=0;
-            $arrCountLst=array();
+            $alias="dang-nhap";            
             $action="";
             $arrError=array();
-            $arrData =array();   
-            $flag = 1;   
-            $ssName="vmuser";
-            $arrUser=array();
-            $arrData=array();
-            $id=0;
-            
-            $ssName="vmuser";  
-            if(Session::has($ssName)){                
-                $arrUser = Session::get($ssName)["userInfo"];    
+            $arrData =array();
+            $arrUser=array();              
+            $flag = 1;               
+            $id=0;            
+            if(Session::has($this->_ssNameUser)){                
+                $arrUser = Session::get($this->_ssNameUser)["userInfo"];    
             }   
-            if(empty($arrUser)){
+            if(count($arrUser) == 0){
               return redirect()->route("frontend.index.loginCheckout");               
-            }
-            $ssName="vmart";                                
+            }                
             $arrCart=array();
-            if(Session::has($ssName)){
-              $arrCart=Session::get($ssName)["cart"];
+            if(Session::has($this->_ssNameCart)){
+              $arrCart=Session::get($this->_ssNameCart)["cart"];
             } 
-            if(empty($arrCart)){
+            if(count($arrCart) == 0){
               return redirect()->route("frontend.index.viewCart");   
             }      
               $arrData=CustomerModel::find((int)$arrUser["id"])->toArray();    
@@ -565,21 +533,21 @@ class IndexController extends Controller {
                       $item->customer_id  =$id;
                       $item->username  =$arrData["username"];
                       $item->email=$_POST["email"];
-                      $item->name=$_POST["name"];
+                      $item->fullname=$_POST["fullname"];
                       $item->address=$_POST["address"];
                       $item->phone=$_POST["phone"];
                       $item->mobilephone=$_POST["mobilephone"];
                       $item->fax=$_POST["fax"];  
-                      $item->quantity=$_POST["quantity"];
-                      $item->total_price=$_POST["total_price"];
+                      $item->quantity=(int)$_POST["quantity"];
+                      $item->total_price=(float)$_POST["total_price"];
                       $item->status=0;  
+                      $item->sort_order=1;
                       $item->created_at=date("Y-m-d H:i:s",time());
                       $item->updated_at=date("Y-m-d H:i:s",time());
-                      $item->save(); 
-                      $ssName="vmart";                                
+                      $item->save();                           
                       $arrCart=array();
-                      if(Session::has($ssName)){
-                        $arrCart=Session::get($ssName)["cart"];
+                      if(Session::has($this->_ssNameCart)){
+                        $arrCart=Session::get($this->_ssNameCart)["cart"];
                       }         
                       if(!empty($arrCart)){
                         foreach ($arrCart as $key => $value) {
@@ -604,16 +572,14 @@ class IndexController extends Controller {
                           $itemInvoiceDetail->updated_at=date("Y-m-d H:i:s",time());
                           $itemInvoiceDetail->save();
                         }
-                      }     
-                      $ssName="vmart";                   
-                      if(Session::has($ssName)){
-                        Session::forget($ssName);
+                      }                           
+                      if(Session::has($this->_ssNameCart)){
+                        Session::forget($this->_ssNameCart);
                       }                   
-                      $component="hoan-tat-thanh-toan";
-                      
+                      $component="hoan-tat-thanh-toan";                      
                   }                         
               }
-              return view("frontend.index",compact("component","meta_keyword","meta_description","pagination","name","arrMainMenuModule","alias","arrError","arrData","alias"));                 
+              return view("frontend.index",compact("component","alias","arrError","arrData"));                 
       }      
       public function loginCheckout(){
             $component="dang-nhap-thanh-toan";
@@ -622,13 +588,11 @@ class IndexController extends Controller {
             $arrError=array();
             $arrData =array();   
             $flag = 1;   
-            $ssName="vmuser";
             $arrUser=array();
-            $arrCustomer=array();            
-            $ssName="vmart";                                
+            $arrCustomer=array();                            
             $arrCart=array();
-            if(Session::has($ssName)){
-              $arrCart=Session::get($ssName)["cart"];
+            if(Session::has($this->_ssNameCart)){
+              $arrCart=Session::get($this->_ssNameCart)["cart"];
             } 
             if(count($arrCart)==0){
               return redirect()->route("frontend.index.viewCart");   
@@ -637,81 +601,86 @@ class IndexController extends Controller {
               $action=$_POST["action"];
               switch ($action) {
                 case "register-checkout": 
-                  $arrData =$_POST;      
-                  $email=strtolower(trim($_POST["email"])) ;
-                  $username=strtolower(trim($_POST["username"])) ;
-                  $password=strtolower(trim($_POST["password"])) ;
-                  $password_confirm=strtolower(trim($_POST["password_confirm"])) ;
-                  if(!preg_match("#^[a-z][a-z0-9_\.]{4,31}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$#",$email )){
-                    $arrError["email"] = 'Email is invalid';
-                    $arrData["email"] = '';
-                    $flag = 0;
-                  }
-                  if(!preg_match("#^[a-z_][a-z0-9_\.\s]{4,31}$#", $username)){
-                    $arrError["username"] = 'Username is invalid';
+                  $arrData =$_POST;           
+                  $username=(trim($_POST["username"])) ;         
+                  $password=(trim($_POST["password"])) ;
+                  $password_confirm=(trim($_POST["password_confirm"])) ;
+                  $email=(trim($_POST["email"])) ;                  
+
+                  if(mb_strlen($username) < 6){
+                    $arrError["username"] = 'Username phải có độ dài lớn hơn hoặc bằng 6 ký tự';
                     $arrData["username"] = ""; 
                     $flag = 0;
+                  }else{
+                    $arrCustomer=CustomerModel::whereRaw("trim(lower(username)) = ?",[mb_strtolower($username,'UTF-8')])->get()->toArray();
+                    if(count($arrCustomer) > 0){
+                      $arrError["username"] = 'Username đã tồn tại';
+                      $arrData["username"] = ""; 
+                      $flag = 0;
+                    }  
                   }
+
                   if(mb_strlen($password) < 6){
-                    $arrError["password"] = 'Password is invalid';
+                    $arrError["password"] = 'Password phải có độ dài lớn hơn hoặc bằng 6 ký tự';
                     $arrData["password"] = "";
                     $arrData["password_confirm"] = ""; 
                     $flag = 0;
-                  }
-                  if(strcmp($password, $password_confirm)!=0){
-                    $arrError["password_confirm"] = 'PasswordConfirm is not matched Password';
-                    $arrData["password_confirm"] = "";   
+                  }else{
+                    if(strcmp(mb_strtolower($password,'UTF-8') , mb_strtolower($password_confirm,'UTF-8')) != 0 ){
+                      $arrError["password_confirm"] = 'PasswordConfirm does not matched Password';
+                      $arrData["password_confirm"] = "";   
+                      $flag = 0;
+                    }
+                  }              
+
+                  if(!preg_match("#^[a-z][a-z0-9_\.]{4,31}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$#", mb_strtolower($email,'UTF-8')   )){
+                    $arrError["email"] = 'Email is invalid';
+                    $arrData["email"] = '';
                     $flag = 0;
-                  }    
-                  $arrCustomer=CustomerModel::whereRaw("trim(lower(username)) = ?",[trim(mb_strtolower($username,'UTF-8'))])->get()->toArray();
-                  if(!empty($arrCustomer)){
-                    $arrError["username"] = 'Username đã tồn tại';
-                    $arrData["username"] = ""; 
-                    $flag = 0;
-                  }  
-                  $arrCustomer=CustomerModel::whereRaw("trim(lower(email)) = ?",[trim(mb_strtolower($email,'UTF-8'))])->get()->toArray();
-                  if(!empty($arrCustomer)){
-                    $arrError["email"] = 'Email đã tồn tại';
-                    $arrData["email"] = ""; 
-                    $flag = 0;
-                  }  
+                  }else{
+                    $arrCustomer=CustomerModel::whereRaw("trim(lower(email)) = ?",[mb_strtolower($email,'UTF-8')])->get()->toArray();
+                    if(count($arrCustomer) > 0){
+                      $arrError["email"] = 'Email đã tồn tại';
+                      $arrData["email"] = ""; 
+                      $flag = 0;
+                    }
+                  }                   
                   if($flag==1){
-                      $item = new CustomerModel;
-                      $item->username=$_POST["username"];
-                      $item->password=md5($_POST["password"]) ;
-                      $item->email=$_POST["email"];
-                      $item->name=$_POST["name"];
-                      $item->address=$_POST["address"];
-                      $item->phone=$_POST["phone"];
-                      $item->mobilephone=$_POST["mobilephone"];
-                      $item->fax=$_POST["fax"];  
-                      $item->created_at=date("Y-m-d H:i:s",time());
-                      $item->updated_at=date("Y-m-d H:i:s",time());
+                      $item               =   new CustomerModel;
+                      $item->username     =   trim($_POST["username"]);
+                      $item->password     =   md5(trim($_POST["password"])) ;
+                      $item->email        =   trim($_POST["email"]);
+                      $item->fullname     =   trim($_POST["fullname"]);
+                      $item->address      =   trim($_POST["address"]);
+                      $item->phone        =   trim($_POST["phone"]);
+                      $item->mobilephone  =   trim($_POST["mobilephone"]);
+                      $item->fax          =   trim($_POST["fax"]); 
+                      $item->status       =   1;  
+                      $item->sort_order   =   1;  
+                      $item->created_at   =   date("Y-m-d H:i:s",time());
+                      $item->updated_at   =   date("Y-m-d H:i:s",time());
                       $item->save(); 
-                      $arrCustomer=CustomerModel::whereRaw("trim(lower(username)) = ?",[trim(mb_strtolower($username,'UTF-8'))])->get()->toArray()[0];
-                      $arrUser["userInfo"]=array("username" => $arrCustomer["username"],"id"=>$arrCustomer["id"]);
-                      $ssName="vmuser";                                             
-                      Session::put($ssName,$arrUser);    
+                      $arrCustomer        =   CustomerModel::whereRaw("trim(lower(username)) = ?",[trim(mb_strtolower($username,'UTF-8'))])->get()->toArray()[0];
+                      $arrUser["userInfo"]=array("username" => $arrCustomer["username"],"id"=>$arrCustomer["id"]);                                                    
+                      Session::put($this->_ssNameUser,$arrUser);   
                       return redirect()->route('frontend.index.confirmCheckout');                        
                   }                               
                   break;
                 case "login-checkout":
                   $username=trim(@$_POST["username"]);   
                   $password=md5(@$_POST["password"]);              
-                  $arrCustomer=CustomerModel::whereRaw("trim(lower(username)) = ? and password = ?",[trim(mb_strtolower($username,'UTF-8')),$password])->get()->toArray()  ;                  
-                  if(!empty($arrCustomer)){
-                    $arrUser["userInfo"]=array("username" => $arrCustomer[0]["username"],"id"=>$arrCustomer[0]["id"]);
-                    $ssName="vmuser";                                             
-                    Session::put($ssName,$arrUser);  
+                  $arrCustomer=CustomerModel::whereRaw("trim(lower(username)) = ? and trim(lower(password)) = ?",[trim(mb_strtolower($username,'UTF-8')),trim(mb_strtolower($password,'UTF-8'))])->get()->toArray()  ;                  
+                  if(count($arrCustomer) > 0){
+                    $arrUser["userInfo"]=array("username" => $arrCustomer[0]["username"],"id"=>$arrCustomer[0]["id"]);                                                  
+                    Session::put($this->_ssNameUser,$arrUser);  
                     return redirect()->route('frontend.index.confirmCheckout'); 
                   }else{
                     $arrError["dang-nhap"]="Đăng nhập sai username và password";
                   }                   
                   break;                
               }
-            }
-            
-            return view("frontend.index",compact("component","alias","arrError","arrData","alias"));  
+            }            
+            return view("frontend.index",compact("component","alias","arrError","arrData"));  
       }
       public function getInvoice(){
         $component="hoa-don";
@@ -738,16 +707,16 @@ class IndexController extends Controller {
         $arrError=array();
         $arrData =array();   
         $flag = 1;   
-        $ssName="vmuser";
+        
         $arrUser=array();
         $arrCustomer=array();
         $id=0;
         
-        $ssName="vmuser";  
-        if(Session::has($ssName)){                
-                $arrUser = Session::get($ssName)["userInfo"];    
+        
+        if(Session::has($this->_ssNameUser)){                
+                $arrUser = Session::get($this->_ssNameUser)["userInfo"];    
         }   
-        if(empty($arrUser)){
+        if(count($arrUser)==0){
               return redirect()->route("frontend.index.login");               
         }else{
           $id=$arrUser["id"];
@@ -756,15 +725,14 @@ class IndexController extends Controller {
         return view("frontend.index",compact("component","meta_keyword","meta_description","pagination","name","arrMainMenuModule","alias","arrError","arrData","arrInvoice","alias"));
       }
       public function updateCart(){   
-              $arrQTY=$_POST["quantity"];   
-              $ssName="vmart";          
+              $arrQTY=$_POST["quantity"];                 
               $ssCart=array();
               $arrCart=array();
-              if(Session::has($ssName)){
-                $ssCart=Session::get($ssName);
+              if(Session::has($this->_ssNameCart)){
+                $ssCart=Session::get($this->_ssNameCart);
               }         
               $arrCart = @$ssCart["cart"];   
-              if(!empty($arrCart)){
+              if(count($arrCart) > 0){
                 foreach ($arrCart as $key => $value) {    
                     $product_quantity=(int)$arrQTY[$key];
                     $product_price = (float)$arrCart[$key]["product_price"];
@@ -779,9 +747,9 @@ class IndexController extends Controller {
                 }
               }              
               $cart["cart"]=$arrCart;                    
-              Session::put($ssName,$cart);                   
-              if(empty($arrCart)){
-                Session::forget($ssName);              
+              Session::put($this->_ssNameCart,$cart);                   
+              if(count($arrCart)==0){
+                Session::forget($this->_ssNameCart);              
               }                  
       } 
 }

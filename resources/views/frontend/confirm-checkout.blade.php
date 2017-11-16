@@ -1,26 +1,23 @@
+<h3 class="page-title h-title">Xác nhận thanh toán</h3>
 <?php
-$msg="";
-if(!empty($arrError)){
-        $msg .= '<ul class="comproduct33">';        
-        foreach ($arrError as $key => $val){
-            $msg .= '<li>' . $val . '</li>';
-        }
-        $msg .= '</ul>';
-    }        
+$data_setting_system=getSettingSystem();
+$product_width=$data_setting_system['product_width'];
+$product_height=$data_setting_system['product_height'];
+     
 $ssName="vmart";
 $arrCart=array();
 if(Session::has($ssName)){    
     $arrCart = @Session::get($ssName)["cart"];    
 }     
-if(!empty($arrCart)){
+if(count($arrCart) > 0){
     ?>
     <table id="com_product16" class="com_product16" cellpadding="0" cellspacing="0" width="100%">
     <thead>
     <tr>    
-        <th>Sản phẩm</th>
-        <th>Giá</th>
-        <th>Số lượng</th>
-        <th>Tổng giá</th>        
+        <th align="center">Sản phẩm</th>
+        <th width="20%"><center>Giá</center></th>
+        <th  width="10%"><center>Số lượng</center></th>
+        <th width="20%"><center>Tổng giá</center></th>        
     </tr>
     </thead>
     <tbody>
@@ -32,24 +29,20 @@ if(!empty($arrCart)){
         $product_name=$value["product_name"];
         $product_code=$value["product_code"];
         $product_price=$value["product_price"];        
-        $product_image=    url('/resources/upload/'.WIDTH."x".HEIGHT."-"). $value["product_image"] ;        
+        $product_image=    url('/resources/upload/'.$product_width."x".$product_height."-"). $value["product_image"] ;        
         $product_link= url('/san-pham/'.$value['product_alias'].'.html');           
         $product_quantity=$value["product_quantity"];
-        $product_price=$value["product_price"];
-        $product_total_price=$value["product_total_price"];
-        $total_price+=(float)$product_total_price;  
+        $product_price=fnPrice($value["product_price"]) ;
+        $product_total_price=fnPrice($value["product_total_price"]) ;
+        $total_price+=(float)$value["product_total_price"];  
         $total_quantity+=(float)$product_quantity;    
-        $delete_cart=url("/xoa-gio-hang");
-        $continue_link=url("/nhom-san-pham/".$alias.".html");
-        $delete_link=url("/xoa/".$product_id);
-        $checkout_link=url("/thanh-toan");
         ?>
         <tr>
             
             <td class="com_product20"><a href="<?php echo $product_link ?>"><?php echo $product_name; ?></a></td>
-            <td class="com_product21"><?php echo $product_price; ?></td>
+            <td class="com_product21" align="right"><?php echo $product_price; ?></td>
             <td align="center" class="com_product22"><?php echo $product_quantity; ?></td>
-            <td class="com_product23"><?php echo $product_total_price; ?></td>            
+            <td class="com_product23" align="right"><?php echo $product_total_price; ?></td>            
         </tr>
         <?php
      } 
@@ -60,16 +53,23 @@ if(!empty($arrCart)){
             <td colspan="2">
                 Tổng cộng
             </td>
-            <td><?php echo $total_quantity; ?></td>
-            <td ><?php echo $total_price; ?></td>
+            <td align="center"><?php echo $total_quantity; ?></td>
+            <td align="right"><?php echo fnPrice($total_price) ; ?></td>
             
         </tr>
     </tfoot>
 </table>
     <?php
 }       
-if(!empty($arrError))
-        echo $msg; 
+$msg="";
+if(count($arrError) > 0){
+        $msg .= '<ul class="comproduct33">';        
+        foreach ($arrError as $key => $val){
+            $msg .= '<li>' . $val . '</li>';
+        }
+        $msg .= '</ul>';
+    }   
+    echo $msg;
 ?>
 <form method="post" name="frm">    
     <table id="com_product30" class="com_product30" border="0" width="40%" cellpadding="0" cellspacing="0">                   
@@ -84,7 +84,7 @@ if(!empty($arrError))
             </tr>                     
             <tr>
                 <td align="right">Tên</td>
-                <td><input type="text" name="name" value="<?php echo @$arrData["name"]; ?>" /></td>            
+                <td><input type="text" name="fullname" value="<?php echo @$arrData["fullname"]; ?>" /></td>            
             </tr>
             <tr>
                 <td align="right">Địa chỉ</td>
@@ -111,7 +111,7 @@ if(!empty($arrError))
                     <input type="hidden" name="quantity" value="<?php echo @$total_quantity; ?>" />
                     <input type="hidden" name="total_price" value="<?php echo @$total_price; ?>" />
                     <input type="hidden" name="action" value="finished-checkout" />                    
-                    <input type="hidden" name="_token" value="{!! csrf_token() !!}" />                              
+                    {{ csrf_field() }}                             
                 </td>                       
             </tr> 
         </tbody>    

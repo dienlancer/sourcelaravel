@@ -58,6 +58,8 @@ switch ($component) {
     case 'tai-khoan':
     case 'dang-nhap':
     case 'bao-mat':
+    case 'xac-nhan-thanh-toan':
+    case 'hoan-tat-thanh-toan':
         $args = array(                         
             'menu_class'            => 'categoryproductmenu', 
             'menu_id'               => 'category-product-menu',                         

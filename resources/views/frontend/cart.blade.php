@@ -1,3 +1,4 @@
+<h3 class="page-title h-title">Giỏ hàng</h3>
 <?php 
 $data_setting_system=getSettingSystem();
 $product_width=$data_setting_system['product_width'];
