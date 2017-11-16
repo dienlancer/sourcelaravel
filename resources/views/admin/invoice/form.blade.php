@@ -21,6 +21,9 @@ $ddlStatus              =   cmsSelectbox("status","status","form-control",$arrSt
 $inputSortOrder         =   '<input type="text" class="form-control" name="sort_order" id="sort_order"     value="'.@$arrRowData['sort_order'].'">';
 $id                     =   (count($arrRowData) > 0) ? @$arrRowData['id'] : "" ;
 $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$id.'" />'; 
+$dataSettingSystem= getSettingSystem();
+$product_width = $dataSettingSystem['product_width'];
+$product_height = $dataSettingSystem['product_height'];
 ?>
 <div class="portlet light bordered">
     <div class="portlet-title">
@@ -127,6 +130,47 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                 <?php echo  $inputID; ?>                      
             </div>                  
         </form>
+        <table width="100%" id="com_product16" class="com_product16">
+            <thead>
+                <tr>
+                    <th align="center"><center>Code</center></th>
+                    <th align="center"><center>Name</center></th>
+                    <th align="center"><center>Image</center></th>
+                    <th align="center"><center>Price</center></th>
+                    <th align="center"><center>Quantity</center></th>
+                    <th align="center"><center>Total price</center></th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach ($arrInvoiceDetail as $key => $value) {
+                $product_code=$value["product_code"];
+                $product_name=$value["product_name"];
+                $product_image=asset('/resources/upload/'.$product_width . 'x'.$product_height.'-'.$value["product_image"]) ;                
+                $product_price=fnPrice($value["product_price"]);
+                $product_quantity=$value["product_quantity"];
+                $product_total_price=fnPrice($value["product_total_price"]);
+                ?>
+                <tr>
+                    <td align="center"><?php echo $product_code; ?></td>
+                    <td><?php echo $product_name; ?></td>
+                    <td width="10%" align="center"><img style="width:100%" src="<?php echo $product_image; ?>" /></td>
+                    <td align="right"><?php echo $product_price; ?></td>
+                    <td width="10%" align="center"><b><center><?php echo $product_quantity; ?></center></b> </td>
+                    <td width="15%" align="right"><b><?php echo $product_total_price; ?></b></td>
+                </tr>
+                <?php
+             } 
+            ?>              
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" align="center"><b>Tổng cộng</b></td>
+                    <td align="center"><b><?php echo (@$arrRowData["quantity"]); ?></b></td>
+                    <td align="right"><b><?php echo fnPrice(@$arrRowData["total_price"]); ?></b></td>
+                </tr>
+            </tfoot>
+        </table>
     </div>
 </div>
 <script type="text/javascript" language="javascript">

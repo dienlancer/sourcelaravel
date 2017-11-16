@@ -64,3 +64,12 @@ a.jgrid:hover {	text-decoration: none;}
 .dropdown-menu>li>form>a:hover{
     background: #f0f0f0
 }
+.com_product16 td, .com_product16 th{
+    border-left:1px solid #dddddd;
+    border-top:1px solid #dddddd;
+    padding: 15px
+}
+.com_product16{
+    border-bottom: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+}

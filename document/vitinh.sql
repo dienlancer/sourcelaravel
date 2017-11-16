@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 16, 2017 lúc 05:31 PM
+-- Thời gian đã tạo: Th10 16, 2017 lúc 08:15 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -877,10 +877,12 @@ INSERT INTO `customer` (`id`, `username`, `password`, `email`, `fullname`, `addr
 (6, 'chauttn', 'e10adc3949ba59abbe56e057f20f883e', 'chautt@gmail.com', 'Từ Thị Ngọc Châu', '76 Lý Thái Tổ', '0812345678', '0988123456', '2222233333', 1, 5, '2017-05-13 04:33:51', '2017-05-20 10:51:48'),
 (7, 'duyla', 'e10adc3949ba59abbe56e057f20f883e', 'duyla@ttcgroup.vn', 'Lý Anh Duy', '28 Trần Huy Liệu', '0872732772', '0988956123', '8787238728', 1, 4, '2017-05-13 09:22:00', '2017-05-20 10:51:48'),
 (8, 'chauvn', 'e10adc3949ba59abbe56e057f20f883e', 'chauvn@ttcgroup.vn', 'Võ Ngọc Châu', '70 Trương Quốc Dung', '88113322', '0988111222', '99887711', 1, 3, '2017-05-13 09:28:01', '2017-05-20 10:51:48'),
-(9, 'thangnc', 'c33367701511b4f6020ec61ded352059', 'thangnc@ttcgroup.vn', 'Nguyễn Chí Thăng', '83 Nguyễn Trọng Tuyển', '3322116677', '0988666222', '4888221111', 1, 2, '2017-05-13 09:29:29', '2017-11-11 19:22:12'),
+(9, 'thangnc', 'e10adc3949ba59abbe56e057f20f883e', 'thangnc@ttcgroup.vn', 'Nguyễn Chí Thăng', '83 Nguyễn Trọng Tuyển', '3322116677', '0988666222', '4888221111', 1, 2, '2017-05-13 09:29:29', '2017-11-16 19:09:28'),
 (10, 'thaihst', 'e10adc3949ba59abbe56e057f20f883e', 'thaihst@ttcgroup.vn', 'Hồ Sỹ Thiên Thai', '16 Nguyễn Văn Trỗi', '0811111111', '0911111111', '1111111111', 1, 1, '2017-05-14 10:05:55', '2017-11-11 19:20:26'),
 (11, 'lantv_123', '25f9e794323b453885f5181f1b624d0b', 'lantv@gmail.com', 'Trần Văn Lân', '11 Nguyễn Bỉnh Khiêm , P.1 , Q. Tân Bình , TP. Hồ Chí Minh', '0828671243', '0988152783', '8825995434', 1, 11, '2017-11-16 11:55:57', '2017-11-16 14:44:32'),
-(12, 'datnv_123', '25f9e794323b453885f5181f1b624d0b', 'datnv@gmail.com', 'Nguyễn Văn Đạt', '12 Nguyễn Bỉnh Khiêm , P.1 , Q. Tân Bình , TP. Hồ Chí Minh', '0832489985', '0982398892', '8894838953', 1, 1, '2017-11-16 15:22:44', '2017-11-16 15:22:44');
+(12, 'datnv_123', '25f9e794323b453885f5181f1b624d0b', 'datnv@gmail.com', 'Nguyễn Văn Đạt', '12 Nguyễn Bỉnh Khiêm , P.1 , Q. Tân Bình , TP. Hồ Chí Minh', '0832489985', '0982398892', '8894838953', 1, 1, '2017-11-16 15:22:44', '2017-11-16 15:22:44'),
+(13, 'hantbao', 'e10adc3949ba59abbe56e057f20f883e', 'hantbao@gmail.com', 'Trần Bảo Hân', '12 Lý Chính Thắng', '083727872883', '0988162789', '78875834883', 1, 1, '2017-11-16 19:11:05', '2017-11-16 19:11:05'),
+(14, 'tuthanhha', 'e10adc3949ba59abbe56e057f20f883e', 'tuthanhha@gmail.com', 'Hà Thanh Tú', '34 Nguyễn Diệu', '8928589923', '0988123456', '8775848378', 1, 1, '2017-11-16 19:12:49', '2017-11-16 19:12:49');
 
 -- --------------------------------------------------------
 
@@ -947,13 +949,6 @@ CREATE TABLE `invoice` (
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
---
--- Đang đổ dữ liệu cho bảng `invoice`
---
-
-INSERT INTO `invoice` (`id`, `code`, `customer_id`, `username`, `email`, `fullname`, `address`, `phone`, `mobilephone`, `fax`, `quantity`, `total_price`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, '4jlre0ci1uokmhsgdqz5', 12, 'datnv_123', 'datnv@gmail.com', 'Nguyễn Văn Đạt', '12 Nguyễn Bỉnh Khiêm , P.1 , Q. Tân Bình , TP. Hồ Chí Minh', '0832489985', '0982398892', '8894838953', 8, '32000000.00', 0, 1, '2017-11-16 16:29:42', '2017-11-16 16:29:42');
-
 -- --------------------------------------------------------
 
 --
@@ -974,14 +969,6 @@ CREATE TABLE `invoice_detail` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
-
---
--- Đang đổ dữ liệu cho bảng `invoice_detail`
---
-
-INSERT INTO `invoice_detail` (`id`, `invoice_id`, `product_id`, `product_code`, `product_name`, `product_image`, `product_price`, `product_quantity`, `product_total_price`, `created_at`, `updated_at`) VALUES
-(1, 1, 7, '123456789', 'Sofa 1', 'sofa-1.png', '4000000.00', 3, '12000000.00', '2017-11-16 16:29:43', '2017-11-16 16:29:43'),
-(2, 1, 8, '123456781', 'Sofa 2', 'sofa-2.png', '4000000.00', 5, '20000000.00', '2017-11-16 16:29:43', '2017-11-16 16:29:43');
 
 -- --------------------------------------------------------
 
@@ -1334,7 +1321,8 @@ INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`)
 (139, 1, 'CDF73h1lqr864dh5T5BQdTRf0hcrS45y', '2017-11-15 01:20:36', '2017-11-15 01:20:36'),
 (143, 1, '50Hrxr02Q6CqKUF4p0G0bpP6PhcrLaNG', '2017-11-15 10:34:05', '2017-11-15 10:34:05'),
 (145, 1, 'LRlBDrPFH3sF0WLHAUBGdJuLn5beDkqb', '2017-11-15 10:45:25', '2017-11-15 10:45:25'),
-(149, 1, 'zV2fdfnD6X5jTDrXbKtgm2BQ4I4CN0vP', '2017-11-15 21:20:42', '2017-11-15 21:20:42');
+(149, 1, 'zV2fdfnD6X5jTDrXbKtgm2BQ4I4CN0vP', '2017-11-15 21:20:42', '2017-11-15 21:20:42'),
+(154, 1, 'VbajMvJtRtkXTmUREmO1x8SnojOzoNy4', '2017-11-16 12:09:09', '2017-11-16 12:09:09');
 
 -- --------------------------------------------------------
 
@@ -2025,7 +2013,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `group_member_id`, `password`, `permissions`, `last_login`, `fullname`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'diennk@dienkim.com', 1, '$2y$10$rpZe6oM3GUJmwL/ZMTKm/OSe24l9TJKFU9lwd8VmohkqH0Oax6rVK', NULL, '2017-11-15 21:20:42', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-15 21:20:42'),
+(1, 'admin', 'diennk@dienkim.com', 1, '$2y$10$rpZe6oM3GUJmwL/ZMTKm/OSe24l9TJKFU9lwd8VmohkqH0Oax6rVK', NULL, '2017-11-16 12:09:09', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-16 12:09:09'),
 (6, 'nhatanh', 'nhatanh@gmail.com', 1, '$2y$10$X.wWyaR4gqC8BAvcVtlH0u8FG1DC2a0dXPzPL.Qs96Ds/cJZqxviO', NULL, '2017-11-15 09:46:30', 'Nhật Anh', 3, 1, '2017-11-15 09:45:46', '2017-11-15 09:46:30');
 
 --
@@ -2266,7 +2254,7 @@ ALTER TABLE `category_product`
 -- AUTO_INCREMENT cho bảng `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT cho bảng `group_member`
 --
@@ -2281,12 +2269,12 @@ ALTER TABLE `group_privilege`
 -- AUTO_INCREMENT cho bảng `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT cho bảng `invoice_detail`
 --
 ALTER TABLE `invoice_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT cho bảng `menu`
 --
@@ -2331,7 +2319,7 @@ ALTER TABLE `payment_method`
 -- AUTO_INCREMENT cho bảng `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=155;
 --
 -- AUTO_INCREMENT cho bảng `photo`
 --
