@@ -5,6 +5,7 @@ use App\MenuTypeModel;
 use App\ModuleItemModel;
 use App\ProductModel;
 use App\ArticleModel;
+use App\CategoryProductModel;
 function uploadImage($fileObj,$width,$height){        
   require_once base_path() . DS ."app".DS."scripts".DS."PhpThumb".DS."ThumbLib.inc.php";    
   $uploadDir = base_path() . DS ."resources".DS."upload";                    
@@ -23,6 +24,20 @@ function getSettingSystem(){
     $alias='setting-system';
     $dataSettingSystem                   =   SettingSystemModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower(@$alias))])->get()->toArray(); 
     return $dataSettingSystem[0];     
+}
+function getStringCategoryID($category_id,&$arrCategoryID,$model){
+    $arrCategory=array();    
+    switch ($model) {
+      case 'category_product':
+        $arrCategory=CategoryProductModel::select("id")->where("parent_id","=",(int)@$category_id)->get()->toArray();    
+        break;      
+    }    
+    if(count($arrCategory) > 0){
+      foreach ($arrCategory as $key => $value) {
+        $arrCategoryID[]=$value["id"];
+        getStringCategoryID((int)$value["id"],$arrCategoryID,$model);
+      }
+    }          
 }
 function wp_nav_menu($args){
     $menu_type_alias=$args['theme_location'];

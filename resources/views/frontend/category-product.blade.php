@@ -6,6 +6,7 @@
 		<h3 class="page-title h-title"><?php echo $category['fullname']; ?></h3>
 		<div>
 			<?php 		
+
 			if(count($items) > 0){
 					$k=1;									
 					for($i=0;$i<count($items);$i++){							
@@ -29,7 +30,7 @@
 						$str_price=$regular_price . '&nbsp;&nbsp;' . $sale_price_des ;				
 						?>
 						<div class="col-lg-3">
-							<div class="box-product">
+							<div class="box-product margin-top-15">
 								<div class="product-img"><center><figure><a href="<?php echo $permalink; ?>"><img src="<?php echo $featureImg; ?>" alt="" /></a></figure></center>
 									<div class="box-product-add-to-cart">
 										<div class="them-vao-gio-hang">

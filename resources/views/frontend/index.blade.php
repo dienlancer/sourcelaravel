@@ -14,8 +14,8 @@
                   case "lien-he":                                                
                         ?>@include("frontend.contact")<?php
                         break; 
-                  case "danh-muc":                                                
-                        ?>@include("frontend.category")<?php
+                  case "loai-san-pham":                                                
+                        ?>@include("frontend.category-product")<?php
                         break; 
                   case "san-pham":                                                
                         ?>@include("frontend.product")<?php

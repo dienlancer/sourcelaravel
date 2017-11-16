@@ -56,11 +56,16 @@ class IndexController extends Controller {
               $arr_category=CategoryArticleModel::whereRaw("trim(lower(alias)) = ? and status = ?",[trim(mb_strtolower($alias,'UTF-8')),1])->get()->toArray();
               if(count($arr_category) > 0){
                   $category_id=$arr_category[0]['id'];
+                  $str_category_id="";
+                  $arr_category_id[]=$category_id;
+                  getStringCategoryID($category_id,$arr_category_id,'category_product');                  
+                  $str_category_id=implode("#;#", $arr_category_id);                  
+                  $str_category_id="#".$str_category_id."#";                  
                   $category=$arr_category[0];
                   if(!empty(@$_POST["filter_search"])){
                       $filter_search=@$_POST["filter_search"];
                   }                                
-                  $data=DB::select('call pro_getArticleFrontend(?,?)',array(mb_strtolower($filter_search),$category_id));
+                  $data=DB::select('call pro_getArticleFrontend(?,?)',array(mb_strtolower($filter_search),$str_category_id));
                   $data=convertToArray($data);
                   $totalItems=count($data);
                   $totalItemsPerPage=(int)$dataSettingSystem['article_perpage']; 
@@ -77,7 +82,7 @@ class IndexController extends Controller {
                   $pagination=new PaginationModel($arrPagination);
                   $str_pagination=$pagination->showPagination();
                   $position   = (@$arrPagination['currentPage']-1)*$totalItemsPerPage;
-                  $data=DB::select('call pro_getArticleFrontendLimit(?,?,?,?)',array($filter_search,$category_id,$position,$totalItemsPerPage));      
+                  $data=DB::select('call pro_getArticleFrontendLimit(?,?,?,?)',array($filter_search,$str_category_id,$position,$totalItemsPerPage));      
                   $items=convertToArray($data);                  
               }              
               break;
@@ -89,15 +94,21 @@ class IndexController extends Controller {
               break;  
               case 'loai-san-pham':
               $category_id=0;
-              $arr_category=CategoryProductModel::whereRaw("trim(lower(alias)) = ? and status = ?",[trim(mb_strtolower($alias,'UTF-8')),1])->get()->toArray();
+              $arr_category=CategoryProductModel::whereRaw("trim(lower(alias)) = ? and status = ?",[trim(mb_strtolower($alias,'UTF-8')),1])->get()->toArray();                            
               if(count($arr_category) > 0){
                   $category_id=$arr_category[0]['id'];
+                  $str_category_id="";
+                  $arr_category_id[]=$category_id;
+                  getStringCategoryID($category_id,$arr_category_id,'category_product');                  
+                  $str_category_id=implode("#;#", $arr_category_id);                  
+                  $str_category_id="#".$str_category_id."#";                  
                   $category=$arr_category[0];
                   if(!empty(@$_POST["filter_search"])){
                       $filter_search=@$_POST["filter_search"];
                   }                                
-                  $data=DB::select('call pro_getProductFrontend(?,?)',array(mb_strtolower($filter_search),$category_id));
+                  $data=DB::select('call pro_getProductFrontend(?,?)',array(mb_strtolower($filter_search),$str_category_id));
                   $data=convertToArray($data);
+
                   $totalItems=count($data);
                   $totalItemsPerPage=(int)$dataSettingSystem['product_perpage']; 
                   $pageRange=$this->_pageRange;
@@ -113,7 +124,7 @@ class IndexController extends Controller {
                   $pagination=new PaginationModel($arrPagination);
                   $str_pagination=$pagination->showPagination();
                   $position   = (@$arrPagination['currentPage']-1)*$totalItemsPerPage;
-                  $data=DB::select('call pro_getProductFrontendLimit(?,?,?,?)',array($filter_search,$category_id,$position,$totalItemsPerPage));      
+                  $data=DB::select('call pro_getProductFrontendLimit(?,?,?,?)',array($filter_search,$str_category_id,$position,$totalItemsPerPage));                        
                   $items=convertToArray($data);                  
               }              
               break; 
@@ -137,15 +148,7 @@ class IndexController extends Controller {
             }           
             return view("frontend.index",compact("component","title","meta_keyword","meta_description","alias","item","items","category","str_pagination"));
       }
-      function getStringCategoryProductID($category_id,&$arrCategoryProductID){    
-        $arrCategoryProduct=CategoryProductModel::select("id")->where("parent_id","=",(int)@$category_id)->get()->toArray();
-        if(count($arrCategoryProduct) > 0){
-          foreach ($arrCategoryProduct as $key => $value) {
-            $arrCategoryProductID[]=$value["id"];
-            $this->getStringCategoryProductID((int)$value["id"],$arrCategoryProductID);
-          }
-        }          
-      }
+      
       public function contact(){      
         $alias="lien-he"; 
         if(isset($_POST['btnSend']))     {
