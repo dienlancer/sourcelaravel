@@ -74,16 +74,14 @@ function checkRegister() {
     if(!hopLe)alert(strMsg);
     return hopLe;
 }
-function addToCart(product_id){
-	var id = product_id;						
-	var dataObj = {
-		"action"	: "add_to_cart",
-		"id"		: id,					
-		"security"  : security_code
+function addToCart(product_id,ajaxurl){
+	var id = product_id;		
+	var dataObj = {		
+		"id"		: id		
 	};		
 	jQuery.ajax({
 		url			: ajaxurl,
-		type		: "POST",
+		type		: "GET",
 		data		: dataObj,
 		dataType	: "json",
 		success		: function(data, status, jsXHR){

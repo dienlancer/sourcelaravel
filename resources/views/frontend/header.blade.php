@@ -27,6 +27,18 @@ $security_link=route("frontend.index.viewSecurity");
 $invoice_link=route("frontend.index.getInvoice");
 $register_member_link=route("frontend.index.register");
 $cart_link=route('frontend.index.viewCart');
+
+$ssNameCart='vmart';
+$quantity=0;
+$arrCart=array();
+              if(Session::has($ssNameCart)){    
+                  $arrCart = @Session::get($ssNameCart)["cart"];    
+              }         
+              if(count($arrCart) > 0){
+                foreach ($arrCart as $key => $value){
+                  $quantity+=(int)$value['product_quantity'];              
+                }
+              }        
 ?>
 <!DOCTYPE html>
 <html>
@@ -114,7 +126,7 @@ $cart_link=route('frontend.index.viewCart');
             <div class="mini-cart dropdown box-cart cart hidden-xs">
               <a href="<?php echo $cart_link; ?>" >
                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;Giỏ hàng
-                <span class="cart-total"></span>
+                <span class="cart-total"><?php echo $quantity; ?></span>
               </a>                            
             </div>
           </div>

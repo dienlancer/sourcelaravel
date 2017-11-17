@@ -243,4 +243,6 @@ Route::match(["get","post"],"xac-nhan-thanh-toan.html",["as"=>"frontend.index.co
 Route::match(["get","post"],"dang-nhap-thanh-toan.html",["as"=>"frontend.index.loginCheckout","uses"=>"frontend\IndexController@loginCheckout"]);
 Route::get("hoa-don.html",["as"=>"frontend.index.getInvoice","uses"=>"frontend\IndexController@getInvoice"]);
 Route::get("lgout",["as"=>"frontend.index.getLgout","uses"=>"frontend\IndexController@getLgout"]);
+Route::get("add-to-cart",["as"=>"frontend.index.addToCart","uses"=>"frontend\IndexController@addToCart"]);
+
 ?>

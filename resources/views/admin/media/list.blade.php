@@ -23,7 +23,7 @@ $linkDelete			=	route('admin.'.$controller.'.deleteItem');
 						<div class="col-md-12">						
 							<a href="<?php echo $linkNew; ?>" class="btn green">Add new <i class="fa fa-plus"></i></a> 			
 							<button onclick="return xacnhanxoa();" type="submit" class="btn red">Trash<i class="fa fa-trash"></i></button>							
-							<input type="hidden" name="_token" value="{!! csrf_token() !!}" />							  								
+							{{ csrf_field() }}							  								
 							<input type="hidden" name="json_id" value="" />
 						</div>                                                
 					</div>

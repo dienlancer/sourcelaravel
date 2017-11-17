@@ -168,7 +168,7 @@ $data_partner=getModuleByPosition('article','partner');
 								<div class="product-img"><center><figure><a href="<?php echo $permalink; ?>"><img src="<?php echo $featureImg; ?>" alt="" /></a></figure></center>
 									<div class="box-product-add-to-cart">
 										<div class="them-vao-gio-hang">
-											<a href="javascript:void(0)" data-toggle="modal" data-target="#modal-alert-add-cart" onclick="addToCart(<?php echo $id; ?>);" ><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;Thêm vào giỏ</a>									
+											<a href="javascript:void(0)" data-toggle="modal" data-target="#modal-alert-add-cart" onclick="addToCart(<?php echo $id; ?>,'<?php echo route('frontend.index.addToCart'); ?>');" ><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;Thêm vào giỏ</a>									
 										</div>
 									</div>								
 								</div>								
@@ -257,7 +257,7 @@ $data_partner=getModuleByPosition('article','partner');
 							<div class="product-img"><center><figure><a href="<?php echo $permalink; ?>"><img src="<?php echo $featureImg; ?>" alt="" /></a></figure></center>
 								<div class="box-product-add-to-cart">
 									<div class="them-vao-gio-hang">
-										<a href="javascript:void(0)" data-toggle="modal" data-target="#modal-alert-add-cart" onclick="addToCart(<?php echo $id; ?>);" ><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;Thêm vào giỏ</a>									
+										<a href="javascript:void(0)" data-toggle="modal" data-target="#modal-alert-add-cart" onclick="addToCart(<?php echo $id; ?>,'<?php echo route('frontend.index.addToCart'); ?>');" ><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;Thêm vào giỏ</a>									
 									</div>
 								</div>								
 							</div>									
@@ -340,7 +340,7 @@ $data_partner=getModuleByPosition('article','partner');
 							<div class="product-img"><center><figure><a href="<?php echo $permalink; ?>"><img src="<?php echo $featureImg; ?>" alt="" /></a></figure></center>
 								<div class="box-product-add-to-cart">
 									<div class="them-vao-gio-hang">
-										<a href="javascript:void(0)" data-toggle="modal" data-target="#modal-alert-add-cart" onclick="addToCart(<?php echo $id; ?>);" ><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;Thêm vào giỏ</a>									
+										<a href="javascript:void(0)" data-toggle="modal" data-target="#modal-alert-add-cart" onclick="addToCart(<?php echo $id; ?>,'<?php echo route('frontend.index.addToCart'); ?>');" ><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;Thêm vào giỏ</a>									
 									</div>
 								</div>								
 							</div>									
@@ -446,7 +446,7 @@ $data_partner=getModuleByPosition('article','partner');
 								<div class="product-img"><center><figure><a href="<?php echo $permalink; ?>"><img src="<?php echo $featureImg; ?>" alt="" /></a></figure></center>
 									<div class="box-product-add-to-cart">
 										<div class="them-vao-gio-hang">
-											<a href="javascript:void(0)" data-toggle="modal" data-target="#modal-alert-add-cart" onclick="addToCart(<?php echo $id; ?>);" ><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;Thêm vào giỏ</a>									
+											<a href="javascript:void(0)" data-toggle="modal" data-target="#modal-alert-add-cart" onclick="addToCart(<?php echo $id; ?>,'<?php echo route('frontend.index.addToCart'); ?>');" ><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;Thêm vào giỏ</a>									
 										</div>
 									</div>								
 								</div>									

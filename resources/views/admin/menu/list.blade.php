@@ -29,7 +29,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 							<a href="javascript:void(0)" onclick="updateStatus(0)" class="btn yellow">Hide <i class="fa fa-eye-slash"></i></a> 
 							<a href="javascript:void(0)" onclick="sort()" class="btn grey-cascade">Sort <i class="fa fa-sort"></i></a> 
 							<a href="javascript:void(0)" onclick="trash()" class="btn red">Trash <i class="fa fa-trash"></i></a> 	
-							<input type="hidden" name="_token" value="{!! csrf_token() !!}" />    	
+							{{ csrf_field() }}    	
 							<input type="hidden" id="menu_type_id" name="menu_type_id" value="{!! $menu_type_id !!}" />    		
 							<input type="hidden" name="sort_json" id="sort_json" value="" />	
 						</div>                                                

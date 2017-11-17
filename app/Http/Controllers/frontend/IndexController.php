@@ -684,45 +684,24 @@ class IndexController extends Controller {
       }
       public function getInvoice(){
         $component="hoa-don";
-        $alias="dang-nhap";
-        $meta_keyword="";
-        $meta_description="";
-        $menu_id=0;
-        $arrMainMenu=array();
-        $arrLstProduct=array();
-        $filter_search="";
-        $category_id=0;
-        $pagination="";
-        $currentPage=1;                  
-        $name="Giỏ hàng";                  
-        $arrRowProduct=array();     
-        $arrRowCategory=array();
-        $totalItems=0;
-        $totalItemsPerPage=0;
-        $pageRange=0;
-        $currentPage=1;
-        $position=0;
-        $arrCountLst=array();
+        $alias="dang-nhap";        
         $action="";
         $arrError=array();
         $arrData =array();   
-        $flag = 1;   
-        
         $arrUser=array();
         $arrCustomer=array();
-        $id=0;
-        
-        
+        $flag = 1;                 
+        $id=0;                
         if(Session::has($this->_ssNameUser)){                
                 $arrUser = Session::get($this->_ssNameUser)["userInfo"];    
         }   
         if(count($arrUser)==0){
-              return redirect()->route("frontend.index.login");               
+          return redirect()->route("frontend.index.login");               
         }else{
           $id=$arrUser["id"];
         }  
-        $arrInvoice=InvoiceModel::select()->where("customer_id","=",(int)@$id)->get()->toArray();
-        return view("frontend.index",compact("component","meta_keyword","meta_description","pagination","name","arrMainMenuModule","alias","arrError","arrData","arrInvoice","alias"));
+        $data=InvoiceModel::whereRaw("customer_id = ?",(int)@$id)->get()->toArray();
+        return view("frontend.index",compact("component","arrError","arrData","data","alias"));
       }
       public function updateCart(){   
               $arrQTY=$_POST["quantity"];                 
@@ -751,6 +730,67 @@ class IndexController extends Controller {
               if(count($arrCart)==0){
                 Session::forget($this->_ssNameCart);              
               }                  
+      }
+      public function addToCart(){
+          $id=$_GET['id'];                          
+          $data=ProductModel::find((int)$id);          
+          $product_id=(int)($data['id']);
+          $product_code=$data["code"];
+          $product_name=$data["fullname"];
+          $product_alias=$data["alias"];
+          $product_image=$data["image"];
+          $price=(float)($data["price"]);
+          $sale_price=(float)($data["sale_price"]);
+          $product_price=$price;
+          if(!empty($sale_price)){
+            $product_price=$sale_price;
+          }
+          $product_quantity=1;   
+          $quantity=0;       
+          $ssCart=array();
+          $arrCart=array();
+          if(Session::has($this->_ssNameCart)){
+            $ssCart=Session::get($this->_ssNameCart);
+          }         
+          $arrCart = @$ssCart["cart"];                   
+          if($product_id > 0){            
+              if(count($arrCart) == 0){
+                $arrCart[$product_id]["product_quantity"] = $product_quantity;
+              }
+              else{
+                    if(!isset($arrCart[$product_id])){
+                      $arrCart[$product_id]["product_quantity"] = $product_quantity;                 
+                    }                        
+                    else{
+                      $arrCart[$product_id]["product_quantity"] = $arrCart[$product_id]["product_quantity"] + $product_quantity;                  
+                    }                               
+              }
+              $arrCart[$product_id]["product_id"]=$product_id;  
+              $arrCart[$product_id]["product_code"]=$product_code;
+              $arrCart[$product_id]["product_name"]=$product_name;
+              $arrCart[$product_id]["product_alias"]=$product_alias;      
+              $arrCart[$product_id]["product_image"]=$product_image;          
+              $arrCart[$product_id]["product_price"]=$product_price;                      
+              $product_quantity=(int)$arrCart[$product_id]["product_quantity"];
+              $product_total_price=$product_price * $product_quantity;
+              $arrCart[$product_id]["product_total_price"]=($product_total_price);
+              $cart["cart"]=$arrCart;                    
+              Session::put($this->_ssNameCart,$cart);    
+              $arrCart=array();
+              if(Session::has($this->_ssNameCart)){    
+                  $arrCart = @Session::get($this->_ssNameCart)["cart"];    
+              }         
+              if(count($arrCart) > 0){
+                foreach ($arrCart as $key => $value){
+                  $quantity+=(int)$value['product_quantity'];              
+                }
+              }                                                        
+          }    
+          $dataReturn=array(
+                            'quantity'=>$quantity,
+                            'permalink'=>route('frontend.index.viewCart')
+                          );
+        return $dataReturn;
       } 
 }
 

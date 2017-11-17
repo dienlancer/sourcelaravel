@@ -60,6 +60,7 @@ switch ($component) {
     case 'bao-mat':
     case 'xac-nhan-thanh-toan':
     case 'hoan-tat-thanh-toan':
+    case 'hoa-don':
         $args = array(                         
             'menu_class'            => 'categoryproductmenu', 
             'menu_id'               => 'category-product-menu',                         

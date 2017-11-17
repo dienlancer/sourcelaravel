@@ -190,7 +190,7 @@ $inputChildPictureHidden     =   '<input type="hidden" name="image_child_hidden"
                 </div>                                                               
             </div>  
             <div class="form-actions noborder">
-                <input type="hidden" name="_token" value="{!! csrf_token() !!}" />          
+                {{ csrf_field() }}          
                 <?php 
                     echo $inputPictureHidden; 
                     echo $inputChildPictureHidden;
