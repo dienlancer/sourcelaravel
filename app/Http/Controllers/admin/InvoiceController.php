@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\InvoiceModel;
 use App\InvoiceDetailModel;
+use App\PaymentMethodModel;
 use DB;
 class InvoiceController extends Controller {
     	var $_controller="invoice";	
@@ -29,17 +30,19 @@ class InvoiceController extends Controller {
           $icon=$this->_icon; 
           $arrRowData=array();    
           $arrInvoiceDetail=array();  
+          $dataPaymentMethod=array();
           switch ($task) {
             case 'edit':
                 $title=$this->_title . " : Update";
                 $arrRowData=InvoiceModel::find((int)@$id)->toArray();           
                 $arrInvoiceDetail=InvoiceDetailModel::select()->where("invoice_id","=",(int)@$id)->get()->toArray();
+                $dataPaymentMethod=PaymentMethodModel::whereRaw('status = 1')->get()->toArray();
             break;
             case 'add':
                 $title=$this->_title . " : Add new";
             break;			
          }		         
-         return view("admin.".$this->_controller.".form",compact("arrRowData","arrInvoiceDetail","controller","task","title","icon"));
+         return view("admin.".$this->_controller.".form",compact("arrRowData","arrInvoiceDetail","controller","task","title","icon","dataPaymentMethod"));
      }
     public function save(Request $request){
         $id 					           =	trim($request->id)	;        

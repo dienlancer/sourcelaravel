@@ -457,7 +457,7 @@ class IndexController extends Controller {
             $flag = 0;
           }else{
             $arrRow=CustomerModel::whereRaw("trim(lower(email)) = ? and id != ? ",[mb_strtolower($email,'UTF-8'),(int)$id])->get()->toArray();
-            if(!empty($arrRow)){
+            if(count($arrRow)>0){
               $arrError["email"] = 'Email đã tồn tại';
               $arrData["email"] = ""; 
               $flag = 0;
@@ -516,18 +516,24 @@ class IndexController extends Controller {
               $id=(int)$arrData["id"];
               if(isset($_POST["action"])){              
                   $arrData =$_POST;                   
-                  $email=strtolower(trim($_POST["email"])) ;                  
+                  $email=strtolower(trim($_POST["email"])) ;   
+                  $payment_method=trim($_POST['payment_method']);                                 
                   if(!preg_match("#^[a-z][a-z0-9_\.]{4,31}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$#",$email )){
                     $arrError["email"] = 'Email is invalid';
                     $arrData["email"] = '';
                     $flag = 0;
-                  }                  
-                  $arrRowData=CustomerModel::whereRaw("trim(lower(email)) = ? and id != ? ",[trim(mb_strtolower($email,'UTF-8')),(int)$id])->get()->toArray();
-                  if(!empty($arrRowData)){
+                  }else{
+                    $arrRowData=CustomerModel::whereRaw("trim(lower(email)) = ? and id != ? ",[trim(mb_strtolower($email,'UTF-8')),(int)$id])->get()->toArray();
+                  if(count($arrRowData) > 0){
                     $arrError["email"] = 'Email đã tồn tại';
                     $arrData["email"] = ""; 
                     $flag = 0;
-                  }  
+                  }
+                  }
+                  if((int)$payment_method==0){
+                      $arrError["payment_method"] = 'Xin vui lòng chọn 1 phương thức thanh toán';                      
+                      $flag = 0;
+                  }                                    
                   if($flag==1){                    
                       $item = new InvoiceModel;
                       $item->code=randomString(20);
@@ -539,6 +545,7 @@ class IndexController extends Controller {
                       $item->phone=$_POST["phone"];
                       $item->mobilephone=$_POST["mobilephone"];
                       $item->fax=$_POST["fax"];  
+                      $item->payment_method_id=(int)$payment_method;
                       $item->quantity=(int)$_POST["quantity"];
                       $item->total_price=(float)$_POST["total_price"];
                       $item->status=0;  
@@ -550,7 +557,7 @@ class IndexController extends Controller {
                       if(Session::has($this->_ssNameCart)){
                         $arrCart=Session::get($this->_ssNameCart)["cart"];
                       }         
-                      if(!empty($arrCart)){
+                      if(count($arrCart) > 0){
                         foreach ($arrCart as $key => $value) {
                           $invoice_id=$item->id;
                           $product_id=$value["product_id"];    
@@ -580,8 +587,17 @@ class IndexController extends Controller {
                       $component="hoan-tat-thanh-toan";                      
                   }                         
               }
-              //$data_paymentmethod=
-              return view("frontend.index",compact("component","alias","arrError","arrData"));                 
+              $data_paymentmethod=PaymentMethodModel::whereRaw('status = 1')->get()->toArray();
+              $data_paymentmethod[]=array(
+                                              'id'=>0,
+                                              'fullname'=>null,
+                                              'alias'=>null,
+                                              'content'=>null,
+                                              'sort_order'=>1,
+                                              'status'=>1,
+
+                                        );
+              return view("frontend.index",compact("component","alias","arrError","arrData","data_paymentmethod"));                 
       }      
       public function loginCheckout(){
             $component="dang-nhap-thanh-toan";
@@ -796,10 +812,16 @@ class IndexController extends Controller {
         return $dataReturn;
       } 
       public function showInvoiceDetail(){
-        $id=$_GET['id'];
+        $id=$_GET['id'];        
         $data=array();
         $data=InvoiceDetailModel::whereRaw('invoice_id = ?',[(int)$id])->get()->toArray();  
         return $data; 
+      }
+      public function getPaymentmethod(){
+         $id=$_GET['id'];
+         $data=array();
+         $data=PaymentMethodModel::find((int)@$id);
+         return $data;
       }
 }
 

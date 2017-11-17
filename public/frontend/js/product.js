@@ -30,20 +30,21 @@ function showLstInvoiceDetail(ajaxurl,lnk_image,value,quantity,total_price){
 		});
 
 	}
-function changePaymentMethod(payment_method_id)	{
-	var dataObj = {
-					"action"	: "load_payment_method_info",
-					"payment_method_id"		: payment_method_id,					
-					"security"  : security_code
+function changePaymentMethod(ajaxurl,id)	{
+	var dataObj = {					
+					"id"					: id,										
 				};
 	jQuery.ajax({
 			url			: ajaxurl,
-			type		: "POST",
+			type		: "GET",
 			data		: dataObj,
 			dataType	: "json",
 			success		: function(data, status, jsXHR){
+							console.log(data.content);
 							jQuery("#payment_method_content").empty();
-							jQuery("#payment_method_content").append(data.content);
+							if(data != null){
+								jQuery("#payment_method_content").append(data.content);
+							}							
 						}
 		});
 }

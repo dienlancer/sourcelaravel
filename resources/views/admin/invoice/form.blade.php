@@ -15,6 +15,8 @@ $inputMobilephone       =   '<input type="text" class="form-control" name="mobil
 $inputFax               =   '<input type="text" class="form-control" name="fax"   id="fax"        value="'.@$arrRowData['fax'].'">';  
 $lblQuantity            =   number_format((int)@$arrRowData['quantity'],0,".",",");
 $lblTotalPrice          =   number_format((int)@$arrRowData['total_price'],0,".",",");
+
+$ddlPaymentMethod       = cmsSelectboxCategory("payment_method_id","payment_method_id", "form-control", $dataPaymentMethod, (int)@$arrRowData['payment_method_id'],'disabled');
 $status                 =   (count($arrRowData) > 0) ? @$arrRowData['status'] : 1 ;
 $arrStatus              =   array(-1 => '- Select status -', 1 => 'Publish', 0 => 'Unpublish');  
 $ddlStatus              =   cmsSelectbox("status","status","form-control",$arrStatus,$status,"");
@@ -112,9 +114,11 @@ $product_height = $dataSettingSystem['product_height'];
                     <div class="form-group col-md-6">
                         <label class="col-md-3 control-label"><b>Sort</b></label>
                         <div class="col-md-9">
-                            <?php echo $inputSortOrder; ?>
+                            <?php echo $ddlPaymentMethod; ?>
                             <span class="help-block"></span>
                         </div>
+                        
+                        
                     </div>   
                     <div class="form-group col-md-6">
                         <label class="col-md-3 control-label"><b>Code</b></label>
@@ -123,7 +127,18 @@ $product_height = $dataSettingSystem['product_height'];
                             <span class="help-block"></span>
                         </div>
                     </div>       
-                </div>                                                                        
+                </div>  
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="col-md-3 control-label"><b>Sort</b></label>
+                        <div class="col-md-9">
+                            <?php echo $inputSortOrder; ?>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>   
+                    <div class="form-group col-md-6">                        
+                    </div>       
+                </div>                                                                      
             </div>  
             <div class="form-actions noborder">
                 {{ csrf_field() }}                                  

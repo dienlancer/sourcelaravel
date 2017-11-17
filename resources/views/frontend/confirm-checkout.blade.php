@@ -73,7 +73,7 @@ if(count($arrError) > 0){
 ?>
 <form method="post" name="frm">   
     <div class="col-md-6">
-        <table id="com_product30" class="com_product30" border="0" width="40%" cellpadding="0" cellspacing="0">                   
+        <table id="com_product30" class="com_product30" border="0" width="100%" cellpadding="0" cellspacing="0">                   
             <tbody>        
                 <tr>
                     <td align="right">Tài khoản</td>
@@ -127,15 +127,15 @@ if(count($arrError) > 0){
                 </tr>                                               
                 <tr>
                     <td>
-                        <select id="payment_method" name="payment_method" onchange="changePaymentMethod(<?php echo route('frontend.index.getPaymentmethod'); ?>,this.value);">
+                        <select id="payment_method" name="payment_method" onchange="changePaymentMethod('<?php echo route('frontend.index.getPaymentmethod'); ?>',this.value);">
                             <?php 
-                            for($i=0;$i<count($lstPaymentMethod);$i++){
-                                $id=$lstPaymentMethod[$i]["id"];
-                                $title=$lstPaymentMethod[$i]["title"];
+                            for($i=0;$i<count($data_paymentmethod);$i++){
+                                $id=$data_paymentmethod[$i]["id"];
+                                $fullname=$data_paymentmethod[$i]["fullname"];
                                 if((int)@$data["payment_method"] == (int)$id)
-                                    echo '<option selected value="'.$id.'">'.$title.'</option>';                               
+                                    echo '<option selected value="'.$id.'">'.$fullname.'</option>';                               
                                 else
-                                    echo '<option          value="'.$id.'">'.$title.'</option>';                               
+                                    echo '<option          value="'.$id.'">'.$fullname.'</option>';                               
                             }
                             ?>                                                    
                         </select>
