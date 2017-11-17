@@ -14,10 +14,17 @@ function showMsg(ctrlID,msg,type_msg){
 	$('#'+ctrlID).addClass(type_msg);
 	$('#'+ctrlID).find("strong").text(msg);		
 	$('#'+ctrlID).fadeIn();		
-	if (timeout != null)
+	if (timeout != null){
         clearTimeout(timeout);
+	}
 	timeout = setTimeout(hideMsg, 1000,ctrlID);			 
 }
 function hideMsg(ctrlID) {
 	$('#'+ctrlID).fadeOut();
 }    
+$('input[name="checkall-toggle"]').change(function(){
+	var checkStatus = this.checked;
+	$('form[name="frm"]').find(':checkbox').each(function(){
+		this.checked = checkStatus;
+	});
+});

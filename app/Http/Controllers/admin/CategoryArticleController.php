@@ -6,12 +6,13 @@ use App\CategoryArticleModel;
 use App\SettingSystemModel;
 use App\ArticleModel;
 use App\ArticleCategoryModel;
+use App\PaginationModel;
 use DB;
 class CategoryArticleController extends Controller {
     	var $_controller="category-article";	
     	var $_title="Category Article";
     	var $_icon="icon-settings font-dark";
-      var $_totalItemsPerPage=100;    
+      var $_totalItemsPerPage=9999;    
       var $_pageRange=10;
     	public function getList(){		
     		$controller=$this->_controller;	
@@ -28,7 +29,7 @@ class CategoryArticleController extends Controller {
         $totalItemsPerPage=$this->_totalItemsPerPage;       
         $pageRange=$this->_pageRange;
         if(!empty(@$_POST["filter_page"])){
-          $currentPage=@$_POST["filter_page"];    
+          $currentPage=(int)@$_POST["filter_page"];    
         }            
         $arrPagination=array(
           "totalItems"=>$totalItems,
@@ -36,8 +37,18 @@ class CategoryArticleController extends Controller {
           "pageRange"=>$pageRange,
           "currentPage"=>$currentPage 
         );
-        echo "<pre>".print_r($arrPagination,true)."</pre>";
-    		return view("admin.".$this->_controller.".list",compact("controller","task","title","icon"));	
+        $pagination=new PaginationModel($arrPagination);
+        $position = (@$arrPagination['currentPage']-1)*$totalItemsPerPage;
+        $data=array();
+        if($totalItemsPerPage > 0){
+            $data=DB::select('call pro_getCategoryArticleLimit(?,?,?)',array($filter_search,$position,$totalItemsPerPage));
+        }        
+        $data=convertToArray($data);
+        $data=categoryArticleConverter($data,$this->_controller);   
+        $data_recursive=array();
+        categoryArticleRecursive($data,0,null,$data_recursive);          
+        $data=$data_recursive; 
+    		return view("admin.".$this->_controller.".list",compact("controller","task","title","icon",'data','pagination','filter_search'));	
     	}	
     	public function loadData(Request $request){
       		$filter_search="";

@@ -10,7 +10,8 @@ $linkUpdateStatus	=	route('admin.'.$controller.'.updateStatus');
 $linkTrash			=	route('admin.'.$controller.'.trash');
 $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 ?>
-<form class="form-horizontal" role="form">	
+<form class="form-horizontal" role="form" name="frm" class="frm">
+	<input type="hidden" name="filter_page" value="1">         
 	<div class="portlet light bordered">
 		<div class="portlet-title">
 			<div class="alert alert-success" id="alert" style="display: none">
@@ -37,10 +38,10 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			</div>                                 
 		</div>
 		<div class="portlet-body">		
-			<table class="table table-striped table-bordered table-hover table-checkable order-column" id="tbl-category-article">
+			<table class="table table-bordered">
 				<thead>
 					<tr>
-						<th width="1%"><input type="checkbox" onclick="checkAllAgent(this)"  name="checkall-toggle"></th>                
+						<th width="1%"><input type="checkbox" name="checkall-toggle"></th>           
 						<th>Fullname</th>
 						<th>Alias</th>		
 						<th width="1%">Parent</th>				
@@ -48,49 +49,45 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 						<th width="1%">Sort</th>
 						<th width="1%">Status</th>							
 						<th width="1%">Edit</th>  
-						<th width="1%">Delete</th>                 
+						<th width="1%">Delete</th>              
 					</tr>
 				</thead>
-				<tbody>                                                
+				<tbody> 
+				<?php 
+					if(count($data) > 0){
+						foreach($data as $key => $value){
+							$checked=$value['checked'];
+							$id=$value['id'];
+							$fullname=$value['fullname'];							
+							$parent_fullname=$value['parent_fullname'];
+							$alias=$value['alias'];
+							$image=$value['image'];
+							$sort_order=$value['sort_order'];
+							$status=$value['status'];
+							$edited=$value['edited'];
+							$deleted=$value['deleted'];
+							?>
+							<tr>
+								<td><?php echo $checked; ?></td>                
+								<td><?php echo $fullname; ?></td>
+								<td><?php echo $alias; ?></td>		
+								<td><?php echo $parent_fullname; ?></td>				
+								<td><?php echo $image; ?></td>
+								<td><?php echo $sort_order; ?></td>
+								<td><?php echo $status; ?></td>							
+								<td><?php echo $edited; ?></td>  
+								<td><?php echo $deleted; ?></td>          
+							</tr>
+							<?php
+						}
+					}
+				?>				                                               
 				</tbody>
-			</table>
+			</table>			
 		</div>
 	</div>	
 </form>
-<script type="text/javascript" language="javascript">	
-
-	function getList() {  	
-		var token = $('input[name="_token"]').val();   
-		var dataItem={            
-			'_token': token
-		};
-		$.ajax({
-			url: '<?php echo $linkLoadData; ?>',
-			type: 'POST', 		     
-			data: dataItem,			
-			success: function (data, status, jqXHR) {   						
-	            var data = $.map(data, function(el) { return el });	    	                   
-				basicTable.init();
-				vCategoryArticleTable.clear().draw();
-				vCategoryArticleTable.rows.add(data).draw();
-				spinner.hide();
-			},
-			beforeSend  : function(jqXHR,setting){
-				spinner.show();
-			},
-		});
-	}	
-	function checkWithList(this_checkbox){
-		var dr = vCategoryArticleTable.row( $(this_checkbox).closest('tr') ).data();       		
-		if(parseInt(dr['is_checked']) == 0){
-			dr['checked'] ='<input type="checkbox" checked onclick="checkWithList(this)" name="cid" />';
-			dr['is_checked'] = 1;
-		}else{
-			dr['checked'] ='<input type="checkbox" onclick="checkWithList(this)" name="cid" />';
-			dr['is_checked'] = 0;
-		}
-		vCategoryArticleTable.row( $(this_checkbox).closest('tr') ).data(dr);
-	}	
+<script type="text/javascript" language="javascript">		
 	function changeStatus(id,status){		
 		var token = $('input[name="_token"]').val();   
 		var dataItem={   
@@ -104,11 +101,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			             
 			data: dataItem,
 			success: function (data, status, jqXHR) {   							                              		
-				var list = $.map(data.data, function(el) { return el });		
-				showMsg('alert',data.msg,data.type_msg);               		
-				vCategoryArticleTable.clear().draw();
-				vCategoryArticleTable.rows.add(list).draw();
-				spinner.hide();
+				
 			},
 			beforeSend  : function(jqXHR,setting){
 				spinner.show();
@@ -136,11 +129,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			             
 			data: dataItem,
 			success: function (data, status, jqXHR) {  
-				var list = $.map(data.data, function(el) { return el });		
-				showMsg('alert',data.msg,data.type_msg);               		
-				vCategoryArticleTable.clear().draw();
-				vCategoryArticleTable.rows.add(list).draw();
-				spinner.hide();
+				
 			},
 			beforeSend  : function(jqXHR,setting){
 				spinner.show();
@@ -169,11 +158,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			             
 			data: dataItem,
 			success: function (data, status, jqXHR) {   							                              				
-				var list = $.map(data.data, function(el) { return el });		
-				showMsg('alert',data.msg,data.type_msg);               		
-				vCategoryArticleTable.clear().draw();
-				vCategoryArticleTable.rows.add(list).draw();
-				spinner.hide();
+				
 			},
 			beforeSend  : function(jqXHR,setting){
 				spinner.show();
@@ -208,11 +193,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			             
 			data: dataItem,
 			success: function (data, status, jqXHR) {
-				var list = $.map(data.data, function(el) { return el });		
-				showMsg('alert',data.msg,data.type_msg);               		
-				vCategoryArticleTable.clear().draw();
-				vCategoryArticleTable.rows.add(list).draw();
-				spinner.hide();
+				
 			},
 			beforeSend  : function(jqXHR,setting){
 				spinner.show();
@@ -233,11 +214,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			             
 			data: dataItem,
 			success: function (data, status, jqXHR) {   	
-				var list = $.map(data.data, function(el) { return el });		
-				showMsg('alert',data.msg,data.type_msg);               		
-				vCategoryArticleTable.clear().draw();
-				vCategoryArticleTable.rows.add(list).draw();
-				spinner.hide();
+				
 			},
 			beforeSend  : function(jqXHR,setting){
 				spinner.show();
