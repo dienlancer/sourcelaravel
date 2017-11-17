@@ -1,16 +1,14 @@
-function showLstInvoiceDetail(lnk_image,value,quantity,total_price){
+function showLstInvoiceDetail(ajaxurl,lnk_image,value,quantity,total_price){
 		var id = value;						
-		var dataObj = {
-					"action"	: "show_lst_invoice_detail",
-					"id"		: id,					
-					"security"  : security_code
+		var dataObj = {					
+					"id"		: id					
 				};		
 		jQuery.ajax({
 			url			: ajaxurl,
-			type		: "POST",
+			type		: "GET",
 			data		: dataObj,
 			dataType	: "json",
-			success		: function(data, status, jsXHR){
+			success		: function(data, status, jsXHR){							
 							var thead='<thead><tr><th colspan="2">PRODUCT</th><th>PRICE</th><th>QTY</th><th>SUBTOTAL</th></tr></thead>';
 							var tbody="<tbody>";		
 							var tr="";	

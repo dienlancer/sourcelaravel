@@ -71,49 +71,81 @@ if(count($arrError) > 0){
     }   
     echo $msg;
 ?>
-<form method="post" name="frm">    
-    <table id="com_product30" class="com_product30" border="0" width="40%" cellpadding="0" cellspacing="0">                   
-        <tbody>        
-            <tr>
-                <td align="right">Tài khoản</td>
-                <td><?php echo @$arrData["username"]; ?></td>        
-            </tr>                           
-            <tr>
-                <td align="right">Email</td>
-                <td><input type="text" name="email" value="<?php echo @$arrData["email"]; ?>" /></td>                   
-            </tr>                     
-            <tr>
-                <td align="right">Tên</td>
-                <td><input type="text" name="fullname" value="<?php echo @$arrData["fullname"]; ?>" /></td>            
-            </tr>
-            <tr>
-                <td align="right">Địa chỉ</td>
-                <td><input type="text" name="address" value="<?php echo @$arrData["address"]; ?>" /></td>            
-            </tr>                
-            <tr>
-                <td align="right">Phone</td>
-                <td><input type="text" name="phone" value="<?php echo @$arrData["phone"]; ?>" /></td>            
-            </tr>
-            <tr>
-                <td align="right">Mobile phone</td>
-                <td><input type="text" name="mobilephone" value="<?php echo @$arrData["mobilephone"]; ?>" /></td>            
-            </tr>
-            <tr>
-                <td align="right">Fax</td>
-                <td><input type="text" name="fax" value="<?php echo @$arrData["fax"]; ?>" /></td>            
-            </tr>   
-            <tr>           
-                <td></td>
-                <td class="com_product31" align="right">
-                    <input name="btnChangeInfo" type="submit" class="com_product32" value="Cập nhật" />
-                    <input type="hidden" name="id" value="<?php echo @$arrData["id"]; ?>" />
-                    <input type="hidden" name="username" value="<?php echo @$arrData["username"]; ?>" />
-                    <input type="hidden" name="quantity" value="<?php echo @$total_quantity; ?>" />
-                    <input type="hidden" name="total_price" value="<?php echo @$total_price; ?>" />
-                    <input type="hidden" name="action" value="finished-checkout" />                    
-                    {{ csrf_field() }}                             
-                </td>                       
-            </tr> 
-        </tbody>    
-    </table>
+<form method="post" name="frm">   
+    <div class="col-md-6">
+        <table id="com_product30" class="com_product30" border="0" width="40%" cellpadding="0" cellspacing="0">                   
+            <tbody>        
+                <tr>
+                    <td align="right">Tài khoản</td>
+                    <td><?php echo @$arrData["username"]; ?></td>        
+                </tr>                           
+                <tr>
+                    <td align="right">Email</td>
+                    <td><input type="text" name="email" value="<?php echo @$arrData["email"]; ?>" /></td>                   
+                </tr>                     
+                <tr>
+                    <td align="right">Tên</td>
+                    <td><input type="text" name="fullname" value="<?php echo @$arrData["fullname"]; ?>" /></td>            
+                </tr>
+                <tr>
+                    <td align="right">Địa chỉ</td>
+                    <td><input type="text" name="address" value="<?php echo @$arrData["address"]; ?>" /></td>            
+                </tr>                
+                <tr>
+                    <td align="right">Phone</td>
+                    <td><input type="text" name="phone" value="<?php echo @$arrData["phone"]; ?>" /></td>            
+                </tr>
+                <tr>
+                    <td align="right">Mobile phone</td>
+                    <td><input type="text" name="mobilephone" value="<?php echo @$arrData["mobilephone"]; ?>" /></td>            
+                </tr>
+                <tr>
+                    <td align="right">Fax</td>
+                    <td><input type="text" name="fax" value="<?php echo @$arrData["fax"]; ?>" /></td>            
+                </tr>   
+                <tr>           
+                    <td></td>
+                    <td class="com_product31" align="right">
+                        <input name="btnChangeInfo" type="submit" class="com_product32" value="Cập nhật" />
+                        <input type="hidden" name="id" value="<?php echo @$arrData["id"]; ?>" />
+                        <input type="hidden" name="username" value="<?php echo @$arrData["username"]; ?>" />
+                        <input type="hidden" name="quantity" value="<?php echo @$total_quantity; ?>" />
+                        <input type="hidden" name="total_price" value="<?php echo @$total_price; ?>" />
+                        <input type="hidden" name="action" value="finished-checkout" />                    
+                        {{ csrf_field() }}                             
+                    </td>                       
+                </tr> 
+            </tbody>    
+        </table>
+    </div>
+    <div class="col-md-6">
+        <table id="com_product30" class="com_product30" border="0" cellpadding="0" cellspacing="0">   
+            <thead><tr><th>Hình thức thanh toán</th></tr></thead>     
+            <tbody>        
+                <tr>
+                    <td align="left"><font color="red"><b><i>Vui lòng chọn một hình thức thanh toán *</i></b></font></td>                    
+                </tr>                                               
+                <tr>
+                    <td>
+                        <select id="payment_method" name="payment_method" onchange="changePaymentMethod(<?php echo route('frontend.index.getPaymentmethod'); ?>,this.value);">
+                            <?php 
+                            for($i=0;$i<count($lstPaymentMethod);$i++){
+                                $id=$lstPaymentMethod[$i]["id"];
+                                $title=$lstPaymentMethod[$i]["title"];
+                                if((int)@$data["payment_method"] == (int)$id)
+                                    echo '<option selected value="'.$id.'">'.$title.'</option>';                               
+                                else
+                                    echo '<option          value="'.$id.'">'.$title.'</option>';                               
+                            }
+                            ?>                                                    
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span id="payment_method_content"></span></td>
+                </tr>                
+            </tbody>    
+        </table>
+    </div> 
+    <div class="clr"></div>      
 </form>

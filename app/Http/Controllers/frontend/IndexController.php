@@ -20,6 +20,7 @@ use App\InvoiceModel;
 use App\InvoiceDetailModel;
 use App\BannerModel;
 use App\ModuleItemModel;
+use App\PaymentMethodModel;
 use Session;
 use DB;
 class IndexController extends Controller {  
@@ -579,6 +580,7 @@ class IndexController extends Controller {
                       $component="hoan-tat-thanh-toan";                      
                   }                         
               }
+              //$data_paymentmethod=
               return view("frontend.index",compact("component","alias","arrError","arrData"));                 
       }      
       public function loginCheckout(){
@@ -721,8 +723,9 @@ class IndexController extends Controller {
                 }
                 foreach ($arrCart as $key => $value) {
                   $product_quantity=(int)$arrCart[$key]["product_quantity"];
-                  if($product_quantity==0)
+                  if($product_quantity==0){
                     unset($arrCart[$key]);
+                  }
                 }
               }              
               $cart["cart"]=$arrCart;                    
@@ -792,6 +795,12 @@ class IndexController extends Controller {
                           );
         return $dataReturn;
       } 
+      public function showInvoiceDetail(){
+        $id=$_GET['id'];
+        $data=array();
+        $data=InvoiceDetailModel::whereRaw('invoice_id = ?',[(int)$id])->get()->toArray();  
+        return $data; 
+      }
 }
 
 
