@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 17, 2017 lúc 07:45 AM
+-- Thời gian đã tạo: Th10 17, 2017 lúc 07:38 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -177,6 +177,38 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getCategoryArticle` (IN `keywor
     ORDER BY n.sort_order ASC       
     ;
 END$$
+
+DROP PROCEDURE IF EXISTS `pro_getCategoryArticleLimit`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getCategoryArticleLimit` (IN `keyword` VARCHAR(255), IN `position` INT(11), IN `totalItemsPerPage` INT(11))  SELECT 
+	0 AS is_checked,
+	n.id,
+	n.fullname,
+	n.alias,
+	n.parent_id,
+	a.fullname AS parent_fullname,
+	n.image,
+	n.sort_order,
+	n.status,
+	n.created_at,
+	n.updated_at
+	 FROM 
+    `category_article` n
+    LEFT JOIN `category_article` a ON n.parent_id = a.id
+    WHERE
+    (keyword ='' OR LOWER(n.fullname) LIKE CONCAT('%',keyword,'%'))    
+    group by
+    n.id,
+	n.fullname,
+	n.alias,
+	n.parent_id,
+	a.fullname,
+	n.image,
+	n.sort_order,
+	n.status,
+	n.created_at,
+	n.updated_at
+    ORDER BY n.sort_order ASC
+    LIMIT `position` , totalItemsPerPage$$
 
 DROP PROCEDURE IF EXISTS `pro_getCategoryProduct`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_getCategoryProduct` (IN `keyword` VARCHAR(255) CHARSET utf8)  BEGIN
@@ -787,7 +819,10 @@ INSERT INTO `category_article` (`id`, `fullname`, `alias`, `parent_id`, `image`,
 (2, 'Mẹo hay nhà bếp', 'meo-hay-nha-bep', 0, NULL, 3, 1, '2017-11-14 10:40:55', '2017-11-14 11:05:00'),
 (3, 'Sống khỏe', 'song-khoe', 0, NULL, 4, 1, '2017-11-14 10:41:25', '2017-11-14 11:05:00'),
 (4, 'Thực phẩm sạch', 'thuc-pham-sach', 0, NULL, 5, 1, '2017-11-14 10:41:41', '2017-11-14 11:05:00'),
-(5, 'Khách hàng', 'khach-hang', 0, NULL, 2, 1, '2017-11-14 11:04:53', '2017-11-14 11:05:00');
+(5, 'Khách hàng', 'khach-hang', 0, NULL, 2, 1, '2017-11-14 11:04:53', '2017-11-14 11:05:00'),
+(6, 'Khách hàng 1', 'khach-hang-1', 5, NULL, 1, 1, '2017-11-17 10:55:25', '2017-11-17 10:55:25'),
+(7, 'Khách hàng 2', 'khach-hang-2', 5, NULL, 2, 1, '2017-11-17 10:55:41', '2017-11-17 10:55:41'),
+(8, 'Khách hàng 3', 'khach-hang-3', 5, NULL, 3, 1, '2017-11-17 10:55:58', '2017-11-17 10:55:58');
 
 -- --------------------------------------------------------
 
@@ -1179,7 +1214,7 @@ CREATE TABLE `module_item` (
 
 INSERT INTO `module_item` (`id`, `fullname`, `item_id`, `position`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
 (1, 'Featured product', '7,8,9,10,11,12,13,14', 'featured-product', 1, 1, '2017-11-10 11:24:02', '2017-11-14 08:11:12'),
-(2, 'Toilet equipment', '7,8,9,10,11,12,13,14', 'toilet-equipment', 1, 2, '2017-11-14 08:51:21', '2017-11-14 09:36:06'),
+(2, 'Toilet equipment', '7,8,9,10,11,12,13,14', 'toilet-equipment', 1, 28, '2017-11-14 08:51:21', '2017-11-17 09:15:33'),
 (3, 'Chicken equipment', '7,8,9,10,11,12,13,14', 'chicken-equipment', 1, 3, '2017-11-14 08:51:53', '2017-11-14 09:45:35'),
 (4, 'Clever house', '7,8,9,10,11,12,13,14', 'clever-house', 1, 4, '2017-11-14 08:52:39', '2017-11-14 10:26:09'),
 (5, 'Customer', '1,5,6,4', 'customer', 1, 5, '2017-11-14 10:25:39', '2017-11-14 10:25:43'),
@@ -1338,7 +1373,10 @@ INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`)
 (145, 1, 'LRlBDrPFH3sF0WLHAUBGdJuLn5beDkqb', '2017-11-15 10:45:25', '2017-11-15 10:45:25'),
 (149, 1, 'zV2fdfnD6X5jTDrXbKtgm2BQ4I4CN0vP', '2017-11-15 21:20:42', '2017-11-15 21:20:42'),
 (154, 1, 'VbajMvJtRtkXTmUREmO1x8SnojOzoNy4', '2017-11-16 12:09:09', '2017-11-16 12:09:09'),
-(155, 1, 'EN255XIbrvzjbXm2TdeuHOJnjAHBKhm0', '2017-11-16 19:00:45', '2017-11-16 19:00:45');
+(155, 1, 'EN255XIbrvzjbXm2TdeuHOJnjAHBKhm0', '2017-11-16 19:00:45', '2017-11-16 19:00:45'),
+(156, 1, 'a2STqoxCKAdKjJBxt5RxyBo23j196SqS', '2017-11-17 01:55:13', '2017-11-17 01:55:13'),
+(157, 1, 'bWYcBrGX0pTubrxZ2Gz8mOrpfZh4d3R5', '2017-11-17 03:54:15', '2017-11-17 03:54:15'),
+(158, 1, 'rOqRgZyRXdpE2wPQxm60VZEi4MVsaHwd', '2017-11-17 09:26:45', '2017-11-17 09:26:45');
 
 -- --------------------------------------------------------
 
@@ -1670,7 +1708,7 @@ CREATE TABLE `setting_system` (
 --
 
 INSERT INTO `setting_system` (`id`, `fullname`, `alias`, `article_perpage`, `article_width`, `article_height`, `product_perpage`, `product_width`, `product_height`, `currency_unit`, `smtp_host`, `smtp_port`, `encription`, `authentication`, `smtp_username`, `smtp_password`, `email_from`, `email_to`, `from_name`, `to_name`, `contacted_phone`, `address`, `website`, `telephone`, `opened_time`, `opened_date`, `contacted_name`, `facebook_url`, `twitter_url`, `google_plus`, `youtube_url`, `instagram_url`, `pinterest_url`, `slogan_about`, `map_url`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'settingsystem', 'setting-system', 6, 360, 230, 12, 400, 400, 'vi_VN', 'smtp.gmail.com', '465', 'ssl', 1, 'dien.toannang@gmail.com', 'lienhoancuoc', 'dienit02@gmail.com', 'tichtacso.com@gmail.com', 'Hệ thống', 'Công Ty TNHH VIDOCO', '096.302.7720', '35/6 Bùi Quang Là - P.12 - Q. Gò Vấp - HCM', 'noithatgialai.net', '096.302.7720', '8h - 20h', '(T2-T7). Chủ Nhật nghỉ', 'Mr. Vinh', 'https://www.facebook.com/nguyenvan.laptrinh', 'https://twitter.com/', 'https://plus.google.com/u/0/?hl=vi', 'https://www.youtube.com/watch?v=kAcV7S3sySU', 'http://flickr.com', 'http://daidung.vn/', 'Mipec cung cấp thực phẩm sạch, an toàn, đảm bảo chất lượng hàng đầu. Xóa đi nỗi lo về an toàn thực phẩm', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3871.605543764119!2d108.07355431421081!3d13.982069195684272!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDU4JzU1LjQiTiAxMDjCsDA0JzMyLjciRQ!5e0!3m2!1svi!2s!4v1508913801584', 1, 1, '2017-11-10 19:46:32', '2017-11-16 04:43:00');
+(1, 'settingsystem', 'setting-system', 6, 360, 230, 12, 400, 400, 'vi_VN', 'smtp.gmail.com', '465', 'ssl', 1, 'dien.toannang@gmail.com', 'lienhoancuoc', 'dienit02@gmail.com', 'tichtacso.com@gmail.com', 'Hệ thống', 'Công Ty TNHH VIDOCO', '096.302.7721', '35/6 Bùi Quang Là - P.12 - Q. Gò Vấp - HCM', 'noithatgialai.net', '096.302.7720', '8h - 20h', '(T2-T7). Chủ Nhật nghỉ', 'Mr. Vinh', 'https://www.facebook.com/nguyenvan.laptrinh', 'https://twitter.com/', 'https://plus.google.com/u/0/?hl=vi', 'https://www.youtube.com/watch?v=kAcV7S3sySU', 'http://flickr.com', 'http://daidung.vn/', 'Mipec cung cấp thực phẩm sạch, an toàn, đảm bảo chất lượng hàng đầu. Xóa đi nỗi lo về an toàn thực phẩm', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3871.605543764119!2d108.07355431421081!3d13.982069195684272!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDU4JzU1LjQiTiAxMDjCsDA0JzMyLjciRQ!5e0!3m2!1svi!2s!4v1508913801584', 1, 1, '2017-11-10 19:46:32', '2017-11-17 09:19:34');
 
 -- --------------------------------------------------------
 
@@ -2029,7 +2067,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `group_member_id`, `password`, `permissions`, `last_login`, `fullname`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'diennk@dienkim.com', 1, '$2y$10$rpZe6oM3GUJmwL/ZMTKm/OSe24l9TJKFU9lwd8VmohkqH0Oax6rVK', NULL, '2017-11-16 19:00:45', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-16 19:00:45'),
+(1, 'admin', 'diennk@dienkim.com', 1, '$2y$10$rpZe6oM3GUJmwL/ZMTKm/OSe24l9TJKFU9lwd8VmohkqH0Oax6rVK', NULL, '2017-11-17 09:26:45', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-17 09:26:45'),
 (6, 'nhatanh', 'nhatanh@gmail.com', 1, '$2y$10$X.wWyaR4gqC8BAvcVtlH0u8FG1DC2a0dXPzPL.Qs96Ds/cJZqxviO', NULL, '2017-11-15 09:46:30', 'Nhật Anh', 3, 1, '2017-11-15 09:45:46', '2017-11-15 09:46:30');
 
 --
@@ -2260,7 +2298,7 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT cho bảng `category_article`
 --
 ALTER TABLE `category_article`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT cho bảng `category_product`
 --
@@ -2335,7 +2373,7 @@ ALTER TABLE `payment_method`
 -- AUTO_INCREMENT cho bảng `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=159;
 --
 -- AUTO_INCREMENT cho bảng `photo`
 --
