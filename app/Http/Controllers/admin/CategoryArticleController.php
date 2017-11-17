@@ -11,11 +11,32 @@ class CategoryArticleController extends Controller {
     	var $_controller="category-article";	
     	var $_title="Category Article";
     	var $_icon="icon-settings font-dark";
+      var $_totalItemsPerPage=100;    
+      var $_pageRange=10;
     	public function getList(){		
     		$controller=$this->_controller;	
     		$task="list";
     		$title=$this->_title;
-    		$icon=$this->_icon;		
+    		$icon=$this->_icon;	
+        $currentPage=1; 	
+        $filter_search="";
+        if(!empty(@$_POST["filter_search"])){
+          $filter_search=@$_POST["filter_search"];        
+        }        
+        $data=DB::select('call pro_getCategoryArticle(?)',array(mb_strtolower($filter_search)));
+        $totalItems=count($data);
+        $totalItemsPerPage=$this->_totalItemsPerPage;       
+        $pageRange=$this->_pageRange;
+        if(!empty(@$_POST["filter_page"])){
+          $currentPage=@$_POST["filter_page"];    
+        }            
+        $arrPagination=array(
+          "totalItems"=>$totalItems,
+          "totalItemsPerPage"=>$totalItemsPerPage,
+          "pageRange"=>$pageRange,
+          "currentPage"=>$currentPage 
+        );
+        echo "<pre>".print_r($arrPagination,true)."</pre>";
     		return view("admin.".$this->_controller.".list",compact("controller","task","title","icon"));	
     	}	
     	public function loadData(Request $request){

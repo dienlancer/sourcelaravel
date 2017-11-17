@@ -290,9 +290,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		}				
 		$("#sort_json").val(JSON.stringify(data));
 	}
-	$(document).ready(function(){
-		getList();
-	});
+	
 </script>
 @endsection()         
 
