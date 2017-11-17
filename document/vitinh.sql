@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 17, 2017 lúc 06:32 AM
+-- Thời gian đã tạo: Th10 17, 2017 lúc 07:45 AM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -943,11 +943,19 @@ CREATE TABLE `invoice` (
   `fax` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `quantity` int(11) DEFAULT NULL,
   `total_price` decimal(10,2) DEFAULT NULL,
+  `payment_method_id` int(11) NOT NULL,
   `status` int(11) DEFAULT NULL,
   `sort_order` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
+
+--
+-- Đang đổ dữ liệu cho bảng `invoice`
+--
+
+INSERT INTO `invoice` (`id`, `code`, `customer_id`, `username`, `email`, `fullname`, `address`, `phone`, `mobilephone`, `fax`, `quantity`, `total_price`, `payment_method_id`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, 'jsytcxn4mzq20flia653', 7, 'duyla', 'duyla@ttcgroup.vn', 'Lý Anh Duy', '28 Trần Huy Liệu', '0872732772', '0988956123', '8787238728', 1, '4000000.00', 3, 0, 1, '2017-11-17 06:43:05', '2017-11-17 06:43:05');
 
 -- --------------------------------------------------------
 
@@ -969,6 +977,13 @@ CREATE TABLE `invoice_detail` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
+
+--
+-- Đang đổ dữ liệu cho bảng `invoice_detail`
+--
+
+INSERT INTO `invoice_detail` (`id`, `invoice_id`, `product_id`, `product_code`, `product_name`, `product_image`, `product_price`, `product_quantity`, `product_total_price`, `created_at`, `updated_at`) VALUES
+(1, 1, 7, '123456789', 'Sofa 1', 'sofa-1.png', '4000000.00', 1, '4000000.00', '2017-11-17 06:43:05', '2017-11-17 06:43:05');
 
 -- --------------------------------------------------------
 
@@ -2270,12 +2285,12 @@ ALTER TABLE `group_privilege`
 -- AUTO_INCREMENT cho bảng `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT cho bảng `invoice_detail`
 --
 ALTER TABLE `invoice_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT cho bảng `menu`
 --
