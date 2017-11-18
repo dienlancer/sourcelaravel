@@ -50,16 +50,7 @@ class CategoryArticleController extends Controller {
         $data=$data_recursive; 
     		return view("admin.".$this->_controller.".list",compact("controller","task","title","icon",'data','pagination','filter_search'));	
     	}	
-    	public function loadData(Request $request){
-      		$filter_search="";
-      		$data=DB::select('call pro_getCategoryArticle(?)',array(mb_strtolower($filter_search)));
-      		$categoryArticleRecursiveData=array();
-      		$data=convertToArray($data);    
-          $data=categoryArticleConverter($data,$this->_controller);   
-      		categoryArticleRecursive($data,0,null,$categoryArticleRecursiveData);     
-          $data=      	convertToArray($categoryArticleRecursiveData)	;                   
-          return $data;
-    	}    	
+    	
       public function getForm($task,$id=""){		 
           $controller=$this->_controller;			
           $title="";
@@ -181,22 +172,25 @@ class CategoryArticleController extends Controller {
       return $info;       
     }
       public function changeStatus(Request $request){
-            $id             =       (int)$request->id;     
-            $checked                =   1;
-            $type_msg               =   "alert-success";
-            $msg                    =   "Update successfully";              
+            $id             =       (int)$request->id;  
             $status         =       (int)$request->status;
-            $item           =       CategoryArticleModel::find((int)@$id);        
-            $item->status   =       $status;
+            
+            $item=CategoryArticleModel::find($id);
+            $trangThai=0;
+            if($status==0){
+              $trangThai=1;
+            }
+            else{
+              $trangThai=0;
+            }
+            $item->status=$status;
             $item->save();
-            $data                   =   $this->loadData($request);
-            $info = array(
-              'checked'           => $checked,
-              'type_msg'          => $type_msg,                
-              'msg'               => $msg,                
-              'data'              => $data
-            );
-            return $info;
+            $result = array(
+                        'id'      => $id, 
+                        'status'  => $status, 
+                        'link'    => 'javascript:changeStatus('.$id.','.$trangThai.');'
+                    );
+            return $result;   
       }
       public function deleteImage(Request $request){
           $id                     =   (int)$request->id;              
@@ -216,8 +210,7 @@ class CategoryArticleController extends Controller {
           );
           return $info;
       }
-      public function deleteItem(Request $request){
-            $id                     =   (int)$request->id;              
+      public function deleteItem($id){           
             $checked                =   1;
             $type_msg               =   "alert-success";
             $msg                    =   "Delete successfully";                        
@@ -237,32 +230,24 @@ class CategoryArticleController extends Controller {
                 $item               =   CategoryArticleModel::find((int)@$id);
                 $item->delete();            
             }        
-            $data                   =   $this->loadData($request);
-            $info = array(
-              'checked'           => $checked,
-              'type_msg'          => $type_msg,                
-              'msg'               => $msg,                
-              'data'              => $data
-            );
-            return $info;
+            return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("content"=>"Đã lưu")]); 
       }
-      public function updateStatus($status){
-        echo "<pre>".print_r(__METHOD__,true)."</pre>";
-        /*$arrID=$_POST["cid"];
+      public function updateStatus(Request $request,$status){        
+        $arrID=$request->cid;
         foreach ($arrID as $key => $value) {
           $item=CategoryArticleModel::find($value);
           $item->status=$status;
           $item->save();    
         }
-        return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("content"=>"Đã lưu")]);   */
+        return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("content"=>"Đã lưu")]); 
       }
-      public function trash(Request $request){
-            $str_id                 =   $request->str_id;   
+      public function trash(Request $request){            
+          $arrID                 =   $request->cid;             
             $checked                =   1;
             $type_msg               =   "alert-success";
             $msg                    =   "Delete successfully";      
-            $arrID                  =   explode(",", $str_id)  ;    
-            if(empty($str_id)){
+            $arrID                 =   $request->cid;   
+            if(count($arrID)==0){
               $checked     =   0;
               $type_msg           =   "alert-warning";            
               $msg                =   "Please choose at least one item to delete";
@@ -285,43 +270,23 @@ class CategoryArticleController extends Controller {
               }
             }
             if($checked == 1){                
-              $strID = implode(',',$arrID);       
-              $strID = substr($strID, 0,strlen($strID) - 1);            
-              $sql = "DELETE FROM `category_article` WHERE `id` IN (".$strID.")";                                 
+              $strID = implode(',',$arrID);                     
+              $sql = "DELETE FROM `category_article` WHERE `id` IN (".$strID.")";                 
               DB::statement($sql);    
             }
-            $data                   =   $this->loadData($request);
-            $info = array(
-              'checked'           => $checked,
-              'type_msg'          => $type_msg,                
-              'msg'               => $msg,                
-              'data'              => $data
-            );
-            return $info;
+            return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("content"=>"Đã lưu")]); 
     }
     public function sortOrder(Request $request){
-          $sort_json              =   $request->sort_json;           
-          $data_order             =   json_decode($sort_json);       
-          $checked                =   1;
-          $type_msg               =   "alert-success";
-          $msg                    =   "Update successfully";      
-          if(count($data_order) > 0){              
-            foreach($data_order as $key => $value){         
-              if(!empty($value)){
-                $item=CategoryArticleModel::find((int)$value->id);                
-              $item->sort_order=(int)$value->sort_order;                         
-              $item->save();                      
-              }                                             
-            }           
-          }        
-          $data                   =   $this->loadData($request);
-          $info = array(
-            'checked'           => $checked,
-            'type_msg'          => $type_msg,                
-            'msg'               => $msg,                
-            'data'              => $data
-          );
-          return $info;
+          $arrOrder=array();
+          $arrOrder=$request->sort_order;  
+          if(!empty($arrOrder)){        
+            foreach($arrOrder as $id => $value){                    
+              $item=CategoryArticleModel::find($id);
+              $item->sort_order=(int)$value;            
+              $item->save();            
+            }     
+          }    
+          return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("content"=>"Đã lưu")]); 
     }
     public function uploadFile(Request $request){           
           $uploadDir = base_path() . DS ."resources".DS."upload";                 

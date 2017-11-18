@@ -1,4 +1,5 @@
 var timeout;
+var second_timeout=3000;
 function checkAllAgent(cid){
 	var tbl=$(cid).closest("table");	
 	var checkStatus = cid.checked;
@@ -17,7 +18,7 @@ function showMsg(ctrlID,msg,type_msg){
 	if (timeout != null){
         clearTimeout(timeout);
 	}
-	timeout = setTimeout(hideMsg, 1000,ctrlID);			 
+	timeout = setTimeout(hideMsg, second_timeout,ctrlID);			 
 }
 function hideMsg(ctrlID) {
 	$('#'+ctrlID).fadeOut();
@@ -26,6 +27,26 @@ function submitForm(url){
     $('form[name="frm"]').attr('action', url);
     $('form[name="frm"]').submit();
 }
+function trashForm(url){
+    var xac_nhan=false;
+    var msg='Bạn xác nhận có chắc chắn xóa?';
+	if(window.confirm(msg)){
+		xac_nhan=true;
+	}
+	if(xac_nhan == true){
+		$('form[name="frm"]').attr('action', url);
+        $('form[name="frm"]').submit();
+	}
+    return xac_nhan;    
+}
+function xacnhanxoa(msg){
+    var xac_nhan=false;
+	if(window.confirm(msg)){
+		xac_nhan=true;
+	}
+	return xac_nhan;
+}
+
 $(document).ready(function(){
 	$('table.table-recursive > thead > tr > th > input[name="checkall-toggle"]').change(function(){		
 		var checkStatus = this.checked;
@@ -33,4 +54,5 @@ $(document).ready(function(){
 			this.checked = checkStatus;
 		});
 	});
+	timeout = setTimeout(hideMsg, second_timeout,'alert');			
 });

@@ -4,7 +4,9 @@ function categoryArticleConverter($data=array(),$controller){
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.asset("/public/admin/images/edit-icon.png").'" /></a></center>';
-            $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.asset("/public/admin/images/delete-icon.png").'" /></a></center>';
+            $linkDelete=route('admin.category-article.deleteItem',[$data[$i]['id']]);
+            $deleted='<center><a onclick="return xacnhanxoa(\'Bạn có chắc chắn muốn xóa ?\');" href="'.$linkDelete.'" ><img src="'.asset("/public/admin/images/delete-icon.png").'" /></a></center>';
+            
             $kicked=0;
             if((int)$data[$i]["status"]==1){
                 $kicked=0;
@@ -13,14 +15,15 @@ function categoryArticleConverter($data=array(),$controller){
                 $kicked=1;
             }
             $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["status"],$kicked).'</center>';
-            $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';
             
+            $sort_order = '<center><input name="sort_order['.$data[$i]['id'].']" type="text"  value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';            
             $link_image="";
             $image="";
             if(!empty($data[$i]["image"])){
                 $link_image=url("/resources/upload/".$data[$i]["image"]);            
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
-            }            
+            }          
+
             $result[$i] = array(
                 'checked'                  =>   '<input type="checkbox"  name="cid[]" value="'.$data[$i]["id"].'" />',
                 'is_checked'               =>   0,

@@ -111,11 +111,10 @@ Route::group(["prefix"=>"admin","middleware"=>"TestLogin"],function(){
 		Route::post("trash",["as"=>"admin.user.trash","uses"=>"admin\UserController@trash"]);		
 	});
 	Route::group(["prefix"=>"category-article"],function(){		
-		Route::get("list",["as"=>"admin.category-article.getList","uses"=>"admin\CategoryArticleController@getList"]);
-		Route::post("load-data",["as"=>"admin.category-article.loadData","uses"=>"admin\CategoryArticleController@loadData"]);		
+		Route::get("list",["as"=>"admin.category-article.getList","uses"=>"admin\CategoryArticleController@getList"]);		
 		Route::get("form/{task}/{id?}",["as"=>"admin.category-article.getForm","uses"=>"admin\CategoryArticleController@getForm"]);
 		Route::post("save",["as"=>"admin.category-article.save","uses"=>"admin\CategoryArticleController@save"]);
-		Route::post("delete-item",["as"=>"admin.category-article.deleteItem","uses"=>"admin\CategoryArticleController@deleteItem"]);		
+		Route::get("delete-item/{id}",["as"=>"admin.category-article.deleteItem","uses"=>"admin\CategoryArticleController@deleteItem"]);		
 		Route::post("sort-order",["as"=>"admin.category-article.sortOrder","uses"=>"admin\CategoryArticleController@sortOrder"]);
 		Route::post("update-status/{status}",["as"=>"admin.category-article.updateStatus","uses"=>"admin\CategoryArticleController@updateStatus"]);
 		Route::post("change-status",["as"=>"admin.category-article.changeStatus","uses"=>"admin\CategoryArticleController@changeStatus"]);
