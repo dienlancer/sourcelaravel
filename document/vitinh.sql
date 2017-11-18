@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 17, 2017 lúc 07:38 PM
+-- Thời gian đã tạo: Th10 18, 2017 lúc 07:55 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -820,9 +820,13 @@ INSERT INTO `category_article` (`id`, `fullname`, `alias`, `parent_id`, `image`,
 (3, 'Sống khỏe', 'song-khoe', 0, NULL, 4, 1, '2017-11-14 10:41:25', '2017-11-14 11:05:00'),
 (4, 'Thực phẩm sạch', 'thuc-pham-sach', 0, NULL, 5, 1, '2017-11-14 10:41:41', '2017-11-14 11:05:00'),
 (5, 'Khách hàng', 'khach-hang', 0, NULL, 2, 1, '2017-11-14 11:04:53', '2017-11-14 11:05:00'),
-(6, 'Khách hàng 1', 'khach-hang-1', 5, NULL, 1, 1, '2017-11-17 10:55:25', '2017-11-17 10:55:25'),
-(7, 'Khách hàng 2', 'khach-hang-2', 5, NULL, 2, 1, '2017-11-17 10:55:41', '2017-11-17 10:55:41'),
-(8, 'Khách hàng 3', 'khach-hang-3', 5, NULL, 3, 1, '2017-11-17 10:55:58', '2017-11-17 10:55:58');
+(10, 'Chủ đề 1', 'chu-de-1', 0, NULL, 6, 1, '2017-11-18 18:41:25', '2017-11-18 18:42:05'),
+(11, 'Chủ đề 2', 'chu-de-2', 0, NULL, 7, 1, '2017-11-18 18:41:37', '2017-11-18 18:42:05'),
+(12, 'Chủ đề 3', 'chu-de-3', 0, NULL, 8, 1, '2017-11-18 18:41:48', '2017-11-18 18:42:05'),
+(13, 'Chủ đề 4', 'chu-de-4', 0, NULL, 9, 1, '2017-11-18 18:42:29', '2017-11-18 18:42:29'),
+(15, 'Chủ đề 6', 'chu-de-6', 0, NULL, 11, 1, '2017-11-18 18:43:12', '2017-11-18 18:44:53'),
+(17, 'Chủ đề 8', 'chu-de-8', 0, NULL, 13, 1, '2017-11-18 18:44:17', '2017-11-18 18:44:53'),
+(18, 'Chủ đề 9', 'chu-de-9', 0, NULL, 14, 1, '2017-11-18 18:44:36', '2017-11-18 18:44:53');
 
 -- --------------------------------------------------------
 
@@ -1376,7 +1380,9 @@ INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`)
 (155, 1, 'EN255XIbrvzjbXm2TdeuHOJnjAHBKhm0', '2017-11-16 19:00:45', '2017-11-16 19:00:45'),
 (156, 1, 'a2STqoxCKAdKjJBxt5RxyBo23j196SqS', '2017-11-17 01:55:13', '2017-11-17 01:55:13'),
 (157, 1, 'bWYcBrGX0pTubrxZ2Gz8mOrpfZh4d3R5', '2017-11-17 03:54:15', '2017-11-17 03:54:15'),
-(158, 1, 'rOqRgZyRXdpE2wPQxm60VZEi4MVsaHwd', '2017-11-17 09:26:45', '2017-11-17 09:26:45');
+(158, 1, 'rOqRgZyRXdpE2wPQxm60VZEi4MVsaHwd', '2017-11-17 09:26:45', '2017-11-17 09:26:45'),
+(159, 1, 'MUi9tluQQy8AhsadOL4sMuRSRaMPY2Vi', '2017-11-17 21:05:41', '2017-11-17 21:05:41'),
+(162, 1, '0fsBWGHy3uFkICDp4rgusPKisYenbUr5', '2017-11-18 08:03:50', '2017-11-18 08:03:50');
 
 -- --------------------------------------------------------
 
@@ -2067,7 +2073,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `group_member_id`, `password`, `permissions`, `last_login`, `fullname`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'diennk@dienkim.com', 1, '$2y$10$rpZe6oM3GUJmwL/ZMTKm/OSe24l9TJKFU9lwd8VmohkqH0Oax6rVK', NULL, '2017-11-17 09:26:45', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-17 09:26:45'),
+(1, 'admin', 'diennk@dienkim.com', 1, '$2y$10$rpZe6oM3GUJmwL/ZMTKm/OSe24l9TJKFU9lwd8VmohkqH0Oax6rVK', NULL, '2017-11-18 08:03:50', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-18 08:03:50'),
 (6, 'nhatanh', 'nhatanh@gmail.com', 1, '$2y$10$X.wWyaR4gqC8BAvcVtlH0u8FG1DC2a0dXPzPL.Qs96Ds/cJZqxviO', NULL, '2017-11-15 09:46:30', 'Nhật Anh', 3, 1, '2017-11-15 09:45:46', '2017-11-15 09:46:30');
 
 --
@@ -2298,7 +2304,7 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT cho bảng `category_article`
 --
 ALTER TABLE `category_article`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT cho bảng `category_product`
 --
@@ -2373,7 +2379,7 @@ ALTER TABLE `payment_method`
 -- AUTO_INCREMENT cho bảng `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=159;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=163;
 --
 -- AUTO_INCREMENT cho bảng `photo`
 --

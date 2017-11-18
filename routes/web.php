@@ -111,7 +111,7 @@ Route::group(["prefix"=>"admin","middleware"=>"TestLogin"],function(){
 		Route::post("trash",["as"=>"admin.user.trash","uses"=>"admin\UserController@trash"]);		
 	});
 	Route::group(["prefix"=>"category-article"],function(){		
-		Route::get("list",["as"=>"admin.category-article.getList","uses"=>"admin\CategoryArticleController@getList"]);		
+		Route::match(["get","post"],"list",["as"=>"admin.category-article.getList","uses"=>"admin\CategoryArticleController@getList"]);	
 		Route::get("form/{task}/{id?}",["as"=>"admin.category-article.getForm","uses"=>"admin\CategoryArticleController@getForm"]);
 		Route::post("save",["as"=>"admin.category-article.save","uses"=>"admin\CategoryArticleController@save"]);
 		Route::get("delete-item/{id}",["as"=>"admin.category-article.deleteItem","uses"=>"admin\CategoryArticleController@deleteItem"]);		

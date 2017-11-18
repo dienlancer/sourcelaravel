@@ -87,7 +87,8 @@ $linkSortOrder			=	route('admin.'.$controller.'.sortOrder');
 					}
 				?>				                                               
 				</tbody>
-			</table>			
+			</table>	
+			<?php echo $pagination->showPagination();?>		
 		</div>
 	</div>
 </form>
