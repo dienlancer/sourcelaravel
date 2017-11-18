@@ -22,9 +22,15 @@ function showMsg(ctrlID,msg,type_msg){
 function hideMsg(ctrlID) {
 	$('#'+ctrlID).fadeOut();
 }    
-$('input[name="checkall-toggle"]').change(function(){
-	var checkStatus = this.checked;
-	$('form[name="frm"]').find(':checkbox').each(function(){
-		this.checked = checkStatus;
+function submitForm(url){
+    $('form[name="frm"]').attr('action', url);
+    $('form[name="frm"]').submit();
+}
+$(document).ready(function(){
+	$('table.table-recursive > thead > tr > th > input[name="checkall-toggle"]').change(function(){		
+		var checkStatus = this.checked;
+		$('table.table-recursive').find(':checkbox').each(function(){
+			this.checked = checkStatus;
+		});
 	});
 });

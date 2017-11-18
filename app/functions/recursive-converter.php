@@ -2,7 +2,7 @@
 function categoryArticleRecursive($data ,$parent=null,$str="--",&$arrRecursiveMenu){
   foreach ($data as $key => $val) {
     $checked=isset($val["checked"]) ? $val["checked"] : 0 ;
-  	$is_checked=$val["is_checked"];
+    $is_checked=$val["is_checked"];
     $id=$val["id"];
     $fullname=$val["fullname"];
     $parent_fullname=$val["parent_fullname"];
@@ -16,21 +16,21 @@ function categoryArticleRecursive($data ,$parent=null,$str="--",&$arrRecursiveMe
     $edited=isset($val["edited"]) ? $val["edited"] : "" ;
     $deleted=isset($val["deleted"]) ? $val["deleted"] : "" ;
     if((int)$val["parent_id"] == (int)$parent) {
-          $arrRecursiveMenu[$key]["checked"]=$checked;
-    		  $arrRecursiveMenu[$key]["is_checked"]=$is_checked;
-    	  	$arrRecursiveMenu[$key]["id"]=$id;
-      		$arrRecursiveMenu[$key]["fullname"]=$str . $fullname;    
-          $arrRecursiveMenu[$key]["parent_fullname"]=$parent_fullname;
-      		$arrRecursiveMenu[$key]["alias"]=$alias;      
-      		$arrRecursiveMenu[$key]["parent_id"]=$parent_id;      		
-      		$arrRecursiveMenu[$key]["image"]=$image;      
-      		$arrRecursiveMenu[$key]["sort_order"]=$sort_order;
-      		$arrRecursiveMenu[$key]["status"]=$status;
-      		$arrRecursiveMenu[$key]["created_at"]=$created_at;
-      		$arrRecursiveMenu[$key]["updated_at"]=$updated_at;
-          $arrRecursiveMenu[$key]["edited"]=$edited;
-          $arrRecursiveMenu[$key]["deleted"]=$deleted;
-      		categoryArticleRecursive($data,$id,$str."--------",$arrRecursiveMenu);
+      $arrRecursiveMenu[$key]["checked"]=$checked;
+      $arrRecursiveMenu[$key]["is_checked"]=$is_checked;
+      $arrRecursiveMenu[$key]["id"]=$id;
+      $arrRecursiveMenu[$key]["fullname"]=$str . $fullname;    
+      $arrRecursiveMenu[$key]["parent_fullname"]=$parent_fullname;
+      $arrRecursiveMenu[$key]["alias"]=$alias;      
+      $arrRecursiveMenu[$key]["parent_id"]=$parent_id;      		
+      $arrRecursiveMenu[$key]["image"]=$image;      
+      $arrRecursiveMenu[$key]["sort_order"]=$sort_order;
+      $arrRecursiveMenu[$key]["status"]=$status;
+      $arrRecursiveMenu[$key]["created_at"]=$created_at;
+      $arrRecursiveMenu[$key]["updated_at"]=$updated_at;
+      $arrRecursiveMenu[$key]["edited"]=$edited;
+      $arrRecursiveMenu[$key]["deleted"]=$deleted;
+      categoryArticleRecursive($data,$id,$str."--------",$arrRecursiveMenu);
     }
   }  
 }

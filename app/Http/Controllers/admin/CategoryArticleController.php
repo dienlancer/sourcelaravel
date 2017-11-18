@@ -246,35 +246,15 @@ class CategoryArticleController extends Controller {
             );
             return $info;
       }
-      public function updateStatus(Request $request){
-            $str_id                 =   $request->str_id;   
-            $status                 =   $request->status;  
-            $arrID                 =   explode(",", $str_id)  ;
-            $checked                =   1;
-            $type_msg               =   "alert-success";
-            $msg                    =   "Update successfully";             
-            if(empty($str_id)){
-                $checked                =   0;
-                $type_msg               =   "alert-warning";            
-                $msg                    =   "Please choose at least one item to delete";
-            }
-            if($checked==1){
-                foreach ($arrID as $key => $value) {
-                      if(!empty($value)){
-                        $item=CategoryArticleModel::find($value);
-                        $item->status=$status;
-                        $item->save();      
-                      }            
-                }
-            }         
-            $data                   =   $this->loadData($request);
-            $info = array(
-              'checked'           => $checked,
-              'type_msg'          => $type_msg,                
-              'msg'               => $msg,                
-              'data'              => $data
-            );
-            return $info;
+      public function updateStatus($status){
+        echo "<pre>".print_r(__METHOD__,true)."</pre>";
+        /*$arrID=$_POST["cid"];
+        foreach ($arrID as $key => $value) {
+          $item=CategoryArticleModel::find($value);
+          $item->status=$status;
+          $item->save();    
+        }
+        return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("content"=>"Đã lưu")]);   */
       }
       public function trash(Request $request){
             $str_id                 =   $request->str_id;   

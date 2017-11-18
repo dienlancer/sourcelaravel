@@ -14,6 +14,7 @@ function categoryArticleConverter($data=array(),$controller){
             }
             $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["status"],$kicked).'</center>';
             $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';
+            
             $link_image="";
             $image="";
             if(!empty($data[$i]["image"])){
@@ -21,7 +22,7 @@ function categoryArticleConverter($data=array(),$controller){
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }            
             $result[$i] = array(
-                'checked'                  =>   '<input type="checkbox" onclick="checkWithList(this)" name="cid" value="'.$data[$i]["is_checked"].'" />',
+                'checked'                  =>   '<input type="checkbox"  name="cid[]" value="'.$data[$i]["id"].'" />',
                 'is_checked'               =>   0,
                 "id"                       =>   $data[$i]["id"],
                 "fullname"                 =>   $data[$i]["fullname"],

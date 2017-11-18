@@ -117,7 +117,7 @@ Route::group(["prefix"=>"admin","middleware"=>"TestLogin"],function(){
 		Route::post("save",["as"=>"admin.category-article.save","uses"=>"admin\CategoryArticleController@save"]);
 		Route::post("delete-item",["as"=>"admin.category-article.deleteItem","uses"=>"admin\CategoryArticleController@deleteItem"]);		
 		Route::post("sort-order",["as"=>"admin.category-article.sortOrder","uses"=>"admin\CategoryArticleController@sortOrder"]);
-		Route::post("update-status",["as"=>"admin.category-article.updateStatus","uses"=>"admin\CategoryArticleController@updateStatus"]);
+		Route::post("update-status/{status}",["as"=>"admin.category-article.updateStatus","uses"=>"admin\CategoryArticleController@updateStatus"]);
 		Route::post("change-status",["as"=>"admin.category-article.changeStatus","uses"=>"admin\CategoryArticleController@changeStatus"]);
 		Route::post("trash",["as"=>"admin.category-article.trash","uses"=>"admin\CategoryArticleController@trash"]);
 		Route::post("upload-file",["as"=>"admin.category-article.uploadFile","uses"=>"admin\CategoryArticleController@uploadFile"]);

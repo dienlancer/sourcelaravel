@@ -40,7 +40,7 @@ function changePaymentMethod(ajaxurl,id)	{
 			data		: dataObj,
 			dataType	: "json",
 			success		: function(data, status, jsXHR){
-							console.log(data.content);
+	
 							jQuery("#payment_method_content").empty();
 							if(data != null){
 								jQuery("#payment_method_content").append(data.content);
@@ -48,20 +48,14 @@ function changePaymentMethod(ajaxurl,id)	{
 						}
 		});
 }
-function xacnhanxoa(msg){if(window.confirm(msg)){return true;}return false;}
 function changePage(page){
 	$sjc('input[name=filter_page]').val(page);$sjc('.frm')[0].submit();}
-function move(source,destination){
-	var groupSource=$sjc("."+source)[0];
-	var groupDestination=$sjc("."+destination)[0];
-	var selected=$sjc(groupSource).children("option:selected");$sjc(groupDestination).append(selected);
-}
 function isNumberKey(evt){var hopLe=true;var charCode=(evt.which)?evt.which:event.keyCode;if(charCode>31&&(charCode<48||charCode>57))hopLe=false;return hopLe;}
 function checkRegister() {
     var hopLe=true;
     var strMsg="";
-    var fullname=document.getElementById("txtFullName").value;
-    var phone=document.getElementById("txtPhone").value;
+    var fullname=document.getElementById("fullname").value;
+    var phone=document.getElementById("phone").value;
     if(fullname=="") {
         hopLe=false;
         strMsg="Vui lòng điền tên";
