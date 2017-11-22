@@ -116,7 +116,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                     <table class="table table-striped table-bordered table-hover table-checkable order-column" id="tbl-article-module-item">
                         <thead>
                             <tr>
-                                <th width="1%"><input type="checkbox" onclick="checkAllAgent(this)"  name="checkall-toggle"></th>                
+                                <th width="1%"><input type="checkbox" onclick="checkAllAgentArticle(this)"  name="checkall-toggle"></th>                
                                 <th width="1%">ID</th>
                                 <th>Fullname</th>
                                 <th>Alias</th>
@@ -163,7 +163,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                     <table class="table table-striped table-bordered table-hover table-checkable order-column" id="tbl-product-module-item">
                         <thead>
                             <tr>
-                                <th width="1%"><input type="checkbox" onclick="checkAllAgent(this)"  name="checkall-toggle"></th>                
+                                <th width="1%"><input type="checkbox" onclick="checkAllAgentProduct(this)"  name="checkall-toggle"></th>                
                                 <th width="1%">ID</th>
                                 <th>Fullname</th>
                                 <th>Alias</th>
@@ -183,26 +183,26 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
 </div>
 <script type="text/javascript" language="javascript">
     function checkWithListArticle(this_checkbox){
-        var dr = vArticleTable.row( $(this_checkbox).closest('tr') ).data();            
+        var dr = vArticleModuleItemTable.row( $(this_checkbox).closest('tr') ).data();            
         if(parseInt(dr['is_checked']) == 0){
-            dr['checked'] ='<input type="checkbox" checked onclick="checkWithList(this)" name="cid" />';
+            dr['checked'] ='<input type="checkbox" checked onclick="checkWithListArticle(this)" name="cid" />';
             dr['is_checked'] = 1;
         }else{
-            dr['checked'] ='<input type="checkbox" onclick="checkWithList(this)" name="cid" />';
+            dr['checked'] ='<input type="checkbox" onclick="checkWithListArticle(this)" name="cid" />';
             dr['is_checked'] = 0;
         }
-        vArticleTable.row( $(this_checkbox).closest('tr') ).data(dr);
+        vArticleModuleItemTable.row( $(this_checkbox).closest('tr') ).data(dr);
     }   
     function checkWithListProduct(this_checkbox){
-        var dr = vProductTable.row( $(this_checkbox).closest('tr') ).data();            
+        var dr = vProductModuleItemTable.row( $(this_checkbox).closest('tr') ).data();            
         if(parseInt(dr['is_checked']) == 0){
-            dr['checked'] ='<input type="checkbox" checked onclick="checkWithList(this)" name="cid" />';
+            dr['checked'] ='<input type="checkbox" checked onclick="checkWithListProduct(this)" name="cid" />';
             dr['is_checked'] = 1;
         }else{
-            dr['checked'] ='<input type="checkbox" onclick="checkWithList(this)" name="cid" />';
+            dr['checked'] ='<input type="checkbox" onclick="checkWithListProduct(this)" name="cid" />';
             dr['is_checked'] = 0;
         }
-        vProductTable.row( $(this_checkbox).closest('tr') ).data(dr);
+        vProductModuleItemTable.row( $(this_checkbox).closest('tr') ).data(dr);
     }   
     function getListArticle() {    
         var token = $('form[name="frm-article"] > input[name="_token"]').val(); 
