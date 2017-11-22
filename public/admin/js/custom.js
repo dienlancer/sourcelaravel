@@ -75,3 +75,7 @@ $(document).ready(function(){
 	});
 	timeout = setTimeout(hideMsg, second_timeout,'alert');			
 });
+$(document).ready(function(){
+		basicTable.init();
+
+	});

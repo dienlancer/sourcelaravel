@@ -19,6 +19,9 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
 ?>
 <div class="portlet light bordered">
     <div class="portlet-title">
+        <div class="alert alert-success" id="alert" style="display: none">
+                <strong>Success!</strong> 
+            </div>
         <div class="caption">
             <i class="{{$icon}}"></i>
             <span class="caption-subject font-dark sbold uppercase">{{$title}}</span>
@@ -257,7 +260,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             type: 'POST', 
             data: dataItem,
             success: function (data, status, jqXHR) {                  
-                basicTable.init();
+                
                 vArticleModuleItemTable.clear().draw();
                 vArticleModuleItemTable.rows.add(data).draw();
                 spinner.hide();
@@ -280,8 +283,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             url: '<?php echo $linkLoadDataProduct; ?>',
             type: 'POST', 
             data: dataItem,
-            success: function (data, status, jqXHR) {                  
-                basicTable.init();
+            success: function (data, status, jqXHR) {                                  
                 vProductModuleItemTable.clear().draw();
                 vProductModuleItemTable.rows.add(data).draw();
                 spinner.hide();
@@ -292,7 +294,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
         });
     }     
     function insertArticle(){
-        var dt      =   vArticleModuleItemTable.data();
+        var dt      =   vArticleModuleItemTable.data();        
         var str_id  =   "";     
         for(var i=0;i<dt.length;i++){
             var dr=dt[i];
@@ -302,25 +304,30 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                 str_id +=id+",";      
             }
         }
-        var token = $('form[name="frm-article"] > input[name="_token"]').val(); 
-        var dataItem ={   
-            'str_id':str_id,    
-            '_token': token
-        };      
-        $.ajax({
-            url: '<?php echo $linkInsertArticle; ?>',
-            type: 'POST',                        
-            data: dataItem,
-            success: function (data, status, jqXHR) { 
-                $('#modal-article').modal('hide');                                                                          
-                vItemTable.clear().draw();
-                vItemTable.rows.add(data).draw();
-                spinner.hide();
-            },
-            beforeSend  : function(jqXHR,setting){
-                spinner.show();
-            },
-        });
+        console.log(str_id);
+        if(str_id == ''){
+            alert('Please choose at least one item');    
+        }else{
+            var token = $('form[name="frm-article"] > input[name="_token"]').val(); 
+            var dataItem ={   
+                'str_id':str_id,    
+                '_token': token
+            };      
+            $.ajax({
+                url: '<?php echo $linkInsertArticle; ?>',
+                type: 'POST',                        
+                data: dataItem,
+                success: function (data, status, jqXHR) { 
+                    vItemTable.clear().draw();
+                    vItemTable.rows.add(data).draw();
+                    spinner.hide();
+                    $('#modal-article').modal('hide');                  
+                },
+                beforeSend  : function(jqXHR,setting){
+                    spinner.show();
+                },
+            });
+        }             
     }
     function insertProduct(){
         console.log('insert product');   
@@ -442,5 +449,8 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
         }               
         $("#sort_json").val(JSON.stringify(data));
     }
+    $(document).ready(function(){
+        
+    });
 </script>
 @endsection()            

@@ -68,7 +68,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			type: 'POST', 
 			data: dataItem,
 			success: function (data, status, jqXHR) {  				
-				basicTable.init();
+				
 				vUserTable.clear().draw();
 				vUserTable.rows.add(data).draw();
 				spinner.hide();
@@ -281,6 +281,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		$("#sort_json").val(JSON.stringify(data));
 	}
 	$(document).ready(function(){
+		
 		getList();
 	});
 </script>
