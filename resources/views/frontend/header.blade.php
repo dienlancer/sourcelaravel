@@ -62,7 +62,6 @@ $arrCart=array();
   <script src="{{ asset('public/frontend/js/jquery.bxslider.min.js') }}"></script>
   <script src="{{ asset('public/frontend/js/jquery.elevatezoom-3.0.8.min.js') }}"></script>
   <script src="{{ asset('public/frontend/js/accounting.min.js') }}"></script>
-  <script src="{{ asset('public/frontend/js/product.js') }}"></script>  
   <script src="{{ asset('public/frontend/js/custom.js') }}"></script>
   <link rel="stylesheet" href="{{ asset('public/frontend/css/font-awesome.css') }}" />
   <link rel="stylesheet" href="{{ asset('public/frontend/css/bootstrap.css') }}" />
