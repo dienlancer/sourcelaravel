@@ -37,8 +37,7 @@ var basicTable = function () {
     var initItemTable = function () {
         vItemTable = $('#tbl-item').DataTable({
             columns: [                
-                { data: "checked"            },
-                { data: "id"      },
+                { data: "checked"            },                
                 { data: "fullname"      },               
                 { data: "sort_order"    },               
                 { data: "deleted"    },                
@@ -321,6 +320,7 @@ var basicTable = function () {
             initSettingSystemTable();
             initArticleModuleItemTable();
             initProductModuleItemTable();
+            initItemTable();
         }
     };
 }();

@@ -58,13 +58,32 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                 </div>      
                 <div class="row">
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-label"><b>Import data</b></label>
+                        <label class="col-md-2 control-label"><b>Import data from</b></label>
                         <div class="col-md-10">
                             <button type="button" class="btn dark btn-outline sbold uppercase btn-article" data-toggle="modal" data-target="#modal-article">ARTICLE</button>
                             <button type="button" class="btn dark btn-outline sbold uppercase btn-product" data-toggle="modal" data-target="#modal-product">PRODUCT</button>
                             <span class="help-block"></span>
                         </div>
                     </div>   
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>List</b></label>
+                        <div class="col-md-10">
+                            <table class="table table-striped table-bordered table-hover table-checkable order-column" id="tbl-item">
+                                <thead>
+                                    <tr>
+                                        <th width="1%"><input type="checkbox" onclick="checkAllAgent(this)"  name="checkall-toggle"></th>                                        
+                                        <th>Fullname</th>                                                
+                                        <th width="1%">Sort</th>                                                                                
+                                        <th width="1%">Delete</th>                
+                                    </tr>
+                                </thead>
+                                <tbody>                                                
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">  
                     <div class="form-group col-md-12">
@@ -190,6 +209,17 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
 </div>
 </div>
 <script type="text/javascript" language="javascript">
+    function checkWithList(this_checkbox){
+        var dr = vItemTable.row( $(this_checkbox).closest('tr') ).data();               
+        if(parseInt(dr['is_checked']) == 0){
+            dr['checked'] ='<input type="checkbox" checked onclick="checkWithList(this)" name="cid" />';
+            dr['is_checked'] = 1;
+        }else{
+            dr['checked'] ='<input type="checkbox" onclick="checkWithList(this)" name="cid" />';
+            dr['is_checked'] = 0;
+        }
+        vItemTable.row( $(this_checkbox).closest('tr') ).data(dr);
+    }   
     function checkWithListArticle(this_checkbox){
         var dr = vArticleModuleItemTable.row( $(this_checkbox).closest('tr') ).data();            
         if(parseInt(dr['is_checked']) == 0){
@@ -281,7 +311,8 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             type: 'POST',                        
             data: dataItem,
             success: function (data, status, jqXHR) {                                                                           
-                console.log(data);
+                vItemTable.clear().draw();
+                vItemTable.rows.add(data).draw();
                 spinner.hide();
             },
             beforeSend  : function(jqXHR,setting){
