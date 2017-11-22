@@ -38,7 +38,8 @@ var basicTable = function () {
         vItemTable = $('#tbl-item').DataTable({
             columns: [                
                 { data: "checked"            },                
-                { data: "fullname"      },               
+                { data: "fullname"      },    
+                { data: "image"      },               
                 { data: "sort_order"    },               
                 { data: "deleted"    },                
             ]

@@ -1,6 +1,28 @@
 .clr{
 	clear: both;
 }
+.margin-bottom-5{margin-bottom:5px;}
+.margin-bottom-10{margin-bottom:10px;}
+.margin-bottom-15{margin-bottom:15px;}
+.margin-bottom-30{margin-bottom:30px;}
+.margin-bottom-45{margin-bottom:45px;}
+.margin-top-5{margin-top:5px;}
+.margin-top-10{margin-top:10px;}
+.margin-top-15{margin-top:15px;}
+.margin-top-30{margin-top:30px;}
+.margin-top-45{margin-top:45px;}
+.padding-bottom-5{padding-bottom:5px;}
+.padding-bottom-15{padding-bottom:15px;}
+.padding-bottom-30{padding-bottom:30px;}
+.padding-bottom-45{padding-bottom:45px;}
+.padding-top-5{padding-top:5px;}
+.padding-top-15{padding-top:15px;}
+.padding-top-30{padding-top:30px;}
+.padding-top-45{padding-top:45px;}
+.padding-left-15{padding-left: 15px;}
+.padding-right-15{padding-right: 15px;}
+.padding-left-5{padding-left: 5px;}
+.padding-right-5{padding-right: 5px;}
 .box-ads {
     float: left;
     width: 15%;
@@ -76,25 +98,8 @@ a.jgrid:hover {	text-decoration: none;}
 div.category-modal > div.modal-dialog{
     width: 1070px;
 }
-.margin-bottom-5{margin-bottom:5px;}
-.margin-bottom-10{margin-bottom:10px;}
-.margin-bottom-15{margin-bottom:15px;}
-.margin-bottom-30{margin-bottom:30px;}
-.margin-bottom-45{margin-bottom:45px;}
-.margin-top-5{margin-top:5px;}
-.margin-top-10{margin-top:10px;}
-.margin-top-15{margin-top:15px;}
-.margin-top-30{margin-top:30px;}
-.margin-top-45{margin-top:45px;}
-.padding-bottom-5{padding-bottom:5px;}
-.padding-bottom-15{padding-bottom:15px;}
-.padding-bottom-30{padding-bottom:30px;}
-.padding-bottom-45{padding-bottom:45px;}
-.padding-top-5{padding-top:5px;}
-.padding-top-15{padding-top:15px;}
-.padding-top-30{padding-top:30px;}
-.padding-top-45{padding-top:45px;}
-.padding-left-15{padding-left: 15px;}
-.padding-right-15{padding-right: 15px;}
-.padding-left-5{padding-left: 5px;}
-.padding-right-5{padding-right: 5px;}
+
+div.sort-button{
+    float: right;
+    margin-right: 15px;
+}

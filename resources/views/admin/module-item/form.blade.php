@@ -73,12 +73,13 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                 <div class="row">
                     <div class="form-group col-md-12">
                         <label class="col-md-2 control-label"><b>List</b></label>
-                        <div class="col-md-10">
+                        <div class="col-md-10 list">
                             <table class="table table-striped table-bordered table-hover table-checkable order-column" id="tbl-item">
                                 <thead>
                                     <tr>
                                         <th width="1%"><input type="checkbox" onclick="checkAllAgent(this)"  name="checkall-toggle"></th>                                        
-                                        <th>Fullname</th>                                                
+                                        <th>Fullname</th>   
+                                        <th width="1%">Image</th>                                                
                                         <th width="1%">Sort</th>                                                                                
                                         <th width="1%">Delete</th>                
                                     </tr>
@@ -449,5 +450,12 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
         }               
         $("#sort_json").val(JSON.stringify(data));
     }    
+    function sort(){
+        console.log('sort');
+    }
+    $(document).ready(function(){
+        var sort_button='<div class="sort-button"><a href="javascript:void(0)" onclick="sort();" class="btn grey-cascade">Sort <i class="fa fa-sort"></i></a></div>';
+        $('div.list > div.dataTables_wrapper > div:first-child > div:nth-child(2)').append(sort_button);
+    })
 </script>
 @endsection()            
