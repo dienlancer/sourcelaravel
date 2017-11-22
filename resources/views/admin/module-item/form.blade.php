@@ -6,6 +6,7 @@ $linkLoadDataProduct       =   route('admin.product.loadData');
 $linkCancel             =   route('admin.'.$controller.'.getList');
 $linkSave               =   route('admin.'.$controller.'.save');
 $linkInsertArticle               =   route('admin.'.$controller.'.insertArticle');
+$linkSortItems               =   route('admin.'.$controller.'.sortItems');
 $inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"       value="'.@$arrRowData['fullname'].'">'; 
 $ddlCategoryArticle     =   cmsSelectboxCategory('category_article_id','category_article_id', 'form-control', $arrCategoryArticleRecursive, 0,"");
 $ddlCategoryProduct     =   cmsSelectboxCategory('category_product_id','category_product_id', 'form-control', $arrCategoryProductRecursive, 0,"");
@@ -37,9 +38,10 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
         </div>
     </div>
     <div class="portlet-body form">
-        <form class="form-horizontal" role="form" enctype="multipart/form-data">
+        <form class="form-horizontal" role="form" name='frm' enctype="multipart/form-data">
             {{ csrf_field() }}         
-            <input type="hidden" name="sort_json" id="sort_json" value="" />                              
+            <input type="hidden" name="sort_json" id="sort_json" value="" />   
+            <input type="hidden" name="component" id="component" value="" />                              
             <?php echo  $inputID; ?>        
             <div class="form-body">
                 <div class="row">
@@ -305,7 +307,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                 str_id +=id+",";      
             }
         }
-        console.log(str_id);
+        
         if(str_id == ''){
             alert('Please choose at least one item');    
         }else{
@@ -322,6 +324,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                     vItemTable.clear().draw();
                     vItemTable.rows.add(data).draw();
                     spinner.hide();
+                    $('#component').val('article');
                     $('#modal-article').modal('hide');                  
                 },
                 beforeSend  : function(jqXHR,setting){
@@ -331,8 +334,41 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
         }             
     }
     function insertProduct(){
-        console.log('insert product');   
-    } 
+        var dt      =   vProductModuleItemTable.data();        
+        var str_id  =   "";     
+        for(var i=0;i<dt.length;i++){
+            var dr=dt[i];
+            if(dr.is_checked==1){
+                var id=(dr.id).replace('<center>','');
+                id=id.replace('</center>','');
+                str_id +=id+",";      
+            }
+        }        
+        if(str_id == ''){
+            alert('Please choose at least one item');    
+        }else{
+            var token = $('form[name="frm-product"] > input[name="_token"]').val(); 
+            var dataItem ={   
+                'str_id':str_id,    
+                '_token': token
+            };      
+            $.ajax({
+                url: '<?php echo $linkInsertProduct; ?>',
+                type: 'POST',                        
+                data: dataItem,
+                success: function (data, status, jqXHR) { 
+                    vItemTable.clear().draw();
+                    vItemTable.rows.add(data).draw();
+                    spinner.hide();
+                    $('#component').val('product');
+                    $('#modal-product').modal('hide');                  
+                },
+                beforeSend  : function(jqXHR,setting){
+                    spinner.show();
+                },
+            });
+        }             
+    }
     function resetErrorStatus(){
         var id                   =   $("#id");
         var fullname             =   $("#fullname");        
@@ -350,9 +386,11 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
     function save(){
         var id=$("#id").val();        
         var fullname=$("#fullname").val();
-        var item_id="";        
+        var item_id=$('#sort_json').val();
+        console.log(item_id);
         var menu_id=$("#menu_id").val();
-        var position=$("#position").val();    
+        var position=$("#position").val();          
+        var component=$('#component').val();
         var status=$("#status").val();        
         var sort_order=$("#sort_order").val();        
         var token = $('input[name="_token"]').val();   
@@ -363,6 +401,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             "item_id":item_id,
             "menu_id":menu_id,
             "position":position,    
+            "component":component,
             "status":status,        
             "sort_order":sort_order,            
             "_token": token
@@ -403,55 +442,42 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                 spinner.show();
             },
         });
-    }
-    function setArticleSortOrder(ctrl){
-        var id=$(ctrl).attr("sort_order_id");
-        var giatri=$(ctrl).val();       
-        var sort_json=$("#sort_json").val();
-        var data_sort=null;
-        if(sort_json != ''){
-            data_sort=$.parseJSON(sort_json);   
-        }   
-        if(data_sort == null){
-            var token = $('input[name="_token"]').val();   
-            var dataItem={            
-                '_token': token
-            };
-            $.ajax({
-                url: '<?php echo $linkLoadDataArticle; ?>',
-                type: 'POST', 
-                             
-                data: dataItem,
-                async:false,
-                success: function (data, status, jqXHR) {       
-                    data_sort = new Array(data.length);
-                    for(var i=0;i<data_sort.length;i++){                            
-                        var sort_order_input=   $(data[i]["sort_order"]).find("input[name='sort_order']");
-                        var sort_order=parseInt($(sort_order_input).val());             
-                        id=(data[i]["id"]).replace('<center>','');
-                        id=id.replace('</center>','');                              
-                        var obj={"id":parseInt(id),"sort_order":sort_order};                        
-                        data_sort[i]=obj;
-                    }                   
-                },
-                beforeSend  : function(jqXHR,setting){
-                    
-                },
-            });
-        }           
-        var data=new Array(data_sort.length);   
-        for(var i=0;i<data_sort.length;i++){                                
-            var sort_order=parseInt(data_sort[i].sort_order);
-            if(parseInt(id)==parseInt(data_sort[i].id)){
-                sort_order=parseInt(giatri);
-            }
-            var obj={"id":data_sort[i].id,"sort_order":sort_order};
-            data[i]=obj;
-        }               
-        $("#sort_json").val(JSON.stringify(data));
     }    
     function sort(){
-        console.log('sort');
+        var tbody=$('div.list > div.dataTables_wrapper > div.table-scrollable > table > tbody');        
+        var rows=tbody[0].rows;
+        var data=new Array(rows.length);
+        for(var i=0;i<rows.length;i++){
+            var row=rows[i];
+            var cell_sort_order=row.cells[3];
+            var input_sort_order=$(cell_sort_order).find('input[name="sort_order"]');
+            var id=$(input_sort_order).attr('sort_order_id');
+            var sort_order=$(input_sort_order).val();
+            var item={
+                'id':id,
+                'sort_order':sort_order
+            };            
+            data[i]=item;
+        }
+        var data_sort=JSON.stringify(data);
+        var token = $('form[name="frm"] > input[name="_token"]').val(); 
+        var dataItem={
+            'data_sort' : data_sort,
+            "_token": token
+        };
+        $.ajax({
+            url: '<?php echo $linkSortItems; ?>',
+            type: 'POST',                        
+            data: dataItem,
+            success: function (data, status, jqXHR) { 
+                $('form[name="frm"] > input[name="sort_json"]').empty();
+                $('form[name="frm"] > input[name="sort_json"]').val(JSON.stringify(data));
+                spinner.hide();                
+            },
+            beforeSend  : function(jqXHR,setting){
+                spinner.show();
+            },
+        });        
     }
     $(document).ready(function(){
         var sort_button='<div class="sort-button"><a href="javascript:void(0)" onclick="sort();" class="btn grey-cascade">Sort <i class="fa fa-sort"></i></a></div>';

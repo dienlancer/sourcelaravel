@@ -172,28 +172,7 @@ Route::group(["prefix"=>"admin","middleware"=>"TestLogin"],function(){
 		Route::post("change-status",["as"=>"admin.menu-type.changeStatus","uses"=>"admin\MenuTypeController@changeStatus"]);
 		Route::post("trash",["as"=>"admin.menu-type.trash","uses"=>"admin\MenuTypeController@trash"]);		
 	});		
-	Route::group(["prefix"=>"module-menu"],function(){		
-		Route::get("list",["as"=>"admin.module-menu.getList","uses"=>"admin\ModuleMenuController@getList"]);
-		Route::post("load-data",["as"=>"admin.module-menu.loadData","uses"=>"admin\ModuleMenuController@loadData"]);		
-		Route::get("form/{task}/{id?}",["as"=>"admin.module-menu.getForm","uses"=>"admin\ModuleMenuController@getForm"]);
-		Route::post("save",["as"=>"admin.module-menu.save","uses"=>"admin\ModuleMenuController@save"]);
-		Route::post("delete-item",["as"=>"admin.module-menu.deleteItem","uses"=>"admin\ModuleMenuController@deleteItem"]);		
-		Route::post("sort-order",["as"=>"admin.module-menu.sortOrder","uses"=>"admin\ModuleMenuController@sortOrder"]);
-		Route::post("update-status",["as"=>"admin.module-menu.updateStatus","uses"=>"admin\ModuleMenuController@updateStatus"]);
-		Route::post("change-status",["as"=>"admin.module-menu.changeStatus","uses"=>"admin\ModuleMenuController@changeStatus"]);
-		Route::post("trash",["as"=>"admin.module-menu.trash","uses"=>"admin\ModuleMenuController@trash"]);		
-	});
-	Route::group(["prefix"=>"module-article"],function(){		
-		Route::get("list",["as"=>"admin.module-article.getList","uses"=>"admin\ModuleArticleController@getList"]);
-		Route::post("load-data",["as"=>"admin.module-article.loadData","uses"=>"admin\ModuleArticleController@loadData"]);		
-		Route::get("form/{task}/{id?}",["as"=>"admin.module-article.getForm","uses"=>"admin\ModuleArticleController@getForm"]);
-		Route::post("save",["as"=>"admin.module-article.save","uses"=>"admin\ModuleArticleController@save"]);
-		Route::post("delete-item",["as"=>"admin.module-article.deleteItem","uses"=>"admin\ModuleArticleController@deleteItem"]);		
-		Route::post("sort-order",["as"=>"admin.module-article.sortOrder","uses"=>"admin\ModuleArticleController@sortOrder"]);
-		Route::post("update-status",["as"=>"admin.module-article.updateStatus","uses"=>"admin\ModuleArticleController@updateStatus"]);
-		Route::post("change-status",["as"=>"admin.module-article.changeStatus","uses"=>"admin\ModuleArticleController@changeStatus"]);
-		Route::post("trash",["as"=>"admin.module-article.trash","uses"=>"admin\ModuleArticleController@trash"]);		
-	});
+	
 	Route::group(["prefix"=>"module-item"],function(){		
 		Route::get("list",["as"=>"admin.module-item.getList","uses"=>"admin\ModuleItemController@getList"]);
 		Route::post("load-data",["as"=>"admin.module-item.loadData","uses"=>"admin\ModuleItemController@loadData"]);		
@@ -204,7 +183,9 @@ Route::group(["prefix"=>"admin","middleware"=>"TestLogin"],function(){
 		Route::post("update-status",["as"=>"admin.module-item.updateStatus","uses"=>"admin\ModuleItemController@updateStatus"]);
 		Route::post("change-status",["as"=>"admin.module-item.changeStatus","uses"=>"admin\ModuleItemController@changeStatus"]);
 		Route::post("trash",["as"=>"admin.module-item.trash","uses"=>"admin\ModuleItemController@trash"]);		
-		Route::post("insert-article",["as"=>"admin.module-item.insertArticle","uses"=>"admin\ModuleItemController@insertArticle"]);		
+		Route::post("insert-article",["as"=>"admin.module-item.insertArticle","uses"=>"admin\ModuleItemController@insertArticle"]);	
+		Route::post("insert-product",["as"=>"admin.module-item.insertProducte","uses"=>"admin\ModuleItemController@insertProducte"]);	
+		Route::post("sort-items",["as"=>"admin.module-item.sortItems","uses"=>"admin\ModuleItemController@sortItems"]);		
 	});
 	Route::group(["prefix"=>"media"],function(){		
 		Route::get("list",["as"=>"admin.media.getList","uses"=>"admin\MediaController@getList"]);

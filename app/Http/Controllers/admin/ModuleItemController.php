@@ -54,8 +54,9 @@ class ModuleItemController extends Controller {
      public function save(Request $request){
           $id 					        =		trim($request->id);        
           $fullname 				    =		trim($request->fullname);
-          $item_id           =   trim($request->item_id);                    
-          $position 					  = 	trim($request->position);  
+          $item_id              =   trim($request->item_id);                    
+          $position 					  = 	trim($request->position);
+          $component            =   trim($request->component);  
           $status               =   trim($request->status);        
           $sort_order           =   trim($request->sort_order);                  
           $data 		            =   array();
@@ -98,8 +99,10 @@ class ModuleItemController extends Controller {
                     $item				        =	ModuleItemModel::find((int)@$id);                        		 
                 }  
                 $item->fullname 		    =	$fullname;
-                $item->item_id       = $item_id;
+                $item->item_id          = $item_id;
+
                 $item->position 		    =	$position;  
+                $item->component        = $component;  
                 $item->status           = (int)$status;                  
                 $item->sort_order 	    =	(int)$sort_order;                
                 $item->updated_at 	    =	date("Y-m-d H:i:s",time());    	        	
@@ -248,5 +251,23 @@ class ModuleItemController extends Controller {
         $data=itemArticleConverter($data,$this->_controller);        
         return $data;
       } 
+      public function insertProduct(Request $request){
+        $str_id                 =   $request->str_id;  
+        $str_id=substr($str_id, 0,strlen($str_id) - 1);     
+        $sql = 'select 0 AS is_checked , id , fullname , image , sort_order from product where id in ('.$str_id.')';   
+        $data=DB::select($sql);       
+        $data=convertToArray($data);    
+        $data=itemProductConverter($data,$this->_controller);        
+        return $data;
+      } 
+      public function sortItems(Request $request){
+        $data=array();
+        $data_sort=$request->data_sort;
+        $data=json_decode($data_sort);
+        $data=convertToArray($data);    
+        $data=get_field_data_array($data,'sort_order');        
+        ksort($data);        
+        return $data;
+      }
 }
 ?>

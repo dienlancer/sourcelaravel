@@ -598,13 +598,39 @@ function itemArticleConverter($data=array(),$controller){
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){            
             $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.asset("/public/admin/images/delete-icon.png").'" /></a></center>';            
-            $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setArticleSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';            
+            $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'"  value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';            
             $id=$data[$i]["id"]; 
             $image="";
             if(!empty($data[$i]["image"])){
                 $link_image=url("/resources/upload/".$data[$i]["image"]);            
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }         
+            $result[$i] = array(
+                'checked'                  =>   '<input type="checkbox" onclick="checkWithList(this)" name="cid" value="'.$data[$i]["is_checked"].'" />',
+                'is_checked'               =>   0,
+                "id"                       =>   $id,
+                "fullname"                 =>   $data[$i]["fullname"],     
+                "image"                    =>   $image,                                             
+                "sort_order"               =>   $sort_order,                                            
+                "deleted"                  =>   $deleted
+            );
+        }
+    }
+    return $result;
+}
+function itemProductConverter($data=array(),$controller){        
+    $result = array();
+    $dataSettingSystem= getSettingSystem();
+    if( count($data) > 0){
+        for($i = 0 ;$i < count($data);$i++){            
+            $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.asset("/public/admin/images/delete-icon.png").'" /></a></center>';            
+            $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'"  value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';            
+            $id=$data[$i]["id"]; 
+            $image="";
+            if(!empty($data[$i]["image"])){
+                $link_image=url("/resources/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".$data[$i]["image"]);            
+                $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
+            }          
             $result[$i] = array(
                 'checked'                  =>   '<input type="checkbox" onclick="checkWithList(this)" name="cid" value="'.$data[$i]["is_checked"].'" />',
                 'is_checked'               =>   0,
