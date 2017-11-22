@@ -68,7 +68,7 @@ function articleConverter($data=array(),$controller){
             }       
             $id='<center>'.$data[$i]["id"].'</center>';       
             $result[$i] = array(
-                'checked'                  =>   '<input type="checkbox" onclick="checkWithList(this)" name="cid" value="'.$data[$i]["is_checked"].'" />',
+                'checked'                  =>   '<input type="checkbox" onclick="checkWithListArticle(this)" name="cid" value="'.$data[$i]["is_checked"].'" />',
                 'is_checked'               =>   0,
                 "id"                       =>   $id,
                 "fullname"                 =>   $data[$i]["fullname"],                
@@ -218,7 +218,7 @@ function productConverter($data=array(),$controller){
             }          
             $id='<center>'.$data[$i]["id"].'</center>';  
             $result[$i] = array(
-                'checked'                  =>   '<input type="checkbox" onclick="checkWithList(this)" name="cid" value="'.$data[$i]["is_checked"].'" />',
+                'checked'                  =>   '<input type="checkbox" onclick="checkWithListProduct(this)" name="cid" value="'.$data[$i]["is_checked"].'" />',
                 'is_checked'               =>   0,
                 "id"                       =>   $id,
                 "code"                     =>   $data[$i]["code"],

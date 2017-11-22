@@ -7,6 +7,7 @@ $linkCancel             =   route('admin.'.$controller.'.getList');
 $linkSave               =   route('admin.'.$controller.'.save');
 $inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"       value="'.@$arrRowData['fullname'].'">'; 
 $ddlCategoryArticle     =   cmsSelectboxCategory('category_article_id','category_article_id', 'form-control', $arrCategoryArticleRecursive, 0,"");
+$ddlCategoryProduct     =   cmsSelectboxCategory('category_product_id','category_product_id', 'form-control', $arrCategoryProductRecursive, 0,"");
 $inputPosition          =   '<input type="text" class="form-control" name="position"   id="position"       value="'.@$arrRowData['position'].'">'; 
 $status                 =   (count($arrRowData) > 0) ? @$arrRowData['status'] : 1 ;
 $arrStatus              =   array(-1 => '- Select status -', 1 => 'Publish', 0 => 'Unpublish');  
@@ -58,8 +59,8 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                     <div class="form-group col-md-12">
                         <label class="col-md-2 control-label"><b>Import data</b></label>
                         <div class="col-md-10">
-                            <button type="button" class="btn dark btn-outline sbold uppercase btn-article" data-toggle="modal" data-target="#modal-article" onclick="showArticleModal();">ARTICLE</button>
-                            <button type="button" class="btn dark btn-outline sbold uppercase btn-product">PRODUCT</button>
+                            <button type="button" class="btn dark btn-outline sbold uppercase btn-article" data-toggle="modal" data-target="#modal-article">ARTICLE</button>
+                            <button type="button" class="btn dark btn-outline sbold uppercase btn-product" data-toggle="modal" data-target="#modal-product">PRODUCT</button>
                             <span class="help-block"></span>
                         </div>
                     </div>   
@@ -107,7 +108,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                 </div>            
                 <div class="col-md-2">
                     <div>&nbsp;</div>
-                    <div><button type="button" class="btn dark btn-outline sbold uppercase btn-product" onclick="getList();">Search</button></div>                
+                    <div><button type="button" class="btn dark btn-outline sbold uppercase btn-product" onclick="getListArticle();">Search</button></div>                
                 </div>
             </div>   
             <div class="row margin-top-15">
@@ -133,9 +134,56 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
 </div>
 </div>
 </div>
+<div class="modal fade category-modal" id="modal-product" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">  
+          <b>PRODUCT LIST      </b>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>        
+      </div>
+      <div class="modal-body">
+        <form name="frm-product">
+            {{ csrf_field() }}
+            <div class="row">
+                <div class="col-md-4">
+                    <div><b>CATEGORY PRODUCT</b>  </div>
+                    <div><?php echo $ddlCategoryProduct ; ?></div>
+                </div>            
+                <div class="col-md-4">
+                    <div><b>PRODUCT NAME</b>  </div>
+                    <div><input type="text" class="form-control" name="filter_search"          value=""></div>
+                </div>            
+                <div class="col-md-2">
+                    <div>&nbsp;</div>
+                    <div><button type="button" class="btn dark btn-outline sbold uppercase btn-product" onclick="getListProduct();">Search</button></div>                
+                </div>
+            </div>   
+            <div class="row margin-top-15">
+                <div class="col-md-12">
+                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="tbl-product-module-item">
+                        <thead>
+                            <tr>
+                                <th width="1%"><input type="checkbox" onclick="checkAllAgent(this)"  name="checkall-toggle"></th>                
+                                <th width="1%">ID</th>
+                                <th>Fullname</th>
+                                <th>Alias</th>
+                                <th width="1%">Image</th>                                
+                                
+                            </tr>
+                        </thead>
+                        <tbody>                                                
+                        </tbody>
+                    </table>
+                </div>            
+            </div>     
+        </form>        
+    </div>      
+</div>
+</div>
+</div>
 <script type="text/javascript" language="javascript">
-    function checkWithList(this_checkbox){
-        var dr = vArticleModuleItemTable.row( $(this_checkbox).closest('tr') ).data();            
+    function checkWithListArticle(this_checkbox){
+        var dr = vArticleTable.row( $(this_checkbox).closest('tr') ).data();            
         if(parseInt(dr['is_checked']) == 0){
             dr['checked'] ='<input type="checkbox" checked onclick="checkWithList(this)" name="cid" />';
             dr['is_checked'] = 1;
@@ -143,28 +191,60 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             dr['checked'] ='<input type="checkbox" onclick="checkWithList(this)" name="cid" />';
             dr['is_checked'] = 0;
         }
-        vArticleModuleItemTable.row( $(this_checkbox).closest('tr') ).data(dr);
-    }
-    function getList() {    
+        vArticleTable.row( $(this_checkbox).closest('tr') ).data(dr);
+    }   
+    function checkWithListProduct(this_checkbox){
+        var dr = vProductTable.row( $(this_checkbox).closest('tr') ).data();            
+        if(parseInt(dr['is_checked']) == 0){
+            dr['checked'] ='<input type="checkbox" checked onclick="checkWithList(this)" name="cid" />';
+            dr['is_checked'] = 1;
+        }else{
+            dr['checked'] ='<input type="checkbox" onclick="checkWithList(this)" name="cid" />';
+            dr['is_checked'] = 0;
+        }
+        vProductTable.row( $(this_checkbox).closest('tr') ).data(dr);
+    }   
+    function getListArticle() {    
         var token = $('form[name="frm-article"] > input[name="_token"]').val(); 
         var category_article_id=$('#category_article_id').val();
         var filter_search=$('form[name="frm-article"] input[name="filter_search"]').val();
         var dataItem={            
             '_token': token,
             'filter_search':filter_search,
-            'category_article_id':category_article_id
-            
+            'category_article_id':category_article_id            
         };
-
         $.ajax({
             url: '<?php echo $linkLoadDataArticle; ?>',
             type: 'POST', 
             data: dataItem,
-            success: function (data, status, jqXHR) {  
-                
+            success: function (data, status, jqXHR) {                  
                 basicTable.init();
                 vArticleModuleItemTable.clear().draw();
                 vArticleModuleItemTable.rows.add(data).draw();
+                spinner.hide();
+            },
+            beforeSend  : function(jqXHR,setting){
+                spinner.show();
+            },
+        });
+    }      
+    function getListProduct() {    
+        var token = $('form[name="frm-product"] > input[name="_token"]').val(); 
+        var category_product_id=$('#category_product_id').val();
+        var filter_search=$('form[name="frm-product"] input[name="filter_search"]').val();
+        var dataItem={            
+            '_token': token,
+            'filter_search':filter_search,
+            'category_product_id':category_product_id        
+        };
+        $.ajax({
+            url: '<?php echo $linkLoadDataProduct; ?>',
+            type: 'POST', 
+            data: dataItem,
+            success: function (data, status, jqXHR) {                  
+                basicTable.init();
+                vProductModuleItemTable.clear().draw();
+                vProductModuleItemTable.rows.add(data).draw();
                 spinner.hide();
             },
             beforeSend  : function(jqXHR,setting){
@@ -243,8 +323,6 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             },
         });
     }
-    function showArticleModal() {
-        console.log('article');
-    }
+   
 </script>
 @endsection()            

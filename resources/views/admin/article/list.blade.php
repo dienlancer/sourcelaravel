@@ -40,7 +40,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			<table class="table table-striped table-bordered table-hover table-checkable order-column" id="tbl-article">
 				<thead>
 					<tr>
-						<th width="1%"><input type="checkbox" onclick="checkAllAgent(this)"  name="checkall-toggle"></th>                
+						<th width="1%"><input type="checkbox" onclick="checkAllAgentArticle(this)"  name="checkall-toggle"></th>                
 						<th width="1%">ID</th>
 						<th>Fullname</th>
 						<th>Alias</th>
@@ -80,13 +80,13 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			},
 		});
 	}	
-	function checkWithList(this_checkbox){
+	function checkWithListArticle(this_checkbox){
 		var dr = vArticleTable.row( $(this_checkbox).closest('tr') ).data();       		
 		if(parseInt(dr['is_checked']) == 0){
-			dr['checked'] ='<input type="checkbox" checked onclick="checkWithList(this)" name="cid" />';
+			dr['checked'] ='<input type="checkbox" checked onclick="checkWithListArticle(this)" name="cid" />';
 			dr['is_checked'] = 1;
 		}else{
-			dr['checked'] ='<input type="checkbox" onclick="checkWithList(this)" name="cid" />';
+			dr['checked'] ='<input type="checkbox" onclick="checkWithListArticle(this)" name="cid" />';
 			dr['is_checked'] = 0;
 		}
 		vArticleTable.row( $(this_checkbox).closest('tr') ).data(dr);
@@ -144,14 +144,17 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		});
 		$("input[name='checkall-toggle']").prop("checked",false);
 	}
-	function updateStatus(status){		
+	function updateStatus(status){				
 		var token 	= 	$('input[name="_token"]').val();   
 		var dt 		= 	vArticleTable.data();
+
 		var str_id	=	"";		
 		for(var i=0;i<dt.length;i++){
 			var dr=dt[i];
 			if(dr.is_checked==1){
-				str_id +=dr.id+",";	            
+				var id=(dr.id).replace('<center>','');
+				id=id.replace('</center>','');
+				str_id +=id+",";      
 			}
 		}
 		var dataItem ={   
@@ -159,6 +162,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			'status':status,			
 			'_token': token
 		};
+		console.log(dataItem);
 		$.ajax({
 			url: '<?php echo $linkUpdateStatus; ?>',
 			type: 'POST', 
@@ -174,7 +178,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 				spinner.show();
 			},
 		});
-		$("input[name='checkall-toggle']").prop("checked",false);		
+		$("input[name='checkall-toggle']").prop("checked",false);	
 	}
 	function trash(){	
 		var xac_nhan = 0;

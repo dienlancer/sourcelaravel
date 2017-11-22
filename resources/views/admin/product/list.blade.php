@@ -40,7 +40,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			<table class="table table-striped table-bordered table-hover table-checkable order-column" id="tbl-product">
 				<thead>
 					<tr>
-						<th width="1%"><input type="checkbox" onclick="checkAllAgent(this)"  name="checkall-toggle"></th>                
+						<th width="1%"><input type="checkbox" onclick="checkAllAgentProduct(this)"  name="checkall-toggle"></th>                
 						<th width="1%">ID</th>
 						<th>Fullname</th>
 						<th>Alias</th>
@@ -80,13 +80,13 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			},
 		});
 	}	
-	function checkWithList(this_checkbox){
+	function checkWithListProduct(this_checkbox){
 		var dr = vProductTable.row( $(this_checkbox).closest('tr') ).data();       		
 		if(parseInt(dr['is_checked']) == 0){
-			dr['checked'] ='<input type="checkbox" checked onclick="checkWithList(this)" name="cid" />';
+			dr['checked'] ='<input type="checkbox" checked onclick="checkWithListProduct(this)" name="cid" />';
 			dr['is_checked'] = 1;
 		}else{
-			dr['checked'] ='<input type="checkbox" onclick="checkWithList(this)" name="cid" />';
+			dr['checked'] ='<input type="checkbox" onclick="checkWithListProduct(this)" name="cid" />';
 			dr['is_checked'] = 0;
 		}
 		vProductTable.row( $(this_checkbox).closest('tr') ).data(dr);
@@ -151,7 +151,9 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		for(var i=0;i<dt.length;i++){
 			var dr=dt[i];
 			if(dr.is_checked==1){
-				str_id +=dr.id+",";	            
+				var id=(dr.id).replace('<center>','');
+				id=id.replace('</center>','');
+				str_id +=id+",";	
 			}
 		}
 		var dataItem ={   

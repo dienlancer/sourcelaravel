@@ -8,7 +8,25 @@ function checkAllAgent(cid){
 	$(tr).find(':checkbox').each(function(){
 		checkWithList(this);
 	});
+}  
+function checkAllAgentArticle(cid){
+	var tbl=$(cid).closest("table");	
+	var checkStatus = cid.checked;
+	var tbody=$(tbl).find("tbody");
+	var tr=(tbody).children("tr");	
+	$(tr).find(':checkbox').each(function(){
+		checkWithListArticle(this);
+	});
 }   
+function checkAllAgentProduct(cid){
+	var tbl=$(cid).closest("table");	
+	var checkStatus = cid.checked;
+	var tbody=$(tbl).find("tbody");
+	var tr=(tbody).children("tr");	
+	$(tr).find(':checkbox').each(function(){
+		checkWithListProduct(this);
+	});
+} 
 function showMsg(ctrlID,msg,type_msg){		
 	$('#'+ctrlID).removeClass();	
 	$('#'+ctrlID).addClass("alert");			

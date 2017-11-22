@@ -6,6 +6,7 @@ use App\ModuleItemModel;
 use App\MenuTypeModel;
 use App\MenuModel;
 use App\CategoryArticleModel;
+use App\CategoryProductModel;
 use DB;
 class ModuleItemController extends Controller {
   	var $_controller="module-item";	
@@ -37,18 +38,18 @@ class ModuleItemController extends Controller {
        case 'edit':
        $title=$this->_title . " : Update";
        $arrRowData=ModuleItemModel::find(@$id)->toArray();  
-
-
-
        break;
        case 'add':
        $title=$this->_title . " : Add new";
        break;     
      }    
      $arrCategoryArticle=CategoryArticleModel::select("id","fullname","parent_id")->orderBy("sort_order","asc")->get()->toArray();
+     $arrCategoryProduct=CategoryProductModel::select("id","fullname","parent_id")->orderBy("sort_order","asc")->get()->toArray();
      $arrCategoryArticleRecursive=array();      
+     $arrCategoryProductRecursive=array();      
      categoryArticleRecursiveForm($arrCategoryArticle ,0,"",$arrCategoryArticleRecursive)  ;    
-     return view("admin.".$this->_controller.".form",compact("arrRowData","controller","task","title","icon","arrCategoryArticleRecursive"));
+     categoryProductRecursiveForm($arrCategoryProduct ,0,"",$arrCategoryProductRecursive)  ;         
+     return view("admin.".$this->_controller.".form",compact("arrRowData","controller","task","title","icon","arrCategoryArticleRecursive","arrCategoryProductRecursive"));
    }
      public function save(Request $request){
           $id 					        =		trim($request->id);        
