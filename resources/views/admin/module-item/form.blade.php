@@ -6,6 +6,7 @@ $linkLoadDataProduct       =   route('admin.product.loadData');
 $linkCancel             =   route('admin.'.$controller.'.getList');
 $linkSave               =   route('admin.'.$controller.'.save');
 $linkInsertArticle               =   route('admin.'.$controller.'.insertArticle');
+$linkInsertProduct               =   route('admin.'.$controller.'.insertProduct');
 $linkSortItems               =   route('admin.'.$controller.'.sortItems');
 $inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"       value="'.@$arrRowData['fullname'].'">'; 
 $ddlCategoryArticle     =   cmsSelectboxCategory('category_article_id','category_article_id', 'form-control', $arrCategoryArticleRecursive, 0,"");
