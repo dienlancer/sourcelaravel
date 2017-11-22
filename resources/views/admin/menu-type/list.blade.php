@@ -40,6 +40,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 						<th>Fullname</th>	
 						<th>Theme location</th>					
 						<th width="1%">Sort</th>					
+						<th width="1%">Menu</th>
 						<th width="1%">Edit</th>  
 						<th width="1%">Delete</th>                  
 					</tr>

@@ -91,8 +91,10 @@ function menuTypeConverter($data=array(),$controller){
         for($i = 0 ;$i < count($data);$i++){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.asset("/public/admin/images/edit-icon.png").'" /></a></center>';
             $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.asset("/public/admin/images/delete-icon.png").'" /></a></center>';            
+            $entranced='<center><a href="'.route('admin.menu.getList',[$data[$i]['id']]).'"><img src="'.asset("/public/admin/images/entrance.png").'" /></a></center>';
             $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';        
-            $fullname = '<a href="'.route('admin.menu.getList',[$data[$i]['id']]).'">'.$data[$i]["fullname"].'</a>';
+            $fullname =$data[$i]["fullname"];
+
             $result[$i] = array(
                 'checked'                  =>   '<input type="checkbox" onclick="checkWithList(this)" name="cid" value="'.$data[$i]["is_checked"].'" />',
                 'is_checked'               =>   0,
@@ -102,8 +104,9 @@ function menuTypeConverter($data=array(),$controller){
                 "sort_order"               =>   $sort_order,                
                 "created_at"               =>   datetimeConverterVn($data[$i]["created_at"]),
                 "updated_at"               =>   datetimeConverterVn($data[$i]["updated_at"]),
+                "entranced"                =>   $entranced,
                 "edited"                   =>   $edited,
-                "deleted"                  =>   $deleted
+                "deleted"                  =>   $deleted                
             );
         }
     }

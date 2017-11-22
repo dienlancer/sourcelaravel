@@ -448,9 +448,6 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             data[i]=obj;
         }               
         $("#sort_json").val(JSON.stringify(data));
-    }
-    $(document).ready(function(){
-        
-    });
+    }    
 </script>
 @endsection()            

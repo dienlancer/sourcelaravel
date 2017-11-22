@@ -88,6 +88,7 @@ var basicTable = function () {
                 { data: "fullname"      },   
                 { data: "theme_location"      },               
                 { data: "sort_order"    },                                                
+                { data: "entranced"    },
                 { data: "edited"    },         
                 { data: "deleted"    },                
             ]
