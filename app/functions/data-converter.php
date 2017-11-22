@@ -588,10 +588,71 @@ function invoiceConverter($data=array(),$controller){
     }
     return $result;
 }
+function articleConverter($data=array(),$controller){        
+    $result = array();
+    $dataSettingSystem= getSettingSystem();
+    if( count($data) > 0){
+        for($i = 0 ;$i < count($data);$i++){
+            $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.asset("/public/admin/images/edit-icon.png").'" /></a></center>';
+            $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.asset("/public/admin/images/delete-icon.png").'" /></a></center>';
+            $kicked=0;
+            if((int)$data[$i]["status"]==1){
+                $kicked=0;
+            }
+            else{
+                $kicked=1;
+            }
+            $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["status"],$kicked).'</center>';
+            $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';
+            $link_image="";
+            $image="";
+            if(!empty($data[$i]["image"])){
+                $link_image=url("/resources/upload/".$data[$i]["image"]);            
+                $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
+            }       
+            $id='<center>'.$data[$i]["id"].'</center>';       
+            $result[$i] = array(
+                'checked'                  =>   '<input type="checkbox" onclick="checkWithListArticle(this)" name="cid" value="'.$data[$i]["is_checked"].'" />',
+                'is_checked'               =>   0,
+                "id"                       =>   $id,
+                "fullname"                 =>   $data[$i]["fullname"],                
+                "alias"                    =>   $data[$i]["alias"],                
+                "image"                    =>   $image,
+                "sort_order"               =>   $sort_order,
+                "status"                   =>   $status,
+                "created_at"               =>   datetimeConverterVn($data[$i]["created_at"]),
+                "updated_at"               =>   datetimeConverterVn($data[$i]["updated_at"]),
+                "edited"                   =>   $edited,
+                "deleted"                  =>   $deleted
+            );
+        }
+    }
+    return $result;
+}
 function convertToArray($stdArray){
     $newArr=array();
     foreach($stdArray as $key => $value)
         $newArr[$key] = (array) $value;    
     return $newArr;
 }
+
+function get_field_data_array($array,$idField = null)
+    {
+        $_out = array();
+
+        if (is_array($array)) {
+            if ($idField == null) {
+                foreach ($array as $value) {
+                    $_out[] = $value;
+                }
+            } else {
+                foreach ($array as $value) {
+                    $_out[$value[$idField]] = $value;
+                }
+            }
+            return $_out;
+        } else {
+            return false;
+        }
+    }
 ?>

@@ -39,12 +39,8 @@ var basicTable = function () {
             columns: [                
                 { data: "checked"            },
                 { data: "id"      },
-                { data: "fullname"      },
-                { data: "alias"      },
-                { data: "image"         },
-                { data: "sort_order"    },
-                { data: "status"        },                                
-                { data: "edited"    },         
+                { data: "fullname"      },               
+                { data: "sort_order"    },               
                 { data: "deleted"    },                
             ]
         });        
