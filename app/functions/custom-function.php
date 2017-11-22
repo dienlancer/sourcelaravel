@@ -175,4 +175,23 @@ function randomString($length = 5){
     $result   = substr($arrCharacter, 0, $length);
     return $result;
 }
+function get_field_data_array($array,$idField = null)
+    {
+        $_out = array();
+
+        if (is_array($array)) {
+            if ($idField == null) {
+                foreach ($array as $value) {
+                    $_out[] = $value;
+                }
+            } else {
+                foreach ($array as $value) {
+                    $_out[$value[$idField]] = $value;
+                }
+            }
+            return $_out;
+        } else {
+            return false;
+        }
+    }
 ?>

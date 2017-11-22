@@ -204,6 +204,7 @@ Route::group(["prefix"=>"admin","middleware"=>"TestLogin"],function(){
 		Route::post("update-status",["as"=>"admin.module-item.updateStatus","uses"=>"admin\ModuleItemController@updateStatus"]);
 		Route::post("change-status",["as"=>"admin.module-item.changeStatus","uses"=>"admin\ModuleItemController@changeStatus"]);
 		Route::post("trash",["as"=>"admin.module-item.trash","uses"=>"admin\ModuleItemController@trash"]);		
+		Route::post("insert-article",["as"=>"admin.module-item.insertArticle","uses"=>"admin\ModuleItemController@insertArticle"]);		
 	});
 	Route::group(["prefix"=>"media"],function(){		
 		Route::get("list",["as"=>"admin.media.getList","uses"=>"admin\MediaController@getList"]);

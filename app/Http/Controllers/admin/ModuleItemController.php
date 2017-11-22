@@ -239,6 +239,13 @@ class ModuleItemController extends Controller {
             );
             return $info;
       }
- 
+      public function insertArticle(Request $request){
+        $str_id                 =   $request->str_id;  
+        $str_id=substr($str_id, 0,strlen($str_id) - 1);     
+        $sql = 'select id,fullname,sort_order from article where id in ('.$str_id.')';   
+        $data=DB::select($sql);       
+        $data=convertToArray($data);    
+        return $data;
+      } 
 }
 ?>

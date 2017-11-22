@@ -5,6 +5,7 @@ $linkLoadDataArticle       =   route('admin.article.loadData');
 $linkLoadDataProduct       =   route('admin.product.loadData');
 $linkCancel             =   route('admin.'.$controller.'.getList');
 $linkSave               =   route('admin.'.$controller.'.save');
+$linkInsertArticle               =   route('admin.'.$controller.'.insertArticle');
 $inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"       value="'.@$arrRowData['fullname'].'">'; 
 $ddlCategoryArticle     =   cmsSelectboxCategory('category_article_id','category_article_id', 'form-control', $arrCategoryArticleRecursive, 0,"");
 $ddlCategoryProduct     =   cmsSelectboxCategory('category_product_id','category_product_id', 'form-control', $arrCategoryProductRecursive, 0,"");
@@ -106,10 +107,14 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                     <div><b>ARTICLE NAME</b>  </div>
                     <div><input type="text" class="form-control" name="filter_search"          value=""></div>
                 </div>            
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <div>&nbsp;</div>
-                    <div><button type="button" class="btn dark btn-outline sbold uppercase btn-product" onclick="getListArticle();">Search</button></div>                
-                </div>
+                    <div>
+                        <button type="button" class="btn dark btn-outline sbold uppercase btn-product" onclick="getListArticle();">Search</button>
+                        &nbsp;  
+                        <button type="button" class="btn dark btn-outline sbold uppercase btn-product" onclick="insertArticle();">Insert</button>                      
+                    </div>                
+                </div>                
             </div>   
             <div class="row margin-top-15">
                 <div class="col-md-12">
@@ -121,7 +126,6 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                                 <th>Fullname</th>
                                 <th>Alias</th>
                                 <th width="1%">Image</th>                                
-                                
                             </tr>
                         </thead>
                         <tbody>                                                
@@ -153,9 +157,13 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                     <div><b>PRODUCT NAME</b>  </div>
                     <div><input type="text" class="form-control" name="filter_search"          value=""></div>
                 </div>            
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <div>&nbsp;</div>
-                    <div><button type="button" class="btn dark btn-outline sbold uppercase btn-product" onclick="getListProduct();">Search</button></div>                
+                    <div>
+                        <button type="button" class="btn dark btn-outline sbold uppercase btn-product" onclick="getListProduct();">Search</button>
+                        &nbsp;  
+                        <button type="button" class="btn dark btn-outline sbold uppercase btn-article" onclick="insertProduct();">Insert</button>
+                    </div>                
                 </div>
             </div>   
             <div class="row margin-top-15">
@@ -251,7 +259,39 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                 spinner.show();
             },
         });
-    }      
+    }     
+    function insertArticle(){
+        var dt      =   vArticleModuleItemTable.data();
+        var str_id  =   "";     
+        for(var i=0;i<dt.length;i++){
+            var dr=dt[i];
+            if(dr.is_checked==1){
+                var id=(dr.id).replace('<center>','');
+                id=id.replace('</center>','');
+                str_id +=id+",";      
+            }
+        }
+        var token = $('form[name="frm-article"] > input[name="_token"]').val(); 
+        var dataItem ={   
+            'str_id':str_id,    
+            '_token': token
+        };      
+        $.ajax({
+            url: '<?php echo $linkInsertArticle; ?>',
+            type: 'POST',                        
+            data: dataItem,
+            success: function (data, status, jqXHR) {                                                                           
+                console.log(data);
+                spinner.hide();
+            },
+            beforeSend  : function(jqXHR,setting){
+                spinner.show();
+            },
+        });
+    }
+    function insertProduct(){
+        console.log('insert product');   
+    } 
     function resetErrorStatus(){
         var id                   =   $("#id");
         var fullname             =   $("#fullname");        

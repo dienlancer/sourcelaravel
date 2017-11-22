@@ -161,12 +161,10 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 			'str_id':str_id,
 			'status':status,			
 			'_token': token
-		};
-		console.log(dataItem);
+		};		
 		$.ajax({
 			url: '<?php echo $linkUpdateStatus; ?>',
-			type: 'POST', 
-			             
+			type: 'POST', 			             
 			data: dataItem,
 			success: function (data, status, jqXHR) {   							                              				
 				showMsg('alert',data.msg,data.type_msg);               		

@@ -17,6 +17,7 @@ var vInvoiceTable           =   null;
 var vPaymentMethodTable     =   null;
 var vBannerTable            =   null;
 var vSettingSystemTable     =   null;
+var vItemTable     =   null;
 var basicTable = function () {
     var initCategoryArticleTable = function () {
         vCategoryArticleTable = $('#tbl-category-article').DataTable({
@@ -28,6 +29,21 @@ var basicTable = function () {
                 { data: "image"         },
                 { data: "sort_order"    },
                 { data: "status"        },                            
+                { data: "edited"    },         
+                { data: "deleted"    },                
+            ]
+        });        
+    };
+    var initItemTable = function () {
+        vItemTable = $('#tbl-item').DataTable({
+            columns: [                
+                { data: "checked"            },
+                { data: "id"      },
+                { data: "fullname"      },
+                { data: "alias"      },
+                { data: "image"         },
+                { data: "sort_order"    },
+                { data: "status"        },                                
                 { data: "edited"    },         
                 { data: "deleted"    },                
             ]
