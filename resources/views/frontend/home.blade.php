@@ -33,15 +33,20 @@ $data_customer=getModuleByPosition('article','customer');
 $data_hot_article=getModuleByPosition('article','hot-article');    
 // đối tác
 $data_partner=getModuleByPosition('article','partner');    
+// slideshow
+$data_slideshow=getModuleByPosition('article','slideshow');    
+// banner trái
+$data_banner_trai=getModuleByPosition('article','noi-that-sang-trong');    
 
-?>
-<div class="container">
-	<div id="wrapper">
+if(count($data_slideshow) > 0){
+	?>
+	<div class="container">
+		<div id="wrapper">
 			<div class="slider-wrapper theme-default">
 				<div id="slider" class="nivoSlider"> 
 					<?php 
-					for($i=0 ; $i < count($data_banner) ; $i++ ){
-						$banner=asset('resources/upload/'.$data_banner[$i]['image']);
+					for($i=0 ; $i < count($data_slideshow) ; $i++ ){
+						$banner=asset('resources/upload/'.$data_slideshow[$i]['image']);
 						?>
 						<img src="<?php echo $banner; ?>" data-thumb="<?php echo $banner; ?>" alt="" />     
 						<?php
@@ -56,7 +61,10 @@ $data_partner=getModuleByPosition('article','partner');
 				jQuery('#slider').nivoSlider();
 			});    
 		</script>	
-</div>
+	</div>
+	<?php
+}
+?>
 <div class="hotline-bg">
 	<div class="container">
 		<div class="re-ship-phone">
@@ -135,14 +143,15 @@ $data_partner=getModuleByPosition('article','partner');
 				?>                 
 				<div class="clr"></div>
 			</div>
-			<div class="margin-top-15"><center><img src="<?php echo asset('/resources/upload/noi-that-sang-trong.jpg'); ?>"></center></div>
+			<div class="margin-top-15"><center><img src="<?php echo asset('/resources/upload/'.$data_banner_trai[0]['image']); ?>"></center></div>
 		</div>
 		<div>
-			<div class="product-sale-shop">
+			<?php 			
+			if(count($data_featured_product) > 0){
+				?>
+<div class="product-sale-shop">
 				<?php
-				if(count($data_featured_product) > 0){
-					$k=1;				
-					$post_count=count($data_featured_product);							
+				$k=1;									
 					for($i=0;$i<count($data_featured_product);$i++){							
 						$id=$data_featured_product[$i]['id'];			
 						$permalink=url('/san-pham/'.$data_featured_product[$i]['alias'].'.html');
@@ -186,18 +195,24 @@ $data_partner=getModuleByPosition('article','partner');
 							</div>           
 						</div>		
 						<?php
-						if($k%4 ==0 || $k==$post_count){
+						if($k%4 ==0 || $k==count($data_featured_product)){
 							echo '<div class="clr"></div>';
 						}
 						$k++;
-					}
-				}				
+					}				
 				?>
 			</div>
+				<?php 
+
+			}
+			?>			
 		</div>
 		<div class="clr"></div>
 	</div>
-	<div class="header-title">
+	<?php 
+	if(count($data_toilet_equipment) > 0){
+		?>
+		<div class="header-title">
 		<h4><span><font color="#3AB54A">Thiết bị</font></span> vệ sinh</h4>                          
 	</div>
 	<div class="margin-top-15">
@@ -229,13 +244,11 @@ $data_partner=getModuleByPosition('article','partner');
 		</script>
 		<div class="owl-carousel owl-carousel-toilet-equipment owl-theme">
 			<?php
-			if(count($data_toilet_equipment) > 0){
-				$k=1;
-				$post_count=count($data_toilet_equipment);				 
+			$k=1;							 
 				for($i=0;$i<count($data_toilet_equipment);$i++){
 					$id=$data_toilet_equipment[$i]['id'];			
 					$permalink=url('/san-pham/'.$data_toilet_equipment[$i]['alias'].'.html');
-					$featureImg=asset('/resources/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$data_featured_product[$i]['image']);
+					$featureImg=asset('/resources/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$data_toilet_equipment[$i]['image']);
 					$fullname=$data_toilet_equipment[$i]['fullname'];	
 					$price=$data_toilet_equipment[$i]['price'];
 					$sale_price=$data_toilet_equipment[$i]['sale_price'];
@@ -275,12 +288,15 @@ $data_partner=getModuleByPosition('article','partner');
 						</div>           
 					</div>				
 					<?php
-				}
-			}		
+				}	
 			?>		
 		</div>
 	</div>	
-	<div class="header-title">
+		<?php
+	}
+	if(count($data_chicken_equipment)){
+		?>
+<div class="header-title">
             <h4><span><font color="#3AB54A">Thiết bị</font></span> bếp</h4>                          
     </div>
     <div class="margin-top-15">
@@ -312,13 +328,11 @@ $data_partner=getModuleByPosition('article','partner');
     	</script>
     	<div class="owl-carousel owl-carousel-chicken-equipment owl-theme">
     		<?php
-			if(count($data_chicken_equipment) > 0){
-				$k=1;
-				$post_count=count($data_chicken_equipment);				 
+			$k=1;				
 				for($i=0;$i<count($data_chicken_equipment);$i++){
 					$id=$data_chicken_equipment[$i]['id'];			
 					$permalink=url('/san-pham/'.$data_chicken_equipment[$i]['alias'].'.html');
-					$featureImg=asset('/resources/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$data_featured_product[$i]['image']);
+					$featureImg=asset('/resources/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$data_chicken_equipment[$i]['image']);
 					$fullname=$data_chicken_equipment[$i]['fullname'];	
 					$price=$data_chicken_equipment[$i]['price'];
 					$sale_price=$data_chicken_equipment[$i]['sale_price'];
@@ -358,11 +372,13 @@ $data_partner=getModuleByPosition('article','partner');
 						</div>           
 					</div>				
 					<?php
-				}
-			}		
+				}	
 			?>		
     	</div>
     </div>
+		<?php
+	}
+	?>		
 </div>
 <div class="register-mail-bg margin-top-15">
 	<div class="container">            
@@ -384,7 +400,10 @@ $data_partner=getModuleByPosition('article','partner');
 		<div class="clr"></div>
 	</div>
 </div>
-<div class="cleverhouse padding-bottom-15">
+<?php 
+if(count($data_clever_house) > 0){
+	?>
+	<div class="cleverhouse padding-bottom-15">
 	<div class="container">
 		<div class="header-title">
 			<h4><span><font color="#3AB54A">Nhà</font></span> thông minh</h4>                          
@@ -418,13 +437,11 @@ $data_partner=getModuleByPosition('article','partner');
 			</script>
 			<div class="owl-carousel owl-carousel-clever-house owl-theme">
 				<?php
-				if(count($data_clever_house) > 0){
-					$k=1;
-					$post_count=count($data_clever_house);				 
+				$k=1;							 
 					for($i=0;$i<count($data_clever_house);$i++){
 						$id=$data_clever_house[$i]['id'];			
 						$permalink=url('/san-pham/'.$data_clever_house[$i]['alias'].'.html');
-						$featureImg=asset('/resources/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$data_featured_product[$i]['image']);
+						$featureImg=asset('/resources/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$data_clever_house[$i]['image']);
 						$fullname=$data_clever_house[$i]['fullname'];	
 						$price=$data_clever_house[$i]['price'];
 						$sale_price=$data_clever_house[$i]['sale_price'];
@@ -464,14 +481,17 @@ $data_partner=getModuleByPosition('article','partner');
 							</div>           
 						</div>				
 						<?php
-					}
-				}		
+					}				
 				?>		
 			</div>
 		</div>
 	</div>
 </div>    
-<div class="twitter">
+	<?php
+}
+if(count($data_customer) > 0){
+	?>
+	<div class="twitter">
 	<div class="container">
 		<script type="text/javascript" language="javascript">
 			jQuery(document).ready(function(){
@@ -501,8 +521,7 @@ $data_partner=getModuleByPosition('article','partner');
 		</script>
 		<div class="owl-carousel owl-carousel-customer owl-theme">
 			<?php 
-			if(count($data_customer) > 0){
-				for($i=0;$i<count($data_customer);$i++){
+			for($i=0;$i<count($data_customer);$i++){
 					$id=$data_customer[$i]['id'];			
 					$permalink=url('/san-pham/'.$data_customer[$i]['alias'].'.html');
 					$featureImg=asset('/resources/upload/'.$data_customer[$i]['image']);
@@ -525,14 +544,20 @@ $data_partner=getModuleByPosition('article','partner');
 					</div> 		
 					<?php
 				}
-			}
 			?>			
 		</div>
 	</div>
 </div>
+	<?php 
+}
+?>
+
 <div class="cleverhouse padding-bottom-15">
 	<div class="container">
-		<div class="header-title">
+		<?php 
+		if(count($data_hot_article)){
+			?>
+			<div class="header-title">
 			<h4><span><font color="#3AB54A">Tin</font></span>&nbsp;mới</h4>                          
 		</div>
 		<div class="margin-top-15">
@@ -558,7 +583,11 @@ $data_partner=getModuleByPosition('article','partner');
 			?>
 			<div class="clr"></div>
 		</div>
-		<div class="header-title">
+			<?php 
+		}
+		if(count($data_partner) > 0){
+			?>
+			<div class="header-title">
 			<h4><span><font color="#3AB54A">Đối</font></span>&nbsp;tác</h4>                          
 		</div>
 		<div class="margin-top-15">
@@ -606,6 +635,10 @@ $data_partner=getModuleByPosition('article','partner');
 				?>
 			</div>
 		</div>
+			<?php
+		}
+		?>		
+		
 	</div>
 </div>
 <div class="relative megashop-map">

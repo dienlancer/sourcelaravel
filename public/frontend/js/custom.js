@@ -1,10 +1,10 @@
-var $sjc=jQuery.noConflict();
+
 function showLstInvoiceDetail(ajaxurl,lnk_image,value,quantity,total_price){
 		var id = value;						
 		var dataObj = {					
 					"id"		: id					
 				};		
-		jQuery.ajax({
+		$.ajax({
 			url			: ajaxurl,
 			type		: "GET",
 			data		: dataObj,
@@ -25,32 +25,15 @@ function showLstInvoiceDetail(ajaxurl,lnk_image,value,quantity,total_price){
 							tbody=tbody+tr+'</tbody>';
 							var tfoot='<tfoot><tr><td colspan="3" align="center"><b>TOTAL</b></td><td align="center">'+quantity+'</td><td align="right">'+accounting.formatMoney(total_price, "", 0, ".",",")+'</td></tr></tfoot>';
 							var str='<table border="0" class="com_product16" cellspacing="0" cellpadding="0" width="100%">'+thead+tbody+tfoot+'</table>';							
-							jQuery(".modal-body").empty();
-							jQuery(".modal-body").append(str);
+							$(".modal-body").empty();
+							$(".modal-body").append(str);
 						}
 		});
 
 	}
-function changePaymentMethod(ajaxurl,id)	{
-	var dataObj = {					
-					"id"					: id,										
-				};
-	jQuery.ajax({
-			url			: ajaxurl,
-			type		: "GET",
-			data		: dataObj,
-			dataType	: "json",
-			success		: function(data, status, jsXHR){
-	
-							jQuery("#payment_method_content").empty();
-							if(data != null){
-								jQuery("#payment_method_content").append(data.content);
-							}							
-						}
-		});
-}
+
 function changePage(page){
-	$sjc('input[name=filter_page]').val(page);$sjc('.frm')[0].submit();}
+	$('input[name=filter_page]').val(page);$("form[name='frm']")[0].submit();}
 function isNumberKey(evt){var hopLe=true;var charCode=(evt.which)?evt.which:event.keyCode;if(charCode>31&&(charCode<48||charCode>57))hopLe=false;return hopLe;}
 function checkRegister() {
     var hopLe=true;
@@ -73,17 +56,17 @@ function addToCart(product_id,ajaxurl){
 	var dataObj = {		
 		"id"		: id		
 	};		
-	jQuery.ajax({
+	$.ajax({
 		url			: ajaxurl,
 		type		: "GET",
 		data		: dataObj,
 		dataType	: "json",
 		success		: function(data, status, jsXHR){
 			var thong_bao='Sản phẩm đã được thêm vào trong <a href="'+data.permalink+'" class="comproduct49" >giỏ hàng</a> ';				
-			jQuery("#cart-total").empty();			
-			jQuery(".modal-body").empty();		
-			jQuery("#cart-total").text(data.quantity);			
-			jQuery(".modal-body").append(thong_bao);			
+			$(".cart-total").empty();			
+			$(".modal-body").empty();		
+			$(".cart-total").text(data.quantity);			
+			$(".modal-body").append(thong_bao);			
 		}
 	});
 }

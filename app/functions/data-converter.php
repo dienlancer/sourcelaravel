@@ -98,7 +98,7 @@ function menuTypeConverter($data=array(),$controller){
                 'is_checked'               =>   0,
                 "id"                       =>   $data[$i]["id"],
                 "fullname"                 =>   $fullname,
-                "alias"                 =>   $data[$i]["alias"],                                
+                "theme_location"                 =>   $data[$i]["theme_location"],                                
                 "sort_order"               =>   $sort_order,                
                 "created_at"               =>   datetimeConverterVn($data[$i]["created_at"]),
                 "updated_at"               =>   datetimeConverterVn($data[$i]["updated_at"]),
@@ -114,7 +114,9 @@ function menuConverter($data=array(),$controller){
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['menu_type_id'],$data[$i]['id']]).'"><img src="'.asset("/public/admin/images/edit-icon.png").'" /></a></center>';
-            $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.asset("/public/admin/images/delete-icon.png").'" /></a></center>';
+            $linkDelete=route('admin.menu.deleteItem',[$data[$i]['id']]);
+            $deleted='<center><a onclick="return xacnhanxoa(\'Bạn có chắc chắn muốn xóa ?\');" href="'.$linkDelete.'" ><img src="'.asset("/public/admin/images/delete-icon.png").'" /></a></center>';
+            
             $kicked=0;
             if((int)$data[$i]["status"]==1){
                 $kicked=0;
@@ -123,14 +125,14 @@ function menuConverter($data=array(),$controller){
                 $kicked=1;
             }
             $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["status"],$kicked).'</center>';
-            $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';           
+            
+            $sort_order = '<center><input name="sort_order['.$data[$i]['id'].']" type="text"  value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';            
             $result[$i] = array(
-                'checked'                  =>   '<input type="checkbox" onclick="checkWithList(this)" name="cid" value="'.$data[$i]["is_checked"].'" />',
+                'checked'                  =>   '<input type="checkbox"  name="cid[]" value="'.$data[$i]["id"].'" />',
                 'is_checked'               =>   0,
                 "id"                       =>   $data[$i]["id"],
                 "fullname"                 =>   $data[$i]["fullname"],
-                "level"                    =>   $data[$i]["level"],
-                "alias"                    =>   $data[$i]["alias"],
+                "level"                    =>   $data[$i]["level"],               
                 "site_link"                =>   $data[$i]["site_link"],
                 "parent_id"                =>   $data[$i]["parent_id"],
                 "parent_fullname"          =>   $data[$i]["parent_fullname"],                
@@ -153,7 +155,9 @@ function categoryProductConverter($data=array(),$controller){
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.asset("/public/admin/images/edit-icon.png").'" /></a></center>';
-            $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.asset("/public/admin/images/delete-icon.png").'" /></a></center>';
+            $linkDelete=route('admin.category-product.deleteItem',[$data[$i]['id']]);
+            $deleted='<center><a onclick="return xacnhanxoa(\'Bạn có chắc chắn muốn xóa ?\');" href="'.$linkDelete.'" ><img src="'.asset("/public/admin/images/delete-icon.png").'" /></a></center>';
+            
             $kicked=0;
             if((int)$data[$i]["status"]==1){
                 $kicked=0;
@@ -162,7 +166,8 @@ function categoryProductConverter($data=array(),$controller){
                 $kicked=1;
             }
             $status     = '<center>'.cmsStatus((int)$data[$i]["id"],(int)$data[$i]["status"],$kicked).'</center>';
-            $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'" onkeyup="setSortOrder(this)" value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';
+            
+            $sort_order = '<center><input name="sort_order['.$data[$i]['id'].']" type="text"  value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';            
             $link_image="";
             $image="";
             if(!empty($data[$i]["image"])){
@@ -170,7 +175,7 @@ function categoryProductConverter($data=array(),$controller){
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }            
             $result[$i] = array(
-                'checked'                  =>   '<input type="checkbox" onclick="checkWithList(this)" name="cid" value="'.$data[$i]["is_checked"].'" />',
+                'checked'                  =>   '<input type="checkbox"  name="cid[]" value="'.$data[$i]["id"].'" />',
                 'is_checked'               =>   0,
                 "id"                       =>   $data[$i]["id"],
                 "fullname"                 =>   $data[$i]["fullname"],

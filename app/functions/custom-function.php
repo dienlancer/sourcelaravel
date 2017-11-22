@@ -40,8 +40,8 @@ function getStringCategoryID($category_id,&$arrCategoryID,$model){
     }          
 }
 function wp_nav_menu($args){
-    $menu_type_alias=$args['theme_location'];
-    $data_menu_type=MenuTypeModel::whereRaw("trim(lower(alias)) = ?",[trim(mb_strtolower($menu_type_alias))])->select('id','fullname')->get()->toArray()[0];
+    $theme_location=$args['theme_location'];
+    $data_menu_type=MenuTypeModel::whereRaw("trim(lower(theme_location)) = ?",[trim(mb_strtolower($theme_location))])->select('id','fullname')->get()->toArray()[0];
     $data_menu=MenuModel::whereRaw('menu_type_id = ?',[(int)@$data_menu_type['id']])->orderBy('sort_order','asc')->get()->toArray();    
     $arr_menu=array();  
     if(count($data_menu) > 0){
@@ -143,29 +143,31 @@ function fnPrice($value){
     }
     return $strCurrency;
   }
-function getModuleByPosition($component,$position){
-    $module=ModuleItemModel::whereRaw('trim(lower(position)) = ?',[mb_strtolower(trim(@$position))])->select('item_id')->get()->toArray()[0];    
+  function getModuleByPosition($component,$position){
+    $module=ModuleItemModel::whereRaw('trim(lower(position)) = ?',[mb_strtolower(trim(@$position))])->select('item_id','status')->get()->toArray()[0];    
     $item_id=$module['item_id'];
     $arr_id=explode(',', $item_id);
     $data=array();
     $status=1;
-    for($i=0;$i<count($arr_id);$i++){
-          $id=(int)$arr_id[$i];
-          $item=array();
-          switch ($component) {
-            case 'product':
-                $item=ProductModel::where('id','=',(int)$id)->where('status','=',(int)$status)->get()->toArray();
-                break;
-            case 'article':
-                $item=ArticleModel::where('id','=',(int)$id)->where('status','=',(int)$status)->get()->toArray();
-                break;            
-          }       
-          if(count($item) > 0){
-            $data[]=$item[0];
-          }                    
-    }   
+    if((int)$module['status']==1){
+      for($i=0;$i<count($arr_id);$i++){
+        $id=(int)$arr_id[$i];
+        $item=array();
+        switch ($component) {
+          case 'product':
+          $item=ProductModel::where('id','=',(int)$id)->where('status','=',(int)$status)->get()->toArray();
+          break;
+          case 'article':
+          $item=ArticleModel::where('id','=',(int)$id)->where('status','=',(int)$status)->get()->toArray();
+          break;            
+        }       
+        if(count($item) > 0){
+          $data[]=$item[0];
+        }                    
+      }
+    }      
     return $data;
-}
+  }
 function randomString($length = 5){
     $arrCharacter = array_merge(range('a','z'), range(0,9));
     $arrCharacter = implode($arrCharacter, '');

@@ -17,8 +17,8 @@ class ArticleController extends Controller {
     		$icon=$this->_icon;		
     		return view("admin.".$this->_controller.".list",compact("controller","task","title","icon"));	
   	}	
-    public function getStringCategoryArticleID($category_article_id,&$arrCategoryArticleID){    
-        $arrCategoryArticle=CategoryArticleModel::select("id")->where("parent_id","=",(int)@$category_article_id)->get()->toArray();
+    public function getStringCategoryArticleID($category_article_id,&$arrCategoryArticleID){            
+        $arrCategoryArticle=CategoryArticleModel::whereRaw("parent_id = ?",[(int)@$category_article_id])->select("id")->get()->toArray();
         foreach ($arrCategoryArticle as $key => $value) {
           $arrCategoryArticleID[]=$value["id"];
           $this->getStringCategoryArticleID((int)$value["id"],$arrCategoryArticleID);
@@ -40,10 +40,10 @@ class ArticleController extends Controller {
         $this->getStringCategoryArticleID($category_article_id,$arrCategoryArticleID);    
         $strCategoryArticleID=implode("#;#", $arrCategoryArticleID);    
         $strCategoryArticleID="#".$strCategoryArticleID."#";    
-        /* end lấy chuỗi ID */
-    		$data=DB::select('call pro_getArticle(?,?)',array(mb_strtolower($filter_search),$strCategoryArticleID));
+        /* end lấy chuỗi ID */        
+    		$data=DB::select('call pro_getArticle(?,?)',array(mb_strtolower($filter_search,'UTF-8'),$strCategoryArticleID));        
     		$data=convertToArray($data);		
-    		$data=articleConverter($data,$this->_controller);		    
+    		$data=articleConverter($data,$this->_controller);		         
     		return $data;
   	}	
     public function getForm($task,$id=""){     
@@ -318,6 +318,7 @@ class ArticleController extends Controller {
       public function sortOrder(Request $request){
             $sort_json              =   $request->sort_json;           
             $data_order             =   json_decode($sort_json);       
+          
             $checked                =   1;
             $type_msg               =   "alert-success";
             $msg                    =   "Update successfully";      

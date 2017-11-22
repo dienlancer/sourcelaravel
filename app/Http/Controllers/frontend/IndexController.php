@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers\frontend;
 use App\Http\Requests;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\CategoryModel;
 use App\CategoryArticleModel;
@@ -32,9 +33,7 @@ class IndexController extends Controller {
     $alias="trang-chu";
     $meta_keyword="";
     $meta_description="";  
-    // lấy banner    
-    $data_banner=BannerModel::whereRaw('status = ?',[1])->orderBy('sort_order','asc')->select('image')->get()->toArray()    ;
-    return view("frontend.home",compact("component","meta_keyword","meta_description","alias",'data_banner'));
+    return view("frontend.home",compact("component","meta_keyword","meta_description","alias"));
   }  
 	public function index($component,$alias)
       {                                 
@@ -817,10 +816,10 @@ class IndexController extends Controller {
         $data=InvoiceDetailModel::whereRaw('invoice_id = ?',[(int)$id])->get()->toArray();  
         return $data; 
       }
-      public function getPaymentmethod(){
-         $id=$_GET['id'];
+      public function getPaymentmethod(Request $request){
+         $id=$request->id;
          $data=array();
-         $data=PaymentMethodModel::find((int)@$id);
+         $data=PaymentMethodModel::find((int)@$id);        
          return $data;
       }
 }

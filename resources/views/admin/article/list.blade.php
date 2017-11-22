@@ -190,7 +190,9 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		for(var i=0;i<dt.length;i++){
 			var dr=dt[i];
 			if(dr.is_checked==1){
-				str_id +=dr.id+",";	            
+				var id=(dr.id).replace('<center>','');
+				id=id.replace('</center>','');
+				str_id +=id+",";
 			}
 		}
 		var dataItem ={   
@@ -245,7 +247,7 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		var data_sort=null;
 		if(sort_json != ''){
 			data_sort=$.parseJSON(sort_json);	
-		}		
+		}	
 		if(data_sort == null){
 			var token = $('input[name="_token"]').val();   
 			var dataItem={            
@@ -261,8 +263,10 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 					data_sort = new Array(data.length);
 					for(var i=0;i<data_sort.length;i++){							
 						var sort_order_input=	$(data[i]["sort_order"]).find("input[name='sort_order']");
-						var sort_order=parseInt($(sort_order_input).val());												
-						var obj={"id":parseInt(data[i]["id"]),"sort_order":sort_order};						
+						var sort_order=parseInt($(sort_order_input).val());				
+						id=(data[i]["id"]).replace('<center>','');
+						id=id.replace('</center>','');								
+						var obj={"id":parseInt(id),"sort_order":sort_order};						
 						data_sort[i]=obj;
 					}					
 				},

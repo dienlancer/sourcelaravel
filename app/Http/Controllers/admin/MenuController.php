@@ -6,33 +6,50 @@ use App\MenuModel;
 use App\ProductModel;
 use App\MenuTypeModel;
 use App\ModMenuTypeModel;
+use App\PaginationModel;
 use DB;
 class MenuController extends Controller {
-    	var $_controller="menu";	
-    	var $_title="Menu";
-    	var $_icon="icon-settings font-dark";
-    	public function getList(Request $request){		
-      		$controller=$this->_controller;	
-      		$task="list";
-      		$title=$this->_title;
-      		$icon=$this->_icon;		
-          $menu_type_id=$request->menu_type_id;
-      		return view("admin.".$this->_controller.".list",compact("controller","task","title","icon","menu_type_id"));	
-    	}	
-    	public function loadData(Request $request){
-      		$filter_search="";
-          $menu_type_id=0;
-          if(!empty(@$request->menu_type_id)){
-            $menu_type_id=(int)(@$request->menu_type_id);
-          }          
-      		$data=DB::select('call pro_getMenu(?,?)',array( mb_strtolower($filter_search) ,$menu_type_id));      		
-      		$menuRecursiveData=array();      		
-      		$data=convertToArray($data);    
-          $data=menuConverter($data,$this->_controller);   
-      		menuRecursive($data,0,null,$menuRecursiveData);  
-          $data=      	convertToArray($menuRecursiveData)	;         
-          return $data;
-    	}    	
+    	var $_controller="menu"; 
+      var $_title="Menu";
+      var $_icon="icon-settings font-dark";
+      var $_totalItemsPerPage=9999;    
+      var $_pageRange=10;
+    	public function getList($menu_type_id=0){   
+        $controller=$this->_controller; 
+        $task="list";
+        $title=$this->_title;
+        $icon=$this->_icon; 
+        $currentPage=1;   
+        $filter_search="";
+        if(!empty(@$_POST["filter_search"])){
+          $filter_search=@$_POST["filter_search"];        
+        }        
+        $data=DB::select('call pro_getMenu(?,?)',array(mb_strtolower($filter_search),(int)@$menu_type_id));
+        $totalItems=count($data);
+        $totalItemsPerPage=$this->_totalItemsPerPage;       
+        $pageRange=$this->_pageRange;
+        if(!empty(@$_POST["filter_page"])){
+          $currentPage=(int)@$_POST["filter_page"];    
+        }            
+        $arrPagination=array(
+          "totalItems"=>$totalItems,
+          "totalItemsPerPage"=>$totalItemsPerPage,
+          "pageRange"=>$pageRange,
+          "currentPage"=>$currentPage 
+        );
+        $pagination=new PaginationModel($arrPagination);
+        $position = (@$arrPagination['currentPage']-1)*$totalItemsPerPage;
+        $data=array();
+        if($totalItemsPerPage > 0){
+            $data=DB::select('call pro_getMenuLimit(?,?,?,?)',array($filter_search,$position,$totalItemsPerPage,(int)@$menu_type_id));
+        }        
+        $data=convertToArray($data);
+        $data=menuConverter($data,$this->_controller);   
+        $data_recursive=array();
+        menuRecursive($data,0,null,$data_recursive);          
+        $data=$data_recursive; 
+        return view("admin.".$this->_controller.".list",compact("controller","task","title","icon",'data','pagination','filter_search','menu_type_id')); 
+      } 	
       public function getForm($task,$menu_type_id="",$id=""){   
             $controller=$this->_controller;			
             $title="";
@@ -56,7 +73,7 @@ class MenuController extends Controller {
       public function save(Request $request){
             $id 					       =	  trim($request->id)	;        
             $fullname 				   =	  trim($request->fullname)	;
-            $alias 					     = 		trim($request->alias);
+            $alias               =    trim($request->alias);
             $site_link           =    trim($request->site_link);
             $parent_id	         =		trim($request->parent_id);
             $menu_type_id        =    trim($request->menu_type_id);      
@@ -66,58 +83,7 @@ class MenuController extends Controller {
             $info 		           =    array();
             $error 		           =    array();
             $item		             =    null;
-            $checked 	           =    1;              
-            /*if(empty($fullname)){
-                $checked = 0;
-                $error["fullname"]["type_msg"] = "has-error";
-                $error["fullname"]["msg"] = "Fullname is required";
-            }else{
-                $data=array();
-                if (empty($id)) {
-                  $data=MenuModel::whereRaw("trim(lower(fullname)) = ? and menu_type_id = ?",[trim(mb_strtolower($fullname,'UTF-8')),(int)@$menu_type_id])->get();	        	
-                }else{
-                  $data=MenuModel::whereRaw("trim(lower(fullname)) = ? and id != ? and menu_type_id = ?",[trim(mb_strtolower($fullname,'UTF-8')),$id,(int)@$menu_type_id])->get();		
-                }  
-                if (count($data) > 0) {
-                  $checked = 0;
-                  $error["fullname"]["type_msg"] = "has-error";
-                  $error["fullname"]["msg"] = "Fullname is existed in system";
-                }      	
-            }
-            if(empty($alias)){
-                 $checked = 0;
-                 $error["alias"]["type_msg"] = "has-error";
-                 $error["alias"]["msg"] = "Alias is required";
-            }else{
-                $data=array();
-                if (empty($id)) {
-                  $data=MenuModel::whereRaw("trim(lower(alias)) = ? and menu_type_id = ?",[trim(mb_strtolower($alias,'UTF-8')),(int)@$menu_type_id])->get();	        	
-                }else{
-                  $data=MenuModel::whereRaw("trim(lower(alias)) = ? and id != ? and menu_type_id = ?",[trim(mb_strtolower($alias,'UTF-8')),(int)@$id,(int)@$menu_type_id])->get();		
-                }  
-                if (count($data) > 0) {
-                  $checked = 0;
-                  $error["alias"]["type_msg"] 	= "has-error";
-                  $error["alias"]["msg"] 			= "Alias is existed in system";
-                }      	
-            }
-            if(empty($site_link)){
-                $checked = 0;
-                $error["site_link"]["type_msg"] = "has-error";
-                $error["site_link"]["msg"] = "Sitelink is required";
-            }else{
-                $data=array();
-                if (empty($id)) {
-                  $data=MenuModel::whereRaw("trim(lower(site_link)) = ? and menu_type_id = ?",[trim(mb_strtolower($site_link,'UTF-8')),@$menu_type_id])->get();            
-                }else{
-                  $data=MenuModel::whereRaw("trim(lower(site_link)) = ? and id != ? and menu_type_id = ?",[trim(mb_strtolower($site_link,'UTF-8')),(int)@$id,@$menu_type_id])->get();    
-                }  
-                if (count($data) > 0) {
-                  $checked = 0;
-                  $error["site_link"]["type_msg"] = "has-error";
-                  $error["site_link"]["msg"] = "Sitelink is existed in system";
-                }       
-            }*/
+            $checked 	           =    1;                          
             if(empty($sort_order)){
                  $checked = 0;
                  $error["sort_order"]["type_msg"] 	= "has-error";
@@ -136,7 +102,7 @@ class MenuController extends Controller {
                     $item				         =	MenuModel::find((int)@$id);                     	  		 
                 }  
                 $item->fullname 		     = $fullname;
-                $item->alias 			       = $alias;
+                $item->alias             = $alias;
                 $item->site_link         = $site_link;               
                 $item->parent_id 		     = (int)$parent_id;
                 $item->menu_type_id      = (int)$menu_type_id;
@@ -168,145 +134,100 @@ class MenuController extends Controller {
             }        		 			       
             return $info;       
       }
-      public function changeStatus(Request $request){
-          $id             =       (int)$request->id;     
-          $checked                =   1;
-          $type_msg               =   "alert-success";
-          $msg                    =   "Update successfully";              
-          $status         =       (int)$request->status;
-          $item           =       MenuModel::find((int)@$id);        
-          $item->status   =       $status;
-          $item->save();
-          $data                   =   $this->loadData($request);
-          $info = array(
-            'checked'           => $checked,
-            'type_msg'          => $type_msg,                
-            'msg'               => $msg,                
-            'data'              => $data
-          );
-          return $info;
+       public function changeStatus(Request $request){
+            $id             =       (int)$request->id;  
+            $status         =       (int)$request->status;
+            
+            $item=MenuModel::find($id);
+            $trangThai=0;
+            if($status==0){
+              $trangThai=1;
+            }
+            else{
+              $trangThai=0;
+            }
+            $item->status=$status;
+            $item->save();
+            $result = array(
+                        'id'      => $id, 
+                        'status'  => $status, 
+                        'link'    => 'javascript:changeStatus('.$id.','.$trangThai.');'
+                    );
+            return $result;   
       }
-      public function deleteItem(Request $request){
-            $id                     =   (int)$request->id;              
+      public function deleteItem($id){
             $checked                =   1;
             $type_msg               =   "alert-success";
-            $msg                    =   "Delete successfully";            
+            $msg                    =   "Delete successfully";        
             $menu_type_id           =   0;        
             $data                   =   MenuModel::whereRaw("parent_id = ?",[(int)@$id])->get()->toArray();                    
             $item                   =   MenuModel::find((int)@$id);
             $menu_type_id           =   $item->toArray()["menu_type_id"];
             if(count($data) > 0){
-                $checked            =   0;
+                $checked     =   0;
                 $type_msg           =   "alert-warning";            
-                $msg                =   "Cannot delete this item";            
+                $msg                =   "Cannot delete this item";      
             }          
             if($checked == 1){
                 $item               =   MenuModel::find((int)@$id);
                 $item->delete();            
                 ModMenuTypeModel::whereRaw("menu_id = ?",[(int)@$id])->delete();
             }        
-            $data                   =   $this->loadData($request);
-            $info = array(
-              'checked'           => $checked,
-              'type_msg'          => $type_msg,                
-              'msg'               => $msg,                
-              'data'              => $data
-            );
-            return $info;
+            return redirect()->route("admin.".$this->_controller.".getList",[(int)@$menu_type_id])->with(["message"=>array("content"=>"Đã lưu")]); 
       }
-    public function updateStatus(Request $request){
-        $str_id                     =   $request->str_id;   
-        $status                     =   $request->status;  
-        $arrID                      =   explode(",", $str_id)  ;
-        $checked                    =   1;
-        $type_msg                   =   "alert-success";
-        $msg                        =   "Update successfully";   
-        if(empty($str_id)){
-            $checked                =   0;
-            $type_msg               =   "alert-warning";            
-            $msg                    =   "Please choose at least one item to delete";
+      public function updateStatus(Request $request,$status){        
+        $arrID=$request->cid;
+        $menu_type_id=0;
+        foreach ($arrID as $key => $value) {
+          $item=MenuModel::find($value);
+          $menu_type_id=$item->toArray()["menu_type_id"];   
+          $item->status=$status;
+          $item->save();
         }
-        if($checked==1){
-          foreach ($arrID as $key => $value) {
-            if(!empty($value)){
-              $item=MenuModel::find($value);
-              $item->status=$status;
-              $item->save();      
-            }            
-          }
-        }         
-        $data                       =   $this->loadData($request);
-        $info = array(
-          'checked'                 => $checked,
-          'type_msg'                => $type_msg,                
-          'msg'                     => $msg,                
-          'data'                    => $data
-        );
-        return $info;
-    }
-    public function trash(Request $request){
-        $str_id                     =   $request->str_id;           
-        $checked                    =   1;
-        $type_msg                   =   "alert-success";
-        $msg                        =   "Delete successfully";      
-        $arrID                      =   explode(",", $str_id)  ;    
-        if(empty($str_id)){
-            $checked                =   0;
-            $type_msg               =   "alert-warning";            
-            $msg                    =   "Please choose at least one item to delete";
-        }else{          
-            foreach ($arrID as $key => $value) {
-              if(!empty($value)){
-                  $item=MenuModel::find((int)$value);           
-                  $data                   =   MenuModel::whereRaw("parent_id = ?",[(int)@$value])->get()->toArray();                               
-                  if(count($data) > 0){
-                    $checked            =   0;
-                    $type_msg           =   "alert-warning";            
-                    $msg                =   "Cannot delete this item"; 
-                  }
-              }                
-            }
-        }
-        if($checked == 1){                
-            $strID = implode(',',$arrID);   
-            $strID=substr($strID, 0,strlen($strID) - 1);
-            $sqlDeleteMenu = "DELETE FROM `menu` WHERE `id` IN  (".$strID.")";       
-            $sqlDeleteModMenuType = "DELETE FROM `mod_menu_type` WHERE `menu_id` IN (".$strID.")";        
-            DB::statement($sqlDeleteMenu);
-            DB::statement($sqlDeleteModMenuType);
-        }
-        $data                   =   $this->loadData($request);
-        $info = array(
-          'checked'           => $checked,
-          'type_msg'          => $type_msg,                
-          'msg'               => $msg,                
-          'data'              => $data
-        );
-        return $info;
-    }
-    public function sortOrder(Request $request){
-        $sort_json              =   $request->sort_json;           
-        $data_order             =   json_decode($sort_json);       
+        return redirect()->route("admin.".$this->_controller.".getList",[(int)@$menu_type_id])->with(["message"=>array("content"=>"Đã lưu")]); 
+      }
+      public function trash(Request $request){
+        $arrID                 =   $request->cid;             
         $checked                =   1;
         $type_msg               =   "alert-success";
-        $msg                    =   "Update successfully";      
-        if(count($data_order) > 0){              
-          foreach($data_order as $key => $value){
-            if(!empty($value)){
-              $item=MenuModel::find((int)$value->id);                
-            $item->sort_order=(int)$value->sort_order;                         
-            $item->save();                      
-            }                                                    
-          }           
-        }        
-        $data                   =   $this->loadData($request);
-        $info = array(
-          'checked'           => $checked,
-          'type_msg'          => $type_msg,                
-          'msg'               => $msg,                
-          'data'              => $data
-        );
-        return $info;
-    }  
+        $msg                    =   "Delete successfully";              
+        $menu_type_id=0;
+        if(count($arrID)==0){
+          $checked     =   0;
+              $type_msg           =   "alert-warning";            
+              $msg                =   "Please choose at least one item to delete";
+        }else{
+          foreach ($arrID as $key => $value) {
+            $item=MenuModel::find($value);
+            $menu_type_id=$item->toArray()["menu_type_id"];   
+            $count = MenuModel::where("parent_id",$value)->count();
+            if($count > 0){
+              $checked     =   0;
+              $type_msg           =   "alert-warning";            
+              $msg                =   "Cannot delete this item";
+            } 
+          }
+        }
+        if($checked == 1){        
+          $strID = implode(',',$arrID);   
+          $sqlDeleteMenu = 'DELETE FROM `menu` WHERE `id` IN ('.$strID.') ';                 
+          DB::statement($sqlDeleteMenu);          
+          return redirect()->route("admin.".$this->_controller.".getList",[(int)@$menu_type_id])->with(["message"=>array("content"=>"Đã lưu")]);     
+        }
+      }
+      public function sortOrder(Request $request){
+        $arrOrder=array();
+        $arrOrder=$request->sort_order;  
+        $menu_type_id=0;  
+        if(!empty($arrOrder)){        
+          foreach($arrOrder as $id => $value){                    
+            $item=MenuModel::find($id);
+            $menu_type_id=$item->toArray()["menu_type_id"];   
+            $item->sort_order=(int)$value;            
+            $item->save();                
+          }     
+        }    
+        return redirect()->route("admin.".$this->_controller.".getList",[(int)@$menu_type_id])->with(["message"=>array("content"=>"Đã lưu")]); 
+      }
 }
 ?>

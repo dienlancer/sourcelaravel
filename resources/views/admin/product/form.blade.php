@@ -7,6 +7,9 @@ $linkUploadFile         =   route('admin.'.$controller.'.uploadFile');
 $inputCode              =   '<input type="text" class="form-control" name="code"   id="code"       value="'.@$arrRowData['code'].'">'; 
 $inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"       value="'.@$arrRowData['fullname'].'">';
 $inputAlias             =   '<input type="text" class="form-control" name="alias"      id="alias"          value="'.@$arrRowData['alias'].'">'; 
+$inputTitle             =   '<textarea id="title" name="title" rows="2" cols="100" class="form-control" >'.@$arrRowData['title'].'</textarea>'; 
+$inputMetakeyword             =   '<textarea id="meta_keyword" name="meta_keyword" rows="2" cols="100" class="form-control" >'.@$arrRowData['meta_keyword'].'</textarea>'; 
+$inputMetadescription             =   '<textarea id="meta_description" name="meta_description" rows="2" cols="100" class="form-control" >'.@$arrRowData['meta_description'].'</textarea>'; 
 $inputPrice             =   '<input type="text" class="form-control" name="price"   id="price"       value="'.@$arrRowData['price'].'">';
 $inputSalePrice             =   '<input type="text" class="form-control" name="sale_price"   id="sale_price"       value="'.@$arrRowData['sale_price'].'">';
 $status                 =   (count($arrRowData) > 0) ? @$arrRowData['status'] : 1 ;
@@ -166,6 +169,33 @@ $inputChildPictureHidden     =   '<input type="hidden" name="image_child_hidden"
                 </div> 
                 <div class="row">
                     <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>Title</b></label>
+                        <div class="col-md-10">
+                            <?php echo $inputTitle; ?>
+                            <span class="help-block"></span>
+                        </div>
+                    </div> 
+                </div>
+                <div class="row">  
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>Meta keyword</b></label>
+                        <div class="col-md-10">
+                            <?php echo $inputMetakeyword; ?>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>     
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>Meta description</b></label>
+                        <div class="col-md-10">                            
+                            <?php echo $inputMetadescription; ?>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>   
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
                         <label class="col-md-2 control-label"><b>Intro</b></label>
                         <div class="col-md-10">                            
                             <?php echo $inputIntro; ?>
@@ -252,6 +282,9 @@ $inputChildPictureHidden     =   '<input type="hidden" name="image_child_hidden"
         var code = $("#code").val();
         var fullname=$("#fullname").val();        
         var alias=$("#alias").val();
+        var title=$("#title").val();
+        var meta_keyword=$("#meta_keyword").val();
+        var meta_description=$("#meta_description").val();
         var category_product_id=$("#category_product_id").val();
         var image = $("#image").val();
         if (image != ''){
@@ -283,6 +316,9 @@ $inputChildPictureHidden     =   '<input type="hidden" name="image_child_hidden"
             "code":code,
             "fullname":fullname,            
             "alias":alias,
+            "title":title,
+            "meta_keyword":meta_keyword,
+            "meta_description":meta_description,
             "image":image,
             "status":status,                     
             "price":price,

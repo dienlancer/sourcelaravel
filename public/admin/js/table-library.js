@@ -1,5 +1,6 @@
 var vCategoryArticleTable   =   null;
 var vArticleTable           =   null;
+var vArticleModuleItemTable           =   null;
 var vMenuTypeTable          =   null;
 var vMenuTable              =   null;
 var vCategoryProductTable   =   null;
@@ -46,12 +47,23 @@ var basicTable = function () {
             ]
         });        
     };
+    var initArticleModuleItemTable = function () {
+        vArticleModuleItemTable = $('#tbl-article-module-item').DataTable({
+            columns: [                
+                { data: "checked"            },
+                { data: "id"      },
+                { data: "fullname"      },
+                { data: "alias"      },
+                { data: "image"         },                                            
+            ]
+        });        
+    };
     var initMenuTypeTable = function () {
         vMenuTypeTable = $('#tbl-menu-type').DataTable({
             columns: [                
                 { data: "checked"            },
                 { data: "fullname"      },   
-                { data: "alias"      },               
+                { data: "theme_location"      },               
                 { data: "sort_order"    },                                                
                 { data: "edited"    },         
                 { data: "deleted"    },                
@@ -283,6 +295,7 @@ var basicTable = function () {
             initPaymentMethodTable();
             initBannerTable();
             initSettingSystemTable();
+            initArticleModuleItemTable();
         }
     };
 }();

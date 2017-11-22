@@ -242,7 +242,8 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		var data_sort=null;
 		if(sort_json != ''){
 			data_sort=$.parseJSON(sort_json);	
-		}		
+		}	
+		console.log(data_sort);			
 		if(data_sort == null){
 			var token = $('input[name="_token"]').val();   
 			var dataItem={            

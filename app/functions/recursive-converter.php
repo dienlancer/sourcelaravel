@@ -30,7 +30,7 @@ function categoryArticleRecursive($data ,$parent=null,$str="--",&$arrRecursiveMe
       $arrRecursiveMenu[$key]["updated_at"]=$updated_at;
       $arrRecursiveMenu[$key]["edited"]=$edited;
       $arrRecursiveMenu[$key]["deleted"]=$deleted;
-      categoryArticleRecursive($data,$id,$str."--------",$arrRecursiveMenu);
+      categoryArticleRecursive($data,$id,$str."|________",$arrRecursiveMenu);
     }
   }  
 }
@@ -53,7 +53,7 @@ function menuRecursive($data ,$parent=null,$str="--",&$arrRecursiveMenu){
     $is_checked=$val["is_checked"];
     $id=$val["id"];
     $fullname=$val["fullname"];
-    $alias=$val["alias"];    
+    
     $site_link=$val["site_link"];    
     $parent_id=$val["parent_id"];  
     $parent_fullname=$val["parent_fullname"];
@@ -70,7 +70,7 @@ function menuRecursive($data ,$parent=null,$str="--",&$arrRecursiveMenu){
           $arrRecursiveMenu[$key]["is_checked"]=$is_checked;
           $arrRecursiveMenu[$key]["id"]=$id;
           $arrRecursiveMenu[$key]["fullname"]=$str . $fullname;    
-          $arrRecursiveMenu[$key]["alias"]=$alias;      
+         
           $arrRecursiveMenu[$key]["site_link"]=$site_link;      
           $arrRecursiveMenu[$key]["parent_id"]=$parent_id;
           $arrRecursiveMenu[$key]["parent_fullname"]=$parent_fullname; 
@@ -82,7 +82,7 @@ function menuRecursive($data ,$parent=null,$str="--",&$arrRecursiveMenu){
           $arrRecursiveMenu[$key]["updated_at"]=$updated_at;
           $arrRecursiveMenu[$key]["edited"]=$edited;
           $arrRecursiveMenu[$key]["deleted"]=$deleted;
-          menuRecursive($data,$id,$str."--------",$arrRecursiveMenu);
+          menuRecursive($data,$id,$str."|________",$arrRecursiveMenu);
     }
   }  
 }
@@ -129,7 +129,7 @@ function categoryProductRecursive($data ,$parent=0,$str="--",&$arrRecursiveMenu)
           $arrRecursiveMenu[$key]["updated_at"]=$updated_at;
           $arrRecursiveMenu[$key]["edited"]=$edited;
           $arrRecursiveMenu[$key]["deleted"]=$deleted;
-          categoryProductRecursive($data,$id,$str."--------",$arrRecursiveMenu);
+          categoryProductRecursive($data,$id,$str."|________",$arrRecursiveMenu);
     }
   }  
 }

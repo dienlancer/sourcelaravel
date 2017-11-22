@@ -127,7 +127,7 @@ if(count($arrError) > 0){
                 </tr>                                               
                 <tr>
                     <td>
-                        <select id="payment_method" name="payment_method" onchange="changePaymentMethod('<?php echo route('frontend.index.getPaymentmethod'); ?>',this.value);">
+                        <select id="payment_method" name="payment_method" onchange="changePaymentMethod(this.value);">
                             <?php 
                             for($i=0;$i<count($data_paymentmethod);$i++){
                                 $id=$data_paymentmethod[$i]["id"];
@@ -149,3 +149,24 @@ if(count($arrError) > 0){
     </div> 
     <div class="clr"></div>      
 </form>
+<script type="text/javascript" language="javascript">
+    function changePaymentMethod(id)    {
+      
+    var token=$("form[name='frm']").find("input[type='hidden'][name='_token']").val();   
+    var dataItem = {                 
+                    "id"                    : id,           
+                    "_token"                : token                            
+                };
+    $.ajax({
+            url         : '<?php echo route('frontend.index.getPaymentmethod'); ?>',
+            type        : "POST",
+            data        : dataItem,           
+            success     : function(data, status, jsXHR){                            
+                            $("#payment_method_content").empty();
+                            if(data != null){
+                                $("#payment_method_content").append(data.content);
+                            }                           
+                        }
+        });
+}
+</script>

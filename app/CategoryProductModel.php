@@ -5,5 +5,5 @@ use Illuminate\Database\Eloquent\Model;
 class CategoryProductModel extends Model {
 
 	protected $table="category_product";
-	protected $fillable=["fullname","alias","parent_id","image","sort_order","status","created_at","updated_at"];		
+	protected $fillable=["fullname","alias","title","meta_keyword","meta_description","parent_id","image","sort_order","status","created_at","updated_at"];		
 }

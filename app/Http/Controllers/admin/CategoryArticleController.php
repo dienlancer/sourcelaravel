@@ -12,7 +12,7 @@ class CategoryArticleController extends Controller {
     	var $_controller="category-article";	
     	var $_title="Category Article";
     	var $_icon="icon-settings font-dark";
-      var $_totalItemsPerPage=7;    
+      var $_totalItemsPerPage=9999;    
       var $_pageRange=10;
     	public function getList(){		
     		$controller=$this->_controller;	
@@ -74,6 +74,9 @@ class CategoryArticleController extends Controller {
         $id 					           =	trim($request->id)	;        
         $fullname 				       =	trim($request->fullname)	;
         $alias 					         = 	trim($request->alias);
+        $title                =   trim($request->title);
+        $meta_keyword         =   trim($request->meta_keyword);
+        $meta_description     =   trim($request->meta_description);
         $category_article_id	   =	trim($request->category_article_id);
         $image                   =  trim($request->image);
         $image_hidden            =  trim($request->image_hidden);
@@ -148,6 +151,9 @@ class CategoryArticleController extends Controller {
         }  
         $item->fullname 		=	$fullname;
         $item->alias 			  =	$alias;
+        $item->title            = $title;
+        $item->meta_keyword     = $meta_keyword;
+        $item->meta_description = $meta_description;           
         $item->parent_id 		=	(int)$category_article_id;            
         $item->sort_order 	=	(int)$sort_order;
         $item->status 			=	(int)$status;    

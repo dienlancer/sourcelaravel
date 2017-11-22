@@ -1,17 +1,16 @@
 <?php
 Route::group(["prefix"=>"admin","middleware"=>"TestLogin"],function(){	
 	Route::group(["prefix"=>"category-product"],function(){		
-		Route::get("list",["as"=>"admin.category-product.getList","uses"=>"admin\CategoryProductController@getList"]);
-		Route::post("load-data",["as"=>"admin.category-product.loadData","uses"=>"admin\CategoryProductController@loadData"]);		
+		Route::match(["get","post"],"list",["as"=>"admin.category-product.getList","uses"=>"admin\CategoryProductController@getList"]);	
 		Route::get("form/{task}/{id?}",["as"=>"admin.category-product.getForm","uses"=>"admin\CategoryProductController@getForm"]);
 		Route::post("save",["as"=>"admin.category-product.save","uses"=>"admin\CategoryProductController@save"]);
-		Route::post("delete-item",["as"=>"admin.category-product.deleteItem","uses"=>"admin\CategoryProductController@deleteItem"]);		
+		Route::get("delete-item/{id}",["as"=>"admin.category-product.deleteItem","uses"=>"admin\CategoryProductController@deleteItem"]);		
 		Route::post("sort-order",["as"=>"admin.category-product.sortOrder","uses"=>"admin\CategoryProductController@sortOrder"]);
-		Route::post("update-status",["as"=>"admin.category-product.updateStatus","uses"=>"admin\CategoryProductController@updateStatus"]);
+		Route::post("update-status/{status}",["as"=>"admin.category-product.updateStatus","uses"=>"admin\CategoryProductController@updateStatus"]);
 		Route::post("change-status",["as"=>"admin.category-product.changeStatus","uses"=>"admin\CategoryProductController@changeStatus"]);
 		Route::post("trash",["as"=>"admin.category-product.trash","uses"=>"admin\CategoryProductController@trash"]);
 		Route::post("upload-file",["as"=>"admin.category-product.uploadFile","uses"=>"admin\CategoryProductController@uploadFile"]);
-	});
+	});	
 	Route::group(["prefix"=>"banner"],function(){		
 		Route::get("list",["as"=>"admin.banner.getList","uses"=>"admin\BannerController@getList"]);
 		Route::post("load-data",["as"=>"admin.banner.loadData","uses"=>"admin\BannerController@loadData"]);		
@@ -144,15 +143,15 @@ Route::group(["prefix"=>"admin","middleware"=>"TestLogin"],function(){
 		Route::post("upload-file",["as"=>"admin.article.uploadFile","uses"=>"admin\ArticleController@uploadFile"]);
 	});	
 	Route::group(["prefix"=>"menu"],function(){		
-		Route::get("list/{menu_type_id?}",["as"=>"admin.menu.getList","uses"=>"admin\MenuController@getList"]);
-		Route::post("load-data",["as"=>"admin.menu.loadData","uses"=>"admin\MenuController@loadData"]);		
+		Route::match(["get","post"],"list/{menu_type_id}",["as"=>"admin.menu.getList","uses"=>"admin\MenuController@getList"]);	
 		Route::get("form/{task}/{menu_type_id?}/{id?}",["as"=>"admin.menu.getForm","uses"=>"admin\MenuController@getForm"]);
 		Route::post("save",["as"=>"admin.menu.save","uses"=>"admin\MenuController@save"]);
-		Route::post("delete-item",["as"=>"admin.menu.deleteItem","uses"=>"admin\MenuController@deleteItem"]);		
+		Route::get("delete-item/{id}",["as"=>"admin.menu.deleteItem","uses"=>"admin\MenuController@deleteItem"]);		
 		Route::post("sort-order",["as"=>"admin.menu.sortOrder","uses"=>"admin\MenuController@sortOrder"]);
-		Route::post("update-status",["as"=>"admin.menu.updateStatus","uses"=>"admin\MenuController@updateStatus"]);
+		Route::post("update-status/{status}",["as"=>"admin.menu.updateStatus","uses"=>"admin\MenuController@updateStatus"]);
 		Route::post("change-status",["as"=>"admin.menu.changeStatus","uses"=>"admin\MenuController@changeStatus"]);
-		Route::post("trash",["as"=>"admin.menu.trash","uses"=>"admin\MenuController@trash"]);		
+		Route::post("trash",["as"=>"admin.menu.trash","uses"=>"admin\MenuController@trash"]);
+		Route::post("upload-file",["as"=>"admin.menu.uploadFile","uses"=>"admin\MenuController@uploadFile"]);
 	});	
 	Route::group(["prefix"=>"group"],function(){		
 		Route::match(["get","post"],"list",["as"=>"admin.group.getList","uses"=>"admin\GroupController@getList"]);
@@ -244,5 +243,5 @@ Route::get("hoa-don.html",["as"=>"frontend.index.getInvoice","uses"=>"frontend\I
 Route::get("lgout",["as"=>"frontend.index.getLgout","uses"=>"frontend\IndexController@getLgout"]);
 Route::get("add-to-cart",["as"=>"frontend.index.addToCart","uses"=>"frontend\IndexController@addToCart"]);
 Route::get("show-invoice-detail",["as"=>"frontend.index.showInvoiceDetail","uses"=>"frontend\IndexController@showInvoiceDetail"]);
-Route::get("get-paymentmethod",["as"=>"frontend.index.getPaymentmethod","uses"=>"frontend\IndexController@getPaymentmethod"]);
+Route::post("get-paymentmethod",["as"=>"frontend.index.getPaymentmethod","uses"=>"frontend\IndexController@getPaymentmethod"]);
 ?>

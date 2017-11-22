@@ -22,13 +22,7 @@
                     <i class="icon-notebook"></i>
                     <span class="title">Article</span>                                            
                 </a>                                                                      
-            </li>
-            <li class="nav-item  ">
-                <a href="{!! route('admin.banner.getList') !!}" class="nav-link nav-toggle">
-                    <i class="icon-notebook"></i>
-                    <span class="title">Banner</span>                                            
-                </a>                                                                      
-            </li>
+            </li>           
         </ul>
     </li>
     <li class="nav-item  ">

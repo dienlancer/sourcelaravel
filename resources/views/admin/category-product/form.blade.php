@@ -6,6 +6,9 @@ $linkSave               =   route('admin.'.$controller.'.save');
 $linkUploadFile         =   route('admin.'.$controller.'.uploadFile');
 $inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"       value="'.@$arrRowData['fullname'].'">'; 
 $inputAlias             =   '<input type="text" class="form-control" name="alias"      id="alias"          value="'.@$arrRowData['alias'].'">';
+$inputTitle             =   '<textarea id="title" name="title" rows="2" cols="100" class="form-control" >'.@$arrRowData['title'].'</textarea>'; 
+$inputMetakeyword             =   '<textarea id="meta_keyword" name="meta_keyword" rows="2" cols="100" class="form-control" >'.@$arrRowData['meta_keyword'].'</textarea>'; 
+$inputMetadescription             =   '<textarea id="meta_description" name="meta_description" rows="2" cols="100" class="form-control" >'.@$arrRowData['meta_description'].'</textarea>'; 
 $inputSortOrder         =   '<input type="text" class="form-control" name="sort_order" id="sort_order"     value="'.@$arrRowData['sort_order'].'">';
 $status                 =   (count($arrRowData) > 0) ? @$arrRowData['status'] : 1 ;
 $arrStatus              =   array(-1 => '- Select status -', 1 => 'Publish', 0 => 'Unpublish');  
@@ -45,48 +48,81 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
         <form class="form-horizontal" role="form" enctype="multipart/form-data">
             <div class="form-body">
                 <div class="row">
-                    <div class="form-group col-md-6">
-                        <label class="col-md-3 control-label"><b>Name</b></label>
-                        <div class="col-md-9">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>Name</b></label>
+                        <div class="col-md-10">
                             <?php echo $inputFullName; ?>
                             <span class="help-block"></span>
                         </div>
                     </div>   
-                    <div class="form-group col-md-6">
-                        <label class="col-md-3 control-label"><b>Alias</b></label>
-                        <div class="col-md-9">
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>Alias</b></label>
+                        <div class="col-md-10">
                             <?php echo $inputAlias; ?>
                             <span class="help-block"></span>
                         </div>
                     </div>     
                 </div>      
                 <div class="row">
-                    <div class="form-group col-md-6">
-                        <label class="col-md-3 control-label"><b>Parent</b></label>
-                        <div class="col-md-9">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>Parent</b></label>
+                        <div class="col-md-10">
                             <?php echo $ddlCategoryProduct; ?>
                             <span class="help-block"></span>
                         </div>
-                    </div>   
-                    <div class="form-group col-md-6">
-                        <label class="col-md-3 control-label"><b>Image</b></label>
-                        <div class="col-md-9">
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>Image</b></label>
+                        <div class="col-md-10">
                             <input type="file" id="image" name="image"  />   
                             <div id="picture-area"><?php echo $picture; ?>                      </div>                            
                         </div>
                     </div>     
-                </div>       
+                </div>   
                 <div class="row">
-                    <div class="form-group col-md-6">
-                        <label class="col-md-3 control-label"><b>Sort</b></label>
-                        <div class="col-md-9">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>Title</b></label>
+                        <div class="col-md-10">
+                            <?php echo $inputTitle; ?>
+                            <span class="help-block"></span>
+                        </div>
+                    </div> 
+                </div>
+                <div class="row">  
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>Meta keyword</b></label>
+                        <div class="col-md-10">
+                            <?php echo $inputMetakeyword; ?>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>     
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>Meta description</b></label>
+                        <div class="col-md-10">                            
+                            <?php echo $inputMetadescription; ?>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>   
+                </div>    
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>Sort</b></label>
+                        <div class="col-md-10">
                             <?php echo $inputSortOrder; ?>
                             <span class="help-block"></span>
                         </div>
                     </div>   
-                    <div class="form-group col-md-6">
-                        <label class="col-md-3 control-label"><b>Status</b></label>
-                        <div class="col-md-9">                            
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>Status</b></label>
+                        <div class="col-md-10">                            
                             <?php echo $ddlStatus; ?>
                             <span class="help-block"></span>
                         </div>
@@ -152,6 +188,9 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
         var id=$("#id").val();        
         var fullname=$("#fullname").val();
         var alias=$("#alias").val();
+        var title=$("#title").val();
+        var meta_keyword=$("#meta_keyword").val();
+        var meta_description=$("#meta_description").val();
         var category_product_id=$("#category_product_id").val();
         var image = $("#image").val();
         if (image != '')
@@ -165,6 +204,9 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
             "id":id,
             "fullname":fullname,
             "alias":alias,
+            "title":title,
+            "meta_keyword":meta_keyword,
+            "meta_description":meta_description,
             "category_product_id":category_product_id,
             "image":image,
             "image_hidden":image_hidden,

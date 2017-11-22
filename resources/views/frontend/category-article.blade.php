@@ -1,4 +1,4 @@
-<form method="post" class="frm">
+<form method="post" class="frm" name="frm">
 	<input type="hidden" name="filter_page" value="1">         
     {{ csrf_field() }}
 		<h3 class="page-title h-title"><?php echo $category['fullname']; ?></h3>

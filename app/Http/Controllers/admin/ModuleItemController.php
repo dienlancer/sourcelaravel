@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use App\ModuleItemModel;
 use App\MenuTypeModel;
 use App\MenuModel;
-use App\ModMenuTypeModel;
+use App\CategoryArticleModel;
 use DB;
 class ModuleItemController extends Controller {
   	var $_controller="module-item";	
@@ -29,38 +29,31 @@ class ModuleItemController extends Controller {
     		return $data;
   	}	
     public function getForm($task,$id=""){     
-        $controller=$this->_controller;     
-        $title="";
-        $icon=$this->_icon; 
-        $arrRowData=array();
-        $arrModMenuType=array();
-        switch ($task) {
-           case 'edit':
-              $title=$this->_title . " : Update";
-             $arrRowData=ModuleItemModel::find(@$id)->toArray();  
+      $controller=$this->_controller;     
+      $title="";
+      $icon=$this->_icon; 
+      $arrRowData=array();      
+      switch ($task) {
+       case 'edit':
+       $title=$this->_title . " : Update";
+       $arrRowData=ModuleItemModel::find(@$id)->toArray();  
 
-      $arrModMenuType=ModMenuTypeModel::whereRaw("module_id = ? and trim(lower(module_type)) = ?",[(int)@$id,trim(mb_strtolower($this->_controller,'UTF-8'))])->get()->toArray();      
 
-           break;
-           case 'add':
-              $title=$this->_title . " : Add new";
-           break;     
-        }    
-        $arrMenuType=MenuTypeModel::select("id","fullname","sort_order","created_at","updated_at")->get()->toArray();
 
-    $arrMenu=MenuModel::select("id","fullname","alias","site_link","parent_id","menu_type_id","level","sort_order","status","created_at","updated_at")->orderBy("sort_order","asc")->get()->toArray();  
-
-    $arrMenuRecursive=array();
-
-    menuRecursiveForm($arrMenu ,0,"",$arrMenuRecursive)  ;
-
-    return view("admin.".$this->_controller.".form",compact("arrMenuRecursive","arrRowData","arrModMenuType","arrMenuType","controller","task","title","icon"));
-    }
+       break;
+       case 'add':
+       $title=$this->_title . " : Add new";
+       break;     
+     }    
+     $arrCategoryArticle=CategoryArticleModel::select("id","fullname","parent_id")->orderBy("sort_order","asc")->get()->toArray();
+     $arrCategoryArticleRecursive=array();      
+     categoryArticleRecursiveForm($arrCategoryArticle ,0,"",$arrCategoryArticleRecursive)  ;    
+     return view("admin.".$this->_controller.".form",compact("arrRowData","controller","task","title","icon","arrCategoryArticleRecursive"));
+   }
      public function save(Request $request){
           $id 					        =		trim($request->id);        
           $fullname 				    =		trim($request->fullname);
-          $item_id           =   trim($request->item_id);          
-          $menu_id              =   $request->menu_id;
+          $item_id           =   trim($request->item_id);                    
           $position 					  = 	trim($request->position);  
           $status               =   trim($request->status);        
           $sort_order           =   trim($request->sort_order);                  
@@ -109,32 +102,7 @@ class ModuleItemController extends Controller {
                 $item->status           = (int)$status;                  
                 $item->sort_order 	    =	(int)$sort_order;                
                 $item->updated_at 	    =	date("Y-m-d H:i:s",time());    	        	
-                $item->save();  	
-                if(count(@$menu_id) > 0){                         
-                    $arrModMenuType=ModMenuTypeModel::whereRaw("module_id = ? and module_type",[@$item->id,trim(mb_strtolower(@$this->_controller,'UTF-8'))])->get()->toArray();
-                    $arrMenuID=array();
-                    foreach ($arrModMenuType as $key => $value) {
-                        $arrMenuID[]=$value["menu_id"];
-                    }
-                    $selected=@$menu_id;
-                    sort($selected);
-                    sort($arrMenuID);
-                    $resultCompare=0;
-                    if($selected == $arrMenuID){
-                          $resultCompare=1;       
-                    }
-                    if($resultCompare==0){
-                          ModMenuTypeModel::whereRaw("module_id = ? and module_type = ?",[(int)@$item->id,trim(mb_strtolower($this->_controller,'UTF-8'))])->delete();   
-                          foreach ($selected as $key => $value) {
-                            $menuid=$value;
-                            $modMenuType=new ModMenuTypeModel;
-                            $modMenuType->menu_id     =   (int)$menuid;
-                            $modMenuType->module_id   =   (int)@$item->id;
-                            $modMenuType->module_type =   $this->_controller;                  
-                            $modMenuType->save();
-                          }
-                    }   
-                }
+                $item->save();  	                
                 $info = array(
                   'type_msg' 			=> "has-success",
                   'msg' 				=> 'Save data successfully',
@@ -180,7 +148,6 @@ class ModuleItemController extends Controller {
             if($checked == 1){
               $item = ModuleItemModel::find((int)@$id);
               $item->delete();
-              ModMenuTypeModel::whereRaw("module_id = ? and module_type = ?",[(int)$id,trim(mb_strtolower($this->_controller,'UTF-8'))])->delete();
             }        
             $data                   =   $this->loadData($request);
             $info = array(
@@ -235,10 +202,8 @@ class ModuleItemController extends Controller {
             if($checked == 1){                
                   $strID = implode(',',$arrID);   
                   $strID=substr($strID, 0,strlen($strID) - 1);
-                  $sqlDeleteModuleItem = "DELETE FROM `module_item` WHERE `id` IN  (".$strID.")";       
-                  $sqlDeleteModMenuType = "DELETE FROM `mod_menu_type` WHERE `module_id` IN (".$strID.") and `module_type` = '".trim(mb_strtolower($this->_controller,'UTF-8'))."' ";                
-                  DB::statement($sqlDeleteModuleItem);
-                  DB::statement($sqlDeleteModMenuType);           
+                  $sql = "DELETE FROM `module_item` WHERE `id` IN  (".$strID.")";                      
+                  DB::statement($sql);        
             }
             $data                   =   $this->loadData($request);
             $info = array(
@@ -251,7 +216,7 @@ class ModuleItemController extends Controller {
       }
       public function sortOrder(Request $request){
             $sort_json              =   $request->sort_json;           
-            $data_order             =   json_decode($sort_json);       
+            $data_order             =   json_decode($sort_json);   
             $checked                =   1;
             $type_msg               =   "alert-success";
             $msg                    =   "Update successfully";      

@@ -18,7 +18,7 @@ class ProductController extends Controller {
     		return view("admin.".$this->_controller.".list",compact("controller","task","title","icon"));	
   	}	
     public function getStringCategoryProductID($category_product_id,&$arrCategoryProductID){    
-        $arrCategoryProduct=CategoryProductModel::select("id")->where("parent_id","=",(int)@$category_product_id)->get()->toArray();
+        $arrCategoryProduct=CategoryProductModel::whereRaw("parent_id = ?",[(int)@$category_product_id])->select("id")->get()->toArray();
         foreach ($arrCategoryProduct as $key => $value) {
           $arrCategoryProductID[]=$value["id"];
           $this->getStringCategoryProductID((int)$value["id"],$arrCategoryProductID);
@@ -72,6 +72,9 @@ class ProductController extends Controller {
             $code                 =   trim($request->code);  
             $fullname 				    =		trim($request->fullname);          
             $alias                =   trim($request->alias);
+            $title                =   trim($request->title);
+        $meta_keyword         =   trim($request->meta_keyword);
+        $meta_description     =   trim($request->meta_description);
             $image                =   trim($request->image);
             $status               =   trim($request->status);
             $price                =   trim($request->price);   
@@ -169,7 +172,10 @@ class ProductController extends Controller {
           }  
           $item->code         = $code;
           $item->fullname 		=	$fullname;                
-          $item->alias 			  =	$alias;         
+          $item->alias 			  =	$alias;  
+          $item->title            = $title;
+        $item->meta_keyword     = $meta_keyword;
+        $item->meta_description = $meta_description;                  
           $item->status       = (int)$status;    
           $item->price        = (int)$price;
           $item->sale_price   = (int)$sale_price;
