@@ -35,7 +35,8 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
     </div>
     <div class="portlet-body form">
         <form class="form-horizontal" role="form" enctype="multipart/form-data">
-            {{ csrf_field() }}                                        
+            {{ csrf_field() }}         
+            <input type="hidden" name="sort_json" id="sort_json" value="" />                              
             <?php echo  $inputID; ?>        
             <div class="form-body">
                 <div class="row">
@@ -310,7 +311,8 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             url: '<?php echo $linkInsertArticle; ?>',
             type: 'POST',                        
             data: dataItem,
-            success: function (data, status, jqXHR) {                                                                           
+            success: function (data, status, jqXHR) { 
+                $('#modal-article').modal('hide');                                                                          
                 vItemTable.clear().draw();
                 vItemTable.rows.add(data).draw();
                 spinner.hide();
@@ -394,6 +396,51 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             },
         });
     }
-   
+    function setArticleSortOrder(ctrl){
+        var id=$(ctrl).attr("sort_order_id");
+        var giatri=$(ctrl).val();       
+        var sort_json=$("#sort_json").val();
+        var data_sort=null;
+        if(sort_json != ''){
+            data_sort=$.parseJSON(sort_json);   
+        }   
+        if(data_sort == null){
+            var token = $('input[name="_token"]').val();   
+            var dataItem={            
+                '_token': token
+            };
+            $.ajax({
+                url: '<?php echo $linkLoadDataArticle; ?>',
+                type: 'POST', 
+                             
+                data: dataItem,
+                async:false,
+                success: function (data, status, jqXHR) {       
+                    data_sort = new Array(data.length);
+                    for(var i=0;i<data_sort.length;i++){                            
+                        var sort_order_input=   $(data[i]["sort_order"]).find("input[name='sort_order']");
+                        var sort_order=parseInt($(sort_order_input).val());             
+                        id=(data[i]["id"]).replace('<center>','');
+                        id=id.replace('</center>','');                              
+                        var obj={"id":parseInt(id),"sort_order":sort_order};                        
+                        data_sort[i]=obj;
+                    }                   
+                },
+                beforeSend  : function(jqXHR,setting){
+                    
+                },
+            });
+        }           
+        var data=new Array(data_sort.length);   
+        for(var i=0;i<data_sort.length;i++){                                
+            var sort_order=parseInt(data_sort[i].sort_order);
+            if(parseInt(id)==parseInt(data_sort[i].id)){
+                sort_order=parseInt(giatri);
+            }
+            var obj={"id":data_sort[i].id,"sort_order":sort_order};
+            data[i]=obj;
+        }               
+        $("#sort_json").val(JSON.stringify(data));
+    }
 </script>
 @endsection()            

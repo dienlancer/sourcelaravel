@@ -245,7 +245,7 @@ class ModuleItemController extends Controller {
         $sql = 'select 0 AS is_checked, id,fullname,sort_order from article where id in ('.$str_id.')';   
         $data=DB::select($sql);       
         $data=convertToArray($data);    
-        $data=itemConverter($data,$this->_controller);        
+        $data=itemArticleConverter($data,$this->_controller);        
         return $data;
       } 
 }
