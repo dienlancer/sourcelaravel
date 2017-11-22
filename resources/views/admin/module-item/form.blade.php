@@ -471,7 +471,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             console.log(item);
             data[i]=item;
         }
-        /*var data_sort=JSON.stringify(data);
+        var data_sort=JSON.stringify(data);
         var token = $('form[name="frm"] > input[name="_token"]').val(); 
         var dataItem={
             'data_sort' : data_sort,
@@ -482,6 +482,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             type: 'POST',                        
             data: dataItem,
             success: function (data, status, jqXHR) { 
+                console.log(data);
                 $('form[name="frm"] > input[name="sort_json"]').empty();
                 $('form[name="frm"] > input[name="sort_json"]').val(JSON.stringify(data));
                 spinner.hide();                
@@ -489,7 +490,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             beforeSend  : function(jqXHR,setting){
                 spinner.show();
             },
-        });     */   
+        });       
     }
     $(document).ready(function(){
         var sort_button='<div class="sort-button"><a href="javascript:void(0)" onclick="sort();" class="btn grey-cascade">Sort <i class="fa fa-sort"></i></a></div>';

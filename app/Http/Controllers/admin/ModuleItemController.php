@@ -265,9 +265,23 @@ class ModuleItemController extends Controller {
         $data_sort=$request->data_sort;
         $data=json_decode($data_sort);
         $data=convertToArray($data);    
-        $data=get_field_data_array($data,'sort_order');        
-        ksort($data);        
-        return $data;
+        $data_1=array();
+        foreach ($data as $key => $value) {
+          $item=array( 
+                        'id'=>$value['id'],
+                        'sort_order'=>$value['sort_order_text']
+                      );
+          $data_1[]=$item;
+        }
+        $data_1=get_field_data_array($data_1,'sort_order');        
+        $data_2=get_field_data_array($data,'sort_order_text');        
+        ksort($data_1);        
+        ksort($data_2);   
+        $dataReturn=array(
+            'data_1'=>$data_1,
+            'data_2'=>$data_2
+        );     
+        return $dataReturn;
       }
 }
 ?>
