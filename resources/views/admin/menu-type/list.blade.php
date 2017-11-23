@@ -123,8 +123,9 @@ $linkSortOrder		=	route('admin.'.$controller.'.sortOrder');
 		if(window.confirm(msg)){ 
 			xac_nhan = 1;
 		}
-		if(xac_nhan  == 0)
+		if(xac_nhan  == 0){
 			return 0;	
+		}
 		var token 	= 	$('input[name="_token"]').val();   
 		var dt 		= 	vMenuTypeTable.data();
 		var str_id	=	"";		

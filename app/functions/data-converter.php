@@ -597,7 +597,7 @@ function itemArticleConverter($data=array(),$controller){
     $dataSettingSystem= getSettingSystem();
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){            
-            $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.asset("/public/admin/images/delete-icon.png").'" /></a></center>';            
+            $deleted='<center><a href="javascript:void(0)" onclick="deleteItem(this)"><img src="'.asset("/public/admin/images/delete-icon.png").'" /></a></center>';            
             $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'"  value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';            
             $id=$data[$i]["id"]; 
             $image="";
@@ -623,7 +623,7 @@ function itemProductConverter($data=array(),$controller){
     $dataSettingSystem= getSettingSystem();
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){            
-            $deleted='<center><a href="javascript:void(0)" onclick="deleteItem('.$data[$i]["id"].')"><img src="'.asset("/public/admin/images/delete-icon.png").'" /></a></center>';            
+            $deleted='<center><a href="javascript:void(0)" onclick="deleteItem(this)"><img src="'.asset("/public/admin/images/delete-icon.png").'" /></a></center>';            
             $sort_order = '<center><input name="sort_order" id="sort-order-'.$data[$i]["id"].'" sort_order_id="'.$data[$i]["id"].'"  value="'.$data[$i]["sort_order"].'" size="3" style="text-align:center" /></center>';            
             $id=$data[$i]["id"]; 
             $image="";

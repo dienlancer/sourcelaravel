@@ -186,6 +186,7 @@ Route::group(["prefix"=>"admin","middleware"=>"TestLogin"],function(){
 		Route::post("insert-article",["as"=>"admin.module-item.insertArticle","uses"=>"admin\ModuleItemController@insertArticle"]);	
 		Route::post("insert-product",["as"=>"admin.module-item.insertProduct","uses"=>"admin\ModuleItemController@insertProduct"]);	
 		Route::post("sort-items",["as"=>"admin.module-item.sortItems","uses"=>"admin\ModuleItemController@sortItems"]);		
+		Route::post("trash-items",["as"=>"admin.module-item.trashItems","uses"=>"admin\ModuleItemController@trashItems"]);		
 	});
 	Route::group(["prefix"=>"media"],function(){		
 		Route::get("list",["as"=>"admin.media.getList","uses"=>"admin\MediaController@getList"]);

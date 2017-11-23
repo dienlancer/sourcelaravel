@@ -8,6 +8,7 @@ $linkSave               =   route('admin.'.$controller.'.save');
 $linkInsertArticle               =   route('admin.'.$controller.'.insertArticle');
 $linkInsertProduct               =   route('admin.'.$controller.'.insertProduct');
 $linkSortItems               =   route('admin.'.$controller.'.sortItems');
+$linkTrashItems               =   route('admin.'.$controller.'.trashItems');
 $inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"       value="'.@$arrRowData['fullname'].'">'; 
 $ddlCategoryArticle     =   cmsSelectboxCategory('category_article_id','category_article_id', 'form-control', $arrCategoryArticleRecursive, 0,"");
 $ddlCategoryProduct     =   cmsSelectboxCategory('category_product_id','category_product_id', 'form-control', $arrCategoryProductRecursive, 0,"");
@@ -322,7 +323,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                 type: 'POST',                        
                 data: dataItem,
                 success: function (data, status, jqXHR) {                     
-                    vItemTable.clear().draw();
+                    
                     vItemTable.rows.add(data).draw();
                     spinner.hide();
                     $('#component').val('article');
@@ -358,7 +359,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                 type: 'POST',                        
                 data: dataItem,
                 success: function (data, status, jqXHR) { 
-                    vItemTable.clear().draw();
+                    
                     vItemTable.rows.add(data).draw();
                     spinner.hide();
                     $('#component').val('product');
@@ -394,7 +395,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
         var component=$('#component').val();
         var status=$("#status").val();        
         var sort_order=$("#sort_order").val();        
-        var token = $('input[name="_token"]').val();   
+        var token = $('form[name="frm"] > input[name="_token"]').val(); 
         resetErrorStatus();
         var dataItem={
             "id":id,
@@ -447,6 +448,11 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
     function sort(){
         var tbody=$('div.list > div.dataTables_wrapper > div.table-scrollable > table > tbody');        
         var rows=tbody[0].rows;
+        var classname= $(rows[0].cells[0]).attr('class');        
+        if(classname == 'dataTables_empty'){
+            alert('Please choose at least one item');
+            return false;
+        }
         var data=new Array(rows.length);
         for(var i=0;i<rows.length;i++){
             var row=rows[i];
@@ -481,8 +487,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             url: '<?php echo $linkSortItems; ?>',
             type: 'POST',                        
             data: dataItem,
-            success: function (data, status, jqXHR) {   
-                console.log(data.data_2);
+            success: function (data, status, jqXHR) {                   
                 vItemTable.clear().draw();
                 vItemTable.rows.add(data.data_2).draw();                
                 $('form[name="frm"] > input[name="sort_json"]').empty();
@@ -492,11 +497,58 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             beforeSend  : function(jqXHR,setting){
                 spinner.show();
             },
-        });       
+        });  
+    }
+    function trash(){
+        var xac_nhan = 0;
+        var msg="Do you really want to delete these items ?";
+        if(window.confirm(msg)){ 
+            xac_nhan = 1;
+        }
+        if(xac_nhan  == 0){
+            return 0;   
+        }
+        var token = $('form[name="frm"] > input[name="_token"]').val(); 
+        var dt      =   vItemTable.data();
+        var str_id  =   "";     
+        for(var i=0;i<dt.length;i++){
+            var dr=dt[i];
+            if(dr.is_checked==1){
+                var sort_input=$(dr.sort_order).find("input[name='sort_order']");
+                var tr=$(sort_input).closest('tr');
+                console.log(tr);
+                //vItemTable.row(tr).remove().draw();  
+            }
+        }
+        /*var dataItem ={   
+            'str_id':str_id,                
+            '_token': token
+        };
+        $.ajax({
+            url: '<?php echo $linkTrashItems; ?>',
+            type: 'POST',       
+            data: dataItem,
+            success: function (data, status, jqXHR) {                
+                vItemTable.clear().draw();
+                vItemTable.rows.add(data.data).draw();
+                spinner.hide();
+            },
+            beforeSend  : function(jqXHR,setting){
+                spinner.show();
+            },
+        });*/
+        $("form[name='frm'] > input[name='checkall-toggle']").prop("checked",false);
+    }    
+    function deleteItem(ctrl){
+        var tr=$(ctrl).closest('tr');
+        vItemTable.row(tr).remove().draw();        
     }
     $(document).ready(function(){
-        var sort_button='<div class="sort-button"><a href="javascript:void(0)" onclick="sort();" class="btn grey-cascade">Sort <i class="fa fa-sort"></i></a></div>';
+        vItemTable.clear().draw();
+        var sort_button='<div class="sort-button"><a href="javascript:void(0)" onclick="sort();" class="btn dark btn-outline sbold uppercase">Sort <i class="fa fa-sort"></i></a></div>';
+        var trash_button='<div class="sort-button"><a href="javascript:void(0)" onclick="trash();" class="btn dark btn-outline sbold uppercase">Trash <i class="fa fa-trash"></i></a></div>';
         $('div.list > div.dataTables_wrapper > div:first-child > div:nth-child(2)').append(sort_button);
+        $('div.list > div.dataTables_wrapper > div:first-child > div:nth-child(2)').append(trash_button);
     })
 </script>
 @endsection()            
