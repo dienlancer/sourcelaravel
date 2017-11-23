@@ -36,7 +36,7 @@ $linkDelete			=	route('admin.'.$controller.'.deleteItem');
 				$i=1;
 				for ($j=0;$j < count($arrData);$j++) {
 					$name=$arrData[$j];					
-					$pathFile=base_path("resources/upload/".$name); 					
+					$pathFile=base_path("upload/".$name); 					
 					$is_file=0;
 					if(is_file($pathFile)){
                         $is_file=1;

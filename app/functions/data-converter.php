@@ -20,7 +20,7 @@ function categoryArticleConverter($data=array(),$controller){
             $link_image="";
             $image="";
             if(!empty($data[$i]["image"])){
-                $link_image=url("/resources/upload/".$data[$i]["image"]);            
+                $link_image=url("/upload/".$data[$i]["image"]);            
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }          
 
@@ -63,7 +63,7 @@ function articleConverter($data=array(),$controller){
             $link_image="";
             $image="";
             if(!empty($data[$i]["image"])){
-                $link_image=url("/resources/upload/".$data[$i]["image"]);            
+                $link_image=url("/upload/".$data[$i]["image"]);            
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }       
             $id='<center>'.$data[$i]["id"].'</center>';       
@@ -174,7 +174,7 @@ function categoryProductConverter($data=array(),$controller){
             $link_image="";
             $image="";
             if(!empty($data[$i]["image"])){
-                $link_image=url("/resources/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".$data[$i]["image"]);            
+                $link_image=url("/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".$data[$i]["image"]);            
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }            
             $result[$i] = array(
@@ -216,7 +216,7 @@ function productConverter($data=array(),$controller){
             $link_image="";
             $image="";
             if(!empty($data[$i]["image"])){
-                $link_image=url("/resources/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".$data[$i]["image"]);            
+                $link_image=url("/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".$data[$i]["image"]);            
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }          
             $id='<center>'.$data[$i]["id"].'</center>';  
@@ -602,7 +602,7 @@ function itemArticleConverter($data=array(),$controller){
             $id=$data[$i]["id"]; 
             $image="";
             if(!empty($data[$i]["image"])){
-                $link_image=url("/resources/upload/".$data[$i]["image"]);            
+                $link_image=url("/upload/".$data[$i]["image"]);            
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }         
             $result[$i] = array(
@@ -628,7 +628,7 @@ function itemProductConverter($data=array(),$controller){
             $id=$data[$i]["id"]; 
             $image="";
             if(!empty($data[$i]["image"])){
-                $link_image=url("/resources/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".$data[$i]["image"]);            
+                $link_image=url("/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".$data[$i]["image"]);            
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }          
             $result[$i] = array(

@@ -27,7 +27,7 @@ $strImage               =   "";
 $dataSettingSystem= getSettingSystem();
 if(count($arrRowData > 0)){
     if(!empty(@$arrRowData["image"])){
-        $picture        =   '<div class="col-sm-6"><center>&nbsp;<img src="'.url("/resources/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".@$arrRowData["image"]).'" style="width:100%" />&nbsp;</center></div><div class="col-sm-6"><a href="javascript:void(0);" onclick="deleteImage();"><img src="'.url('public/admin/images/delete-icon.png').'"/></a></div>';                        
+        $picture        =   '<div class="col-sm-6"><center>&nbsp;<img src="'.url("/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".@$arrRowData["image"]).'" style="width:100%" />&nbsp;</center></div><div class="col-sm-6"><a href="javascript:void(0);" onclick="deleteImage();"><img src="'.url('public/admin/images/delete-icon.png').'"/></a></div>';                        
         $strImage       =   @$arrRowData["image"];
     }        
 }   
@@ -39,7 +39,7 @@ if(count($arrRowData) > 0){
     if(count($arrProductChildImage) > 0){
         foreach ($arrProductChildImage as $key => $value) {
             $strTr .= '<tr>';
-            $strTr .= '<td align="center" valign="middle"><img src="'.url("/resources/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".@$value).'" width="'.((int)$dataSettingSystem["product_width"]/6).'" /><input type="hidden" name="product_child_image_hidden[]" value="'.$value.'" /></td>';      
+            $strTr .= '<td align="center" valign="middle"><img src="'.url("/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".@$value).'" width="'.((int)$dataSettingSystem["product_width"]/6).'" /><input type="hidden" name="product_child_image_hidden[]" value="'.$value.'" /></td>';      
             $strTr .= '<td align="center" valign="middle" class="tdcmd"><a href="javascript:void(0)"  onclick="removeRow(this);"><img src="'.url("/public/admin/images/delete-icon.png").'" /></a></td>';
             $strTr .='</tr>';
         }

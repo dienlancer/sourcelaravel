@@ -138,7 +138,7 @@ $arrCart=array();
         <div class="menu">
             <div class="col-lg-3 no-padding">                
                 <center><a href="<?php echo url('/'); ?>">                
-                    <img src="<?php echo asset('resources/upload/logo-megashop.png');?>" />
+                    <img src="<?php echo asset('upload/logo-megashop.png');?>" />
                 </a></center>
             </div>
             <div class="col-lg-6 no-padding">                                                

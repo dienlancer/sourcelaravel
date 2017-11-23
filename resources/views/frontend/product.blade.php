@@ -6,8 +6,8 @@ $product_height=$data_setting_system['product_height'];
 if(count($item) > 0){
     $id=$item['id'];           
     $permalink=url('/san-pham/'.$item['alias'].'.html');
-    $featureImg=asset('/resources/upload/'.$product_width.'x'.$product_height.'-'.$item['image']); 
-    $largeImg=asset('/resources/upload/'.$item['image']); 
+    $featureImg=asset('/upload/'.$product_width.'x'.$product_height.'-'.$item['image']); 
+    $largeImg=asset('/upload/'.$item['image']); 
     $fullname=$item['fullname'];   
     $price=fnPrice($item['price']).' đ';
     $sale_price=fnPrice($item['sale_price']). ' đ';
@@ -55,8 +55,8 @@ if(count($item) > 0){
                                     <?php 
                                     if(count($arrPicture) > 0){
                                         for($i=0;$i<count($arrPicture);$i++){                                            
-                                            $small_thumbnail=asset('/resources/upload/'.$product_width.'x'.$product_height.'-'.$arrPicture[$i]);    
-                                            $large_thumbnail=asset('/resources/upload/'.$arrPicture[$i]);                            
+                                            $small_thumbnail=asset('/upload/'.$product_width.'x'.$product_height.'-'.$arrPicture[$i]);    
+                                            $large_thumbnail=asset('/upload/'.$arrPicture[$i]);                            
                                             ?>
                                             <div class="items">
                                                 <div class="box-product-thumbnail">

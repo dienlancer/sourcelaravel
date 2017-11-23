@@ -17,7 +17,7 @@ $picture                =   "";
 $strImage               =   "";
 if(count($arrRowData > 0)){
     if(!empty(@$arrRowData["image"])){
-        $picture        =   '<div class="col-sm-6"><center>&nbsp;<img style="width:100%" src="'.url("/resources/upload/".@$arrRowData["image"]).'"  />&nbsp;</center></div><div class="col-sm-6"><a href="javascript:void(0);" onclick="deleteImage();"><img src="'.url('public/admin/images/delete-icon.png').'"/></a></div>';                        
+        $picture        =   '<div class="col-sm-6"><center>&nbsp;<img style="width:100%" src="'.url("/upload/".@$arrRowData["image"]).'"  />&nbsp;</center></div><div class="col-sm-6"><a href="javascript:void(0);" onclick="deleteImage();"><img src="'.url('public/admin/images/delete-icon.png').'"/></a></div>';                        
         $strImage       =   @$arrRowData["image"];
     }        
 }    

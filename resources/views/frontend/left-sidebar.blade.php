@@ -29,7 +29,7 @@ switch ($component) {
             for($i=0;$i<count($data_featured_article);$i++){
                 $id=$data_featured_article[$i]['id'];           
                 $permalink=url('/bai-viet/'.$data_featured_article[$i]['alias'].'.html');
-                $featureImg=asset('/resources/upload/'.$data_featured_article[$i]['image']);
+                $featureImg=asset('/upload/'.$data_featured_article[$i]['image']);
                 $fullname=$data_featured_article[$i]['fullname'];
                 $intro=$data_featured_article[$i]['intro'];
                 $content=$data_featured_article[$i]['content'];
@@ -86,7 +86,7 @@ switch ($component) {
             for($i=0;$i<count($data_featured_product);$i++){
                 $id=$data_featured_product[$i]['id'];           
                         $permalink=url('/san-pham/'.$data_featured_product[$i]['alias'].'.html');
-                        $featureImg=asset('/resources/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$data_featured_product[$i]['image']);
+                        $featureImg=asset('/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$data_featured_product[$i]['image']);
                         $fullname=$data_featured_product[$i]['fullname'];   
                         $price=$data_featured_product[$i]['price'];
                         $sale_price=$data_featured_product[$i]['sale_price'];

@@ -4,9 +4,9 @@
 
 <?php  
 
-$strImage= url('/resources/upload/product') ;
+$strImage= url('/upload/product') ;
 
-$strImageChildren= url('/resources/upload/product/'.WIDTH.'x'.HEIGHT.'-') ;
+$strImageChildren= url('/upload/product/'.WIDTH.'x'.HEIGHT.'-') ;
 
  $detail=$item[0];
 

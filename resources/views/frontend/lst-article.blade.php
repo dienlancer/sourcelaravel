@@ -1,6 +1,6 @@
 <?php 
 
-$strImage= url('/resources/upload/'.WIDTH."x".HEIGHT."-") ;
+$strImage= url('/upload/'.WIDTH."x".HEIGHT."-") ;
 
 ?>
 

@@ -8,7 +8,7 @@ class MediaController extends Controller {
   	var $_title="Media";
   	var $_icon="icon-settings font-dark";
 	public function getList(){			
-		$strDirUpload=base_path()."/resources/upload";
+		$strDirUpload=base_path()."/upload";
 		$arrData = scandir($strDirUpload);		
 		$controller=$this->_controller;	
 		$task="list";
@@ -36,7 +36,7 @@ class MediaController extends Controller {
 		foreach ($arrName as $key => $value) {      
          	if(!empty($value)){
 	          	$fileName   = $value;
-	          	@copy($arrTmpName[$key], base_path("resources/upload/".$fileName) );  
+	          	@copy($arrTmpName[$key], base_path("upload/".$fileName) );  
         	}       
       	}
       	return redirect()->route("admin.".$this->_controller.".getList");
@@ -53,7 +53,7 @@ class MediaController extends Controller {
 		if($checked==1){				
 			foreach ($arrID as $key => $value) {
 				if(!empty($value)){
-					$pathFile=base_path("resources/upload/".$value);
+					$pathFile=base_path("upload/".$value);
 			 		if(file_exists($pathFile)){
 						unlink($pathFile);
 					}	
@@ -67,7 +67,7 @@ class MediaController extends Controller {
 	    $checked                =   1;
 	    $type_msg               =   "alert-success";
 	    $msg                    =   "Delete successfully";   
-	    $pathFile 				= 	base_path("resources/upload/".$id);	
+	    $pathFile 				= 	base_path("upload/".$id);	
 	    if(!file_exists($pathFile)){
 			$checked=0;
 		}			         	    

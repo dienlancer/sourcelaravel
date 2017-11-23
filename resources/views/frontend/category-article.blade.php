@@ -10,7 +10,7 @@
 				for($i=0;$i<count($items);$i++){
 					$id=$items[$i]['id'];			
 					$permalink=url('/bai-viet/'.$items[$i]['alias'].'.html');
-					$featureImg=asset('/resources/upload/' .$items[$i]['image']);
+					$featureImg=asset('/upload/' .$items[$i]['image']);
 					$fullname=$items[$i]['fullname'];
 					$intro=$items[$i]['intro'];
 					$content=$items[$i]['content'];

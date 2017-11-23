@@ -30,7 +30,7 @@ if(count($arrCart) > 0){
         $product_name 			=	$value["product_name"];
         $product_code			=	$value["product_code"];
         $product_price 			=	$value["product_price"];        
-        $product_image 			=  	asset('/resources/upload/'.$product_width.'x'.$product_height.'-'.$value['product_image']) ;        
+        $product_image 			=  	asset('/upload/'.$product_width.'x'.$product_height.'-'.$value['product_image']) ;        
         $product_link 			= 	url('/san-pham/'.$value['product_alias'].'.html');			
 		$product_quantity		=	$value["product_quantity"];
 		$product_price 			=	fnPrice($value["product_price"]);

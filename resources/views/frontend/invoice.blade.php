@@ -28,7 +28,7 @@
                 $quantity=$data[$i]["quantity"];
                 $total_price=($data[$i]["total_price"]) ;
                 $code=$data[$i]["code"];
-                $product_image=asset('/resources/upload/'.$product_width . 'x'.$product_height.'-') ;          
+                $product_image=asset('/upload/'.$product_width . 'x'.$product_height.'-') ;          
                 $status="";
                 $show_invoice_detail_link=route('frontend.index.showInvoiceDetail');
                 switch ((int)$data[$i]["status"]) {

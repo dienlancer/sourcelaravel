@@ -10,7 +10,7 @@
 					for($i=0;$i<count($items);$i++){							
 						$id=$items[$i]['id'];			
 						$permalink=url('/san-pham/'.$items[$i]['alias'].'.html');
-						$featureImg=asset('/resources/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$items[$i]['image']);
+						$featureImg=asset('/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$items[$i]['image']);
 						$fullname=$items[$i]['fullname'];	
 						$price=$items[$i]['price'];
 						$sale_price=$items[$i]['sale_price'];

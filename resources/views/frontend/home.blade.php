@@ -46,7 +46,7 @@ if(count($data_slideshow) > 0){
 				<div id="slider" class="nivoSlider"> 
 					<?php 
 					for($i=0 ; $i < count($data_slideshow) ; $i++ ){
-						$banner=asset('resources/upload/'.$data_slideshow[$i]['image']);
+						$banner=asset('upload/'.$data_slideshow[$i]['image']);
 						?>
 						<img src="<?php echo $banner; ?>" data-thumb="<?php echo $banner; ?>" alt="" />     
 						<?php
@@ -111,8 +111,8 @@ if(count($data_slideshow) > 0){
 		</div>        
 	</div>
 	<div class="container thiet-bi-ve-sinh-cao-cap-banner">
-		<div class="col-lg-8 no-padding"><img src="<?php echo asset('resources/upload/t5.jpg'); ?>"></div>
-		<div class="col-lg-4 no-padding-right"><img src="<?php echo asset('resources/upload/t6.jpg'); ?>"></div>
+		<div class="col-lg-8 no-padding"><img src="<?php echo asset('upload/t5.jpg'); ?>"></div>
+		<div class="col-lg-4 no-padding-right"><img src="<?php echo asset('upload/t6.jpg'); ?>"></div>
 	</div>
 </div>
 <div class="container main">
@@ -148,7 +148,7 @@ if(count($data_slideshow) > 0){
                 if(count($data_banner_trai)){
                 	           	
                     for($i=0;$i<count($data_banner_trai);$i++){                           	                    
-	                    $featureImg=asset('/resources/upload/'.$data_banner_trai[$i]['image']);
+	                    $featureImg=asset('/upload/'.$data_banner_trai[$i]['image']);
 	                    $page_url=$data_banner_trai[$i]['page_url'];
 	                    ?><div class="margin-top-15"><a href="<?php echo $page_url; ?>" target='_blank'><img src="<?php echo $featureImg; ?>" /></a></div><?php 
                     }
@@ -166,7 +166,7 @@ if(count($data_slideshow) > 0){
 					for($i=0;$i<count($data_featured_product);$i++){							
 						$id=$data_featured_product[$i]['id'];			
 						$permalink=url('/san-pham/'.$data_featured_product[$i]['alias'].'.html');
-						$featureImg=asset('/resources/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$data_featured_product[$i]['image']);
+						$featureImg=asset('/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$data_featured_product[$i]['image']);
 						$fullname=$data_featured_product[$i]['fullname'];	
 						$price=$data_featured_product[$i]['price'];
 						$sale_price=$data_featured_product[$i]['sale_price'];
@@ -259,7 +259,7 @@ if(count($data_slideshow) > 0){
 				for($i=0;$i<count($data_toilet_equipment);$i++){
 					$id=$data_toilet_equipment[$i]['id'];			
 					$permalink=url('/san-pham/'.$data_toilet_equipment[$i]['alias'].'.html');
-					$featureImg=asset('/resources/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$data_toilet_equipment[$i]['image']);
+					$featureImg=asset('/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$data_toilet_equipment[$i]['image']);
 					$fullname=$data_toilet_equipment[$i]['fullname'];	
 					$price=$data_toilet_equipment[$i]['price'];
 					$sale_price=$data_toilet_equipment[$i]['sale_price'];
@@ -343,7 +343,7 @@ if(count($data_slideshow) > 0){
 				for($i=0;$i<count($data_chicken_equipment);$i++){
 					$id=$data_chicken_equipment[$i]['id'];			
 					$permalink=url('/san-pham/'.$data_chicken_equipment[$i]['alias'].'.html');
-					$featureImg=asset('/resources/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$data_chicken_equipment[$i]['image']);
+					$featureImg=asset('/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$data_chicken_equipment[$i]['image']);
 					$fullname=$data_chicken_equipment[$i]['fullname'];	
 					$price=$data_chicken_equipment[$i]['price'];
 					$sale_price=$data_chicken_equipment[$i]['sale_price'];
@@ -452,7 +452,7 @@ if(count($data_clever_house) > 0){
 					for($i=0;$i<count($data_clever_house);$i++){
 						$id=$data_clever_house[$i]['id'];			
 						$permalink=url('/san-pham/'.$data_clever_house[$i]['alias'].'.html');
-						$featureImg=asset('/resources/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$data_clever_house[$i]['image']);
+						$featureImg=asset('/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$data_clever_house[$i]['image']);
 						$fullname=$data_clever_house[$i]['fullname'];	
 						$price=$data_clever_house[$i]['price'];
 						$sale_price=$data_clever_house[$i]['sale_price'];
@@ -535,7 +535,7 @@ if(count($data_customer) > 0){
 			for($i=0;$i<count($data_customer);$i++){
 					$id=$data_customer[$i]['id'];			
 					$permalink=url('/san-pham/'.$data_customer[$i]['alias'].'.html');
-					$featureImg=asset('/resources/upload/'.$data_customer[$i]['image']);
+					$featureImg=asset('/upload/'.$data_customer[$i]['image']);
 					$fullname=$data_customer[$i]['fullname'];
 					$intro=$data_customer[$i]['intro'];
 					$content=$data_customer[$i]['content'];
@@ -576,7 +576,7 @@ if(count($data_customer) > 0){
 			for($i=0;$i<count($data_hot_article);$i++){
 				$id=$data_hot_article[$i]['id'];			
 				$permalink=url('/bai-viet/'.$data_hot_article[$i]['alias'].'.html');
-				$featureImg=asset('/resources/upload/'.$data_hot_article[$i]['image']);
+				$featureImg=asset('/upload/'.$data_hot_article[$i]['image']);
 				$fullname=$data_hot_article[$i]['fullname'];
 				$intro=$data_hot_article[$i]['intro'];
 				$content=$data_hot_article[$i]['content'];
@@ -633,7 +633,7 @@ if(count($data_customer) > 0){
 				for($i=0;$i<count($data_partner);$i++){
 					$id=$data_partner[$i]['id'];			
 					$permalink=url('/san-pham/'.$data_partner[$i]['alias'].'.html');
-					$featureImg=asset('/resources/upload/'.$data_partner[$i]['image']);
+					$featureImg=asset('/upload/'.$data_partner[$i]['image']);
 					$fullname=$data_partner[$i]['fullname'];
 					$intro=$data_partner[$i]['intro'];
 					$content=$data_partner[$i]['content'];
@@ -656,7 +656,7 @@ if(count($data_customer) > 0){
 	<iframe src="<?php echo $map_url; ?>" width="100%" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
 	<div class="map">
 		<div>
-			<div class="col-xs-2 no-padding"><center><img src="<?php echo asset('/resources/upload/icon_shop.png'); ?>" /></center></div>
+			<div class="col-xs-2 no-padding"><center><img src="<?php echo asset('/upload/icon_shop.png'); ?>" /></center></div>
 			<div class="col-xs-10 no-padding-right">
 				<div class="shop-name">MEGASHOP</div>
 				<div class="slogan-title">Nội thất hiện đại</div>
