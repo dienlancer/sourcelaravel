@@ -321,7 +321,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                 url: '<?php echo $linkInsertArticle; ?>',
                 type: 'POST',                        
                 data: dataItem,
-                success: function (data, status, jqXHR) { 
+                success: function (data, status, jqXHR) {                     
                     vItemTable.clear().draw();
                     vItemTable.rows.add(data).draw();
                     spinner.hide();
@@ -452,7 +452,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             var row=rows[i];
             var cell_sort_order=row.cells[3];
             var input_sort_order=$(cell_sort_order).find('input[name="sort_order"]');
-            var id=$(input_sort_order).attr('sort_order_id');
+            var id=parseInt($(input_sort_order).attr('sort_order_id')) ;
             var sort_order_text=$(input_sort_order).val();
             var fullname=$(row.cells[1]).text();
             var image=$(row.cells[2]).html();
@@ -461,14 +461,14 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             var sort_order=$(row.cells[3]).html();
             var item={
                 'checked':checked,
+                'is_checked':0,
                 'id':id,
                 'fullname':fullname,
                 'image':image,
                 'sort_order':sort_order,
                 'sort_order_text':sort_order_text,
                 'deleted':deleted
-            };            
-            console.log(item);
+            };                        
             data[i]=item;
         }
         var data_sort=JSON.stringify(data);
@@ -481,10 +481,12 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             url: '<?php echo $linkSortItems; ?>',
             type: 'POST',                        
             data: dataItem,
-            success: function (data, status, jqXHR) { 
-                console.log(data);
+            success: function (data, status, jqXHR) {   
+                console.log(data.data_2);
+                vItemTable.clear().draw();
+                vItemTable.rows.add(data.data_2).draw();                
                 $('form[name="frm"] > input[name="sort_json"]').empty();
-                $('form[name="frm"] > input[name="sort_json"]').val(JSON.stringify(data));
+                $('form[name="frm"] > input[name="sort_json"]').val(JSON.stringify(data.data_1));
                 spinner.hide();                
             },
             beforeSend  : function(jqXHR,setting){

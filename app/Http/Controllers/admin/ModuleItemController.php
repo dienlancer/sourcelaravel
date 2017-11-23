@@ -265,7 +265,8 @@ class ModuleItemController extends Controller {
         $data_sort=$request->data_sort;
         $data=json_decode($data_sort);
         $data=convertToArray($data);    
-        $data_1=array();
+        $data_1=array();     
+        $data_3=array();   
         foreach ($data as $key => $value) {
           $item=array( 
                         'id'=>$value['id'],
@@ -276,7 +277,22 @@ class ModuleItemController extends Controller {
         $data_1=get_field_data_array($data_1,'sort_order');        
         $data_2=get_field_data_array($data,'sort_order_text');        
         ksort($data_1);        
-        ksort($data_2);   
+        ksort($data_2); 
+        foreach ($data_2 as $key => $value) {
+          $sort_input='<center><input name="sort_order" id="sort-order-'.$value['id'].'" sort_order_id="'.$value['id'].'" value="'.$value['sort_order_text'].'" size="3" style="text-align:center"></center>';
+          $item=array(
+              'checked'=>$value['checked'],
+              'deleted'=>$value['deleted'],
+              'fullname'=>$value['fullname'],
+              'id'=>(int)$value['id'],
+              'image'=>$value['image'],
+              'is_checked'=>(int)$value['is_checked'],
+              'sort_order'=>$sort_input
+          ); 
+          $data_3[]=$item;   
+        }  
+        $data_2=$data_3;
+
         $dataReturn=array(
             'data_1'=>$data_1,
             'data_2'=>$data_2
