@@ -103,3 +103,6 @@ div.sort-button{
     float: right;
     margin-right: 15px;
 }
+.page-header.navbar .page-logo .logo-default{
+    margin:10px 0 0;
+}
