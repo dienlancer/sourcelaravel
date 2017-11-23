@@ -83,7 +83,7 @@ class IndexController extends Controller {
                   );           
                   $pagination=new PaginationModel($arrPagination);
                   $str_pagination=$pagination->showPagination();
-                  $position   = (@$arrPagination['currentPage']-1)*$totalItemsPerPage;
+                  $position   = ((int)@$arrPagination['currentPage']-1)*$totalItemsPerPage;
                   $data=DB::select('call pro_getArticleFrontendLimit(?,?,?,?)',array($filter_search,$str_category_id,$position,$totalItemsPerPage));      
                   $items=convertToArray($data);                  
               }              
@@ -125,7 +125,7 @@ class IndexController extends Controller {
                   );           
                   $pagination=new PaginationModel($arrPagination);
                   $str_pagination=$pagination->showPagination();
-                  $position   = (@$arrPagination['currentPage']-1)*$totalItemsPerPage;
+                  $position   = ((int)@$arrPagination['currentPage']-1)*$totalItemsPerPage;
                   $data=DB::select('call pro_getProductFrontendLimit(?,?,?,?)',array($filter_search,$str_category_id,$position,$totalItemsPerPage));                        
                   $items=convertToArray($data);                  
               }              
