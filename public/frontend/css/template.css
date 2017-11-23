@@ -11,8 +11,8 @@
 
 
 
-
-
+@font-face{font-family:"notoserif";src:url("../fonts/noto-serif.ttf");}
+@font-face{font-family:"robotocondensed";src:url("../fonts/RobotoCondensed-Regular.woff");}
 @font-face{font-family:"baomoi";src:url("../fonts/baomoi_gdi.ttf");}
 body{font-size:13px;color:#333;background: #f1f1f1}
 table{max-width:100%;}
