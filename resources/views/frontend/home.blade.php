@@ -149,7 +149,8 @@ if(count($data_slideshow) > 0){
                 	           	
                     for($i=0;$i<count($data_banner_trai);$i++){                           	                    
 	                    $featureImg=asset('/resources/upload/'.$data_banner_trai[$i]['image']);
-	                    ?><div class="margin-top-15"><img src="<?php echo $featureImg; ?>" /></div><?php 
+	                    $page_url=$data_banner_trai[$i]['page_url'];
+	                    ?><div class="margin-top-15"><a href="<?php echo $page_url; ?>" target='_blank'><img src="<?php echo $featureImg; ?>" /></a></div><?php 
                     }
                    
                 }

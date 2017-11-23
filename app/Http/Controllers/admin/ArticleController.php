@@ -76,6 +76,7 @@ class ArticleController extends Controller {
           $image_hidden         =   trim($request->image_hidden);
           $intro                =   trim($request->intro);
           $content              =   trim($request->content);
+          $page_url             =   trim($request->page_url);
           $description          =   trim($request->description);
           $meta_keyword         =   trim($request->meta_keyword);
           $meta_description     =   trim($request->meta_description);
@@ -154,6 +155,7 @@ class ArticleController extends Controller {
                 $item->alias 			      =	$alias;
                 $item->intro            = $intro;
                 $item->content          = $content;
+                $item->page_url         = $page_url;
                 $item->description      = $description;
                 $item->meta_keyword     = $meta_keyword;
                 $item->meta_description = $meta_description;           

@@ -10,6 +10,7 @@ $inputTitle             =   '<textarea id="title" name="title" rows="2" cols="10
 $inputAlias             =   '<input type="text" class="form-control" name="alias"      id="alias"          value="'.@$arrRowData['alias'].'">';
 $inputIntro             =   '<textarea id="intro" name="intro" rows="5" cols="100" class="form-control" >'.@$arrRowData['intro'].'</textarea>'; 
 $inputContent           =   '<textarea id="content" name="content" rows="2" cols="100" class="form-control" >'.@$arrRowData['content'].'</textarea>'; 
+$inputPageurl          =   '<input type="text" class="form-control" name="page_url"   id="page_url"       value="'.@$arrRowData['page_url'].'">'; 
 $inputDescription       =   '<textarea id="description" name="description" rows="2" cols="100" class="form-control" >'.@$arrRowData['description'].'</textarea>'; 
 $inputMetakeyword             =   '<textarea id="meta_keyword" name="meta_keyword" rows="2" cols="100" class="form-control" >'.@$arrRowData['meta_keyword'].'</textarea>'; 
 $inputMetadescription             =   '<textarea id="meta_description" name="meta_description" rows="2" cols="100" class="form-control" >'.@$arrRowData['meta_description'].'</textarea>'; 
@@ -88,6 +89,15 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
                         </div>
                     </div>     
                 </div>    
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>Page URL</b></label>
+                        <div class="col-md-10">                            
+                            <?php echo $inputPageurl; ?>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>    
+                </div> 
                 <div class="row">
                     <div class="form-group col-md-12">
                         <label class="col-md-2 control-label"><b>Intro</b></label>
@@ -229,10 +239,12 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
         var alias=$("#alias").val();
         var category_article_id=$("#category_article_id").val();
         var image = $("#image").val();
-        if (image != '')
+        if (image != ''){
             image = image.substr(image.lastIndexOf('\\') + 1);       
+        }
         var image_hidden=$("#image_hidden").val(); 
         var intro=$("#intro").val();
+        var page_url=$("#page_url").val();
         var content=CKEDITOR.instances['content'].getData();
         var description=$("#description").val();
         var meta_keyword=$("#meta_keyword").val();
@@ -247,6 +259,7 @@ $inputPictureHidden     =   '<input type="hidden" name="image_hidden" id="image_
             "title":title,
             "alias":alias,
             "image":image,
+            "page_url":page_url,
             "intro":intro,
             "content":content,
             "description":description,
