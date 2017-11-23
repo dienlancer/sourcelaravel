@@ -1,19 +1,18 @@
 /* begin standard */
 *{margin:0;padding:0;}
-@font-face{font-family:"OpenSans-CondBold";src:url("../fonts/OpenSans-CondBold.ttf");}
-@font-face{font-family:"SpecialElite";src:url("../fonts/SpecialElite.ttf");}
-@font-face{font-family:"Georgia";src:url("../fonts/ufonts.com_georgia-bold.ttf");}
-@font-face{font-family:"CWMAGIK";src:url("../fonts/CWMAGIK_.TTF");}
-@font-face{font-family:"BEAUCESC";src:url("../fonts/BEAUCESC.TTF");}
-@font-face{font-family:"BASKVILL";src:url("../fonts/BASKVILL.TTF");}
-@font-face{font-family:"UVNVan_R";src:url("../fonts/UVNVan_R.TTF");}
-@font-face{font-family:"UVNMauTim2";src:url("../fonts/UVNMauTim2.TTF");}
-@font-face{font-family:"helveticaneue";src:url("../fonts/helveticaneue.ttf");}
-@font-face{font-family:"ARIALUNI";src:url("../fonts/ARIALUNI.TTF");}
-@font-face{font-family:"times-new-roman";src:url("../fonts/times.ttf");}
-@font-face{font-family:"robotocondensed";src:url("../fonts/RobotoCondensed-Regular.woff");}
-@font-face{font-family:"arial";src:url("../fonts/arial.ttf");}
-@font-face{font-family:"notoserif";src:url("../fonts/noto-serif.ttf");}
+
+
+
+
+
+
+
+
+
+
+
+
+
 @font-face{font-family:"baomoi";src:url("../fonts/baomoi_gdi.ttf");}
 body{font-size:13px;color:#333;background: #f1f1f1}
 table{max-width:100%;}
