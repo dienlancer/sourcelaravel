@@ -322,9 +322,25 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                 url: '<?php echo $linkInsertArticle; ?>',
                 type: 'POST',                        
                 data: dataItem,
-                success: function (data, status, jqXHR) {                     
-                    
-                    vItemTable.rows.add(data).draw();
+                success: function (data, status, jqXHR) {   
+                    var dataItemTable=vItemTable.data();
+                    if(dataItemTable.length > 0){
+                        var result=1;   
+                        for(var j=0;j<data.length;j++){                                                                             
+                            for(var k=0;k<dataItemTable.length;k++){                                                                
+                                if(parseInt(data[j].id) == parseInt(dataItemTable[k]['id'])){
+                                    result=0;                                       
+                                }                    
+                            }                            
+                        }
+                        if(result==1){                                
+                            vItemTable.rows.add(data).draw();
+                        }else{
+                            alert('Item is existed');
+                        }
+                    }else{
+                        vItemTable.rows.add(data).draw();
+                    }
                     spinner.hide();
                     $('#component').val('article');
                     $('#modal-article').modal('hide');                  
@@ -359,8 +375,24 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                 type: 'POST',                        
                 data: dataItem,
                 success: function (data, status, jqXHR) { 
-                    
-                    vItemTable.rows.add(data).draw();
+                    var dataItemTable=vItemTable.data();
+                    if(dataItemTable.length > 0){
+                        var result=1;   
+                        for(var j=0;j<data.length;j++){                                                                             
+                            for(var k=0;k<dataItemTable.length;k++){                                                                
+                                if(parseInt(data[j].id) == parseInt(dataItemTable[k]['id'])){
+                                    result=0;                                       
+                                }                    
+                            }                            
+                        }
+                        if(result==1){                                
+                            vItemTable.rows.add(data).draw();
+                        }else{
+                            alert('Item is existed');
+                        }
+                    }else{
+                        vItemTable.rows.add(data).draw();
+                    }
                     spinner.hide();
                     $('#component').val('product');
                     $('#modal-product').modal('hide');                  
@@ -506,38 +538,33 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
             xac_nhan = 1;
         }
         if(xac_nhan  == 0){
-            return 0;   
+            return false;   
+        }        
+        var tbody=$('div.list > div.dataTables_wrapper > div.table-scrollable > table > tbody');        
+        var rows=tbody[0].rows;
+        var classname= $(rows[0].cells[0]).attr('class');        
+        if(classname == 'dataTables_empty'){
+            alert('Please choose at least one item');
+            return false;
         }
-        var token = $('form[name="frm"] > input[name="_token"]').val(); 
-        var dt      =   vItemTable.data();
-        var str_id  =   "";     
-        for(var i=0;i<dt.length;i++){
-            var dr=dt[i];
-            if(dr.is_checked==1){
-                str_id +=dr.id+",";             
-            }
-        }
-        
-        /*var dataItem ={   
-            'str_id':str_id,                
-            '_token': token
-        };
-        $.ajax({
-            url: '<?php echo $linkTrashItems; ?>',
-            type: 'POST',       
-            data: dataItem,
-            success: function (data, status, jqXHR) {                
-                vItemTable.clear().draw();
-                vItemTable.rows.add(data.data).draw();
-                spinner.hide();
-            },
-            beforeSend  : function(jqXHR,setting){
-                spinner.show();
-            },
-        });*/
+        for(var i=0;i<rows.length;i++){
+            var row=rows[i];
+            var input_checkbox=$(row.cells[0]).find('input[type="checkbox"][name="cid"]');
+            if($(input_checkbox).is(':checked')){                
+                vItemTable.row(row).remove().draw();        
+            }                        
+        }       
         $("form[name='frm'] > input[name='checkall-toggle']").prop("checked",false);
     }    
     function deleteItem(ctrl){
+        var xac_nhan = 0;
+        var msg="Do you really want to delete these items ?";
+        if(window.confirm(msg)){ 
+            xac_nhan = 1;
+        }
+        if(xac_nhan  == 0){
+            return false;   
+        }
         var tr=$(ctrl).closest('tr');
         vItemTable.row(tr).remove().draw();        
     }
