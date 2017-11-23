@@ -1,13 +1,13 @@
 @extends("admin.master")
 @section("content")
 <?php 
-$linkLoadDataArticle       =   route('admin.article.loadData');
-$linkLoadDataProduct       =   route('admin.product.loadData');
+$linkLoadDataArticle    =   route('admin.article.loadData');
+$linkLoadDataProduct    =   route('admin.product.loadData');
 $linkCancel             =   route('admin.'.$controller.'.getList');
 $linkSave               =   route('admin.'.$controller.'.save');
-$linkInsertArticle               =   route('admin.'.$controller.'.insertArticle');
-$linkInsertProduct               =   route('admin.'.$controller.'.insertProduct');
-$linkSortItems               =   route('admin.'.$controller.'.sortItems');
+$linkInsertArticle      =   route('admin.'.$controller.'.insertArticle');
+$linkInsertProduct      =   route('admin.'.$controller.'.insertProduct');
+$linkSortItems          =   route('admin.'.$controller.'.sortItems');
 $inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"       value="'.@$arrRowData['fullname'].'">'; 
 $ddlCategoryArticle     =   cmsSelectboxCategory('category_article_id','category_article_id', 'form-control', $arrCategoryArticleRecursive, 0,"");
 $ddlCategoryProduct     =   cmsSelectboxCategory('category_product_id','category_product_id', 'form-control', $arrCategoryProductRecursive, 0,"");
@@ -18,6 +18,7 @@ $ddlStatus              =   cmsSelectbox("status","status","form-control",$arrSt
 $inputSortOrder         =   '<input type="text" class="form-control" name="sort_order" id="sort_order"     value="'.@$arrRowData['sort_order'].'">';
 $id                     =   (count($arrRowData) > 0) ? @$arrRowData['id'] : "" ;
 $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$id.'" />'; 
+$inputSortJson          =   '<input type="hidden" name="sort_json" id="sort_json" value=\''.@$arrRowData['item_id'].'\' />';
 ?>
 <div class="portlet light bordered">
     <div class="portlet-title">
@@ -41,7 +42,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
     <div class="portlet-body form">
         <form class="form-horizontal" role="form" name='frm' enctype="multipart/form-data">
             {{ csrf_field() }}         
-            <input type="hidden" name="sort_json" id="sort_json" value="" />   
+            <?php echo $inputSortJson; ?>
             <input type="hidden" name="component" id="component" value="" />                              
             <?php echo  $inputID; ?>        
             <div class="form-body">
@@ -420,7 +421,7 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
         var id=$("#id").val();        
         var fullname=$("#fullname").val();
         var item_id=$('#sort_json').val();
-        console.log(item_id);
+
         var menu_id=$("#menu_id").val();
         var position=$("#position").val();          
         var component=$('#component').val();
@@ -453,6 +454,9 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
                         $("#fullname").closest('.form-group').addClass(data_error.fullname.type_msg);
                         $("#fullname").closest('.form-group').find('span').text(data_error.fullname.msg);
                         $("#fullname").closest('.form-group').find('span').show();                        
+                    }                    
+                    if(typeof data_error.item_id               != "undefined"){
+                        alert(data_error.item_id.msg);
                     }                    
                     if(typeof data_error.sort_order               != "undefined"){
                         $("#sort_order").closest('.form-group').addClass(data_error.sort_order.type_msg);

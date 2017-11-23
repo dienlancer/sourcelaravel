@@ -670,4 +670,11 @@ function get_field_data_array($array,$idField = null)
             return false;
         }
     }
+function convertToSourceArray($data=array()){
+    $source=array();
+    foreach ($data as $key => $value) {
+        $source[]=$value;
+    }
+    return $source;
+}
 ?>

@@ -80,7 +80,12 @@ class ModuleItemController extends Controller {
                   $error["fullname"]["type_msg"] = "has-error";
                   $error["fullname"]["msg"] = "Fullname is existed in system";
               }      	
-          }          
+          } 
+          if(empty($item_id)){
+             $checked = 0;
+             $error["item_id"]["type_msg"]   = "has-error";
+             $error["item_id"]["msg"]    = "Sort order imported data required";
+          }         
           if(empty($sort_order)){
              $checked = 0;
              $error["sort_order"]["type_msg"] 	= "has-error";
@@ -291,8 +296,8 @@ class ModuleItemController extends Controller {
           ); 
           $data_3[]=$item;   
         }  
-        $data_2=$data_3;
-
+        $data_2=$data_3;        
+        $data_1=convertToSourceArray($data_1);        
         $dataReturn=array(
             'data_1'=>$data_1,
             'data_2'=>$data_2
