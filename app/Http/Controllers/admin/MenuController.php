@@ -50,7 +50,7 @@ class MenuController extends Controller {
         $data=$data_recursive; 
         return view("admin.".$this->_controller.".list",compact("controller","task","title","icon",'data','pagination','filter_search','menu_type_id')); 
       } 	
-      public function getForm($task,$menu_type_id="",$id=""){   
+      public function getForm($task,$menu_type_id="",$id="",$component,$alias){   
             $controller=$this->_controller;			
             $title="";
             $icon=$this->_icon; 
@@ -67,8 +67,9 @@ class MenuController extends Controller {
             $arrMenu=MenuModel::select("id","fullname","site_link","alias","parent_id","menu_type_id","level","sort_order","status","created_at","updated_at")->where("menu_type_id","=",(int)@$menu_type_id)->where("id","!=",(int)$id)->orderBy("sort_order","asc")->get()->toArray();
             $arrMenuRecursive=array();
             menuRecursiveForm($arrMenu ,0,"",$arrMenuRecursive)  ;
-            $arrMenuType=MenuTypeModel::select("id","fullname","sort_order","created_at","updated_at")->orderBy("sort_order","asc")->get()->toArray();      
-            return view("admin.".$this->_controller.".form",compact("arrMenuRecursive","arrMenuType","arrRowData","menu_type_id","controller","task","title","icon"));	        
+            $arrMenuType=MenuTypeModel::select("id","fullname","sort_order","created_at","updated_at")->orderBy("sort_order","asc")->get()->toArray();
+            $site_link='/'.$component.'/'.$alias;      
+            return view("admin.".$this->_controller.".form",compact("arrMenuRecursive","arrMenuType","arrRowData","menu_type_id","controller","task","title","icon","site_link","alias"));	        
       }
       public function save(Request $request){
             $id 					       =	  trim($request->id)	;        
@@ -228,6 +229,48 @@ class MenuController extends Controller {
           }     
         }    
         return redirect()->route("admin.".$this->_controller.".getList",[(int)@$menu_type_id])->with(["message"=>array("content"=>"Đã lưu")]); 
+      }
+      public function getComponentForm($menu_type_id = 0){  
+        $controller=$this->_controller;     
+        $title="Component";
+        $icon=$this->_icon; 
+        return view("admin.".$this->_controller.".component",compact('menu_type_id',"title","icon","controller")); 
+      }
+      public function getCategoryArticleComponent($menu_type_id = 0){
+        $controller=$this->_controller; 
+        $task="list";
+        $title="Category Article Component";
+        $icon=$this->_icon; 
+        $currentPage=1;   
+        $filter_search="";
+        if(!empty(@$_POST["filter_search"])){
+          $filter_search=@$_POST["filter_search"];        
+        }        
+        $data=DB::select('call pro_getCategoryArticle(?)',array(mb_strtolower($filter_search)));
+        $totalItems=count($data);
+        $totalItemsPerPage=$this->_totalItemsPerPage;       
+        $pageRange=$this->_pageRange;
+        if(!empty(@$_POST["filter_page"])){
+          $currentPage=(int)@$_POST["filter_page"];    
+        }            
+        $arrPagination=array(
+          "totalItems"=>$totalItems,
+          "totalItemsPerPage"=>$totalItemsPerPage,
+          "pageRange"=>$pageRange,
+          "currentPage"=>$currentPage 
+        );
+        $pagination=new PaginationModel($arrPagination);
+        $position = (@$arrPagination['currentPage']-1)*$totalItemsPerPage;
+        $data=array();
+        if($totalItemsPerPage > 0){
+            $data=DB::select('call pro_getCategoryArticleLimit(?,?,?)',array($filter_search,$position,$totalItemsPerPage));
+        }        
+        $data=convertToArray($data);
+        $data=categoryArticleComponentConverter($data,$this->_controller,$menu_type_id);   
+        $data_recursive=array();
+        categoryArticleRecursive($data,0,null,$data_recursive);          
+        $data=$data_recursive; 
+        return view("admin.".$this->_controller.".category-article-component",compact("controller","task","title","icon",'data','pagination','filter_search'));         
       }
 }
 ?>

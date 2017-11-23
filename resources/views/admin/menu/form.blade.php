@@ -4,8 +4,8 @@
 $linkCancel             =   route('admin.'.$controller.'.getList',[@$menu_type_id]);
 $linkSave               =   route('admin.'.$controller.'.save');
 $inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"       value="'.@$arrRowData['fullname'].'">'; 
-$inputAlias             =   '<input type="text" class="form-control" name="alias"      id="alias"          value="'.@$arrRowData['alias'].'">';
-$inputSitelink          =   '<input type="text" class="form-control" name="site_link"   id="site_link"       value="'.@$arrRowData['site_link'].'">'; 
+$inputAlias             =   '<input type="text" class="form-control" name="alias"      id="alias"     disabled     value="'.@$alias.'">';
+$inputSitelink          =   '<input type="text" class="form-control" name="site_link"   id="site_link" disabled      value="'.@$site_link.'">'; 
 $inputSortOrder         =   '<input type="text" class="form-control" name="sort_order" id="sort_order"     value="'.@$arrRowData['sort_order'].'">';
 $status                 =   (count($arrRowData) > 0) ? @$arrRowData['status'] : 1 ;
 $arrStatus              =   array(-1 => '- Select status -', 1 => 'Publish', 0 => 'Unpublish');  

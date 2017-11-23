@@ -116,7 +116,19 @@ function menuConverter($data=array(),$controller){
     $result = array();
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){
-            $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['menu_type_id'],$data[$i]['id']]).'"><img src="'.asset("/public/admin/images/edit-icon.png").'" /></a></center>';
+            $site_link=$data[$i]['site_link'];
+            $arrSiteLink=explode('/', $site_link);            
+            $component='no-component';
+            $alias='no-alias';
+            if(count($arrSiteLink) > 0){
+                if(isset($arrSiteLink[1])){
+                    $component= $arrSiteLink[1] ;
+                }                
+                if(isset($arrSiteLink[2])){
+                    $alias=$arrSiteLink[2];
+                }                
+            }            
+            $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['menu_type_id'],$data[$i]['id'],$component,$alias]).'"><img src="'.asset("/public/admin/images/edit-icon.png").'" /></a></center>';
             $linkDelete=route('admin.menu.deleteItem',[$data[$i]['id']]);
             $deleted='<center><a onclick="return xacnhanxoa(\'Bạn có chắc chắn muốn xóa ?\');" href="'.$linkDelete.'" ><img src="'.asset("/public/admin/images/delete-icon.png").'" /></a></center>';
             
@@ -638,6 +650,52 @@ function itemProductConverter($data=array(),$controller){
                 "fullname"                 =>   $data[$i]["fullname"],     
                 "image"                    =>   $image,                                             
                 "sort_order"               =>   $sort_order,                                            
+                "deleted"                  =>   $deleted
+            );
+        }
+    }
+    return $result;
+}
+function categoryArticleComponentConverter($data=array(),$controller,$menu_type_id){        
+    $result = array();    
+    if( count($data) > 0){
+        for($i = 0 ;$i < count($data);$i++){
+            $edited='';
+            $linkDelete='';
+            $deleted='';
+            
+            $kicked=0;
+            if((int)$data[$i]["status"]==1){
+                $kicked=0;
+            }
+            else{
+                $kicked=1;
+            }
+            $status     = '';
+            
+            $sort_order = '<center>'.$data[$i]["sort_order"].'</center>';            
+            $link_image="";
+            $image="";
+            if(!empty($data[$i]["image"])){
+                $link_image=url("/upload/".$data[$i]["image"]);            
+                $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
+            }          
+            $linkMenu=route('admin.menu.getForm',['add',$menu_type_id,0,'chu-de',$data[$i]["alias"]]);
+            $fullname='<a href="'.$linkMenu.'">'.$data[$i]['fullname'].'</a>';
+            $result[$i] = array(
+                'checked'                  =>   '<input type="checkbox"  name="cid[]" value="'.$data[$i]["id"].'" />',
+                'is_checked'               =>   0,
+                "id"                       =>   $data[$i]["id"],
+                "fullname"                 =>   $fullname,
+                "parent_fullname"          =>   $data[$i]["parent_fullname"],
+                "alias"                    =>   $data[$i]["alias"],
+                "parent_id"                =>   $data[$i]["parent_id"],
+                "image"                    =>   $image,
+                "sort_order"               =>   $sort_order,
+                "status"                   =>   $status,
+                "created_at"               =>   datetimeConverterVn($data[$i]["created_at"]),
+                "updated_at"               =>   datetimeConverterVn($data[$i]["updated_at"]),
+                "edited"                   =>   $edited,
                 "deleted"                  =>   $deleted
             );
         }

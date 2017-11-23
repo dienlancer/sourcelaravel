@@ -1,9 +1,9 @@
 @extends("admin.master")
 @section("content")
 <?php 
-$linkNew				=	route('admin.'.$controller.'.getForm',['add',@$menu_type_id]);
+$linkNew				=	route('admin.'.$controller.'.getComponentForm',[@$menu_type_id]);
 $linkCancel				=	route('admin.'.$controller.'.getList',@$menu_type_id);
-$linkChangeStatus	=	route('admin.'.$controller.'.changeStatus');
+$linkChangeStatus		=	route('admin.'.$controller.'.changeStatus');
 $linkUpdateStatusToShow	=	route('admin.'.$controller.'.updateStatus',[1]);
 $linkUpdateStatusToHide =	route('admin.'.$controller.'.updateStatus',[0]);
 $linkTrash				=	route('admin.'.$controller.'.trash');

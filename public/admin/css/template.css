@@ -106,3 +106,6 @@ div.sort-button{
 .page-header.navbar .page-logo .logo-default{
     margin:10px 0 0;
 }
+a.btn-component{
+    width: 60%;
+}
