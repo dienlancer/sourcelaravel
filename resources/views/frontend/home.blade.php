@@ -20,23 +20,23 @@ $instagram_url=$data_setting_system['instagram_url'];
 $pinterest_url=$data_setting_system['pinterest_url']; 
 $map_url=$data_setting_system['map_url'];
 // lấy sản phẩm nổi bật
-$data_featured_product=getModuleByPosition('product','featured-product');    
+$data_featured_product=getModuleByPosition('featured-product');    
 // thiết bị vệ sinh
-$data_toilet_equipment=getModuleByPosition('product','toilet-equipment');
+$data_toilet_equipment=getModuleByPosition('toilet-equipment');
 // thiết bị bếp
-$data_chicken_equipment=getModuleByPosition('product','chicken-equipment');
+$data_chicken_equipment=getModuleByPosition('chicken-equipment');
 // nhà thông minh
-$data_clever_house=getModuleByPosition('product','clever-house');
+$data_clever_house=getModuleByPosition('clever-house');
 // lấy danh sách khách hàng
-$data_customer=getModuleByPosition('article','customer');    
+$data_customer=getModuleByPosition('customer');    
 // tin mới
-$data_hot_article=getModuleByPosition('article','hot-article');    
+$data_hot_article=getModuleByPosition('hot-article');    
 // đối tác
-$data_partner=getModuleByPosition('article','partner');    
+$data_partner=getModuleByPosition('partner');    
 // slideshow
-$data_slideshow=getModuleByPosition('article','slideshow');    
+$data_slideshow=getModuleByPosition('slideshow');    
 // banner trái
-$data_banner_trai=getModuleByPosition('article','noi-that-sang-trong');    
+$data_banner_trai=getModuleByPosition('noi-that-sang-trong');    
 
 if(count($data_slideshow) > 0){
 	?>
@@ -143,7 +143,7 @@ if(count($data_slideshow) > 0){
 				?>                 
 				<div class="clr"></div>
 			</div>
-			<div class="margin-top-15"><center><img src="<?php echo asset('/resources/upload/'.$data_banner_trai[0]['image']); ?>"></center></div>
+			<div class="margin-top-15"></div>
 		</div>
 		<div>
 			<?php 			

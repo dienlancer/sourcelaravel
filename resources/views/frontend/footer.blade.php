@@ -1,6 +1,6 @@
 <?php 
 // bản quyền
-$data_copyright=getModuleByPosition('article','copyright');   
+$data_copyright=getModuleByPosition('copyright');   
 ?>
 <footer class="footer padding-top-15">
 	<div class="container margin-top-15 box-footer">
@@ -90,9 +90,7 @@ $data_copyright=getModuleByPosition('article','copyright');
 		</div>
 		<div class="clr"></div>
 		<div class="container copyright">
-			<?php 			
-			echo $data_copyright[0]['content'];
-			?>			
+					
 		</div>
 	</div>
 </footer>

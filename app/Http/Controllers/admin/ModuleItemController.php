@@ -310,12 +310,13 @@ class ModuleItemController extends Controller {
         $id=$request->id;
         $arrRowData=ModuleItemModel::find(@$id)->toArray();  
         $item_id=$arrRowData['item_id'];
-        $component=$arrRowData['component'];
+        $component=$arrRowData['component'];        
         $list=json_decode($item_id);
         $data=array();
-        $row=array();
-        $list=convertToArray($list);
-        foreach ($list as $key => $value) {
+        $row=array();        
+        if(count($list) > 0){
+          $list=convertToArray($list);
+          foreach ($list as $key => $value) {
           $sort_order=(int)@$value['sort_order'];          
           switch ($component) {
             case 'article':
@@ -342,6 +343,8 @@ class ModuleItemController extends Controller {
             $data=itemProductConverter($data,$this->_controller);       
          break;
        }             
+        }
+        
        return $data;
       }
 }

@@ -143,29 +143,33 @@ function fnPrice($value){
     }
     return $strCurrency;
   }
-  function getModuleByPosition($component,$position){
-    $module=ModuleItemModel::whereRaw('trim(lower(position)) = ?',[mb_strtolower(trim(@$position))])->select('item_id','status')->get()->toArray()[0];    
-    $item_id=$module['item_id'];
-    $arr_id=explode(',', $item_id);
+  function getModuleByPosition($position){
     $data=array();
-    $status=1;
-    if((int)$module['status']==1){
-      for($i=0;$i<count($arr_id);$i++){
-        $id=(int)$arr_id[$i];
-        $item=array();
-        switch ($component) {
-          case 'product':
-          $item=ProductModel::where('id','=',(int)$id)->where('status','=',(int)$status)->get()->toArray();
-          break;
-          case 'article':
-          $item=ArticleModel::where('id','=',(int)$id)->where('status','=',(int)$status)->get()->toArray();
-          break;            
-        }       
-        if(count($item) > 0){
-          $data[]=$item[0];
-        }                    
+    $module=ModuleItemModel::whereRaw('trim(lower(position)) = ?',[mb_strtolower(trim(@$position))])->select('item_id','component','status')->get()->toArray();
+    if(count($module) > 0){
+      $module=$module[0];
+      $item_id=$module['item_id'];
+      $component=$module['component'];
+      $arr_id=explode(',', $item_id);      
+      $status=1;
+      if((int)$module['status']==1){
+        for($i=0;$i<count($arr_id);$i++){
+          $id=(int)$arr_id[$i];
+          $item=array();
+          switch ($component) {
+            case 'product':
+            $item=ProductModel::where('id','=',(int)$id)->where('status','=',(int)$status)->get()->toArray();
+            break;
+            case 'article':
+            $item=ArticleModel::where('id','=',(int)$id)->where('status','=',(int)$status)->get()->toArray();
+            break;            
+          }       
+          if(count($item) > 0){
+            $data[]=$item[0];
+          }                    
+        }
       }
-    }      
+    }            
     return $data;
   }
 function randomString($length = 5){
