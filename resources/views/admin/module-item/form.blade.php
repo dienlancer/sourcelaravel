@@ -8,7 +8,6 @@ $linkSave               =   route('admin.'.$controller.'.save');
 $linkInsertArticle               =   route('admin.'.$controller.'.insertArticle');
 $linkInsertProduct               =   route('admin.'.$controller.'.insertProduct');
 $linkSortItems               =   route('admin.'.$controller.'.sortItems');
-$linkTrashItems               =   route('admin.'.$controller.'.trashItems');
 $inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"       value="'.@$arrRowData['fullname'].'">'; 
 $ddlCategoryArticle     =   cmsSelectboxCategory('category_article_id','category_article_id', 'form-control', $arrCategoryArticleRecursive, 0,"");
 $ddlCategoryProduct     =   cmsSelectboxCategory('category_product_id','category_product_id', 'form-control', $arrCategoryProductRecursive, 0,"");

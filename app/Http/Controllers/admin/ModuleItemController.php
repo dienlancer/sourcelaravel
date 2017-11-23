@@ -299,8 +299,6 @@ class ModuleItemController extends Controller {
         );     
         return $dataReturn;
       }
-      public function trashItems(Request $request){
-
-      }
+ 
 }
 ?>
