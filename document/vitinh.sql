@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 23, 2017 lúc 12:54 PM
+-- Thời gian đã tạo: Th10 23, 2017 lúc 08:06 PM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -826,11 +826,11 @@ INSERT INTO `article` (`id`, `fullname`, `title`, `alias`, `image`, `intro`, `co
 (18, 'Vivaki', '', 'vivaki', 'vivaki-2.png', '', '', NULL, '', '', '', 15, 1, '2017-11-14 11:08:48', '2017-11-21 14:20:00'),
 (19, 'Figaro', '', 'figaro', 'groupm.png', '', '', NULL, '', '', '', 16, 1, '2017-11-14 11:10:11', '2017-11-21 14:20:00'),
 (20, 'Alas', '', 'alas', 'atlas.png', '', '', NULL, '', '', '', 17, 1, '2017-11-14 11:10:29', '2017-11-21 14:20:00'),
-(21, 'Bản quyền', '', 'ban-quyen', NULL, '', '<p style=\"text-align:center\">&copy; Bản quyền thuộc về <strong>DienKim</strong> Team | Cung cấp bởi DienKim</p>', NULL, '', '', '', 1, 1, '2017-11-14 19:22:03', '2017-11-22 09:02:47'),
+(21, 'Bản quyền', '', 'ban-quyen', NULL, '', '<p style=\"text-align:center\">&copy; Bản quyền thuộc về <strong>DienKim</strong> Team | Cung cấp bởi DienKim</p>', NULL, '', '', '', 1, 1, '2017-11-14 19:22:03', '2017-11-23 14:31:37'),
 (23, 'Giới thiệu', 'Giới thiệu', 'gioi-thieu', 'benzema.jpg', 'Tiền đạo người Pháp từng tức giận trước sự so sánh thiếu tôn trọng từ Jose Mourinho thời ông thầy cũ còn làm việc ở Real Madrid.', '<p style=\"text-align:justify\">Trong một buổi phỏng vấn gần đ&acirc;y với k&ecirc;nh Canal +, Karim Benzema tiết lộ nguy&ecirc;n nh&acirc;n dẫn đến sự bất h&ograve;a giữa anh v&agrave; Jose Mourinho tại Real. Ch&acirc;n s&uacute;t 29 n&oacute;i rằng anh cảm thấy kh&ocirc;ng được t&ocirc;n trọng khi bị HLV so s&aacute;nh với m&egrave;o. Khi ấy, Mourinho n&oacute;i rằng c&oacute; Benzema trong đội h&igrave;nh như &quot;đi săn với một ch&uacute; m&egrave;o thay v&igrave; một ch&uacute; ch&oacute;&quot;.<br />\n&quot;Ch&uacute;ng t&ocirc;i c&oacute; quan hệ tốt cho đến khi &ocirc;ng ta d&ugrave;ng những cụm từ v&agrave; những nhận x&eacute;t qu&aacute; đ&aacute;ng. T&ocirc;i c&oacute; cảm gi&aacute;c l&agrave; &ocirc;ng ấy thấy vui với những c&acirc;u n&oacute;i đ&oacute;, v&agrave; mặc d&ugrave; từng rất t&ocirc;n trọng &ocirc;ng ấy, t&ocirc;i bắt đầu ph&aacute;t c&aacute;u&quot;, Benzema n&oacute;i.</p>\n\n<p style=\"text-align:justify\">&quot;T&ocirc;i n&oacute;i với &ocirc;ng ấy l&agrave; ch&uacute;ng t&ocirc;i cần n&oacute;i chuyện rồi ch&uacute;ng t&ocirc;i c&oacute; một buổi họp trong một tiếng. T&ocirc;i n&oacute;i với &ocirc;ng ấy: &#39;T&ocirc;i l&agrave; cầu thủ, &ocirc;ng l&agrave; HLV của t&ocirc;i v&agrave; t&ocirc;i t&ocirc;n trọng &ocirc;ng nhưng &ocirc;ng cũng cần phải t&ocirc;n trọng t&ocirc;i&#39;&quot;, anh cho biết th&ecirc;m. &quot;Từ sau đ&oacute;, kh&ocirc;ng c&ograve;n c&acirc;u chuyện n&agrave;o về ch&oacute;, m&egrave;o hay bất kỳ thứ g&igrave; kh&aacute;c xuất hiện nữa. T&ocirc;i c&oacute; thể l&agrave; người nh&uacute;t nh&aacute;t, nhưng nếu ai đ&oacute; cười v&agrave;o mặt t&ocirc;i, t&ocirc;i sẽ phản ứng lại. Khi bạn n&oacute;i chuyện thẳng thắn, mọi thứ sẽ tốt hơn&quot;.</p>\n\n<p style=\"text-align:justify\">Sự việc Mourinho so s&aacute;nh Benzema với m&egrave;o, &aacute;m chỉ việc tiền đạo n&agrave;y lười di chuyển, diễn ra trong một buổi họp b&aacute;o v&agrave;o năm 2011. Nh&agrave; cầm qu&acirc;n 54 tuổi bị Real sa thải hai năm sau đ&oacute;.</p>', NULL, '', 'metakeyword giới thiệu', 'metadescription giới thiệu', 9, 1, '2017-11-15 03:28:13', '2017-11-22 15:41:59'),
 (25, 'Banner chính 1', '', 'banner-chinh-1', 'megashop-banner-1.jpg', '', '', NULL, '', '', '', 1, 1, '2017-11-21 15:05:25', '2017-11-21 15:05:25'),
 (26, 'Banner chính 2', '', 'banner-chinh-2', 'megashop-banner-2.jpg', '', '', NULL, '', '', '', 2, 1, '2017-11-21 15:05:48', '2017-11-22 08:10:23'),
-(27, 'Nội thất sang trọng', '', 'banner-trai', 'noi-that-sang-trong.jpg', '', '', 'http://noithatgialai.net/', '', '', '', 8, 1, '2017-11-21 15:14:07', '2017-11-23 11:52:55');
+(27, 'Nội thất sang trọng', '', 'banner-trai', 'noi-that-sang-trong.jpg', '', '', 'http://noithatgialai.net/', '', '', '', 8, 1, '2017-11-21 15:14:07', '2017-11-23 11:56:47');
 
 -- --------------------------------------------------------
 
@@ -929,7 +929,7 @@ CREATE TABLE `category_article` (
 
 INSERT INTO `category_article` (`id`, `fullname`, `title`, `meta_keyword`, `meta_description`, `alias`, `parent_id`, `image`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'Đối tác', NULL, NULL, NULL, 'doi-tac', 0, NULL, 1, 1, '2017-11-14 10:07:40', '2017-11-14 10:09:06'),
-(2, 'Mẹo hay nhà bếp', NULL, NULL, NULL, 'meo-hay-nha-bep', 0, NULL, 3, 1, '2017-11-14 10:40:55', '2017-11-14 11:05:00'),
+(2, 'Mẹo hay nhà bếp', 'tiêu đề mẹo hay nhà bếp', 'metakeyword mẹo hay nhà bếp', 'metadescription mẹo hay nhà bếp', 'meo-hay-nha-bep', 0, NULL, 3, 1, '2017-11-14 10:40:55', '2017-11-23 14:34:06'),
 (3, 'Sống khỏe', NULL, NULL, NULL, 'song-khoe', 0, NULL, 4, 1, '2017-11-14 10:41:25', '2017-11-14 11:05:00'),
 (4, 'Thực phẩm sạch', NULL, NULL, NULL, 'thuc-pham-sach', 0, NULL, 5, 1, '2017-11-14 10:41:41', '2017-11-14 11:05:00'),
 (5, 'Khách hàng', NULL, NULL, NULL, 'khach-hang', 0, NULL, 2, 1, '2017-11-14 11:04:53', '2017-11-14 11:05:00'),
@@ -965,7 +965,7 @@ CREATE TABLE `category_product` (
 INSERT INTO `category_product` (`id`, `fullname`, `title`, `meta_keyword`, `meta_description`, `alias`, `image`, `status`, `parent_id`, `sort_order`, `created_at`, `updated_at`) VALUES
 (10, 'Phòng khách', NULL, NULL, NULL, 'phong-khach', NULL, 1, 0, 1, '2017-10-05 15:08:13', '2017-11-14 06:57:51'),
 (11, 'Phòng ngủ', NULL, NULL, NULL, 'phong-ngu', 'category-product-7.png', 1, 0, 2, '2017-10-05 15:08:25', '2017-11-13 18:00:34'),
-(12, 'Sofa', NULL, NULL, NULL, 'sofa', 'category-product-1.png', 1, 0, 3, '2017-10-05 15:08:38', '2017-11-13 18:00:40'),
+(12, 'Sofa', 'Tiêu đề sofa', 'metakeyword sofa', 'metadescription sofa', 'sofa', 'category-product-1.png', 1, 0, 3, '2017-10-05 15:08:38', '2017-11-23 14:34:55'),
 (13, 'Phòng bếp', NULL, NULL, NULL, 'phong-bep', 'category-product-5.png', 1, 0, 4, '2017-10-05 15:08:57', '2017-11-20 14:33:16'),
 (14, 'Phòng trẻ em', NULL, NULL, NULL, 'phong-tre-em', 'category-product-2.png', 1, 0, 5, '2017-10-05 15:09:11', '2017-11-13 18:02:41'),
 (15, 'Thiết bị bếp', NULL, NULL, NULL, 'thiet-bi-bep', 'category-product-9.png', 1, 0, 6, '2017-10-05 15:09:45', '2017-11-13 18:03:10'),
@@ -1164,8 +1164,7 @@ CREATE TABLE `menu` (
 
 INSERT INTO `menu` (`id`, `fullname`, `alias`, `site_link`, `parent_id`, `menu_type_id`, `level`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'Trang chủ', 'trang-chu', '', 0, 1, 0, 1, 1, '2017-11-13 04:31:34', '2017-11-15 04:54:37'),
-(5, 'Liên hệ', 'lien-he', '/lien-he', 0, 1, 0, 5, 1, '2017-11-13 04:34:54', '2017-11-13 04:34:54'),
-(6, 'Giới thiệu', 'gioi-thieu', '/bai-viet/gioi-thieu', 0, 1, 0, 2, 1, '2017-11-13 04:36:20', '2017-11-13 04:36:20'),
+(6, 'Giới thiệu', 'gioi-thieu', '/bai-viet/gioi-thieu', 0, 1, 0, 2, 1, '2017-11-13 04:36:20', '2017-11-23 18:15:18'),
 (7, 'Tin tức', 'tin-tuc', '/chu-de/meo-hay-nha-bep', 0, 1, 0, 3, 1, '2017-11-13 04:36:41', '2017-11-15 10:42:16'),
 (8, 'Sản phẩm', 'san-pham', '/loai-san-pham/sofa', 0, 1, 0, 4, 1, '2017-11-13 04:37:00', '2017-11-16 04:45:49'),
 (9, 'Phòng khách', 'phong-khach', '/loai-san-pham/phong-khach', 8, 1, 1, 1, 1, '2017-11-13 04:37:45', '2017-11-13 04:37:45'),
@@ -1336,7 +1335,7 @@ INSERT INTO `module_item` (`id`, `fullname`, `item_id`, `position`, `component`,
 (3, 'Chicken equipment', '[{\"id\":7,\"sort_order\":\"1\"},{\"id\":8,\"sort_order\":\"2\"},{\"id\":9,\"sort_order\":\"3\"},{\"id\":10,\"sort_order\":\"4\"},{\"id\":11,\"sort_order\":\"5\"},{\"id\":12,\"sort_order\":\"6\"},{\"id\":13,\"sort_order\":\"7\"},{\"id\":14,\"sort_order\":\"8\"}]', 'chicken-equipment', 'product', 1, 34, '2017-11-14 08:51:53', '2017-11-23 11:26:13'),
 (4, 'Clever house', '[{\"id\":7,\"sort_order\":\"1\"},{\"id\":8,\"sort_order\":\"2\"},{\"id\":9,\"sort_order\":\"3\"},{\"id\":10,\"sort_order\":\"4\"},{\"id\":11,\"sort_order\":\"5\"},{\"id\":12,\"sort_order\":\"6\"},{\"id\":13,\"sort_order\":\"7\"},{\"id\":14,\"sort_order\":\"8\"}]', 'clever-house', 'product', 1, 3, '2017-11-14 08:52:39', '2017-11-23 11:26:59'),
 (5, 'Customer', '[{\"id\":1,\"sort_order\":\"1\"},{\"id\":4,\"sort_order\":\"2\"},{\"id\":5,\"sort_order\":\"3\"},{\"id\":6,\"sort_order\":\"4\"}]', 'customer', 'article', 1, 4, '2017-11-14 10:25:39', '2017-11-23 11:30:42'),
-(6, 'Tin mới', '[{\"id\":7,\"sort_order\":\"1\"},{\"id\":9,\"sort_order\":\"2\"},{\"id\":10,\"sort_order\":\"3\"},{\"id\":12,\"sort_order\":\"4\"}]', 'hot-article', 'article', 1, 5, '2017-11-14 17:18:39', '2017-11-23 11:28:08'),
+(6, 'Tin mới', '[{\"id\":7,\"sort_order\":\"1\"},{\"id\":9,\"sort_order\":\"2\"},{\"id\":10,\"sort_order\":\"3\"},{\"id\":14,\"sort_order\":\"4\"}]', 'hot-article', 'article', 1, 5, '2017-11-14 17:18:39', '2017-11-23 12:29:40'),
 (7, 'Partner', '[{\"id\":15,\"sort_order\":\"1\"},{\"id\":16,\"sort_order\":\"2\"},{\"id\":17,\"sort_order\":\"3\"},{\"id\":18,\"sort_order\":\"4\"},{\"id\":19,\"sort_order\":\"5\"},{\"id\":20,\"sort_order\":\"6\"}]', 'partner', 'article', 1, 6, '2017-11-14 17:26:58', '2017-11-23 11:29:15'),
 (8, 'Bản quyền', '[{\"id\":21,\"sort_order\":\"1\"}]', 'copyright', 'article', 1, 7, '2017-11-14 19:26:42', '2017-11-23 11:30:04'),
 (9, 'Bài viết nổi bật', NULL, 'featured-article-leftside', NULL, 1, 8, '2017-11-15 04:41:06', '2017-11-21 15:08:06'),
@@ -1506,7 +1505,7 @@ INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`)
 (167, 1, 'qNdOfppeTTO8yQemqSZtz0s9qjIu8bSY', '2017-11-21 17:39:32', '2017-11-21 17:39:32'),
 (168, 1, 'UJbhn9QwAcZUUXnVDtSStqNCq5akR4Lw', '2017-11-21 23:49:19', '2017-11-21 23:49:19'),
 (169, 1, 'eo5eQNRwtkvZlv0DmXfze6JymlS0wylC', '2017-11-22 18:21:12', '2017-11-22 18:21:12'),
-(170, 1, 'L8DdhutTqvdGg5D2x3E9rYyr5DxmyoMi', '2017-11-23 00:56:01', '2017-11-23 00:56:01');
+(173, 1, 'IulV4jEfAVovdnn5YGOTprw3kkvFe8NP', '2017-11-23 05:15:58', '2017-11-23 05:15:58');
 
 -- --------------------------------------------------------
 
@@ -2200,7 +2199,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `group_member_id`, `password`, `permissions`, `last_login`, `fullname`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'diennk@dienkim.com', 1, '$2y$10$rpZe6oM3GUJmwL/ZMTKm/OSe24l9TJKFU9lwd8VmohkqH0Oax6rVK', NULL, '2017-11-23 00:56:01', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-23 00:56:01'),
+(1, 'admin', 'diennk@dienkim.com', 1, '$2y$10$rpZe6oM3GUJmwL/ZMTKm/OSe24l9TJKFU9lwd8VmohkqH0Oax6rVK', NULL, '2017-11-23 05:15:58', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-23 05:15:58'),
 (6, 'nhatanh', 'nhatanh@gmail.com', 1, '$2y$10$X.wWyaR4gqC8BAvcVtlH0u8FG1DC2a0dXPzPL.Qs96Ds/cJZqxviO', NULL, '2017-11-15 09:46:30', 'Nhật Anh', 3, 1, '2017-11-15 09:45:46', '2017-11-15 09:46:30');
 
 --
@@ -2506,7 +2505,7 @@ ALTER TABLE `payment_method`
 -- AUTO_INCREMENT cho bảng `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=174;
 --
 -- AUTO_INCREMENT cho bảng `photo`
 --

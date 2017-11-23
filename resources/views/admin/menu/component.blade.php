@@ -2,6 +2,8 @@
 @section("content")
 <?php 
 $linkCategoryArticleComponent                =   route('admin.'.$controller.'.getCategoryArticleComponent',[@$menu_type_id]);
+$linkCategoryProductComponent                =   route('admin.'.$controller.'.getCategoryProductComponent',[@$menu_type_id]);
+$linkArticleComponent                =   route('admin.'.$controller.'.getArticleComponent',[@$menu_type_id]);
 ?>
 <div class="portlet light bordered">
     <div class="portlet-title">
@@ -26,12 +28,12 @@ $linkCategoryArticleComponent                =   route('admin.'.$controller.'.ge
                         <center><a class="btn dark btn-outline sbold uppercase btn-component" href="<?php echo $linkCategoryArticleComponent; ?>">CATEGORY ARTICLE</a></center>
                     </div>   
                     <div class="form-group col-md-6">
-                        <center><a class="btn dark btn-outline sbold uppercase btn-component" href="index.php">CATEGORY PRODUCT</a></center>
+                        <center><a class="btn dark btn-outline sbold uppercase btn-component" href="<?php echo $linkCategoryProductComponent; ?>">CATEGORY PRODUCT</a></center>
                     </div>   
                 </div> 
                 <div class="row">
                     <div class="form-group col-md-6">
-                        <center><a class="btn dark btn-outline sbold uppercase btn-component" href="index.php">ARTICLE</a></center> 
+                        <center><a class="btn dark btn-outline sbold uppercase btn-component" href="<?php echo $linkArticleComponent; ?>">ARTICLE</a></center> 
                     </div>   
                     <div class="form-group col-md-6">
                         <center><a class="btn dark btn-outline sbold uppercase btn-component" href="index.php">PRODUCT</a></center> 

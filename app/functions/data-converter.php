@@ -46,7 +46,7 @@ function categoryArticleConverter($data=array(),$controller){
 }
 function articleConverter($data=array(),$controller){        
     $result = array();
-    $dataSettingSystem= getSettingSystem();
+    
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.asset("/public/admin/images/edit-icon.png").'" /></a></center>';
@@ -681,6 +681,53 @@ function categoryArticleComponentConverter($data=array(),$controller,$menu_type_
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }          
             $linkMenu=route('admin.menu.getForm',['add',$menu_type_id,0,'chu-de',$data[$i]["alias"]]);
+            $fullname='<a href="'.$linkMenu.'">'.$data[$i]['fullname'].'</a>';
+            $result[$i] = array(
+                'checked'                  =>   '<input type="checkbox"  name="cid[]" value="'.$data[$i]["id"].'" />',
+                'is_checked'               =>   0,
+                "id"                       =>   $data[$i]["id"],
+                "fullname"                 =>   $fullname,
+                "parent_fullname"          =>   $data[$i]["parent_fullname"],
+                "alias"                    =>   $data[$i]["alias"],
+                "parent_id"                =>   $data[$i]["parent_id"],
+                "image"                    =>   $image,
+                "sort_order"               =>   $sort_order,
+                "status"                   =>   $status,
+                "created_at"               =>   datetimeConverterVn($data[$i]["created_at"]),
+                "updated_at"               =>   datetimeConverterVn($data[$i]["updated_at"]),
+                "edited"                   =>   $edited,
+                "deleted"                  =>   $deleted
+            );
+        }
+    }
+    return $result;
+}
+function categoryProductComponentConverter($data=array(),$controller,$menu_type_id){        
+    $result = array();    
+    $dataSettingSystem= getSettingSystem();
+    if( count($data) > 0){
+        for($i = 0 ;$i < count($data);$i++){
+            $edited='';
+            $linkDelete='';
+            $deleted='';
+            
+            $kicked=0;
+            if((int)$data[$i]["status"]==1){
+                $kicked=0;
+            }
+            else{
+                $kicked=1;
+            }
+            $status     = '';
+            
+            $sort_order = '<center>'.$data[$i]["sort_order"].'</center>';            
+            $link_image="";
+            $image="";
+            if(!empty($data[$i]["image"])){
+                $link_image=url("/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".$data[$i]["image"]);            
+                $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
+            }         
+            $linkMenu=route('admin.menu.getForm',['add',$menu_type_id,0,'loai-san-pham',$data[$i]["alias"]]);
             $fullname='<a href="'.$linkMenu.'">'.$data[$i]['fullname'].'</a>';
             $result[$i] = array(
                 'checked'                  =>   '<input type="checkbox"  name="cid[]" value="'.$data[$i]["id"].'" />',

@@ -270,7 +270,49 @@ class MenuController extends Controller {
         $data_recursive=array();
         categoryArticleRecursive($data,0,null,$data_recursive);          
         $data=$data_recursive; 
-        return view("admin.".$this->_controller.".category-article-component",compact("controller","task","title","icon",'data','pagination','filter_search'));         
+        return view("admin.".$this->_controller.".category-component",compact("controller","task","title","icon",'data','pagination','filter_search'));         
+      }
+      public function getCategoryProductComponent($menu_type_id = 0){
+        $controller=$this->_controller; 
+        $task="list";
+        $title="Category Product Component";
+        $icon=$this->_icon; 
+        $currentPage=1;   
+        $filter_search="";
+        if(!empty(@$_POST["filter_search"])){
+          $filter_search=@$_POST["filter_search"];        
+        }        
+        $data=DB::select('call pro_getCategoryProduct(?)',array(mb_strtolower($filter_search)));
+        $totalItems=count($data);
+        $totalItemsPerPage=$this->_totalItemsPerPage;       
+        $pageRange=$this->_pageRange;
+        if(!empty(@$_POST["filter_page"])){
+          $currentPage=(int)@$_POST["filter_page"];    
+        }            
+        $arrPagination=array(
+          "totalItems"=>$totalItems,
+          "totalItemsPerPage"=>$totalItemsPerPage,
+          "pageRange"=>$pageRange,
+          "currentPage"=>$currentPage 
+        );
+        $pagination=new PaginationModel($arrPagination);
+        $position = (@$arrPagination['currentPage']-1)*$totalItemsPerPage;
+        $data=array();
+        if($totalItemsPerPage > 0){
+            $data=DB::select('call pro_getCategoryProductLimit(?,?,?)',array($filter_search,$position,$totalItemsPerPage));
+        }        
+        $data=convertToArray($data);
+        $data=categoryProductComponentConverter($data,$this->_controller,$menu_type_id);   
+        $data_recursive=array();
+        CategoryProductRecursive($data,0,null,$data_recursive);          
+        $data=$data_recursive; 
+        return view("admin.".$this->_controller.".category-component",compact("controller","task","title","icon",'data','pagination','filter_search'));         
+      }
+      public function getArticleComponent(){
+        $controller=$this->_controller;         
+        $title=$this->_title;
+        $icon=$this->_icon;   
+        return view("admin.".$this->_controller.".article-component",compact("controller","title","icon")); 
       }
 }
 ?>
