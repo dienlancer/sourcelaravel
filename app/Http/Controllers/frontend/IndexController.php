@@ -57,13 +57,13 @@ class IndexController extends Controller {
               $category_id=0;
               $arr_category=CategoryArticleModel::whereRaw("trim(lower(alias)) = ? and status = ?",[trim(mb_strtolower($alias,'UTF-8')),1])->get()->toArray();
               if(count($arr_category) > 0){
-                  $category_id=$arr_category[0]['id'];
+              	  $category 		=	$arr_category[0];
+                  $category_id 		=	$category['id'];
                   $str_category_id="";
                   $arr_category_id[]=$category_id;
                   getStringCategoryID($category_id,$arr_category_id,'category_article');                  
                   $str_category_id=implode("#;#", $arr_category_id);                  
-                  $str_category_id="#".$str_category_id."#";                  
-                  $category=$arr_category[0];
+                  $str_category_id="#".$str_category_id."#";                                    
                   if(!empty(@$_POST["filter_search"])){
                       $filter_search=@$_POST["filter_search"];
                   }                                
@@ -98,13 +98,13 @@ class IndexController extends Controller {
               $category_id=0;
               $arr_category=CategoryProductModel::whereRaw("trim(lower(alias)) = ? and status = ?",[trim(mb_strtolower($alias,'UTF-8')),1])->get()->toArray();                            
               if(count($arr_category) > 0){
-                  $category_id=$arr_category[0]['id'];
+                  $category 		=	$arr_category[0];
+                  $category_id 		=	$category['id'];
                   $str_category_id="";
                   $arr_category_id[]=$category_id;
                   getStringCategoryID($category_id,$arr_category_id,'category_product');                  
                   $str_category_id=implode("#;#", $arr_category_id);                  
-                  $str_category_id="#".$str_category_id."#";                  
-                  $category=$arr_category[0];
+                  $str_category_id="#".$str_category_id."#";                                    
                   if(!empty(@$_POST["filter_search"])){
                       $filter_search=@$_POST["filter_search"];
                   }                                
@@ -147,6 +147,17 @@ class IndexController extends Controller {
                 if(!empty($item['meta_description'])){
                   $meta_description=$item['meta_description'];
                 }                
+            }
+            if(count($category) > 0){
+            	if(!empty($category['title'])){
+                  $title=$category['title'];
+                }                
+                if(!empty($category['meta_keyword'])){
+                  $meta_keyword=$category['meta_keyword'];
+                }                
+                if(!empty($category['meta_description'])){
+                  $meta_description=$category['meta_description'];
+                }
             }           
             if(isset($_POST["action"])){
               $action=$_POST["action"];
