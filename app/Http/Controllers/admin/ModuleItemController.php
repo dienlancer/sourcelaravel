@@ -304,6 +304,8 @@ class ModuleItemController extends Controller {
         );     
         return $dataReturn;
       }
- 
+      public function getItems(Request $request){
+
+      }
 }
 ?>
