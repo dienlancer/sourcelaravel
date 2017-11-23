@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 22, 2017 lúc 08:29 PM
+-- Thời gian đã tạo: Th10 23, 2017 lúc 06:35 AM
 -- Phiên bản máy phục vụ: 10.1.22-MariaDB
 -- Phiên bản PHP: 7.1.4
 
@@ -1330,7 +1330,7 @@ CREATE TABLE `module_item` (
 --
 
 INSERT INTO `module_item` (`id`, `fullname`, `item_id`, `position`, `component`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 'Featured product', '{\"1\":{\"id\":\"7\",\"sort_order\":\"1\"},\"3\":{\"id\":\"9\",\"sort_order\":\"3\"},\"4\":{\"id\":\"10\",\"sort_order\":\"4\"},\"34\":{\"id\":\"8\",\"sort_order\":\"34\"}}', 'featured-product', 'product', 1, 1, '2017-11-10 11:24:02', '2017-11-22 18:40:45'),
+(1, 'Featured product', '{\"21\":{\"id\":12,\"sort_order\":\"21\"},\"22\":{\"id\":10,\"sort_order\":\"22\"},\"23\":{\"id\":7,\"sort_order\":\"23\"}}', 'featured-product', 'article', 1, 1, '2017-11-10 11:24:02', '2017-11-23 02:59:06'),
 (2, 'Toilet equipment', '7,8,9,10,11,12,13,14', 'toilet-equipment', NULL, 1, 10, '2017-11-14 08:51:21', '2017-11-22 01:16:16'),
 (3, 'Chicken equipment', '7,8,9,10,11,12,13,14', 'chicken-equipment', NULL, 1, 34, '2017-11-14 08:51:53', '2017-11-22 01:16:16'),
 (4, 'Clever house', '7,8,9,10,11,12,13,14', 'clever-house', NULL, 1, 3, '2017-11-14 08:52:39', '2017-11-22 01:16:11'),
@@ -1503,7 +1503,8 @@ INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`)
 (165, 1, 'wgjWLdlRLP6Cireh1mZswQnOOTXG8z8O', '2017-11-21 03:33:18', '2017-11-21 03:33:18'),
 (166, 1, 'OHI8P6DtqZVW9K4VlZ1mw5gI0IuJYPH1', '2017-11-21 04:17:05', '2017-11-21 04:17:05'),
 (167, 1, 'qNdOfppeTTO8yQemqSZtz0s9qjIu8bSY', '2017-11-21 17:39:32', '2017-11-21 17:39:32'),
-(168, 1, 'UJbhn9QwAcZUUXnVDtSStqNCq5akR4Lw', '2017-11-21 23:49:19', '2017-11-21 23:49:19');
+(168, 1, 'UJbhn9QwAcZUUXnVDtSStqNCq5akR4Lw', '2017-11-21 23:49:19', '2017-11-21 23:49:19'),
+(169, 1, 'eo5eQNRwtkvZlv0DmXfze6JymlS0wylC', '2017-11-22 18:21:12', '2017-11-22 18:21:12');
 
 -- --------------------------------------------------------
 
@@ -2197,7 +2198,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `group_member_id`, `password`, `permissions`, `last_login`, `fullname`, `sort_order`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'diennk@dienkim.com', 1, '$2y$10$rpZe6oM3GUJmwL/ZMTKm/OSe24l9TJKFU9lwd8VmohkqH0Oax6rVK', NULL, '2017-11-21 23:49:19', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-21 23:49:19'),
+(1, 'admin', 'diennk@dienkim.com', 1, '$2y$10$rpZe6oM3GUJmwL/ZMTKm/OSe24l9TJKFU9lwd8VmohkqH0Oax6rVK', NULL, '2017-11-22 18:21:12', 'Nguyễn Kim Điền', 1, 1, '2017-11-12 07:23:56', '2017-11-22 18:21:12'),
 (6, 'nhatanh', 'nhatanh@gmail.com', 1, '$2y$10$X.wWyaR4gqC8BAvcVtlH0u8FG1DC2a0dXPzPL.Qs96Ds/cJZqxviO', NULL, '2017-11-15 09:46:30', 'Nhật Anh', 3, 1, '2017-11-15 09:45:46', '2017-11-15 09:46:30');
 
 --
@@ -2503,7 +2504,7 @@ ALTER TABLE `payment_method`
 -- AUTO_INCREMENT cho bảng `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=169;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
 --
 -- AUTO_INCREMENT cho bảng `photo`
 --
