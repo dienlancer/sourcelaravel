@@ -514,12 +514,10 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
         for(var i=0;i<dt.length;i++){
             var dr=dt[i];
             if(dr.is_checked==1){
-                var sort_input=$(dr.sort_order).find("input[name='sort_order']");
-                var tr=$(sort_input).closest('tr');
-                console.log(tr);
-                //vItemTable.row(tr).remove().draw();  
+                str_id +=dr.id+",";             
             }
         }
+        
         /*var dataItem ={   
             'str_id':str_id,                
             '_token': token

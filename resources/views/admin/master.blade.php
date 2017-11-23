@@ -54,11 +54,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <link href="{{asset('public/admin/css/spinner.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{asset('public/admin/css/template.css')}}" rel="stylesheet" type="text/css" />
         <link rel="shortcut icon" href="{{asset('public/favicon.ico')}}" /> 
-        <!--[if lt IE 9]>
-<script src="{{asset('public/admin/assets/global/plugins/respond.min.js')}}"></script>
-<script src="{{asset('public/admin/assets/global/plugins/excanvas.min.js')}}"></script> 
-<script src="{{asset('public/admin/assets/global/plugins/ie8.fix.min.js')}}"></script> 
-<![endif]-->
+
         <!-- BEGIN CORE PLUGINS -->
         <script src="{{asset('public/admin/assets/global/plugins/jquery.min.js')}}" type="text/javascript"></script>
         <script src="{{asset('public/admin/assets/global/plugins/bootstrap/js/bootstrap.min.js')}}" type="text/javascript"></script>
