@@ -145,25 +145,26 @@ function fnPrice($value){
   }
   function getModuleByPosition($position){
     $data=array();
-    $module=ModuleItemModel::whereRaw('trim(lower(position)) = ?',[mb_strtolower(trim(@$position))])->select('item_id','component','status')->get()->toArray();
+    $status=1;
+    $module=ModuleItemModel::whereRaw('trim(lower(position)) = ? and status = ?',[mb_strtolower(trim(@$position)),(int)$status])->select('item_id','component','status')->get()->toArray();    
     if(count($module) > 0){
       $module=$module[0];
       $item_id=$module['item_id'];
       $component=$module['component'];
-      $arr_id=explode(',', $item_id);      
-      $status=1;
-      if((int)$module['status']==1){
-        for($i=0;$i<count($arr_id);$i++){
-          $id=(int)$arr_id[$i];
+      $list=json_decode($item_id);            
+      if(count($list) > 0){
+        $list=convertToArray($list);
+        foreach($list as $key => $value){
+          $id=@$value['id'];
           $item=array();
           switch ($component) {
-            case 'product':
-            $item=ProductModel::where('id','=',(int)$id)->where('status','=',(int)$status)->get()->toArray();
-            break;
             case 'article':
-            $item=ArticleModel::where('id','=',(int)$id)->where('status','=',(int)$status)->get()->toArray();
-            break;            
-          }       
+              $item=ArticleModel::whereRaw('id = ? and status = ?',[(int)@$id,$status])->get()->toArray();
+            break;          
+            case 'product':            
+              $item=ProductModel::whereRaw('id = ? and status = ?',[(int)@$id,$status])->get()->toArray();
+            break;
+          }            
           if(count($item) > 0){
             $data[]=$item[0];
           }                    

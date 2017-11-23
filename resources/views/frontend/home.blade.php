@@ -143,7 +143,17 @@ if(count($data_slideshow) > 0){
 				?>                 
 				<div class="clr"></div>
 			</div>
-			<div class="margin-top-15"></div>
+			
+				<?php 
+                if(count($data_banner_trai)){
+                	           	
+                    for($i=0;$i<count($data_banner_trai);$i++){                           	                    
+	                    $featureImg=asset('/resources/upload/'.$data_banner_trai[$i]['image']);
+	                    ?><div class="margin-top-15"><img src="<?php echo $featureImg; ?>" /></div><?php 
+                    }
+                   
+                }
+            	?>            
 		</div>
 		<div>
 			<?php 			
