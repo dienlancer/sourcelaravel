@@ -7,6 +7,8 @@ use App\MenuTypeModel;
 use App\MenuModel;
 use App\CategoryArticleModel;
 use App\CategoryProductModel;
+use App\ArticleModel;
+use App\ProductModel;
 use DB;
 class ModuleItemController extends Controller {
   	var $_controller="module-item";	
@@ -305,7 +307,42 @@ class ModuleItemController extends Controller {
         return $dataReturn;
       }
       public function getItems(Request $request){
-
+        $id=$request->id;
+        $arrRowData=ModuleItemModel::find(@$id)->toArray();  
+        $item_id=$arrRowData['item_id'];
+        $component=$arrRowData['component'];
+        $list=json_decode($item_id);
+        $data=array();
+        $row=array();
+        $list=convertToArray($list);
+        foreach ($list as $key => $value) {
+          $sort_order=(int)@$value['sort_order'];          
+          switch ($component) {
+            case 'article':
+              $row=ArticleModel::whereRaw('id = ?',[(int)@$value['id']])->select('id','fullname','image')->get()->toArray()[0];
+            break;          
+            case 'product':            
+              $row=ProductModel::whereRaw('id = ?',[(int)@$value['id']])->select('id','fullname','image')->get()->toArray()[0];
+            break;
+          } 
+          $item=array(
+            'is_checked'=>0,
+            'id'=>$row['id'],
+            'fullname'=>$row['fullname'],
+            'image'=>$row['image'],
+            'sort_order'=>$sort_order
+          );
+          $data[]=$item;
+        }  
+        switch ($component) {
+         case 'article':
+            $data=itemArticleConverter($data,$this->_controller);
+         break;                       
+         case 'product':  
+            $data=itemProductConverter($data,$this->_controller);       
+         break;
+       }             
+       return $data;
       }
 }
 ?>

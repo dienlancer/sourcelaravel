@@ -8,10 +8,12 @@ $linkSave               =   route('admin.'.$controller.'.save');
 $linkInsertArticle      =   route('admin.'.$controller.'.insertArticle');
 $linkInsertProduct      =   route('admin.'.$controller.'.insertProduct');
 $linkSortItems          =   route('admin.'.$controller.'.sortItems');
+$linkGetItems           =   route('admin.'.$controller.'.getItems');
 $inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"       value="'.@$arrRowData['fullname'].'">'; 
 $ddlCategoryArticle     =   cmsSelectboxCategory('category_article_id','category_article_id', 'form-control', $arrCategoryArticleRecursive, 0,"");
 $ddlCategoryProduct     =   cmsSelectboxCategory('category_product_id','category_product_id', 'form-control', $arrCategoryProductRecursive, 0,"");
 $inputPosition          =   '<input type="text" class="form-control" name="position"   id="position"       value="'.@$arrRowData['position'].'">'; 
+$inputComponent         =   '<input type="hidden" class="form-control" name="component"   id="component"       value="'.@$arrRowData['component'].'">'; 
 $status                 =   (count($arrRowData) > 0) ? @$arrRowData['status'] : 1 ;
 $arrStatus              =   array(-1 => '- Select status -', 1 => 'Publish', 0 => 'Unpublish');  
 $ddlStatus              =   cmsSelectbox("status","status","form-control",$arrStatus,$status,"");
@@ -43,7 +45,7 @@ $inputSortJson          =   '<input type="hidden" name="sort_json" id="sort_json
         <form class="form-horizontal" role="form" name='frm' enctype="multipart/form-data">
             {{ csrf_field() }}         
             <?php echo $inputSortJson; ?>
-            <input type="hidden" name="component" id="component" value="" />                              
+            <?php echo $inputComponent; ?>                           
             <?php echo  $inputID; ?>        
             <div class="form-body">
                 <div class="row">
@@ -571,12 +573,36 @@ $inputSortJson          =   '<input type="hidden" name="sort_json" id="sort_json
         var tr=$(ctrl).closest('tr');
         vItemTable.row(tr).remove().draw();        
     }
+    function getItems(){
+        var id          =   $('form[name="frm"] > input[name="id"]').val();        
+        var token       =   $('form[name="frm"] > input[name="_token"]').val(); 
+        var dataItem={
+            'id' : id,            
+            '_token': token
+        };
+        $.ajax({
+            url: '<?php echo $linkGetItems; ?>',
+            type: 'POST',                        
+            data: dataItem,
+            success: function (data, status, jqXHR) {  
+                if(data.length > 0){
+                    vItemTable.clear().draw();
+                    vItemTable.rows.add(data).draw();                                
+                }                                 
+                spinner.hide();                
+            },
+            beforeSend  : function(jqXHR,setting){
+                spinner.show();
+            },
+        });  
+    }
     $(document).ready(function(){
         vItemTable.clear().draw();
         var sort_button='<div class="sort-button"><a href="javascript:void(0)" onclick="sort();" class="btn dark btn-outline sbold uppercase">Sort <i class="fa fa-sort"></i></a></div>';
         var trash_button='<div class="sort-button"><a href="javascript:void(0)" onclick="trash();" class="btn dark btn-outline sbold uppercase">Trash <i class="fa fa-trash"></i></a></div>';
         $('div.list > div.dataTables_wrapper > div:first-child > div:nth-child(2)').append(sort_button);
         $('div.list > div.dataTables_wrapper > div:first-child > div:nth-child(2)').append(trash_button);
+        getItems();
     })
 </script>
 @endsection()            
