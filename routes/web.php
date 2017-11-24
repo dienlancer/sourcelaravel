@@ -148,7 +148,7 @@ Route::group(["prefix"=>"admin","middleware"=>"TestLogin"],function(){
 		Route::post("save",["as"=>"admin.menu.save","uses"=>"admin\MenuController@save"]);
 		Route::get("delete-item/{id}",["as"=>"admin.menu.deleteItem","uses"=>"admin\MenuController@deleteItem"]);		
 		Route::post("sort-order",["as"=>"admin.menu.sortOrder","uses"=>"admin\MenuController@sortOrder"]);
-		Route::post("update-status/{status}",["as"=>"admin.menu.updateStatus","uses"=>"admin\MenuController@updateStatus"]);
+		Route::post("update-status/{status}/{menu_type_id}",["as"=>"admin.menu.updateStatus","uses"=>"admin\MenuController@updateStatus"]);
 		Route::post("change-status",["as"=>"admin.menu.changeStatus","uses"=>"admin\MenuController@changeStatus"]);
 		Route::post("trash",["as"=>"admin.menu.trash","uses"=>"admin\MenuController@trash"]);
 		Route::post("upload-file",["as"=>"admin.menu.uploadFile","uses"=>"admin\MenuController@uploadFile"]);

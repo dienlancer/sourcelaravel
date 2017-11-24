@@ -8,7 +8,7 @@ use App\ArticleModel;
 use App\MenuTypeModel;
 use App\ModMenuTypeModel;
 use App\PaginationModel;
-use App\MenuModel;
+use App\CategoryArticleModel;
 use App\CategoryProductModel;
 use DB;
 class MenuController extends Controller {
@@ -76,7 +76,7 @@ class MenuController extends Controller {
                       $item=ProductModel::whereRaw('trim(lower(alias)) = ?',[trim(mb_strtolower($alias,'UTF-8'))])->select('fullname')->get()->toArray(); 
                       break;
                     case 'chu-de':                      
-                      $item=MenuModel::whereRaw('trim(lower(alias)) = ?',[trim(mb_strtolower($alias,'UTF-8'))])->select('fullname')->get()->toArray();
+                      $item=CategoryArticleModel::whereRaw('trim(lower(alias)) = ?',[trim(mb_strtolower($alias,'UTF-8'))])->select('fullname')->get()->toArray();
                       break;  
                     case 'loai-san-pham':                      
                       $item=CategoryProductModel::whereRaw('trim(lower(alias)) = ?',[trim(mb_strtolower($alias,'UTF-8'))])->select('fullname')->get()->toArray();
@@ -199,15 +199,23 @@ class MenuController extends Controller {
             }        
             return redirect()->route("admin.".$this->_controller.".getList",[(int)@$menu_type_id])->with(["message"=>array("type_msg"=>$type_msg,"msg"=>$msg)]); 
       }
-      public function updateStatus(Request $request,$status){        
+      public function updateStatus(Request $request,$status,$menu_type_id){        
         $arrID=$request->cid;
-        $menu_type_id=0;
-        foreach ($arrID as $key => $value) {
-          $item=MenuModel::find($value);
-          $menu_type_id=$item->toArray()["menu_type_id"];   
-          $item->status=$status;
-          $item->save();
+         $type_msg               =   "alert-success";
+          $msg                    =   "Update successfully";    
+          $checked                =   1; 
+        if(count($arrID)==0){
+          $checked                =   0;
+                    $type_msg               =   "alert-warning";            
+                    $msg                    =   "Please choose at least one item to update";
         }
+        if($checked==1){
+          foreach ($arrID as $key => $value) {
+          $item=MenuModel::find($value);
+          $item->status=$status;
+          $item->save();    
+        }
+        }        
         return redirect()->route("admin.".$this->_controller.".getList",[(int)@$menu_type_id])->with(["message"=>array("type_msg"=>$type_msg,"msg"=>$msg)]); 
       }
       public function trash(Request $request){
@@ -341,7 +349,7 @@ class MenuController extends Controller {
         $controller=$this->_controller;         
         $title='Article component';
         $icon=$this->_icon;   
-        $arrCategoryArticle=MenuModel::select("id","fullname","parent_id")->orderBy("sort_order","asc")->get()->toArray();
+        $arrCategoryArticle=CategoryArticleModel::select("id","fullname","parent_id")->orderBy("sort_order","asc")->get()->toArray();
         $arrCategoryArticleRecursive=array();              
         categoryArticleRecursiveForm($arrCategoryArticle ,0,"",$arrCategoryArticleRecursive)  ;            
         return view("admin.".$this->_controller.".article-component",compact("controller","title","icon","arrCategoryArticleRecursive","menu_type_id")); 

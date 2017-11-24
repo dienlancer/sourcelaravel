@@ -239,8 +239,16 @@ class CategoryProductController extends Controller {
       }
       public function updateStatus(Request $request,$status){        
         $arrID=$request->cid;
-        if(count($arrID) > 0){
-        	foreach ($arrID as $key => $value) {
+         $type_msg               =   "alert-success";
+          $msg                    =   "Update successfully";    
+          $checked                =   1; 
+        if(count($arrID)==0){
+          $checked                =   0;
+                    $type_msg               =   "alert-warning";            
+                    $msg                    =   "Please choose at least one item to update";
+        }
+        if($checked==1){
+          foreach ($arrID as $key => $value) {
           $item=CategoryProductModel::find($value);
           $item->status=$status;
           $item->save();    

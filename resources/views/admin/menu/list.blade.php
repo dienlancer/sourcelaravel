@@ -4,8 +4,8 @@
 $linkNew				=	route('admin.'.$controller.'.getComponentForm',[@$menu_type_id]);
 $linkCancel				=	route('admin.'.$controller.'.getList',@$menu_type_id);
 $linkChangeStatus		=	route('admin.'.$controller.'.changeStatus');
-$linkUpdateStatusToShow	=	route('admin.'.$controller.'.updateStatus',[1]);
-$linkUpdateStatusToHide =	route('admin.'.$controller.'.updateStatus',[0]);
+$linkUpdateStatusToShow	=	route('admin.'.$controller.'.updateStatus',[1,@$menu_type_id]);
+$linkUpdateStatusToHide =	route('admin.'.$controller.'.updateStatus',[0,@$menu_type_id]);
 $linkTrash				=	route('admin.'.$controller.'.trash');
 $linkSortOrder			=	route('admin.'.$controller.'.sortOrder');
 ?>
