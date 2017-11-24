@@ -78,7 +78,8 @@ $inputMenuTypeId 		=	'<input type="hidden" class="form-control" id="menu_type_id
         });
     }   
     $(document).ready(function(){
-        vProductComponentTable.clear().draw();        
+        vProductComponentTable.clear().draw();  
+        getListProduct();      
     });   
 </script>
 @endsection()         
