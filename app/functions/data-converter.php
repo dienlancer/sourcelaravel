@@ -118,7 +118,7 @@ function menuConverter($data=array(),$controller){
         for($i = 0 ;$i < count($data);$i++){
             $site_link=$data[$i]['site_link'];
             $arrSiteLink=explode('/', $site_link);            
-            $component='no-component';
+            $component='component';
             $alias='no-alias';
             if(count($arrSiteLink) > 0){
                 if(isset($arrSiteLink[1])){
