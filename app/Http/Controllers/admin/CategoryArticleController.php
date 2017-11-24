@@ -236,16 +236,26 @@ class CategoryArticleController extends Controller {
                 $item               =   CategoryArticleModel::find((int)@$id);
                 $item->delete();            
             }        
-            return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("content"=>"Đã lưu")]); 
+             return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("type_msg"=>$type_msg,"msg"=>$msg)]); 
       }
       public function updateStatus(Request $request,$status){        
         $arrID=$request->cid;
-        foreach ($arrID as $key => $value) {
+         $type_msg               =   "alert-success";
+          $msg                    =   "Update successfully";    
+          $checked                =   1; 
+        if(count($arrID)==0){
+          $checked                =   0;
+                    $type_msg               =   "alert-warning";            
+                    $msg                    =   "Please choose at least one item to update";
+        }
+        if($checked==1){
+          foreach ($arrID as $key => $value) {
           $item=CategoryArticleModel::find($value);
           $item->status=$status;
           $item->save();    
         }
-        return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("content"=>"Đã lưu")]); 
+        }        
+        return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("type_msg"=>$type_msg,"msg"=>$msg)]); 
       }
       public function trash(Request $request){            
           $arrID                 =   $request->cid;             
@@ -280,19 +290,27 @@ class CategoryArticleController extends Controller {
               $sql = "DELETE FROM `category_article` WHERE `id` IN (".$strID.")";                 
               DB::statement($sql);    
             }
-            return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("content"=>"Đã lưu")]); 
+            return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("type_msg"=>$type_msg,"msg"=>$msg)]); 
     }
     public function sortOrder(Request $request){
-          $arrOrder=array();
-          $arrOrder=$request->sort_order;  
-          if(!empty($arrOrder)){        
-            foreach($arrOrder as $id => $value){                    
-              $item=CategoryArticleModel::find($id);
-              $item->sort_order=(int)$value;            
-              $item->save();            
-            }     
-          }    
-          return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("content"=>"Đã lưu")]); 
+      $checked                =   1;
+      $type_msg               =   "alert-success";
+      $msg                    =   "Sort successfully"; 
+      $arrOrder=array();
+      $arrOrder=$request->sort_order;  
+      if(count($arrOrder) == 0){
+        $checked     =   0;
+        $type_msg           =   "alert-warning";            
+        $msg                =   "Please choose at least one item to sort";
+      }
+      if($checked==1){        
+        foreach($arrOrder as $id => $value){                    
+          $item=CategoryArticleModel::find($id);
+          $item->sort_order=(int)$value;            
+          $item->save();            
+        }     
+      }    
+      return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("type_msg"=>$type_msg,"msg"=>$msg)]); 
     }
     public function uploadFile(Request $request){           
           $uploadDir = base_path() . DS ."resources".DS."upload";                 

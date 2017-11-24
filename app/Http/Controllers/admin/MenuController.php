@@ -8,7 +8,7 @@ use App\ArticleModel;
 use App\MenuTypeModel;
 use App\ModMenuTypeModel;
 use App\PaginationModel;
-use App\CategoryArticleModel;
+use App\MenuModel;
 use App\CategoryProductModel;
 use DB;
 class MenuController extends Controller {
@@ -76,7 +76,7 @@ class MenuController extends Controller {
                       $item=ProductModel::whereRaw('trim(lower(alias)) = ?',[trim(mb_strtolower($alias,'UTF-8'))])->select('fullname')->get()->toArray(); 
                       break;
                     case 'chu-de':                      
-                      $item=CategoryArticleModel::whereRaw('trim(lower(alias)) = ?',[trim(mb_strtolower($alias,'UTF-8'))])->select('fullname')->get()->toArray();
+                      $item=MenuModel::whereRaw('trim(lower(alias)) = ?',[trim(mb_strtolower($alias,'UTF-8'))])->select('fullname')->get()->toArray();
                       break;  
                     case 'loai-san-pham':                      
                       $item=CategoryProductModel::whereRaw('trim(lower(alias)) = ?',[trim(mb_strtolower($alias,'UTF-8'))])->select('fullname')->get()->toArray();
@@ -197,7 +197,7 @@ class MenuController extends Controller {
                 $item->delete();            
                 ModMenuTypeModel::whereRaw("menu_id = ?",[(int)@$id])->delete();
             }        
-            return redirect()->route("admin.".$this->_controller.".getList",[(int)@$menu_type_id])->with(["message"=>array("content"=>"Đã lưu")]); 
+            return redirect()->route("admin.".$this->_controller.".getList",[(int)@$menu_type_id])->with(["message"=>array("type_msg"=>$type_msg,"msg"=>$msg)]); 
       }
       public function updateStatus(Request $request,$status){        
         $arrID=$request->cid;
@@ -208,7 +208,7 @@ class MenuController extends Controller {
           $item->status=$status;
           $item->save();
         }
-        return redirect()->route("admin.".$this->_controller.".getList",[(int)@$menu_type_id])->with(["message"=>array("content"=>"Đã lưu")]); 
+        return redirect()->route("admin.".$this->_controller.".getList",[(int)@$menu_type_id])->with(["message"=>array("type_msg"=>$type_msg,"msg"=>$msg)]); 
       }
       public function trash(Request $request){
         $arrID                 =   $request->cid;             
@@ -236,22 +236,28 @@ class MenuController extends Controller {
           $strID = implode(',',$arrID);   
           $sqlDeleteMenu = 'DELETE FROM `menu` WHERE `id` IN ('.$strID.') ';                 
           DB::statement($sqlDeleteMenu);          
-          return redirect()->route("admin.".$this->_controller.".getList",[(int)@$menu_type_id])->with(["message"=>array("content"=>"Đã lưu")]);     
+          return redirect()->route("admin.".$this->_controller.".getList",[(int)@$menu_type_id])->with(["message"=>array("type_msg"=>$type_msg,"msg"=>$msg)]);     
         }
       }
       public function sortOrder(Request $request){
-        $arrOrder=array();
-        $arrOrder=$request->sort_order;  
-        $menu_type_id=0;  
-        if(!empty($arrOrder)){        
-          foreach($arrOrder as $id => $value){                    
-            $item=MenuModel::find($id);
-            $menu_type_id=$item->toArray()["menu_type_id"];   
-            $item->sort_order=(int)$value;            
-            $item->save();                
-          }     
-        }    
-        return redirect()->route("admin.".$this->_controller.".getList",[(int)@$menu_type_id])->with(["message"=>array("content"=>"Đã lưu")]); 
+        $checked                =   1;
+      $type_msg               =   "alert-success";
+      $msg                    =   "Sort successfully"; 
+      $arrOrder=array();
+      $arrOrder=$request->sort_order;  
+      if(count($arrOrder) == 0){
+        $checked     =   0;
+        $type_msg           =   "alert-warning";            
+        $msg                =   "Please choose at least one item to sort";
+      }
+      if($checked==1){        
+        foreach($arrOrder as $id => $value){                    
+          $item=MenuModel::find($id);
+          $item->sort_order=(int)$value;            
+          $item->save();            
+        }     
+      }    
+        return redirect()->route("admin.".$this->_controller.".getList",[(int)@$menu_type_id])->with(["message"=>array("type_msg"=>$type_msg,"msg"=>$msg)]); 
       }
       public function getComponentForm($menu_type_id = 0){  
         $controller=$this->_controller;     
@@ -335,7 +341,7 @@ class MenuController extends Controller {
         $controller=$this->_controller;         
         $title='Article component';
         $icon=$this->_icon;   
-        $arrCategoryArticle=CategoryArticleModel::select("id","fullname","parent_id")->orderBy("sort_order","asc")->get()->toArray();
+        $arrCategoryArticle=MenuModel::select("id","fullname","parent_id")->orderBy("sort_order","asc")->get()->toArray();
         $arrCategoryArticleRecursive=array();              
         categoryArticleRecursiveForm($arrCategoryArticle ,0,"",$arrCategoryArticleRecursive)  ;            
         return view("admin.".$this->_controller.".article-component",compact("controller","title","icon","arrCategoryArticleRecursive","menu_type_id")); 

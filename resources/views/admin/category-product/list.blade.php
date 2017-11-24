@@ -15,14 +15,14 @@ $linkSortOrder			=	route('admin.'.$controller.'.sortOrder');
 	<div class="portlet light bordered">
 		<div class="portlet-title">
 			@if(Session::has("message"))
-			<div class="alert alert-success" id="alert" >
+			<div class="alert <?php echo Session::get("message")['type_msg'] ?>" id="alert" >
 				<strong>
 				 	<?php 
-                            	echo Session::get("message")['content'];
+                            	echo Session::get("message")['msg'];
                             ?>
 				</strong> 
 			</div>                                                                              
-            @endif			
+            @endif		
 			<div class="caption font-dark">
 				<i class="{{$icon}}"></i>
 				<span class="caption-subject bold uppercase">{{$title}}</span>

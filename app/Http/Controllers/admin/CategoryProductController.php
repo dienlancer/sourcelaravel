@@ -235,16 +235,18 @@ class CategoryProductController extends Controller {
                 $item               =   CategoryProductModel::find((int)@$id);
                 $item->delete();            
             }        
-            return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("content"=>"Đã lưu")]); 
+            return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("type_msg"=>$type_msg,"msg"=>$msg)]); 
       }
       public function updateStatus(Request $request,$status){        
         $arrID=$request->cid;
-        foreach ($arrID as $key => $value) {
+        if(count($arrID) > 0){
+        	foreach ($arrID as $key => $value) {
           $item=CategoryProductModel::find($value);
           $item->status=$status;
           $item->save();    
         }
-        return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("content"=>"Đã lưu")]); 
+        }        
+        return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("type_msg"=>$type_msg,"msg"=>$msg)]); 
       }
       public function trash(Request $request){            
           $arrID                 =   $request->cid;             
@@ -279,19 +281,27 @@ class CategoryProductController extends Controller {
               $sql = "DELETE FROM `category_product` WHERE `id` IN (".$strID.")";                 
               DB::statement($sql);    
             }
-            return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("content"=>"Đã lưu")]); 
+            return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("type_msg"=>$type_msg,"msg"=>$msg)]); 
     }
     public function sortOrder(Request $request){
-          $arrOrder=array();
-          $arrOrder=$request->sort_order;  
-          if(!empty($arrOrder)){        
-            foreach($arrOrder as $id => $value){                    
-              $item=CategoryProductModel::find($id);
-              $item->sort_order=(int)$value;            
-              $item->save();            
-            }     
-          }    
-          return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("content"=>"Đã lưu")]); 
+      $checked                =   1;
+      $type_msg               =   "alert-success";
+      $msg                    =   "Sort successfully"; 
+      $arrOrder=array();
+      $arrOrder=$request->sort_order;  
+      if(count($arrOrder) == 0){
+        $checked     =   0;
+        $type_msg           =   "alert-warning";            
+        $msg                =   "Please choose at least one item to sort";
+      }
+      if($checked==1){        
+        foreach($arrOrder as $id => $value){                    
+          $item=CategoryProductModel::find($id);
+          $item->sort_order=(int)$value;            
+          $item->save();            
+        }     
+      }    
+      return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("type_msg"=>$type_msg,"msg"=>$msg)]); 
     }
     public function uploadFile(Request $request){ 
       $dataSettingSystem= getSettingSystem();
