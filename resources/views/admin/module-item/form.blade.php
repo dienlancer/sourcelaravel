@@ -603,6 +603,6 @@ $inputSortJson          =   '<input type="hidden" name="sort_json" id="sort_json
         $('div.list > div.dataTables_wrapper > div:first-child > div:nth-child(2)').append(sort_button);
         $('div.list > div.dataTables_wrapper > div:first-child > div:nth-child(2)').append(trash_button);
         getItems();
-    })
+    });
 </script>
 @endsection()            

@@ -749,13 +749,37 @@ function categoryProductComponentConverter($data=array(),$controller,$menu_type_
     }
     return $result;
 }
+function articleComponentConverter($data=array(),$controller,$menu_type_id){        
+    $result = array();
+    
+    if( count($data) > 0){
+        for($i = 0 ;$i < count($data);$i++){            
+            $sort_order = '<center>'.$data[$i]["sort_order"].'</center>';
+            $link_image="";
+            $image="";
+            if(!empty($data[$i]["image"])){
+                $link_image=url("/upload/".$data[$i]["image"]);            
+                $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
+            }       
+            $id='<center>'.$data[$i]["id"].'</center>';       
+            $linkMenu=route('admin.menu.getForm',['add',$menu_type_id,0,'bai-viet',$data[$i]["alias"]]);
+            $fullname='<a href="'.$linkMenu.'">'.$data[$i]['fullname'].'</a>';
+            $result[$i] = array(                
+                "id"                       =>   $id,
+                "fullname"                 =>   $fullname,                                
+                "image"                    =>   $image,
+                "sort_order"               =>   $sort_order,                
+            );
+        }
+    }
+    return $result;
+}
 function convertToArray($stdArray){
     $newArr=array();
     foreach($stdArray as $key => $value)
         $newArr[$key] = (array) $value;    
     return $newArr;
 }
-
 function get_field_data_array($array,$idField = null)
     {
         $_out = array();

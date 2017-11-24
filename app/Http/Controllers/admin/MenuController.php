@@ -4,9 +4,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\MenuModel;
 use App\ProductModel;
+use App\ArticleModel;
 use App\MenuTypeModel;
 use App\ModMenuTypeModel;
 use App\PaginationModel;
+use App\CategoryArticleModel;
+use App\CategoryProductModel;
 use DB;
 class MenuController extends Controller {
     	var $_controller="menu"; 
@@ -304,15 +307,41 @@ class MenuController extends Controller {
         $data=convertToArray($data);
         $data=categoryProductComponentConverter($data,$this->_controller,$menu_type_id);   
         $data_recursive=array();
-        CategoryProductRecursive($data,0,null,$data_recursive);          
+        categoryProductRecursive($data,0,null,$data_recursive);          
         $data=$data_recursive; 
         return view("admin.".$this->_controller.".category-component",compact("controller","task","title","icon",'data','pagination','filter_search'));         
       }
-      public function getArticleComponent(){
+      public function getArticleComponent($menu_type_id = 0){
         $controller=$this->_controller;         
-        $title=$this->_title;
+        $title='Article component';
         $icon=$this->_icon;   
-        return view("admin.".$this->_controller.".article-component",compact("controller","title","icon")); 
+        $arrCategoryArticle=CategoryArticleModel::select("id","fullname","parent_id")->orderBy("sort_order","asc")->get()->toArray();
+        $arrCategoryArticleRecursive=array();              
+        categoryArticleRecursiveForm($arrCategoryArticle ,0,"",$arrCategoryArticleRecursive)  ;            
+        return view("admin.".$this->_controller.".article-component",compact("controller","title","icon","arrCategoryArticleRecursive","menu_type_id")); 
       }
+      public function getArticleList(Request $request){
+        $filter_search="";    
+        $category_article_id=0;  
+        $menu_type_id=$request->menu_type_id;
+        if(!empty(@$request->filter_search)){      
+          $filter_search=trim(@$request->filter_search) ;    
+        }
+        if(!empty(@$request->category_article_id)){
+          $category_article_id=(int)@$request->category_article_id;
+        }
+        /* begin lấy chuỗi ID */
+        $arrCategoryArticleID=array();
+        $strCategoryArticleID="";
+        $arrCategoryArticleID[]=$category_article_id;        
+        getStringCategoryID($category_article_id,$arrCategoryArticleID,'category_article');                    
+        $strCategoryArticleID=implode("#;#", $arrCategoryArticleID);    
+        $strCategoryArticleID="#".$strCategoryArticleID."#";    
+        /* end lấy chuỗi ID */        
+        $data=DB::select('call pro_getArticle(?,?)',array(mb_strtolower($filter_search,'UTF-8'),$strCategoryArticleID));        
+        $data=convertToArray($data);    
+        $data=articleComponentConverter($data,$this->_controller,$menu_type_id);            
+        return $data;
+    } 
 }
 ?>

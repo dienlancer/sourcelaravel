@@ -17,13 +17,6 @@ class ProductController extends Controller {
     		$icon=$this->_icon;		
     		return view("admin.".$this->_controller.".list",compact("controller","task","title","icon"));	
   	}	
-    public function getStringCategoryProductID($category_product_id,&$arrCategoryProductID){    
-        $arrCategoryProduct=CategoryProductModel::whereRaw("parent_id = ?",[(int)@$category_product_id])->select("id")->get()->toArray();
-        foreach ($arrCategoryProduct as $key => $value) {
-          $arrCategoryProductID[]=$value["id"];
-          $this->getStringCategoryProductID((int)$value["id"],$arrCategoryProductID);
-        }   
-    }
   	public function loadData(Request $request){
     		$filter_search="";    
         $category_product_id=0;  
@@ -37,7 +30,7 @@ class ProductController extends Controller {
         $arrCategoryProductID=array();
         $strCategoryProductID="";
         $arrCategoryProductID[]=$category_product_id;
-        $this->getStringCategoryProductID($category_product_id,$arrCategoryProductID);    
+        getStringCategoryID($category_product_id,$arrCategoryProductID,'category_product');      
         $strCategoryProductID=implode("#;#", $arrCategoryProductID);    
         $strCategoryProductID="#".$strCategoryProductID."#";    
         /* end lấy chuỗi ID */

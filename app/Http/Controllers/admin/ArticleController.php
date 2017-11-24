@@ -16,14 +16,7 @@ class ArticleController extends Controller {
     		$title=$this->_title;
     		$icon=$this->_icon;		
     		return view("admin.".$this->_controller.".list",compact("controller","task","title","icon"));	
-  	}	
-    public function getStringCategoryArticleID($category_article_id,&$arrCategoryArticleID){            
-        $arrCategoryArticle=CategoryArticleModel::whereRaw("parent_id = ?",[(int)@$category_article_id])->select("id")->get()->toArray();
-        foreach ($arrCategoryArticle as $key => $value) {
-          $arrCategoryArticleID[]=$value["id"];
-          $this->getStringCategoryArticleID((int)$value["id"],$arrCategoryArticleID);
-        }   
-    }
+  	}	    
   	public function loadData(Request $request){
     		$filter_search="";    
         $category_article_id=0;  
@@ -36,8 +29,8 @@ class ArticleController extends Controller {
         /* begin lấy chuỗi ID */
         $arrCategoryArticleID=array();
         $strCategoryArticleID="";
-        $arrCategoryArticleID[]=$category_article_id;
-        $this->getStringCategoryArticleID($category_article_id,$arrCategoryArticleID);    
+        $arrCategoryArticleID[]=$category_article_id;        
+        getStringCategoryID($category_article_id,$arrCategoryArticleID,'category_article');                    
         $strCategoryArticleID=implode("#;#", $arrCategoryArticleID);    
         $strCategoryArticleID="#".$strCategoryArticleID."#";    
         /* end lấy chuỗi ID */        

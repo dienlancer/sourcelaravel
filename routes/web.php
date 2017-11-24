@@ -156,6 +156,7 @@ Route::group(["prefix"=>"admin","middleware"=>"TestLogin"],function(){
 		Route::get("category-article-component/{menu_type_id}",["as"=>"admin.menu.getCategoryArticleComponent","uses"=>"admin\MenuController@getCategoryArticleComponent"]);
 		Route::get("category-product-component/{menu_type_id}",["as"=>"admin.menu.getCategoryProductComponent","uses"=>"admin\MenuController@getCategoryProductComponent"]);
 		Route::get("article-component/{menu_type_id}",["as"=>"admin.menu.getArticleComponent","uses"=>"admin\MenuController@getArticleComponent"]);
+		Route::post("article-list",["as"=>"admin.menu.getArticleList","uses"=>"admin\MenuController@getArticleList"]);
 	});	
 	Route::group(["prefix"=>"group"],function(){		
 		Route::match(["get","post"],"list",["as"=>"admin.group.getList","uses"=>"admin\GroupController@getList"]);

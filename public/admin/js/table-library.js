@@ -18,6 +18,7 @@ var vPaymentMethodTable     =   null;
 var vBannerTable            =   null;
 var vSettingSystemTable     =   null;
 var vItemTable     =   null;
+var vArticleComponentTable = null;
 var basicTable = function () {
     var initCategoryArticleTable = function () {
         vCategoryArticleTable = $('#tbl-category-article').DataTable({
@@ -42,6 +43,16 @@ var basicTable = function () {
                 { data: "image"      },               
                 { data: "sort_order"    },               
                 { data: "deleted"    },                
+            ]
+        });        
+    };
+    var initArticleComponentTable = function () {
+        vArticleComponentTable = $('#tbl-article-component').DataTable({
+            columns: [                
+                { data: "id"            },                
+                { data: "fullname"      },    
+                { data: "image"      },               
+                { data: "sort_order"    },                               
             ]
         });        
     };
@@ -323,6 +334,7 @@ var basicTable = function () {
             initArticleModuleItemTable();
             initProductModuleItemTable();
             initItemTable();
+            initArticleComponentTable();
         }
     };
 }();

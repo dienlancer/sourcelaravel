@@ -6,6 +6,7 @@ use App\ModuleItemModel;
 use App\ProductModel;
 use App\ArticleModel;
 use App\CategoryProductModel;
+use App\CategoryArticleModel;
 function uploadImage($fileObj,$width,$height){        
   require_once base_path() . DS ."app".DS."scripts".DS."PhpThumb".DS."ThumbLib.inc.php";    
   $uploadDir = base_path() . DS ."resources".DS."upload";                    
@@ -28,9 +29,12 @@ function getSettingSystem(){
 function getStringCategoryID($category_id,&$arrCategoryID,$model){
     $arrCategory=array();    
     switch ($model) {
+      case 'category_article':
+        $arrCategory=CategoryArticleModel::select("id")->where("parent_id","=",(int)@$category_id)->get()->toArray();    
+        break;
       case 'category_product':
         $arrCategory=CategoryProductModel::select("id")->where("parent_id","=",(int)@$category_id)->get()->toArray();    
-        break;      
+        break;              
     }    
     if(count($arrCategory) > 0){
       foreach ($arrCategory as $key => $value) {
