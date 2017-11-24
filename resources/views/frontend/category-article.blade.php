@@ -1,3 +1,6 @@
+<?php 
+$setting= getSettingSystem();
+?>
 <form method="post" class="frm" name="frm">
 	<input type="hidden" name="filter_page" value="1">         
     {{ csrf_field() }}
@@ -9,7 +12,7 @@
 				$count=count($items);				
 				for($i=0;$i<count($items);$i++){
 					$id=$items[$i]['id'];			
-					$permalink=url('/bai-viet/'.$items[$i]['alias'].'.html');
+					$permalink=url('/'.$setting['com_article'].'/'.$items[$i]['alias'].'.html');
 					$featureImg=asset('/upload/' .$items[$i]['image']);
 					$fullname=$items[$i]['fullname'];
 					$intro=$items[$i]['intro'];

@@ -15,7 +15,10 @@ class ArticleController extends Controller {
     		$task="list";
     		$title=$this->_title;
     		$icon=$this->_icon;		
-    		return view("admin.".$this->_controller.".list",compact("controller","task","title","icon"));	
+        $arrCategoryArticle=CategoryArticleModel::select("id","fullname","parent_id")->orderBy("sort_order","asc")->get()->toArray();
+        $arrCategoryArticleRecursive=array();              
+        categoryArticleRecursiveForm($arrCategoryArticle ,0,"",$arrCategoryArticleRecursive)  ;          
+    		return view("admin.".$this->_controller.".list",compact("controller","task","title","icon","arrCategoryArticleRecursive"));	
   	}	    
   	public function loadData(Request $request){
     		$filter_search="";    

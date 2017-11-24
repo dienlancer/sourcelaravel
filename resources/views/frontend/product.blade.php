@@ -1,11 +1,11 @@
 <?php 
-$data_setting_system=getSettingSystem();
-$contacted_phone=$data_setting_system['contacted_phone'];
-$product_width=$data_setting_system['product_width'];
-$product_height=$data_setting_system['product_height'];
+$setting=getSettingSystem();
+$contacted_phone=$setting['contacted_phone'];
+$product_width=$setting['product_width'];
+$product_height=$setting['product_height'];
 if(count($item) > 0){
     $id=$item['id'];           
-    $permalink=url('/san-pham/'.$item['alias'].'.html');
+    $permalink=url('/'.$setting['com_product'].'/'.$item['alias'].'.html');
     $featureImg=asset('/upload/'.$product_width.'x'.$product_height.'-'.$item['image']); 
     $largeImg=asset('/upload/'.$item['image']); 
     $fullname=$item['fullname'];   

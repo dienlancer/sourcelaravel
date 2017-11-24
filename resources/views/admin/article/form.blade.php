@@ -23,7 +23,7 @@ $id                     =   (count($arrRowData) > 0) ? @$arrRowData['id'] : "" ;
 $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$id.'" />'; 
 $picture                =   "";
 $strImage               =   "";
-$dataSettingSystem= getSettingSystem();
+$setting= getSettingSystem();
 if(count($arrRowData > 0)){
     if(!empty(@$arrRowData["image"])){
         $picture        =   '<div class="col-sm-6"><center>&nbsp;<img src="'.url("/upload/".@$arrRowData["image"]).'" style="width:100%" />&nbsp;</center></div><div class="col-sm-6"><a href="javascript:void(0);" onclick="deleteImage();"><img src="'.url('public/admin/images/delete-icon.png').'"/></a></div>';                        

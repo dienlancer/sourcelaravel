@@ -602,6 +602,8 @@ $inputSortJson          =   '<input type="hidden" name="sort_json" id="sort_json
         var trash_button='<div class="sort-button"><a href="javascript:void(0)" onclick="trash();" class="btn dark btn-outline sbold uppercase">Trash <i class="fa fa-trash"></i></a></div>';
         $('div.list > div.dataTables_wrapper > div:first-child > div:nth-child(2)').append(sort_button);
         $('div.list > div.dataTables_wrapper > div:first-child > div:nth-child(2)').append(trash_button);
+        getListArticle();
+        getListProduct();
         getItems();
     });
 </script>

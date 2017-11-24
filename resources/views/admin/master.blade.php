@@ -149,10 +149,11 @@ License: You must have a valid license purchased only from themeforest(the above
                     <!-- BEGIN TOP NAVIGATION MENU -->
                     <div class="top-menu">
                         <ul class="nav navbar-nav pull-right">
-                            
-                            <!-- END TODO DROPDOWN -->
-                            <!-- BEGIN USER LOGIN DROPDOWN -->
-                            <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                            <li class="dropdown dropdown-extended dropdown-tasks" id="header_task_bar">
+                                <a href="<?php echo url('/'); ?>" class="visit-site" target="_blank">
+                                    Visit site
+                                </a>                                
+                            </li>
                             <li class="dropdown dropdown-user">
                                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                     <img alt="" class="img-circle" src="{{asset('public/admin/assets/layouts/layout/img/avatar.png')}}" />

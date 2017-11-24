@@ -1,24 +1,24 @@
 @extends("frontend.master")
 @section("content")
 <?php 
-$data_setting_system=getSettingSystem();
-$contacted_phone=$data_setting_system['contacted_phone'];
-$email_to=$data_setting_system['email_to'];
-$address=$data_setting_system['address'];
-$to_name=$data_setting_system['to_name'];
-$telephone=$data_setting_system['telephone'];
-$website=$data_setting_system['website'];
-$slogan_about=$data_setting_system['slogan_about'];
-$opened_time=$data_setting_system['opened_time'];
-$opened_date=$data_setting_system['opened_date'];
-$contaced_name=$data_setting_system['contacted_name'];
-$facebook_url=$data_setting_system['facebook_url'];
-$twitter_url=$data_setting_system['twitter_url'];
-$google_plus=$data_setting_system['google_plus'];
-$youtube_url=$data_setting_system['youtube_url'];
-$instagram_url=$data_setting_system['instagram_url'];
-$pinterest_url=$data_setting_system['pinterest_url']; 
-$map_url=$data_setting_system['map_url'];
+$setting=getSettingSystem();
+$contacted_phone=$setting['contacted_phone'];
+$email_to=$setting['email_to'];
+$address=$setting['address'];
+$to_name=$setting['to_name'];
+$telephone=$setting['telephone'];
+$website=$setting['website'];
+$slogan_about=$setting['slogan_about'];
+$opened_time=$setting['opened_time'];
+$opened_date=$setting['opened_date'];
+$contaced_name=$setting['contacted_name'];
+$facebook_url=$setting['facebook_url'];
+$twitter_url=$setting['twitter_url'];
+$google_plus=$setting['google_plus'];
+$youtube_url=$setting['youtube_url'];
+$instagram_url=$setting['instagram_url'];
+$pinterest_url=$setting['pinterest_url']; 
+$map_url=$setting['map_url'];
 // lấy sản phẩm nổi bật
 $data_featured_product=getModuleByPosition('featured-product');    
 // thiết bị vệ sinh
@@ -165,8 +165,8 @@ if(count($data_slideshow) > 0){
 				$k=1;									
 					for($i=0;$i<count($data_featured_product);$i++){							
 						$id=$data_featured_product[$i]['id'];			
-						$permalink=url('/san-pham/'.$data_featured_product[$i]['alias'].'.html');
-						$featureImg=asset('/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$data_featured_product[$i]['image']);
+						$permalink=url('/'.$setting['com_product'].'/'.$data_featured_product[$i]['alias'].'.html');
+						$featureImg=asset('/upload/'.$setting['product_width'].'x'.$setting['product_height'].'-'.$data_featured_product[$i]['image']);
 						$fullname=$data_featured_product[$i]['fullname'];	
 						$price=$data_featured_product[$i]['price'];
 						$sale_price=$data_featured_product[$i]['sale_price'];
@@ -258,8 +258,8 @@ if(count($data_slideshow) > 0){
 			$k=1;							 
 				for($i=0;$i<count($data_toilet_equipment);$i++){
 					$id=$data_toilet_equipment[$i]['id'];			
-					$permalink=url('/san-pham/'.$data_toilet_equipment[$i]['alias'].'.html');
-					$featureImg=asset('/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$data_toilet_equipment[$i]['image']);
+					$permalink=url('/'.$setting['com_product'].'/'.$data_toilet_equipment[$i]['alias'].'.html');
+					$featureImg=asset('/upload/'.$setting['product_width'].'x'.$setting['product_height'].'-'.$data_toilet_equipment[$i]['image']);
 					$fullname=$data_toilet_equipment[$i]['fullname'];	
 					$price=$data_toilet_equipment[$i]['price'];
 					$sale_price=$data_toilet_equipment[$i]['sale_price'];
@@ -342,8 +342,8 @@ if(count($data_slideshow) > 0){
 			$k=1;				
 				for($i=0;$i<count($data_chicken_equipment);$i++){
 					$id=$data_chicken_equipment[$i]['id'];			
-					$permalink=url('/san-pham/'.$data_chicken_equipment[$i]['alias'].'.html');
-					$featureImg=asset('/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$data_chicken_equipment[$i]['image']);
+					$permalink=url('/'.$setting['com_product'].'/'.$data_chicken_equipment[$i]['alias'].'.html');
+					$featureImg=asset('/upload/'.$setting['product_width'].'x'.$setting['product_height'].'-'.$data_chicken_equipment[$i]['image']);
 					$fullname=$data_chicken_equipment[$i]['fullname'];	
 					$price=$data_chicken_equipment[$i]['price'];
 					$sale_price=$data_chicken_equipment[$i]['sale_price'];
@@ -451,8 +451,8 @@ if(count($data_clever_house) > 0){
 				$k=1;							 
 					for($i=0;$i<count($data_clever_house);$i++){
 						$id=$data_clever_house[$i]['id'];			
-						$permalink=url('/san-pham/'.$data_clever_house[$i]['alias'].'.html');
-						$featureImg=asset('/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$data_clever_house[$i]['image']);
+						$permalink=url('/'.$setting['com_product'].'/'.$data_clever_house[$i]['alias'].'.html');
+						$featureImg=asset('/upload/'.$setting['product_width'].'x'.$setting['product_height'].'-'.$data_clever_house[$i]['image']);
 						$fullname=$data_clever_house[$i]['fullname'];	
 						$price=$data_clever_house[$i]['price'];
 						$sale_price=$data_clever_house[$i]['sale_price'];
@@ -534,7 +534,7 @@ if(count($data_customer) > 0){
 			<?php 
 			for($i=0;$i<count($data_customer);$i++){
 					$id=$data_customer[$i]['id'];			
-					$permalink=url('/san-pham/'.$data_customer[$i]['alias'].'.html');
+					$permalink=url('/'.$setting['com_product'].'/'.$data_customer[$i]['alias'].'.html');
 					$featureImg=asset('/upload/'.$data_customer[$i]['image']);
 					$fullname=$data_customer[$i]['fullname'];
 					$intro=$data_customer[$i]['intro'];
@@ -575,7 +575,7 @@ if(count($data_customer) > 0){
 			<?php 
 			for($i=0;$i<count($data_hot_article);$i++){
 				$id=$data_hot_article[$i]['id'];			
-				$permalink=url('/bai-viet/'.$data_hot_article[$i]['alias'].'.html');
+				$permalink=url('/'.$setting['com_article'].'/'.$data_hot_article[$i]['alias'].'.html');
 				$featureImg=asset('/upload/'.$data_hot_article[$i]['image']);
 				$fullname=$data_hot_article[$i]['fullname'];
 				$intro=$data_hot_article[$i]['intro'];
@@ -632,7 +632,7 @@ if(count($data_customer) > 0){
 				<?php 
 				for($i=0;$i<count($data_partner);$i++){
 					$id=$data_partner[$i]['id'];			
-					$permalink=url('/san-pham/'.$data_partner[$i]['alias'].'.html');
+					$permalink=url('/'.$setting['com_product'].'/'.$data_partner[$i]['alias'].'.html');
 					$featureImg=asset('/upload/'.$data_partner[$i]['image']);
 					$fullname=$data_partner[$i]['fullname'];
 					$intro=$data_partner[$i]['intro'];

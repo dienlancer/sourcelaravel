@@ -23,9 +23,9 @@ $ddlStatus              =   cmsSelectbox("status","status","form-control",$arrSt
 $inputSortOrder         =   '<input type="text" class="form-control" name="sort_order" id="sort_order"     value="'.@$arrRowData['sort_order'].'">';
 $id                     =   (count($arrRowData) > 0) ? @$arrRowData['id'] : "" ;
 $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$id.'" />'; 
-$dataSettingSystem= getSettingSystem();
-$product_width = $dataSettingSystem['product_width'];
-$product_height = $dataSettingSystem['product_height'];
+$setting= getSettingSystem();
+$product_width = $setting['product_width'];
+$product_height = $setting['product_height'];
 ?>
 <div class="portlet light bordered">
     <div class="portlet-title">

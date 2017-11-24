@@ -1,4 +1,4 @@
-<?php $data_setting_system=getSettingSystem();     ?>
+<?php $setting=getSettingSystem();     ?>
 <form method="post" class="frm" name="frm">
 	<input type="hidden" name="filter_page" value="1">         
     {{ csrf_field() }}
@@ -9,8 +9,8 @@
 					$k=1;									
 					for($i=0;$i<count($items);$i++){							
 						$id=$items[$i]['id'];			
-						$permalink=url('/san-pham/'.$items[$i]['alias'].'.html');
-						$featureImg=asset('/upload/'.$data_setting_system['product_width'].'x'.$data_setting_system['product_height'].'-'.$items[$i]['image']);
+						$permalink=url('/'.$setting['com_product'].'/'.$items[$i]['alias'].'.html');
+						$featureImg=asset('/upload/'.$setting['product_width'].'x'.$setting['product_height'].'-'.$items[$i]['image']);
 						$fullname=$items[$i]['fullname'];	
 						$price=$items[$i]['price'];
 						$sale_price=$items[$i]['sale_price'];

@@ -15,7 +15,10 @@ class ProductController extends Controller {
     		$task="list";
     		$title=$this->_title;
     		$icon=$this->_icon;		
-    		return view("admin.".$this->_controller.".list",compact("controller","task","title","icon"));	
+        $arrCategoryProduct=CategoryProductModel::select("id","fullname","parent_id")->orderBy("sort_order","asc")->get()->toArray();
+        $arrCategoryProductRecursive=array();              
+        categoryProductRecursiveForm($arrCategoryProduct ,0,"",$arrCategoryProductRecursive)  ;      
+    		return view("admin.".$this->_controller.".list",compact("controller","task","title","icon","arrCategoryProductRecursive"));	
   	}	
   	public function loadData(Request $request){
     		$filter_search="";    
@@ -379,8 +382,8 @@ class ProductController extends Controller {
             return $info;
       }
       public function uploadFile(Request $request){ 
-      $dataSettingSystem= getSettingSystem();
-      uploadImage($_FILES["image"],$dataSettingSystem['product_width'],$dataSettingSystem['product_height']);
+      $setting= getSettingSystem();
+      uploadImage($_FILES["image"],$setting['product_width'],$setting['product_height']);
     }
 }
 ?>

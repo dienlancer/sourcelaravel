@@ -76,7 +76,11 @@ class SettingSystemController extends Controller {
           $instagram_url        =   trim($request->instagram_url);   
           $pinterest_url        =   trim($request->pinterest_url);   
           $slogan_about         =   trim($request->slogan_about);   
-          $map_url              =   trim($request->map_url);         
+          $map_url              =   trim($request->map_url);   
+          $com_category_article =   trim($request->com_category_article);
+          $com_category_product =   trim($request->com_category_product);
+          $com_article          =   trim($request->com_article);
+          $com_product          =   trim($request->com_product);     
           $status               =   trim($request->status);        
           $sort_order           =   trim($request->sort_order);                  
           $data                 =   array();
@@ -134,7 +138,11 @@ class SettingSystemController extends Controller {
                 $item->instagram_url = $instagram_url;                   
                 $item->pinterest_url = $pinterest_url;                   
                 $item->slogan_about = $slogan_about;                   
-                $item->map_url = $map_url;                                     
+                $item->map_url = $map_url;     
+                $item->com_category_article=$com_category_article;
+                $item->com_category_product=$com_category_product;
+                $item->com_article=$com_article;
+                $item->com_product=$com_product;                                
                 $item->sort_order       = (int)@$sort_order;
                 $item->status           = (int)@$status;    
                 $item->updated_at       = date("Y-m-d H:i:s",time());               

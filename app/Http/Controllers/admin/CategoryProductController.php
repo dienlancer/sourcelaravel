@@ -312,8 +312,8 @@ class CategoryProductController extends Controller {
       return redirect()->route("admin.".$this->_controller.".getList")->with(["message"=>array("type_msg"=>$type_msg,"msg"=>$msg)]); 
     }
     public function uploadFile(Request $request){ 
-      $dataSettingSystem= getSettingSystem();
-      uploadImage($_FILES["image"],$dataSettingSystem['product_width'],$dataSettingSystem['product_height']);
+      $setting= getSettingSystem();
+      uploadImage($_FILES["image"],$setting['product_width'],$setting['product_height']);
     }
 }
 ?>

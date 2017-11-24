@@ -166,7 +166,7 @@ function menuConverter($data=array(),$controller){
 }
 function categoryProductConverter($data=array(),$controller){        
     $result = array();
-    $dataSettingSystem= getSettingSystem();
+    $setting= getSettingSystem();
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.asset("/public/admin/images/edit-icon.png").'" /></a></center>';
@@ -186,7 +186,7 @@ function categoryProductConverter($data=array(),$controller){
             $link_image="";
             $image="";
             if(!empty($data[$i]["image"])){
-                $link_image=url("/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".$data[$i]["image"]);            
+                $link_image=url("/upload/" . $setting["product_width"] . "x" . $setting["product_height"] . "-".$data[$i]["image"]);            
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }            
             $result[$i] = array(
@@ -211,7 +211,7 @@ function categoryProductConverter($data=array(),$controller){
 }
 function productConverter($data=array(),$controller){        
     $result = array();
-    $dataSettingSystem= getSettingSystem();
+    $setting= getSettingSystem();
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){
             $edited='<center><a href="'.route('admin.'.$controller.'.getForm',['edit',$data[$i]['id']]).'"><img src="'.asset("/public/admin/images/edit-icon.png").'" /></a></center>';
@@ -228,7 +228,7 @@ function productConverter($data=array(),$controller){
             $link_image="";
             $image="";
             if(!empty($data[$i]["image"])){
-                $link_image=url("/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".$data[$i]["image"]);            
+                $link_image=url("/upload/" . $setting["product_width"] . "x" . $setting["product_height"] . "-".$data[$i]["image"]);            
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }          
             $id='<center>'.$data[$i]["id"].'</center>';  
@@ -606,7 +606,7 @@ function invoiceConverter($data=array(),$controller){
 
 function itemArticleConverter($data=array(),$controller){        
     $result = array();
-    $dataSettingSystem= getSettingSystem();
+    $setting= getSettingSystem();
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){            
             $deleted='<center><a href="javascript:void(0)" onclick="deleteItem(this)"><img src="'.asset("/public/admin/images/delete-icon.png").'" /></a></center>';            
@@ -632,7 +632,7 @@ function itemArticleConverter($data=array(),$controller){
 }
 function itemProductConverter($data=array(),$controller){        
     $result = array();
-    $dataSettingSystem= getSettingSystem();
+    $setting= getSettingSystem();
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){            
             $deleted='<center><a href="javascript:void(0)" onclick="deleteItem(this)"><img src="'.asset("/public/admin/images/delete-icon.png").'" /></a></center>';            
@@ -640,7 +640,7 @@ function itemProductConverter($data=array(),$controller){
             $id=$data[$i]["id"]; 
             $image="";
             if(!empty($data[$i]["image"])){
-                $link_image=url("/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".$data[$i]["image"]);            
+                $link_image=url("/upload/" . $setting["product_width"] . "x" . $setting["product_height"] . "-".$data[$i]["image"]);            
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }          
             $result[$i] = array(
@@ -658,6 +658,7 @@ function itemProductConverter($data=array(),$controller){
 }
 function categoryArticleComponentConverter($data=array(),$controller,$menu_type_id){        
     $result = array();    
+    $setting= getSettingSystem();
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){
             $edited='';
@@ -680,7 +681,7 @@ function categoryArticleComponentConverter($data=array(),$controller,$menu_type_
                 $link_image=url("/upload/".$data[$i]["image"]);            
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }          
-            $linkMenu=route('admin.menu.getForm',['add',$menu_type_id,0,'chu-de',$data[$i]["alias"]]);
+            $linkMenu=route('admin.menu.getForm',['add',$menu_type_id,0,$setting['com_category_article'],$data[$i]["alias"]]);
             $fullname='<a href="'.$linkMenu.'">'.$data[$i]['fullname'].'</a>';
             $result[$i] = array(
                 'checked'                  =>   '<input type="checkbox"  name="cid[]" value="'.$data[$i]["id"].'" />',
@@ -704,7 +705,7 @@ function categoryArticleComponentConverter($data=array(),$controller,$menu_type_
 }
 function categoryProductComponentConverter($data=array(),$controller,$menu_type_id){        
     $result = array();    
-    $dataSettingSystem= getSettingSystem();
+    $setting= getSettingSystem();
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){
             $edited='';
@@ -724,10 +725,10 @@ function categoryProductComponentConverter($data=array(),$controller,$menu_type_
             $link_image="";
             $image="";
             if(!empty($data[$i]["image"])){
-                $link_image=url("/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".$data[$i]["image"]);            
+                $link_image=url("/upload/" . $setting["product_width"] . "x" . $setting["product_height"] . "-".$data[$i]["image"]);            
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }         
-            $linkMenu=route('admin.menu.getForm',['add',$menu_type_id,0,'loai-san-pham',$data[$i]["alias"]]);
+            $linkMenu=route('admin.menu.getForm',['add',$menu_type_id,0,$setting['com_category_product'],$data[$i]["alias"]]);
             $fullname='<a href="'.$linkMenu.'">'.$data[$i]['fullname'].'</a>';
             $result[$i] = array(
                 'checked'                  =>   '<input type="checkbox"  name="cid[]" value="'.$data[$i]["id"].'" />',
@@ -751,7 +752,7 @@ function categoryProductComponentConverter($data=array(),$controller,$menu_type_
 }
 function articleComponentConverter($data=array(),$controller,$menu_type_id){        
     $result = array();
-    
+    $setting= getSettingSystem();
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){            
             $sort_order = '<center>'.$data[$i]["sort_order"].'</center>';
@@ -762,7 +763,7 @@ function articleComponentConverter($data=array(),$controller,$menu_type_id){
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }       
             $id='<center>'.$data[$i]["id"].'</center>';       
-            $linkMenu=route('admin.menu.getForm',['add',$menu_type_id,0,'bai-viet',$data[$i]["alias"]]);
+            $linkMenu=route('admin.menu.getForm',['add',$menu_type_id,0,$setting['com_article'],$data[$i]["alias"]]);
             $fullname='<a href="'.$linkMenu.'">'.$data[$i]['fullname'].'</a>';
             $result[$i] = array(                
                 "id"                       =>   $id,
@@ -776,18 +777,18 @@ function articleComponentConverter($data=array(),$controller,$menu_type_id){
 }
 function productComponentConverter($data=array(),$controller,$menu_type_id){        
     $result = array();
-    $dataSettingSystem= getSettingSystem();
+    $setting= getSettingSystem();
     if( count($data) > 0){
         for($i = 0 ;$i < count($data);$i++){            
             $sort_order = '<center>'.$data[$i]["sort_order"].'</center>';
             $link_image="";
             $image="";
             if(!empty($data[$i]["image"])){
-                $link_image=url("/upload/" . $dataSettingSystem["product_width"] . "x" . $dataSettingSystem["product_height"] . "-".$data[$i]["image"]);            
+                $link_image=url("/upload/" . $setting["product_width"] . "x" . $setting["product_height"] . "-".$data[$i]["image"]);            
                 $image = '<center><img src="'.$link_image.'" style="width:100%" /></center>';
             }           
             $id='<center>'.$data[$i]["id"].'</center>';       
-            $linkMenu=route('admin.menu.getForm',['add',$menu_type_id,0,'san-pham',$data[$i]["alias"]]);
+            $linkMenu=route('admin.menu.getForm',['add',$menu_type_id,0,$setting['com_product'],$data[$i]["alias"]]);
             $fullname='<a href="'.$linkMenu.'">'.$data[$i]['fullname'].'</a>';
             $result[$i] = array(                
                 "id"                       =>   $id,

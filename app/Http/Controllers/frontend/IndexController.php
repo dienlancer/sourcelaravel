@@ -50,7 +50,7 @@ class IndexController extends Controller {
             $action="";
             $item=array();
             $items=array();
-            $dataSettingSystem= getSettingSystem();     
+            $setting= getSettingSystem();     
             $category=array();       
             switch ($component) {
               case 'chu-de':
@@ -70,7 +70,7 @@ class IndexController extends Controller {
                   $data=DB::select('call pro_getArticleFrontend(?,?)',array(mb_strtolower($filter_search),$str_category_id));
                   $data=convertToArray($data);
                   $totalItems=count($data);
-                  $totalItemsPerPage=(int)$dataSettingSystem['article_perpage']; 
+                  $totalItemsPerPage=(int)$setting['article_perpage']; 
                   $pageRange=$this->_pageRange;
                   if(!empty(@$_POST["filter_page"])){
                     $currentPage=@$_POST["filter_page"];
@@ -112,7 +112,7 @@ class IndexController extends Controller {
                   $data=convertToArray($data);
 
                   $totalItems=count($data);
-                  $totalItemsPerPage=(int)$dataSettingSystem['product_perpage']; 
+                  $totalItemsPerPage=(int)$setting['product_perpage']; 
                   $pageRange=$this->_pageRange;
                   if(!empty(@$_POST["filter_page"])){
                     $currentPage=@$_POST["filter_page"];
@@ -221,7 +221,7 @@ class IndexController extends Controller {
       public function contact(){      
         $alias="lien-he"; 
         if(isset($_POST['btnSend']))     {
-          $data_setting_system=getSettingSystem();    
+          $setting=getSettingSystem();    
           $fullname = @$_POST["fullname"];
           $email    = @$_POST['email'];   
           $phone    = @$_POST['phone'];
@@ -229,15 +229,15 @@ class IndexController extends Controller {
           $address  = @$_POST['address'];
           $content  = @$_POST["content"];
           /* begin load config contact */
-          $smtp_host      = @$data_setting_system['smtp_host'];
-          $smtp_port      = @$data_setting_system['smtp_port'];
-          $smtp_auth      = @$data_setting_system['smtp_auth'];
-          $encription     = @$data_setting_system['encription'];
-          $smtp_username  = @$data_setting_system['smtp_username'];
-          $smtp_password  = @$data_setting_system['smtp_password'];
-          $email_from     = @$data_setting_system['email_from'];
-          $email_to       = @$data_setting_system['email_to'];
-          $to_name        = @$data_setting_system['to_name'];
+          $smtp_host      = @$setting['smtp_host'];
+          $smtp_port      = @$setting['smtp_port'];
+          $smtp_auth      = @$setting['smtp_auth'];
+          $encription     = @$setting['encription'];
+          $smtp_username  = @$setting['smtp_username'];
+          $smtp_password  = @$setting['smtp_password'];
+          $email_from     = @$setting['email_from'];
+          $email_to       = @$setting['email_to'];
+          $to_name        = @$setting['to_name'];
           /* end load config contact */
           $filePhpMailer=base_path() . DS ."app".DS."scripts".DS."phpmailer".DS."PHPMailerAutoload.php"  ;
 

@@ -1,7 +1,7 @@
 <?php 
-    $data_setting_system=getSettingSystem();     
-    $product_width=$data_setting_system['product_width'];
-    $product_height=$data_setting_system['product_height'];
+    $setting=getSettingSystem();     
+    $product_width=$setting['product_width'];
+    $product_height=$setting['product_height'];
 ?>
 <h3 class="page-title h-title">Thông tin hóa đơn</h3>
 <form action="" name="frm">

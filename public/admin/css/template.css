@@ -109,3 +109,9 @@ div.sort-button{
 a.btn-component{
     width: 60%;
 }
+a.visit-site{
+    color:#c6cfda;
+}
+a.visit-site:hover,a.visit-site:focus{
+    background: transparent !important;
+}
