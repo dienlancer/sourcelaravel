@@ -343,5 +343,37 @@ class MenuController extends Controller {
         $data=articleComponentConverter($data,$this->_controller,$menu_type_id);            
         return $data;
     } 
+    public function getProductComponent($menu_type_id = 0){
+        $controller=$this->_controller;         
+        $title='Product component';
+        $icon=$this->_icon;   
+        $arrCategoryProduct=CategoryProductModel::select("id","fullname","parent_id")->orderBy("sort_order","asc")->get()->toArray();
+        $arrCategoryProductRecursive=array();              
+        categoryProductRecursiveForm($arrCategoryProduct ,0,"",$arrCategoryProductRecursive)  ;            
+        return view("admin.".$this->_controller.".product-component",compact("controller","title","icon","arrCategoryProductRecursive","menu_type_id")); 
+      }
+      public function getProductList(Request $request){
+        $filter_search="";    
+        $category_product_id=0;  
+        $menu_type_id=$request->menu_type_id;
+        if(!empty(@$request->filter_search)){      
+          $filter_search=trim(@$request->filter_search) ;    
+        }
+        if(!empty(@$request->category_product_id)){
+          $category_product_id=(int)@$request->category_product_id;
+        }
+        /* begin lấy chuỗi ID */
+        $arrCategoryProductID=array();
+        $strCategoryProductID="";
+        $arrCategoryProductID[]=$category_product_id;        
+        getStringCategoryID($category_product_id,$arrCategoryProductID,'category_product');                    
+        $strCategoryProductID=implode("#;#", $arrCategoryProductID);    
+        $strCategoryProductID="#".$strCategoryProductID."#";    
+        /* end lấy chuỗi ID */        
+        $data=DB::select('call pro_getProduct(?,?)',array(mb_strtolower($filter_search,'UTF-8'),$strCategoryProductID));        
+        $data=convertToArray($data);    
+        $data=productComponentConverter($data,$this->_controller,$menu_type_id);            
+        return $data;
+    } 
 }
 ?>

@@ -4,6 +4,7 @@
 $linkCategoryArticleComponent                =   route('admin.'.$controller.'.getCategoryArticleComponent',[@$menu_type_id]);
 $linkCategoryProductComponent                =   route('admin.'.$controller.'.getCategoryProductComponent',[@$menu_type_id]);
 $linkArticleComponent                =   route('admin.'.$controller.'.getArticleComponent',[@$menu_type_id]);
+$linkProductComponent                =   route('admin.'.$controller.'.getProductComponent',[@$menu_type_id]);
 ?>
 <div class="portlet light bordered">
     <div class="portlet-title">
@@ -36,7 +37,7 @@ $linkArticleComponent                =   route('admin.'.$controller.'.getArticle
                         <center><a class="btn dark btn-outline sbold uppercase btn-component" href="<?php echo $linkArticleComponent; ?>">ARTICLE</a></center> 
                     </div>   
                     <div class="form-group col-md-6">
-                        <center><a class="btn dark btn-outline sbold uppercase btn-component" href="index.php">PRODUCT</a></center> 
+                        <center><a class="btn dark btn-outline sbold uppercase btn-component" href="<?php echo $linkProductComponent; ?>">PRODUCT</a></center> 
                     </div>   
                 </div>                                                                   
             </div>  

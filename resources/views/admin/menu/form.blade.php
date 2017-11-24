@@ -36,60 +36,63 @@ $inputID                =   '<input type="hidden" name="id" id="id" value="'.@$i
         <form class="form-horizontal" role="form" enctype="multipart/form-data">
             <div class="form-body">
                 <div class="row">
-                    <div class="form-group col-md-6">
-                        <label class="col-md-3 control-label"><b>Name</b></label>
-                        <div class="col-md-9">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>Name</b></label>
+                        <div class="col-md-10">
                             <?php echo $inputFullName; ?>
                             <span class="help-block"></span>
                         </div>
-                    </div>   
-                    <div class="form-group col-md-6">
-                        <label class="col-md-3 control-label"><b>Alias</b></label>
-                        <div class="col-md-9">
+                    </div> 
+                </div>
+                <div class="row">  
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>Alias</b></label>
+                        <div class="col-md-10">
                             <?php echo $inputAlias; ?>
                             <span class="help-block"></span>
                         </div>
                     </div>     
                 </div>    
                 <div class="row">
-                    <div class="form-group col-md-6">
-                        <label class="col-md-3 control-label"><b>Sitelink</b></label>
-                        <div class="col-md-9">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>Sitelink</b></label>
+                        <div class="col-md-10">
                             <?php echo $inputSitelink; ?>
                             <span class="help-block"></span>
                         </div>
-                    </div>   
-                    <div class="form-group col-md-6">
-                       
-                    </div>     
+                    </div>                       
                 </div>       
                 <div class="row">
-                    <div class="form-group col-md-6">
-                        <label class="col-md-3 control-label"><b>Parent</b></label>
-                        <div class="col-md-9">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>Parent</b></label>
+                        <div class="col-md-10">
                             <?php echo $ddlMenu; ?>
                             <span class="help-block"></span>
                         </div>
                     </div>   
-                    <div class="form-group col-md-6">
-                        <label class="col-md-3 control-label"><b>MenuType</b></label>
-                        <div class="col-md-9">
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>MenuType</b></label>
+                        <div class="col-md-10">
                             <?php echo $ddlMenuType; ?>
                             <span class="help-block"></span>
                         </div>
                     </div>    
                 </div>       
                 <div class="row">
-                    <div class="form-group col-md-6">
-                        <label class="col-md-3 control-label"><b>Sort</b></label>
-                        <div class="col-md-9">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>Sort</b></label>
+                        <div class="col-md-10">
                             <?php echo $inputSortOrder; ?>
                             <span class="help-block"></span>
                         </div>
-                    </div>   
-                    <div class="form-group col-md-6">
-                        <label class="col-md-3 control-label"><b>Status</b></label>
-                        <div class="col-md-9">                            
+                    </div>  
+                </div>
+                <div class="row"> 
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label"><b>Status</b></label>
+                        <div class="col-md-10">                            
                             <?php echo $ddlStatus; ?>
                             <span class="help-block"></span>
                         </div>

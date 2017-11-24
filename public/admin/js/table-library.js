@@ -19,6 +19,7 @@ var vBannerTable            =   null;
 var vSettingSystemTable     =   null;
 var vItemTable     =   null;
 var vArticleComponentTable = null;
+var vProductComponentTable = null;
 var basicTable = function () {
     var initCategoryArticleTable = function () {
         vCategoryArticleTable = $('#tbl-category-article').DataTable({
@@ -48,6 +49,16 @@ var basicTable = function () {
     };
     var initArticleComponentTable = function () {
         vArticleComponentTable = $('#tbl-article-component').DataTable({
+            columns: [                
+                { data: "id"            },                
+                { data: "fullname"      },    
+                { data: "image"      },               
+                { data: "sort_order"    },                               
+            ]
+        });        
+    };
+    var initProductComponentTable = function () {
+        vProductComponentTable = $('#tbl-product-component').DataTable({
             columns: [                
                 { data: "id"            },                
                 { data: "fullname"      },    
@@ -335,6 +346,7 @@ var basicTable = function () {
             initProductModuleItemTable();
             initItemTable();
             initArticleComponentTable();
+            initProductComponentTable();
         }
     };
 }();
