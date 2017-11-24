@@ -61,9 +61,14 @@ display: none; /*collapse all sub menus to begin with*/
 visibility: hidden;
 background: #ffffff;
 width: 200px !important;
+
+}
+.ddsmoothmenu > ul > li > ul{
 top: 40px !important;
 }
-
+.ddsmoothmenu > ul > li > ul li ul{
+top: 0px !important;
+}
 /*Sub level menu list items (alters style from Top level List Items)*/
 .ddsmoothmenu ul li ul li{
 display: list-item;
