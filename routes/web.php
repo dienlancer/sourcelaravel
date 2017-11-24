@@ -147,10 +147,10 @@ Route::group(["prefix"=>"admin","middleware"=>"TestLogin"],function(){
 		Route::get("form/{task}/{menu_type_id?}/{id?}/{component?}/{alias?}",["as"=>"admin.menu.getForm","uses"=>"admin\MenuController@getForm"]);
 		Route::post("save",["as"=>"admin.menu.save","uses"=>"admin\MenuController@save"]);
 		Route::get("delete-item/{id}",["as"=>"admin.menu.deleteItem","uses"=>"admin\MenuController@deleteItem"]);		
-		Route::post("sort-order",["as"=>"admin.menu.sortOrder","uses"=>"admin\MenuController@sortOrder"]);
+		Route::post("sort-order/{menu_type_id}",["as"=>"admin.menu.sortOrder","uses"=>"admin\MenuController@sortOrder"]);
 		Route::post("update-status/{status}/{menu_type_id}",["as"=>"admin.menu.updateStatus","uses"=>"admin\MenuController@updateStatus"]);
 		Route::post("change-status",["as"=>"admin.menu.changeStatus","uses"=>"admin\MenuController@changeStatus"]);
-		Route::post("trash",["as"=>"admin.menu.trash","uses"=>"admin\MenuController@trash"]);
+		Route::post("trash/{menu_type_id}",["as"=>"admin.menu.trash","uses"=>"admin\MenuController@trash"]);
 		Route::post("upload-file",["as"=>"admin.menu.uploadFile","uses"=>"admin\MenuController@uploadFile"]);
 		Route::get("component/{menu_type_id}",["as"=>"admin.menu.getComponentForm","uses"=>"admin\MenuController@getComponentForm"]);
 		Route::get("category-article-component/{menu_type_id}",["as"=>"admin.menu.getCategoryArticleComponent","uses"=>"admin\MenuController@getCategoryArticleComponent"]);

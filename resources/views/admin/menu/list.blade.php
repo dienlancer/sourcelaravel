@@ -6,8 +6,8 @@ $linkCancel				=	route('admin.'.$controller.'.getList',@$menu_type_id);
 $linkChangeStatus		=	route('admin.'.$controller.'.changeStatus');
 $linkUpdateStatusToShow	=	route('admin.'.$controller.'.updateStatus',[1,@$menu_type_id]);
 $linkUpdateStatusToHide =	route('admin.'.$controller.'.updateStatus',[0,@$menu_type_id]);
-$linkTrash				=	route('admin.'.$controller.'.trash');
-$linkSortOrder			=	route('admin.'.$controller.'.sortOrder');
+$linkTrash				=	route('admin.'.$controller.'.trash',[@$menu_type_id]);
+$linkSortOrder			=	route('admin.'.$controller.'.sortOrder',[@$menu_type_id]);
 ?>
 <form class="form-horizontal" role="form" method="POST" name="frm" class="frm"  >
 	<input type="hidden" name="filter_page" value="1">     	
