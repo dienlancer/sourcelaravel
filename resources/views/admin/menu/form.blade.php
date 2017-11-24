@@ -3,7 +3,7 @@
 <?php 
 $linkCancel             =   route('admin.'.$controller.'.getList',[@$menu_type_id]);
 $linkSave               =   route('admin.'.$controller.'.save');
-$inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"       value="'.@$arrRowData['fullname'].'">'; 
+$inputFullName          =   '<input type="text" class="form-control" name="fullname"   id="fullname"       value="'.@$fullname.'">'; 
 $inputAlias             =   '<input type="text" class="form-control" name="alias"      id="alias"     disabled     value="'.@$alias.'">';
 $inputSitelink          =   '<input type="text" class="form-control" name="site_link"   id="site_link" disabled      value="'.@$site_link.'">'; 
 $inputSortOrder         =   '<input type="text" class="form-control" name="sort_order" id="sort_order"     value="'.@$arrRowData['sort_order'].'">';

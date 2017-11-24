@@ -58,13 +58,33 @@ class MenuController extends Controller {
             $title="";
             $icon=$this->_icon; 
             $arrRowData=array();
+            $fullname='';
+            $item=array();
             switch ($task) {
                case 'edit':
                   $title=$this->_title . " : Update";
                   $arrRowData=MenuModel::find((int)@$id)->toArray();			 
+                  $fullname=$arrRowData['fullname'];
                break;
                case 'add':
                   $title=$this->_title . " : Add new";
+                  switch ($component) {
+                    case 'bai-viet':                      
+                      $item=ArticleModel::whereRaw('trim(lower(alias)) = ?',[trim(mb_strtolower($alias,'UTF-8'))])->select('fullname')->get()->toArray();
+                      break;                    
+                    case 'san-pham':            
+                      $item=ProductModel::whereRaw('trim(lower(alias)) = ?',[trim(mb_strtolower($alias,'UTF-8'))])->select('fullname')->get()->toArray(); 
+                      break;
+                    case 'chu-de':                      
+                      $item=CategoryArticleModel::whereRaw('trim(lower(alias)) = ?',[trim(mb_strtolower($alias,'UTF-8'))])->select('fullname')->get()->toArray();
+                      break;  
+                    case 'loai-san-pham':                      
+                      $item=CategoryProductModel::whereRaw('trim(lower(alias)) = ?',[trim(mb_strtolower($alias,'UTF-8'))])->select('fullname')->get()->toArray();
+                      break;    
+                  }
+                  if(count($item) > 0){
+                    $fullname=$item[0]['fullname'];
+                  }
                break;			
            }		
             $arrMenu=MenuModel::select("id","fullname","site_link","alias","parent_id","menu_type_id","level","sort_order","status","created_at","updated_at")->where("menu_type_id","=",(int)@$menu_type_id)->where("id","!=",(int)$id)->orderBy("sort_order","asc")->get()->toArray();
@@ -72,7 +92,7 @@ class MenuController extends Controller {
             menuRecursiveForm($arrMenu ,0,"",$arrMenuRecursive)  ;
             $arrMenuType=MenuTypeModel::select("id","fullname","sort_order","created_at","updated_at")->orderBy("sort_order","asc")->get()->toArray();
             $site_link='/'.$component.'/'.$alias;      
-            return view("admin.".$this->_controller.".form",compact("arrMenuRecursive","arrMenuType","arrRowData","menu_type_id","controller","task","title","icon","site_link","alias"));	        
+            return view("admin.".$this->_controller.".form",compact("arrMenuRecursive","arrMenuType","arrRowData","menu_type_id","controller","task","title","icon","site_link","alias","fullname"));	        
       }
       public function save(Request $request){
             $id 					       =	  trim($request->id)	;        
